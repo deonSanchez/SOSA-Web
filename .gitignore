@@ -1,1 +1,4 @@
 node_modules
+.project
+.buildpath
+.settings/org.eclipse.php.core.prefs
