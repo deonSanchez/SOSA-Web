@@ -22,7 +22,7 @@ After installation, run `npm install` and then run `gulp dev` which will open up
 
 ## Running on Windows
 
-You will need to have node.js downloaded. Once downloaded `cd` to the SOSA-Web folder in node.js, type `npm install gulp` then go to your IDE of your choice and type `gulp dev` inside the command prompt, and it should run.
+You will need to have node.js downloaded. Once downloaded `cd` to the SOSA-Web folder in node.js, type `npm install gulp` then go to your IDE of your choice and type `gulp dev` inside the command prompt it should run.
 
 #### Gulp Tasks
 
