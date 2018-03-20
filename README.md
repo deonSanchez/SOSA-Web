@@ -8,10 +8,7 @@
 
 ## Download and Installation
 
-To begin using this template, choose one of the following options to get started:
-* [Download the latest release on Start Bootstrap](https://startbootstrap.com/template-overviews/freelancer/)
 * Clone the repo: `git clone https://github.com/deonSanchez/SOSA-Web.git`
-* [Fork, Clone, or Download on GitHub](https://github.com/deonSanchez/SOSA-Web.git)
 
 ## Usage
 
@@ -22,6 +19,10 @@ After downloading, simply edit the HTML and CSS files included with the template
 ### Advanced Usage
 
 After installation, run `npm install` and then run `gulp dev` which will open up a preview of the template in your default browser, watch for changes to core template files, and live reload the browser when changes are saved. You can view the `gulpfile.js` to see which tasks are included with the dev environment.
+
+## Running on Windows
+
+You will need to have node.js downloaded. Once downloaded `cd` to the SOSA-Web folder in node.js, type `npm install gulp` then go to your IDE of your choice and type `gulp dev` inside the command prompt it should run.
 
 #### Gulp Tasks
 
