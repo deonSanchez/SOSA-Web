@@ -228,7 +228,7 @@
           <a class="close-button d-none d-md-block text-secondary portfolio-modal-dismiss" href="#">
             <i class="fa fa-3x fa-times"></i>
           </a>
-          <div class="container ">
+          <div class="container">
             <div class="row">
               <div class="flex-column mx-auto">
                 <h2 class="text-secondary text-center text-uppercase mb-0">Board</h2>
@@ -395,24 +395,77 @@
     <!-- Experiment Modal -->
     <div class="portfolio-modal mfp-hide" id="experiment-modal">
       <div class="portfolio-modal-dialog bg-white">
-        <a class="close-button d-none d-md-block portfolio-modal-dismiss" href="#">
+        <a class="close-button d-none d-md-block text-secondary portfolio-modal-dismiss" href="#">
           <i class="fa fa-3x fa-times"></i>
         </a>
-        <div class="container text-center">
+        <div class="container">
           <div class="row">
-            <div class="col-lg-8 mx-auto">
-              <h2 class="text-secondary text-uppercase mb-0">Board</h2>
+            <div class="flex-column mx-auto">
+              <h2 class="text-secondary text-center text-uppercase mb-0">Experiment</h2>
               <hr class="cog-dark mb-5">
-              <img class="img-fluid mb-5" src="img/portfolio/cabin.png" alt="">
-              <p class="mb-5">Insert text here</p>
-              <a class="btn btn-primary btn-lg rounded-pill portfolio-modal-dismiss" href="#">
-                <i class="fa fa-close"></i>
-                Close Project</a>
+              <div class="row">
+                <div class="col">
+                  <img class="img-fluid pb-3" src="img/portfolio/cabin.png" alt="">
+                  <div class=" row pb-3">
+                    <div class="col">
+                      <select class="custom-select" id="inputGroupSelect04">
+                        <option selected>6x6 on Final Image</option>
+                        <option value="1">Stimulus Set 2</option>
+                        <option value="2">Stimulus Set 3</option>
+                        <option value="3">Stimulus Set 4</option>
+                      </select>
+                    </div>
+                    <div class="col">
+                      <div class="checkbox">
+                        <label><input type="checkbox" value=""> Show Board Cover</label>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-5">
+                  <img class="img-fluid pb-3" src="img/portfolio/cabin.png" alt="">
+                  <input type="range" min="1" max="255" value="128" class="slider mb-3" id="Rvalue">
+                  <div class="input-group pb-3">
+                    <div class="input-group-prepend">
+                      <button class="btn btn-outline-secondary" type="button">+</button>
+                    </div>
+                    <select class="custom-select" id="inputGroupSelect04">
+                      <option selected>Stimulus Set 1</option>
+                      <option value="1">Stimulus Set 2</option>
+                      <option value="2">Stimulus Set 3</option>
+                      <option value="3">Stimulus Set 4</option>
+                    </select>
+                    <div class="input-group-append">
+                      <button class="btn btn-outline-secondary" type="button">-</button>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <select multiple class="form-control" id="exampleFormControlSelect2">
+                      <option>Stimulus 1</option>
+                      <option>Stimulus 2</option>
+                      <option>Stimulus 3</option>
+                      <option>Stimulus 4</option>
+                      <option>Stimulus 5</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col">
+                  <button class="btn btn-shadow btn-secondary btn-block rounded-pill portfolio-modal-dismiss" href="#">Load Board</button>
+                </div>
+                <div class="col">
+                  <button class="btn btn-shadow btn-secondary btn-block rounded-pill portfolio-modal-dismiss" href="#">Begin Experiment</button>
+                </div>
+                <div class="col">
+                  <button class="btn btn-shadow btn-secondary btn-block rounded-pill portfolio-modal-dismiss" href="#">Load Stimulus</button>
+                </div>
               </div>
             </div>
           </div>
         </div>
       </div>
+    </div>
 
       <!-- Bootstrap core JavaScript -->
       <script src="vendor/jquery/jquery.min.js"></script>
