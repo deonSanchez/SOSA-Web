@@ -40,13 +40,13 @@
       <div class="collapse navbar-collapse" id="navbarResponsive">
         <ul class="navbar-nav ml-auto">
           <li class="nav-item mx-0 mx-lg-1">
-            <a class="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger" href="#portfolio">Board</a>
+            <a class="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger" href="#board">Board</a>
           </li>
           <li class="nav-item mx-0 mx-lg-1">
-            <a class="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger" href="#about">Stimulus</a>
+            <a class="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger" href="#stimulus">Stimulus</a>
           </li>
           <li class="nav-item mx-0 mx-lg-1">
-            <a class="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger" href="#contact">Experiment</a>
+            <a class="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger" href="#experiment">Experiment</a>
           </li>
         </ul>
       </div>
@@ -128,7 +128,7 @@
   </section>
 
   <!-- Experiment Section -->
-  <section class="portfolio" id="Experiment">
+  <section class="portfolio" id="experiment">
     <div class="container">
       <h2 class="text-center text-uppercase text-secondary mb-0">Experiment</h2>
       <hr class="cog-dark mb-5">
@@ -233,7 +233,7 @@
               <div class="flex-column mx-auto">
                 <h2 class="text-secondary text-center text-uppercase mb-0">Board</h2>
                 <hr class="cog-dark mb-5">
-                <div class="flex-row">
+                <div class="row">
                   <div class="col">
                     <img class="img-fluid pb-3" src="img/portfolio/cabin.png" alt="">
                   </div>
@@ -314,11 +314,76 @@
             <div class="flex-column mx-auto">
               <h2 class="text-secondary text-center text-uppercase mb-0">Stimulus</h2>
               <hr class="cog-dark mb-5">
-              <div class="flex-row">
+              <div class="row">
                 <div class="col">
+                  <div class="form-group row">
+                    <div class="col">
+                      <input type="text" class="form-control" id="usr" placeholder="Stimulus Name">
+                    </div>
+                    <div class="col">
+                      <button class="btn btn-shadow btn-block btn-secondary btn-small rounded-pill">Create Stimulus</button>
+                    </div>
+                  </div>
                   <img class="img-fluid" src="img/portfolio/cabin.png" alt="">
+                  <div class="row pt-3 text-center">
+                    <div class="col m-auto">
+                      <div class="btn-group btn-shadow" role="group" aria-label="Basic example">
+                        <button type="button" class="btn btn-secondary">Label</button>
+                        <button type="button" class="btn btn-secondary">Stimulus</button>
+                      </div>
+                    </div>
+                    <div class="col m-auto">
+                      <div class="text-center">
+                        Value: (<span id="R"></span>, <span id="G"></span>, <span id="B"></span>)
+                      </div>
+                    </div>
+                  </div>
+                  <div class="pt-3">
+                    <input type="range" min="1" max="255" value="128" class="slider mb-3" id="Rvalue">
+                    <input type="range" min="1" max="255" value="128" class="slider mb-3" id="Gvalue">
+                    <input type="range" min="1" max="255" value="128" class="slider mb-4" id="Bvalue">
+                  </div>
                 </div>
                 <div class="col">
+                  <div class="row">
+                    <div class="col pb-3">
+                      <button class="btn btn-shadow btn-block btn-secondary btn-small rounded-pill">Add to Stimulus Set</button>
+                    </div>
+                    <div class="col pb-3">
+                      <button class="btn btn-shadow btn-block btn-secondary btn-small rounded-pill">Remove</button>
+                    </div>
+                  </div>
+                  <div class="input-group pb-3">
+                    <div class="input-group-prepend">
+                      <button class="btn btn-outline-secondary" type="button">+</button>
+                    </div>
+                    <select class="custom-select" id="inputGroupSelect04">
+                      <option selected>Stimulus Set 1</option>
+                      <option value="1">Stimulus Set 2</option>
+                      <option value="2">Stimulus Set 3</option>
+                      <option value="3">Stimulus Set 4</option>
+                    </select>
+                    <div class="input-group-append">
+                      <button class="btn btn-outline-secondary" type="button">-</button>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <select multiple class="form-control" id="exampleFormControlSelect2">
+                      <option>Stimulus 1</option>
+                      <option>Stimulus 2</option>
+                      <option>Stimulus 3</option>
+                      <option>Stimulus 4</option>
+                      <option>Stimulus 5</option>
+                    </select>
+                  </div>
+                  <div class="row pb-3">
+                    <div class="col">
+                      <button class="btn btn-shadow btn-block btn-secondary btn-small rounded-pill">Save</button>
+                    </div>
+                    <div class="col">
+                      <button class="btn btn-shadow btn-block btn-secondary btn-small rounded-pill">Load</button>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
