@@ -408,7 +408,7 @@ class Session {
 	 * @return runnable experiment configuration
 	 * @version 0.5.0
 	 */
-	public function pullRunnable() {}
+	public function pullRunnable($runnable_id) {}
 	
     /**
      * Return an array of all available saved stimuli
