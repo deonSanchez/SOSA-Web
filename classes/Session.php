@@ -364,7 +364,12 @@ class Session {
 	 * @return crated experiment
 	 * @version 0.5.0
 	 */
-	public function createExperiment($data) {}
+	public function createExperiment($data) {
+		$mysqli = $this->mysqli->prepare("INSERT INTO `experiment` (`title`) VALUES (?)");
+		$mysqli->bind_param("s", $data);
+		$mysqli->execute();
+		$mysqli->close();
+	}
 
 	/**
 	 * Deletes experiment based on input id $data
@@ -389,21 +394,56 @@ class Session {
 	 */
 	public function createRunnable($stimID,$experimentID) {}
 	
+	/**
+	 * Creates runnable experiment by pairing a stimuli set with an experiment based on $stimID with $experimentID
+	 * @author Mitchell M.
+	 * @return runnable experiment configuration
+	 * @version 0.5.0
+	 */
+	public function pullRunnables() {}
+	
+	/**
+	 * Creates runnable experiment by pairing a stimuli set with an experiment based on $stimID with $experimentID
+	 * @author Mitchell M.
+	 * @return runnable experiment configuration
+	 * @version 0.5.0
+	 */
+	public function pullRunnable() {}
+	
     /**
      * Return an array of all available saved stimuli
      * @author Mitchell M.
      * @return array of stimuli
      * @version 0.5.0
      */
-	public static function loadStimuli() {
-		$result = null;
-		$stmt = $this->mysqli->query("SELECT * FROM `stimulus`");
-		if ($stmt->num_rows >= 1) {
-			while ($row = $stmt->fetch_assoc()) {
-				$result[] = $row;
-			}
-		}
-		return $result;}
+	public function pullStimulusSets() {
+		$sets = null;
+		$stmt = $this->mysqli->prepare("SELECT `stimset_id`, `name` FROM `stimulus_set`");
+        $stmt->bind_result($stimset_id,$name);
+        $stmt->execute();
+        $stmt->store_result();
+        if ($stmt->num_rows >= 1) {
+            while ($stmt->fetch()) {
+                $sets[] = array('stimset_id' => $stimset_id, 'name' => $name);
+            }
+        }
+        return $sets;
+	}
+	
+	public function loadStimulusSet($id) {
+		$stim = null;
+		$stmt = $this->mysqli->prepare("SELECT `label`, `label_color`, `peg_color` FROM `stimulus` WHERE `stimset_id` = ?");
+        $stmt->bind_param("i",$id);
+        $stmt->bind_result($label, $lc, $pc);
+        $stmt->execute();
+        $stmt->store_result();
+        if ($stmt->num_rows >= 1) {
+            while ($stmt->fetch()) {
+                $stim[] = array('label' => $label, 'label_color' => $lc, 'peg_color' => $pc);
+            }
+        }
+        return $stim;
+	}
 	
     /**
      * Builds and saves stimuli based on input $data
