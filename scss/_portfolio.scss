@@ -12,6 +12,7 @@
       transition: all ease 0.5s;
       opacity: 0;
       background-color: fade-out($primary, .1);
+      border-radius: 25rem;
       &:hover {
         opacity: 1;
       }

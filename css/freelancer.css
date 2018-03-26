@@ -232,6 +232,7 @@ header.masthead h2 {
   transition: all ease 0.5s;
   opacity: 0;
   background-color: rgba(107, 107, 107, 0.9);
+  border-radius: 25rem;
 }
 
 .portfolio .portfolio-item .portfolio-item-caption:hover {
