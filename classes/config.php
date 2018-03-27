@@ -1,6 +1,6 @@
 <?php
 /**
- * @author Mitchell M. 
+ * @author Mitchell M.
  * @version 1.0.0
  */
 session_start();

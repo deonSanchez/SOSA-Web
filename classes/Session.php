@@ -13,7 +13,7 @@ class Session {
 	private static $self_instance;
 	public $sid;
 	private $mysqli, $qb;
-	
+
 	/**
 	 * Constructs the class, setting the mysqli variable to the active connection
 	 * @param MySQLi DB Instance $dbc
@@ -29,7 +29,7 @@ class Session {
 			$this->validate($this->sid, time());
 		}
 	}
-	
+
 	/**
 	 * Static singleton instance is set only once, retrieved if already set
 	 * @author Mitchell M.
@@ -43,7 +43,7 @@ class Session {
 		}
 		return self::$self_instance;
 	}
-	
+
 	/**
 	 * Validates if a session cookie is valid, and clears it if not
 	 * @author Mitchell M.
@@ -77,7 +77,7 @@ class Session {
 		}
 		$stmt->close();
 	}
-	
+
 	/**
 	 * Manages sessions and prevents more than one session per user
 	 * @param int $userid
@@ -99,7 +99,7 @@ class Session {
 		}
 		return false;
 	}
-	
+
 	/**
 	 * Does a session exist for the UserID passed
 	 * @author Mitchell M.
@@ -115,7 +115,7 @@ class Session {
 		}
 		return false;
 	}
-	
+
 	/**
 	 * Creates a session entry into the database and on the client machine
 	 * @author Mitchell M.
@@ -134,7 +134,7 @@ class Session {
 		}
 		return false;
 	}
-	
+
 	/**
 	 * Builds the session management system's current expiration timestamp
 	 * @author Mitchell M.
@@ -144,7 +144,7 @@ class Session {
 	function buildExpireTime() {
 		return time() + 60 * SESSION_LENGTH;
 	}
-	
+
 	/**
 	 * Clear session based on UserID
 	 * @author Mitchell M.
@@ -160,7 +160,7 @@ class Session {
 		}
 		unset($_SESSION['sid']);
 	}
-	
+
 	/**
 	 * Clear session based on SID
 	 * @author Mitchell M.
@@ -172,12 +172,12 @@ class Session {
 		$this->mysqli->query("DELETE FROM sessions WHERE sid='{$sid}'");
 		unset($_SESSION['sid']);
 	}
-	
+
 	/**
 	 * END SESSION MANAGEMENT FUNCTIONS
 	 * BEGIN USER MANAGEMENT FUNCTIONS
 	 */
-	
+
 	/**
 	 * Registers the user into the database
 	 * @param string $email
@@ -225,7 +225,7 @@ class Session {
 			return json_encode($errors);
 		}
 	}
-	
+
 	/**
 	 * Sets a users session in the database and sets their client side session
 	 * @param string $email
@@ -247,7 +247,7 @@ class Session {
 		}
 		return json_encode($response);
 	}
-	
+
 	/**
 	 * Validates that the login details are valid
 	 * @param string $email
@@ -267,7 +267,7 @@ class Session {
 		}
 		return false;
 	}
-	
+
 	/**
 	 * Returns the UID based on email/sid input
 	 * Determines input type no specification required
@@ -290,7 +290,7 @@ class Session {
 		}
 		return isset($result[0]['userid']) ? $result[0]['userid'] : -1;
 	}
-	
+
 	/**
 	 * Is a user logged in?
 	 * @author Mitchell M.
@@ -300,7 +300,7 @@ class Session {
 	function isLoggedIn() {
 		return isset($_SESSION['sid']);
 	}
-	
+
 	/**
 	 * END USER MANAGEMENT FUNCTIONS
 	 * BEGIN UTILITY FUNCTIONS
@@ -333,7 +333,7 @@ class Session {
 		}
 		die();
 	}
-	
+
 	/**
 	 * Generates a random string based on the length provided
 	 * @param int $length to use
@@ -354,12 +354,12 @@ class Session {
 		}
 		return $randstr;
 	}
-	
+
 	/*
 	 * END UTILITY FUNCTIONS
 	 * BEGIN EXPERIMENT/STIMULUS FUNCTIONS
 	 */
-	
+
 	/**
 	 * Return an array of all available saved experiment details
 	 * @author Mitchell M.
@@ -403,7 +403,7 @@ class Session {
 			return $this->mysqli->error;
 		}
 	}
-	
+
 	/**
 	 * Will be implemented once the other methods are done
 	 * Updates experiment based on input $id and $changes
@@ -416,7 +416,7 @@ class Session {
 	 * END EXPERIMENT FUNCTIONS
 	 * BEGIN RUNNABLE FUNCTIONS
 	 */
-		
+
 	/**
 	 * Creates the specification for runnable experiment configuration denoted by $runnable_id
 	 * @author Mitchell M.
@@ -433,7 +433,7 @@ class Session {
 	}
 
 	/**
-	 * Creates runnable experiment by pairing a stimuli set with an experiment based on $stimID with $experimentID
+	 * Loads runnable configurations
 	 * @author Mitchell M.
 	 * @return runnable experiment configuration
 	 * @version 0.5.0
@@ -450,21 +450,40 @@ class Session {
 	}
 
 	/**
+	 * Loads runnable configurations based on $administrator id
+	 * @author Mitchell M.
+	 * @return runnable experiment configuration
+	 * @version 0.5.0
+	 */
+	public function pullRunnables($admin_id) {
+		$results = null;
+		$admin_id = intval($admin_id);
+		$stmt = $this->mysqli->query("SELECT * FROM `runnable` WHERE `admin_id` = '{$admin_id}'");
+		if ($stmt->num_rows >= 1) {
+			while ($row = $stmt->fetch_assoc()) {
+				$results[] = $row;
+			}
+		}
+		return $results;
+	}
+
+	/**
 	 * Gets the specification for runnable experiment configuration denoted by $runnable_id
 	 * @author Mitchell M.
 	 * @return runnable experiment configuration
 	 * @version 0.5.0
 	 */
-	public function pullRunnable($runnable_id) {		
+	public function pullRunnable($runnable_id) {
 		$results = null;
-		$stmt = $this->mysqli->prepare("SELECT `stimset_id`, `experiment_id` FROM `runnable` WHERE `runnable_id` = ?");
-		$stmt->bind_result($stimset_id,$experiment_id);
+		$runnable_id = intval($runnable_id);
+		$stmt = $this->mysqli->prepare("SELECT `stimset_id`, `experiment_id`, `admin_id` FROM `runnable` WHERE `runnable_id` = ?");
+		$stmt->bind_result($stimset_id,$experiment_id,$admin_id);
 		$stmt->bind_param("i", $runnable_id);
 		$stmt->execute();
 		$stmt->store_result();
 		if ($stmt->num_rows >= 1) {
 			while ($stmt->fetch()) {
-				$results[] = array('stimset_id' => $stimset_id, 'experiment_id' => $experiment_id, 'runnable_id' => $runnable_id);
+				$results[] = array('stimset_id' => $stimset_id, 'experiment_id' => $experiment_id, 'runnable_id' => $runnable_id, 'admin_id' => $admin_id);
 			}
 		}
 		return $results;
@@ -474,7 +493,7 @@ class Session {
 	 * END RUNNABLE FUNCTIONS
 	 * BEGIN STIMULUS FUNCTIONS
 	 */
-	
+
 	/**
 	 * Return an array of all available saved stimuli sets
 	 * @author Mitchell M.
@@ -494,17 +513,18 @@ class Session {
 		}
 		return $results;
 	}
-	
+
 	/**
 	 * Return an array containing the information regarding the stimulus set provided
 	 * @author Mitchell M.
 	 * @return array of stimuli
 	 * @version 0.5.0
 	 */
-	public function loadStimSet($id) {
+	public function loadStimSet($stimset_id) {
 		$results = null;
+		$stimset_id = intval($stimset_id);
 		$stmt = $this->mysqli->prepare("SELECT `label`, `label_color`, `peg_color` FROM `stimulus` WHERE `stimset_id` = ?");
-		$stmt->bind_param("i",$id);
+		$stmt->bind_param("i",$stimset_id);
 		$stmt->bind_result($label, $lc, $pc);
 		$stmt->execute();
 		$stmt->store_result();
@@ -566,7 +586,7 @@ class Session {
 	 * @version 0.5.0
 	 */
 	public function updateStimulus($stimulus_id,$label,$label_color,$peg_color) {}
-	
+
 	/*
 	 * END STIMULUS FUNCTIONS
 	 */

@@ -38,7 +38,8 @@ $keys = array_keys($experiments[0]);
 <br />
 <br />
 
-<form action="index.php" method="post"></form>
+<form action="index.php"
+	method="post"></form>
 <table>
 	<tr>
 		<td>Experiment Title:</td>
