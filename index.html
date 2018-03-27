@@ -235,41 +235,172 @@
                 <hr class="cog-dark mb-5">
                 <div class="row">
                   <div class="col">
-                    <img class="img-fluid pb-3" src="img/portfolio/cabin.png" alt="">
-                  </div>
+				   <script src="SosaUnity/TemplateData/UnityProgress.js"></script>  
+    <script src="SosaUnity/Build/UnityLoader.js"></script>
+    <script>
+      var gameInstance = UnityLoader.instantiate("gameContainer", "SosaUnity/Build/SosaUnity.json", {onProgress: UnityProgress});
+    </script>
+  </head>
+    <div class="webgl-content">
+      <div id="gameContainer" style="width: 576px; height: 360px"></div>
+				  </div>
                   <div class="col">
                     <div class="form-group">
-                      <input type="text" class="form-control" id="usr" placeholder="Board Name">
+                      <input oninput="ChangeBoardText(this)" type="text" class="form-control" placeholder="Board Name">
                     </div>
                     <div class="row">
                       <div class="col">
                         <button class="btn btn-shadow btn-block btn-secondary btn-small rounded-pill">Add Image</button>
                       </div>
                       <div class="col">
-                        <button class="btn btn-shadow btn-block btn-secondary btn-small rounded-pill">Clear</button>
+                        <button class="btn btn-shadow btn-block btn-secondary btn-small rounded-pill" onclick = "ClearOff()">Clear</button>
                       </div>
                     </div>
                     <div class="flex-lg-wrap row">
                       <div class="flex-column p-3">
                         <div class="checkbox">
-                          <label><input type="checkbox" value=""> Lock Tilt</label>
+                          <label><input type="checkbox" value="" oninput = "setTiltLock()"> Lock Tilt</label>
                         </div>
                         <div class="checkbox">
-                          <label><input type="checkbox" value=""> Lock Rotate</label>
+                          <label><input type="checkbox" value="" oninput = "setRotLock()"> Lock Rotate</label>
                         </div>
                         <div class="checkbox">
-                          <label><input type="checkbox" value=""> Lock Zoom</label>
+                          <label><input type="checkbox" value="" oninput = "setZoomLock()"> Lock Zoom</label>
                         </div>
                         <div class="checkbox">
-                          <label><input type="checkbox" value=""> Cover Board</label>
+                          <label><input type="checkbox" value="" oninput = "ToggleCover()"> Cover Board</label>
                         </div>
                       </div>
                       <div class="flex-column m-auto align-self-end text-center">
                         <div class="btn-group btn-shadow" role="group" aria-label="Basic example">
-                          <button type="button" class="btn btn-secondary">Board</button>
-                          <button type="button" class="btn btn-secondary">Background</button>
-                          <button type="button" class="btn btn-secondary">Cover</button>
+                          <button input onclick = "CurrentObject(this)" type="button" value ="board" class="btn btn-secondary">Board</button>
+                          <button input onclick = "CurrentObject(this)" type="button" value ="background"class="btn btn-secondary">Background</button>
+                          <button input onclick = "CurrentObject(this)" type="button" value ="cover" class="btn btn-secondary">Cover</button>
                         </div>
+						<Script>
+						//This section will be for the entirety of the first scene-----------------------------------------------------------------------------------------------------------------------------
+						 //initializing the WebPlayer
+						 var val = 1;
+						 var TempBR=128;
+						 var TempBG=128;
+						 var TempBB=128;
+						 var TempBgR=0;
+						 var TempBgG=0;
+						 var TempBgB=0;
+						 var TempCR=128;
+						 var TempCG=128;
+						 var TempCB=128;
+						 function CurrentObject(button) //Board, Background, or Cover
+						 {
+							val = button;
+							if(val.value == "board")
+								{
+									Rvalue.value = TempBR;
+									Gvalue.value = TempBG;
+									Bvalue.value = TempBB;
+								}
+								if(val.value == "background")
+								{
+									Rvalue.value = TempBgR;
+									Gvalue.value = TempBgG;
+									Bvalue.value = TempBgB;
+								}
+								if(val.value == "cover")
+								{
+									Rvalue.value= TempCR;
+									Gvalue.value= TempCG;
+									Bvalue.value= TempCB;
+								}
+						 }
+						 
+						 function ColorStuff() //Adds Color to the elements in the "Game"
+						{
+							
+								if(val.value == "board")
+								{
+									gameInstance.SendMessage("SceneController","setBoardRed",Rvalue.value/255);
+									gameInstance.SendMessage("SceneController","setBoardGreen",Gvalue.value/255);
+									gameInstance.SendMessage("SceneController","setBoardBlue",Bvalue.value/255);
+									TempBR=Rvalue.value;
+									TempBG=Gvalue.value;
+									TempBB=Bvalue.value;
+								}
+								if(val.value == "background")
+								{
+									gameInstance.SendMessage("SceneController","setBackRed",Rvalue.value/255);
+									gameInstance.SendMessage("SceneController","setBackGreen",Gvalue.value/255);
+									gameInstance.SendMessage("SceneController","setBackBlue",Bvalue.value/255);
+									TempBgR = Rvalue.value;
+									TempBgG = Gvalue.value;
+									TempBgB = Bvalue.value;
+								}
+								if(val.value == "cover")
+								{
+									gameInstance.SendMessage("SceneController","setCoverRed",Rvalue.value/255);
+									gameInstance.SendMessage("SceneController","setCoverGreen",Gvalue.value/255);
+									gameInstance.SendMessage("SceneController","setCoverBlue",Bvalue.value/255);
+									TempCR = Rvalue.value;
+									TempCG = Gvalue.value;
+									TempCB = Bvalue.value;
+								}
+								else if(val == 1)
+								{
+								   val=1;
+								}
+						 }
+						 function ClearOff() //Clears off the current selection (of colors and images), then also sets the slider values back to 128
+						 {
+							if(val.value == "board")
+								{
+									gameInstance.SendMessage("SceneController","setBoardRed",128/255);
+									gameInstance.SendMessage("SceneController","setBoardGreen",128/255);
+									gameInstance.SendMessage("SceneController","setBoardBlue",128/255);
+								Rvalue.value = 128;
+								Gvalue.value = 128;
+								Bvalue.value = 128;
+								}
+								if(val.value == "background")
+								{
+									gameInstance.SendMessage("SceneController","setBackRed",0);
+									gameInstance.SendMessage("SceneController","setBackGreen",0);
+									gameInstance.SendMessage("SceneController","setBackBlue",0);
+								Rvalue.value = 0;
+								Gvalue.value = 0;
+								Bvalue.value = 0;
+								}
+								if(val.value == "cover")
+								{
+									gameInstance.SendMessage("SceneController","setCoverRed",128/255);
+									gameInstance.SendMessage("SceneController","setCoverGreen",128/255);
+									gameInstance.SendMessage("SceneController","setCoverBlue",128/255);
+								Rvalue.value = 128;
+								Gvalue.value = 128;
+								Bvalue.value = 128;
+								}
+								
+						 }
+						 function setTiltLock()
+						 {
+							gameInstance.SendMessage("SceneController","isTiltLocked",);
+						 }
+						 function setRotLock()
+						 {
+							gameInstance.SendMessage("SceneController","isRotateLocked",);
+						 }
+						 function setZoomLock()
+						 {
+							gameInstance.SendMessage("SceneController","isZoomLocked",);
+						 }
+						 function ToggleCover()
+						 {
+							gameInstance.SendMessage("SceneController","toggleCover",);
+						 }
+						 function ChangeBoardText(text)
+						 {
+							gameInstance.SendMessage("SceneController","setBoardText",text.value);
+						 }
+						 //This section will be for the entirety of the first scene-----------------------------------------------------------------------------------------------------------------------------
+						</Script>
                         <div class="pt-3 text-center">
                           Value: (<span id="R"></span>, <span id="G"></span>, <span id="B"></span>)
                         </div>
@@ -277,9 +408,10 @@
                     </div>
                     <div>
                       <div>
-                        <input type="range" min="1" max="255" value="128" class="slider mb-3" id="Rvalue">
-                        <input type="range" min="1" max="255" value="128" class="slider mb-3" id="Gvalue">
-                        <input type="range" min="1" max="255" value="128" class="slider mb-4" id="Bvalue">
+                        <input type="range" min="0" max="255" value="128" class="slider mb-3" id="Rvalue" onchange = "ColorStuff()" oninput = "ColorStuff()" >
+                        <input type="range" min="0" max="255" value="128" class="slider mb-3" id="Gvalue" onchange = "ColorStuff()" oninput = "ColorStuff()" >
+                        <input type="range" min="0" max="255" value="128" class="slider mb-4" id="Bvalue" onchange = "ColorStuff()" oninput = "ColorStuff()" >
+						
                       </div>
                       <div class="row text-uppercase">
                         <div class="col">
@@ -405,7 +537,12 @@
               <hr class="cog-dark mb-5">
               <div class="row">
                 <div class="col">
-                  <img class="img-fluid pb-3" src="img/portfolio/cabin.png" alt="">
+                  <object id="UnityObject" classid="clsid:444785F1-DE89-4295-863A-D46C3A781394"
+        width="420" height="750"
+        codebase="http://webplayer.unity3d.com/download_webplayer/UnityWebPlayer.cab#version=2,0,0,0">
+ <param name="unity3d" value="WebPlayer.unity3d" />
+ <embed id="UnityEmbed" src="mlpbeta/mlpbeta.unity3d" width="420" height="750"
+  type="application/vnd.unity" pluginspage="http://www.unity3d.com/unity-web-player-2.x" />
                   <div class=" row pb-3">
                     <div class="col">
                       <select class="custom-select" id="inputGroupSelect04">
