@@ -337,9 +337,12 @@ class Session {
 		}
 		return $randstr;
 	}
+	
 	/*
 	 * END UTILITY FUNCTIONS
+	 * BEGIN EXPERIMENT/STIMULUS FUNCTIONS
 	 */
+	
 	/**
 	 * Return an array of all available saved experiment details
 	 * @author Mitchell M.
@@ -376,16 +379,28 @@ class Session {
 	 * @author Mitchell M.
 	 * @version 0.5.0
 	 */
-	public function deleteExperiment($experiment_id) {}
-
+	public function deleteExperiment($experiment_id) {
+		$experiment_id = intval($experiment_id);
+		if ($this->mysqli->query("DELETE FROM `experiment` WHERE `experiment_id`='{$experiment_id}'")) {
+			return true;
+		} else {
+			return $this->mysqli->error;
+		}
+	}
+	
 	/**
+	 * Will be implemented once the other methods are done
 	 * Updates experiment based on input $id and $changes
 	 * @author Mitchell M.
 	 * @return updated experiment
 	 * @version 0.5.0
 	 */
 	public function updateExperiment($id,$data) {}
-
+	/*
+	 * END EXPERIMENT FUNCTIONS
+	 * BEGIN RUNNABLE FUNCTIONS
+	 */
+		
 	/**
 	 * Creates the specification for runnable experiment configuration denoted by $runnable_id
 	 * @author Mitchell M.
@@ -395,7 +410,8 @@ class Session {
 	public function createRunnable($stimset_id,$experimentID) {
 		$adminID = 1;
 		$mysqli = $this->mysqli->prepare("INSERT INTO `runnable` (`stimset_id`,`experiment_id`,`admin_id`) VALUES (?,?,?)");
-		$mysqli->bind_param("ii", $stimset_id,$experimentID,$adminID);
+		echo $this->mysqli->error;
+		$mysqli->bind_param("iii", $stimset_id,$experimentID,$adminID);
 		$mysqli->execute();
 		$mysqli->close();
 	}
@@ -438,6 +454,11 @@ class Session {
 		return $results;
 	}
 
+	/*
+	 * END RUNNABLE FUNCTIONS
+	 * BEGIN STIMULUS FUNCTIONS
+	 */
+	
 	/**
 	 * Return an array of all available saved stimuli sets
 	 * @author Mitchell M.
@@ -499,6 +520,7 @@ class Session {
 	 * @version 0.5.0
 	 */
 	public function deleteStimulus($stimulus_id) {
+		$stimulus_id = intval($stimulus_id);
 		if ($this->mysqli->query("DELETE FROM `stimulus` WHERE `stimulus_id`='{$stimulus_id}'")) {
 			return true;
 		} else {
@@ -512,6 +534,7 @@ class Session {
 	 * @version 0.5.0
 	 */
 	public function deleteStimulusSet($stimset_id) {
+		$stimset_id = intval($stimset_id);
 		if ($this->mysqli->query("DELETE FROM `stimulus` WHERE `stimset_id`='{$stimset_id}'")) {
 			return true;
 		} else {
@@ -520,11 +543,16 @@ class Session {
 	}
 
 	/**
+	 * Will be implemented once the other methods are done
 	 * Updates stimuli based on input $stimulus_id and $label,$label_color,$peg_color
 	 * @author Mitchell M.
 	 * @return created stimulus
 	 * @version 0.5.0
 	 */
 	public function updateStimulus($stimulus_id,$label,$label_color,$peg_color) {}
+	
+	/*
+	 * END STIMULUS FUNCTIONS
+	 */
 }
 ?>
