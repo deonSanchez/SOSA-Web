@@ -18,4 +18,4 @@ $session = new Session($dbc);
 //$stimsets = $session->pullStimulusSets();
 //$stimulus = $session->loadStimulusSet($stimsets[0]['stimset_id']);
 //var_dump($stimulus);
-$session->createExperiment("EXPERIMENT 3");
+$session->deleteStimulus(3);

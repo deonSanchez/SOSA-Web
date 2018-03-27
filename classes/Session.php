@@ -347,14 +347,14 @@ class Session {
 	 * @version 0.5.0
 	 */
 	public function loadExperiments() {
-		$result = null;
+		$results = null;
 		$stmt = $this->mysqli->query("SELECT * FROM `experiment`");
 		if ($stmt->num_rows >= 1) {
 			while ($row = $stmt->fetch_assoc()) {
-				$result[] = $row;
+				$results[] = $row;
 			}
 		}
-		return $result;
+		return $results;
 	}
 
 
@@ -387,13 +387,13 @@ class Session {
 	public function updateExperiment($id,$changes) {}
 
 	/**
-	 * Creates runnable experiment by pairing a stimuli set with an experiment based on $stimID with $experimentID
+	 * Creates the specification for runnable experiment configuration denoted by $runnable_id
 	 * @author Mitchell M.
 	 * @return runnable experiment configuration
 	 * @version 0.5.0
 	 */
 	public function createRunnable($stimID,$experimentID) {}
-	
+
 	/**
 	 * Creates runnable experiment by pairing a stimuli set with an experiment based on $stimID with $experimentID
 	 * @author Mitchell M.
@@ -401,71 +401,122 @@ class Session {
 	 * @version 0.5.0
 	 */
 	public function pullRunnables() {}
-	
+
 	/**
-	 * Creates runnable experiment by pairing a stimuli set with an experiment based on $stimID with $experimentID
+	 * Gets the specification for runnable experiment configuration denoted by $runnable_id
 	 * @author Mitchell M.
 	 * @return runnable experiment configuration
 	 * @version 0.5.0
 	 */
-	public function pullRunnable($runnable_id) {}
-	
-    /**
-     * Return an array of all available saved stimuli
-     * @author Mitchell M.
-     * @return array of stimuli
-     * @version 0.5.0
-     */
-	public function pullStimulusSets() {
-		$sets = null;
+	public function pullRunnable($runnable_id) {		
+		$results = null;
+		$stmt = $this->mysqli->prepare("SELECT `stimset_id`, `experiment_id` FROM `runnable` WHERE `runnable_id` = ?");
+		$stmt->bind_result($stimset_id,$experiment_id);
+		$stmt->bind_param("i", $runnable_id);
+		$stmt->execute();
+		$stmt->store_result();
+		if ($stmt->num_rows >= 1) {
+			while ($stmt->fetch()) {
+				$results[] = array('stimset_id' => $stimset_id, 'experiment_id' => $experiment_id, 'runnable_id' => $runnable_id);
+			}
+		}
+		return $results;
+	}
+
+	/**
+	 * Return an array of all available saved stimuli sets
+	 * @author Mitchell M.
+	 * @return array of stimuli
+	 * @version 0.5.0
+	 */
+	public function loadStimSets() {
+		$results = null;
 		$stmt = $this->mysqli->prepare("SELECT `stimset_id`, `name` FROM `stimulus_set`");
-        $stmt->bind_result($stimset_id,$name);
-        $stmt->execute();
-        $stmt->store_result();
-        if ($stmt->num_rows >= 1) {
-            while ($stmt->fetch()) {
-                $sets[] = array('stimset_id' => $stimset_id, 'name' => $name);
-            }
-        }
-        return $sets;
+		$stmt->bind_result($stimset_id,$name);
+		$stmt->execute();
+		$stmt->store_result();
+		if ($stmt->num_rows >= 1) {
+			while ($stmt->fetch()) {
+				$results[] = array('stimset_id' => $stimset_id, 'name' => $name);
+			}
+		}
+		return $results;
 	}
 	
-	public function loadStimulusSet($id) {
-		$stim = null;
+	/**
+	 * Return an array containing the information regarding the stimulus set provided
+	 * @author Mitchell M.
+	 * @return array of stimuli
+	 * @version 0.5.0
+	 */
+	public function loadStimSet($id) {
+		$results = null;
 		$stmt = $this->mysqli->prepare("SELECT `label`, `label_color`, `peg_color` FROM `stimulus` WHERE `stimset_id` = ?");
-        $stmt->bind_param("i",$id);
-        $stmt->bind_result($label, $lc, $pc);
-        $stmt->execute();
-        $stmt->store_result();
-        if ($stmt->num_rows >= 1) {
-            while ($stmt->fetch()) {
-                $stim[] = array('label' => $label, 'label_color' => $lc, 'peg_color' => $pc);
-            }
-        }
-        return $stim;
+		$stmt->bind_param("i",$id);
+		$stmt->bind_result($label, $lc, $pc);
+		$stmt->execute();
+		$stmt->store_result();
+		if ($stmt->num_rows >= 1) {
+			while ($stmt->fetch()) {
+				$results[] = array('label' => $label, 'label_color' => $lc, 'peg_color' => $pc);
+			}
+		}
+		return $results;
 	}
-	
-    /**
-     * Builds and saves stimuli based on input $data
-     * @author Mitchell M.
-     * @return created stimulus
-     * @version 0.5.0
-     */
-	public function createStimulus($data) {}
-	
-    /**
-     * Deletes stimuli based on input id $data
-     * @author Mitchell M.
-     * @version 0.5.0
-     */
-	public function deleteStimulus($data) {}
-	
-    /**
-     * Updates stimuli based on input $id and $changes
-     * @author Mitchell M.
-     * @return created stimulus
-     * @version 0.5.0
-     */
+
+	/**
+	 * Builds and saves stimuli based on input $data
+	 * @author Mitchell M.
+	 * @return created stimulus
+	 * @version 0.5.0
+	 */
+	public function createStimulus($label,$label_color,$peg_color,$setid=NULL) {
+		if(is_null($setid)){
+			$mysqli = $this->mysqli->prepare("INSERT INTO `stimulus` (`label`,`label_color`,`peg_color`) VALUES (?,?,?)");
+			$mysqli->bind_param("sss", $label,$label_color,$peg_color);
+			$mysqli->execute();
+			$mysqli->close();
+		} else {
+			$mysqli = $this->mysqli->prepare("INSERT INTO `stimulus` (`label`,`label_color`,`peg_color`,`stimset_id`) VALUES (?,?,?,?)");
+			$mysqli->bind_param("s", $label,$label_color,$peg_color,$setid);
+			$mysqli->execute();
+			$mysqli->close();
+		}
+
+	}
+
+	/**
+	 * Deletes stimuli based on input id $data
+	 * @author Mitchell M.
+	 * @version 0.5.0
+	 */
+	public function deleteStimulus($stimulus_id) {
+		if ($this->mysqli->query("DELETE FROM `stimulus` WHERE `stimulus_id`='{$stimulus_id}'")) {
+			return true;
+		} else {
+			return $this->mysqli->error;
+		}
+	}
+
+	/**
+	 * Deletes stimuli based on input id $data
+	 * @author Mitchell M.
+	 * @version 0.5.0
+	 */
+	public function deleteStimulusSet($stimset_id) {
+		if ($this->mysqli->query("DELETE FROM `stimulus` WHERE `stimset_id`='{$stimset_id}'")) {
+			return true;
+		} else {
+			return $this->mysqli->error;
+		}
+	}
+
+	/**
+	 * Updates stimuli based on input $id and $changes
+	 * @author Mitchell M.
+	 * @return created stimulus
+	 * @version 0.5.0
+	 */
 	public function updateStimulus($id,$changes) {}
 }
 ?>
