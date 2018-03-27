@@ -341,7 +341,7 @@ class Session {
 	 * END UTILITY FUNCTIONS
 	 */
 	/**
-	 * Return an array of all available saved experients
+	 * Return an array of all available saved experiment details
 	 * @author Mitchell M.
 	 * @return array of stimuli
 	 * @version 0.5.0
@@ -376,7 +376,7 @@ class Session {
 	 * @author Mitchell M.
 	 * @version 0.5.0
 	 */
-	public function deleteExperiment($data) {}
+	public function deleteExperiment($experiment_id) {}
 
 	/**
 	 * Updates experiment based on input $id and $changes
@@ -384,7 +384,7 @@ class Session {
 	 * @return updated experiment
 	 * @version 0.5.0
 	 */
-	public function updateExperiment($id,$changes) {}
+	public function updateExperiment($id,$data) {}
 
 	/**
 	 * Creates the specification for runnable experiment configuration denoted by $runnable_id
@@ -392,7 +392,13 @@ class Session {
 	 * @return runnable experiment configuration
 	 * @version 0.5.0
 	 */
-	public function createRunnable($stimID,$experimentID) {}
+	public function createRunnable($stimset_id,$experimentID) {
+		$adminID = 1;
+		$mysqli = $this->mysqli->prepare("INSERT INTO `runnable` (`stimset_id`,`experiment_id`,`admin_id`) VALUES (?,?,?)");
+		$mysqli->bind_param("ii", $stimset_id,$experimentID,$adminID);
+		$mysqli->execute();
+		$mysqli->close();
+	}
 
 	/**
 	 * Creates runnable experiment by pairing a stimuli set with an experiment based on $stimID with $experimentID
@@ -400,7 +406,16 @@ class Session {
 	 * @return runnable experiment configuration
 	 * @version 0.5.0
 	 */
-	public function pullRunnables() {}
+	public function pullRunnables() {
+		$results = null;
+		$stmt = $this->mysqli->query("SELECT * FROM `runnable`");
+		if ($stmt->num_rows >= 1) {
+			while ($row = $stmt->fetch_assoc()) {
+				$results[] = $row;
+			}
+		}
+		return $results;
+	}
 
 	/**
 	 * Gets the specification for runnable experiment configuration denoted by $runnable_id
@@ -467,22 +482,15 @@ class Session {
 	/**
 	 * Builds and saves stimuli based on input $data
 	 * @author Mitchell M.
+	 * @param $setid required
 	 * @return created stimulus
 	 * @version 0.5.0
 	 */
-	public function createStimulus($label,$label_color,$peg_color,$setid=NULL) {
-		if(is_null($setid)){
-			$mysqli = $this->mysqli->prepare("INSERT INTO `stimulus` (`label`,`label_color`,`peg_color`) VALUES (?,?,?)");
-			$mysqli->bind_param("sss", $label,$label_color,$peg_color);
-			$mysqli->execute();
-			$mysqli->close();
-		} else {
-			$mysqli = $this->mysqli->prepare("INSERT INTO `stimulus` (`label`,`label_color`,`peg_color`,`stimset_id`) VALUES (?,?,?,?)");
-			$mysqli->bind_param("s", $label,$label_color,$peg_color,$setid);
-			$mysqli->execute();
-			$mysqli->close();
-		}
-
+	public function createStimulus($label,$label_color,$peg_color,$setid) {
+		$mysqli = $this->mysqli->prepare("INSERT INTO `stimulus` (`label`,`label_color`,`peg_color`,`stimset_id`) VALUES (?,?,?,?)");
+		$mysqli->bind_param("sssi", $label,$label_color,$peg_color,$setid);
+		$mysqli->execute();
+		$mysqli->close();
 	}
 
 	/**
@@ -512,11 +520,11 @@ class Session {
 	}
 
 	/**
-	 * Updates stimuli based on input $id and $changes
+	 * Updates stimuli based on input $stimulus_id and $label,$label_color,$peg_color
 	 * @author Mitchell M.
 	 * @return created stimulus
 	 * @version 0.5.0
 	 */
-	public function updateStimulus($id,$changes) {}
+	public function updateStimulus($stimulus_id,$label,$label_color,$peg_color) {}
 }
 ?>

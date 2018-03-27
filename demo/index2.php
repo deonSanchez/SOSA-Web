@@ -15,7 +15,5 @@ function __autoload($class_name)
 $dbc = Database::getConnection();
 $session = new Session($dbc);
 
-//$stimsets = $session->pullStimulusSets();
-//$stimulus = $session->loadStimulusSet($stimsets[0]['stimset_id']);
-//var_dump($stimulus);
-$session->deleteStimulus(3);
+$runnable = $session->pullRunnables();
+var_dump($runnable);
