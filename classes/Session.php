@@ -13,6 +13,7 @@ class Session {
 	private static $self_instance;
 	public $sid;
 	private $mysqli, $qb;
+	
 	/**
 	 * Constructs the class, setting the mysqli variable to the active connection
 	 * @param MySQLi DB Instance $dbc
@@ -28,6 +29,7 @@ class Session {
 			$this->validate($this->sid, time());
 		}
 	}
+	
 	/**
 	 * Static singleton instance is set only once, retrieved if already set
 	 * @author Mitchell M.
@@ -41,6 +43,7 @@ class Session {
 		}
 		return self::$self_instance;
 	}
+	
 	/**
 	 * Validates if a session cookie is valid, and clears it if not
 	 * @author Mitchell M.
@@ -74,7 +77,8 @@ class Session {
 		}
 		$stmt->close();
 	}
-	/*
+	
+	/**
 	 * Manages sessions and prevents more than one session per user
 	 * @param int $userid
 	 * @author Mitchell M.
@@ -95,6 +99,7 @@ class Session {
 		}
 		return false;
 	}
+	
 	/**
 	 * Does a session exist for the UserID passed
 	 * @author Mitchell M.
@@ -110,6 +115,7 @@ class Session {
 		}
 		return false;
 	}
+	
 	/**
 	 * Creates a session entry into the database and on the client machine
 	 * @author Mitchell M.
@@ -128,6 +134,7 @@ class Session {
 		}
 		return false;
 	}
+	
 	/**
 	 * Builds the session management system's current expiration timestamp
 	 * @author Mitchell M.
@@ -137,6 +144,7 @@ class Session {
 	function buildExpireTime() {
 		return time() + 60 * SESSION_LENGTH;
 	}
+	
 	/**
 	 * Clear session based on UserID
 	 * @author Mitchell M.
@@ -152,6 +160,7 @@ class Session {
 		}
 		unset($_SESSION['sid']);
 	}
+	
 	/**
 	 * Clear session based on SID
 	 * @author Mitchell M.
@@ -163,10 +172,12 @@ class Session {
 		$this->mysqli->query("DELETE FROM sessions WHERE sid='{$sid}'");
 		unset($_SESSION['sid']);
 	}
+	
 	/**
 	 * END SESSION MANAGEMENT FUNCTIONS
 	 * BEGIN USER MANAGEMENT FUNCTIONS
 	 */
+	
 	/**
 	 * Registers the user into the database
 	 * @param string $email
@@ -214,6 +225,7 @@ class Session {
 			return json_encode($errors);
 		}
 	}
+	
 	/**
 	 * Sets a users session in the database and sets their client side session
 	 * @param string $email
@@ -235,6 +247,7 @@ class Session {
 		}
 		return json_encode($response);
 	}
+	
 	/**
 	 * Validates that the login details are valid
 	 * @param string $email
@@ -254,6 +267,7 @@ class Session {
 		}
 		return false;
 	}
+	
 	/**
 	 * Returns the UID based on email/sid input
 	 * Determines input type no specification required
@@ -276,6 +290,7 @@ class Session {
 		}
 		return isset($result[0]['userid']) ? $result[0]['userid'] : -1;
 	}
+	
 	/**
 	 * Is a user logged in?
 	 * @author Mitchell M.
@@ -285,6 +300,7 @@ class Session {
 	function isLoggedIn() {
 		return isset($_SESSION['sid']);
 	}
+	
 	/**
 	 * END USER MANAGEMENT FUNCTIONS
 	 * BEGIN UTILITY FUNCTIONS
@@ -317,6 +333,7 @@ class Session {
 		}
 		die();
 	}
+	
 	/**
 	 * Generates a random string based on the length provided
 	 * @param int $length to use
@@ -359,7 +376,6 @@ class Session {
 		}
 		return $results;
 	}
-
 
 	/**
 	 * Builds and saves experiment based on input $data
