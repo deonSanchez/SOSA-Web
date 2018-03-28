@@ -25,6 +25,9 @@
   <!-- Custom styles for this template -->
   <link href="css/freelancer.min.css" rel="stylesheet">
 
+  <script src="SosaUnity/TemplateData/UnityProgress.js"></script>
+  <script src="SosaUnity/Build/UnityLoader.js"></script>
+
 </head>
 
 <body id="page-top">
@@ -69,17 +72,15 @@
       <h2 class="text-center text-uppercase text-secondary mb-0">Board</h2>
       <hr class="cog-dark mb-5">
       <div class="row">
-        <div class="col">
-          <a class="portfolio-item d-block mx-auto" href="#board-modal">
+        <div class="col mx-auto">
+          <a class="portfolio-item d-block mx-auto w-50" href="#board-modal">
             <div class="portfolio-item-caption d-flex position-absolute h-100 w-100">
               <div class="portfolio-item-caption-content my-auto w-100 text-center text-white">
-                <i class="fa fa-search-plus fa-3x"></i>
+                <i class="fa fa-puzzle-piece fa-5x"></i>
               </div>
             </div>
             <img class="img-fluid" src="img/board.png" alt="">
           </a>
-        </div>
-        <div class="col">
           <p class="lead">
             Improve him believe opinion offered met and end cheered forbade.
             Friendly as stronger speedily by recurred. Son interest wandered sir
@@ -101,17 +102,15 @@
       <h2 class="text-center text-uppercase text-whitey">Stimulus</h2>
       <hr class="cog-light mb-5">
       <div class="row">
-        <div class="col">
-          <a class="portfolio-item d-block mx-auto" href="#stimulus-modal">
+        <div class="col mx-auto">
+          <a class="portfolio-item d-block mx-auto w-50" href="#stimulus-modal">
             <div class="portfolio-item-caption d-flex position-absolute h-100 w-100">
               <div class="portfolio-item-caption-content my-auto w-100 text-center text-white">
-                <i class="fa fa-search-plus fa-3x"></i>
+                <i class="fa fa-puzzle-piece fa-5x"></i>
               </div>
             </div>
             <img class="img-fluid" src="img/stimulus.png" alt="">
           </a>
-        </div>
-        <div class="col">
           <p class="lead">
             Improve him believe opinion offered met and end cheered forbade.
             Friendly as stronger speedily by recurred. Son interest wandered sir
@@ -133,17 +132,15 @@
       <h2 class="text-center text-uppercase text-secondary mb-0">Experiment</h2>
       <hr class="cog-dark mb-5">
       <div class="row">
-        <div class="col">
-          <a class="portfolio-item d-block mx-auto" href="#experiment-modal">
+        <div class="col mx-auto">
+          <a class="portfolio-item d-block mx-auto w-50" href="#experiment-modal">
             <div class="portfolio-item-caption d-flex position-absolute h-100 w-100">
               <div class="portfolio-item-caption-content my-auto w-100 text-center text-white">
-                <i class="fa fa-search-plus fa-3x"></i>
+                <i class="fa fa-puzzle-piece fa-5x"></i>
               </div>
             </div>
             <img class="img-fluid" src="img/experiment.png" alt="">
           </a>
-        </div>
-        <div class="col">
           <p class="lead">
             Improve him believe opinion offered met and end cheered forbade.
             Friendly as stronger speedily by recurred. Son interest wandered sir
@@ -223,28 +220,22 @@
       <!-- Modals -->
 
       <!-- Board Modal -->
-      <div class="portfolio-modal mfp-hide" id="board-modal">
+      <div class="portfolio-modal mx-auto" id="board-modal">
         <div class="portfolio-modal-dialog bg-white">
           <a class="close-button d-none d-md-block text-secondary portfolio-modal-dismiss" href="#">
             <i class="fa fa-3x fa-times"></i>
           </a>
           <div class="container">
-            <div class="row">
-              <div class="flex-column mx-auto">
+            <div class="">
+              <div class="mx-auto">
                 <h2 class="text-secondary text-center text-uppercase mb-0">Board</h2>
                 <hr class="cog-dark mb-5">
                 <div class="row">
                   <div class="col">
-				   <script src="SosaUnity/TemplateData/UnityProgress.js"></script>  
-    <script src="SosaUnity/Build/UnityLoader.js"></script>
-    <script>
-      var gameInstance = UnityLoader.instantiate("gameContainer", "SosaUnity/Build/SosaUnity.json", {onProgress: UnityProgress});
-    </script>
-  </head>
-    <div class="webgl-content">
-      <div id="gameContainer" style="width: 576px; height: 360px"></div>
-				  </div>
-                  <div class="col">
+                    <!-- Unity Garbage -->
+                    <div class=" webgl-content pb-3">
+                      <div id="gameContainer"></div>
+                    </div>
                     <div class="form-group">
                       <input oninput="ChangeBoardText(this)" type="text" class="form-control" placeholder="Board Name">
                     </div>
@@ -256,7 +247,7 @@
                         <button class="btn btn-shadow btn-block btn-secondary btn-small rounded-pill" onclick = "ClearOff()">Clear</button>
                       </div>
                     </div>
-                    <div class="flex-lg-wrap row">
+                    <div class="row">
                       <div class="flex-column p-3">
                         <div class="checkbox">
                           <label><input type="checkbox" value="" oninput = "setTiltLock()"> Lock Tilt</label>
@@ -277,130 +268,7 @@
                           <button input onclick = "CurrentObject(this)" type="button" value ="background"class="btn btn-secondary">Background</button>
                           <button input onclick = "CurrentObject(this)" type="button" value ="cover" class="btn btn-secondary">Cover</button>
                         </div>
-						<Script>
-						//This section will be for the entirety of the first scene-----------------------------------------------------------------------------------------------------------------------------
-						 //initializing the WebPlayer
-						 var val = 1;
-						 var TempBR=128;
-						 var TempBG=128;
-						 var TempBB=128;
-						 var TempBgR=0;
-						 var TempBgG=0;
-						 var TempBgB=0;
-						 var TempCR=128;
-						 var TempCG=128;
-						 var TempCB=128;
-						 function CurrentObject(button) //Board, Background, or Cover
-						 {
-							val = button;
-							if(val.value == "board")
-								{
-									Rvalue.value = TempBR;
-									Gvalue.value = TempBG;
-									Bvalue.value = TempBB;
-								}
-								if(val.value == "background")
-								{
-									Rvalue.value = TempBgR;
-									Gvalue.value = TempBgG;
-									Bvalue.value = TempBgB;
-								}
-								if(val.value == "cover")
-								{
-									Rvalue.value= TempCR;
-									Gvalue.value= TempCG;
-									Bvalue.value= TempCB;
-								}
-						 }
-						 
-						 function ColorStuff() //Adds Color to the elements in the "Game"
-						{
-							
-								if(val.value == "board")
-								{
-									gameInstance.SendMessage("SceneController","setBoardRed",Rvalue.value/255);
-									gameInstance.SendMessage("SceneController","setBoardGreen",Gvalue.value/255);
-									gameInstance.SendMessage("SceneController","setBoardBlue",Bvalue.value/255);
-									TempBR=Rvalue.value;
-									TempBG=Gvalue.value;
-									TempBB=Bvalue.value;
-								}
-								if(val.value == "background")
-								{
-									gameInstance.SendMessage("SceneController","setBackRed",Rvalue.value/255);
-									gameInstance.SendMessage("SceneController","setBackGreen",Gvalue.value/255);
-									gameInstance.SendMessage("SceneController","setBackBlue",Bvalue.value/255);
-									TempBgR = Rvalue.value;
-									TempBgG = Gvalue.value;
-									TempBgB = Bvalue.value;
-								}
-								if(val.value == "cover")
-								{
-									gameInstance.SendMessage("SceneController","setCoverRed",Rvalue.value/255);
-									gameInstance.SendMessage("SceneController","setCoverGreen",Gvalue.value/255);
-									gameInstance.SendMessage("SceneController","setCoverBlue",Bvalue.value/255);
-									TempCR = Rvalue.value;
-									TempCG = Gvalue.value;
-									TempCB = Bvalue.value;
-								}
-								else if(val == 1)
-								{
-								   val=1;
-								}
-						 }
-						 function ClearOff() //Clears off the current selection (of colors and images), then also sets the slider values back to 128
-						 {
-							if(val.value == "board")
-								{
-									gameInstance.SendMessage("SceneController","setBoardRed",128/255);
-									gameInstance.SendMessage("SceneController","setBoardGreen",128/255);
-									gameInstance.SendMessage("SceneController","setBoardBlue",128/255);
-								Rvalue.value = 128;
-								Gvalue.value = 128;
-								Bvalue.value = 128;
-								}
-								if(val.value == "background")
-								{
-									gameInstance.SendMessage("SceneController","setBackRed",0);
-									gameInstance.SendMessage("SceneController","setBackGreen",0);
-									gameInstance.SendMessage("SceneController","setBackBlue",0);
-								Rvalue.value = 0;
-								Gvalue.value = 0;
-								Bvalue.value = 0;
-								}
-								if(val.value == "cover")
-								{
-									gameInstance.SendMessage("SceneController","setCoverRed",128/255);
-									gameInstance.SendMessage("SceneController","setCoverGreen",128/255);
-									gameInstance.SendMessage("SceneController","setCoverBlue",128/255);
-								Rvalue.value = 128;
-								Gvalue.value = 128;
-								Bvalue.value = 128;
-								}
-								
-						 }
-						 function setTiltLock()
-						 {
-							gameInstance.SendMessage("SceneController","isTiltLocked",);
-						 }
-						 function setRotLock()
-						 {
-							gameInstance.SendMessage("SceneController","isRotateLocked",);
-						 }
-						 function setZoomLock()
-						 {
-							gameInstance.SendMessage("SceneController","isZoomLocked",);
-						 }
-						 function ToggleCover()
-						 {
-							gameInstance.SendMessage("SceneController","toggleCover",);
-						 }
-						 function ChangeBoardText(text)
-						 {
-							gameInstance.SendMessage("SceneController","setBoardText",text.value);
-						 }
-						 //This section will be for the entirety of the first scene-----------------------------------------------------------------------------------------------------------------------------
-						</Script>
+
                         <div class="pt-3 text-center">
                           Value: (<span id="R"></span>, <span id="G"></span>, <span id="B"></span>)
                         </div>
@@ -411,7 +279,7 @@
                         <input type="range" min="0" max="255" value="128" class="slider mb-3" id="Rvalue" onchange = "ColorStuff()" oninput = "ColorStuff()" >
                         <input type="range" min="0" max="255" value="128" class="slider mb-3" id="Gvalue" onchange = "ColorStuff()" oninput = "ColorStuff()" >
                         <input type="range" min="0" max="255" value="128" class="slider mb-4" id="Bvalue" onchange = "ColorStuff()" oninput = "ColorStuff()" >
-						
+
                       </div>
                       <div class="row text-uppercase">
                         <div class="col">
@@ -431,197 +299,321 @@
               </div>
             </div>
           </div>
-        </div>
-      </div>
-    </div>
 
-    <!-- Stimulus Modal -->
-    <div class="portfolio-modal mfp-hide" id="stimulus-modal">
-      <div class="portfolio-modal-dialog bg-white">
-        <a class="close-button d-none d-md-block text-secondary portfolio-modal-dismiss" href="#">
-          <i class="fa fa-3x fa-times"></i>
-        </a>
-        <div class="container">
-          <div class="row">
-            <div class="flex-column mx-auto">
-              <h2 class="text-secondary text-center text-uppercase mb-0">Stimulus</h2>
-              <hr class="cog-dark mb-5">
-              <div class="row">
-                <div class="col">
-                  <div class="form-group row">
-                    <div class="col">
-                      <input type="text" class="form-control" id="usr" placeholder="Stimulus Name">
-                    </div>
-                    <div class="col">
-                      <button class="btn btn-shadow btn-block btn-secondary btn-small rounded-pill">Create Stimulus</button>
-                    </div>
-                  </div>
-                  <img class="img-fluid" src="img/portfolio/cabin.png" alt="">
-                  <div class="row pt-3 text-center">
-                    <div class="col m-auto">
-                      <div class="btn-group btn-shadow" role="group" aria-label="Basic example">
-                        <button type="button" class="btn btn-secondary">Label</button>
-                        <button type="button" class="btn btn-secondary">Stimulus</button>
-                      </div>
-                    </div>
-                    <div class="col m-auto">
-                      <div class="text-center">
-                        Value: (<span id="R"></span>, <span id="G"></span>, <span id="B"></span>)
-                      </div>
-                    </div>
-                  </div>
-                  <div class="pt-3">
-                    <input type="range" min="1" max="255" value="128" class="slider mb-3" id="Rvalue">
-                    <input type="range" min="1" max="255" value="128" class="slider mb-3" id="Gvalue">
-                    <input type="range" min="1" max="255" value="128" class="slider mb-4" id="Bvalue">
-                  </div>
-                </div>
-                <div class="col">
+
+          <!-- Stimulus Modal -->
+          <div class="portfolio-modal mfp-hide" id="stimulus-modal">
+            <div class="portfolio-modal-dialog bg-white">
+              <a class="close-button d-none d-md-block text-secondary portfolio-modal-dismiss" href="#">
+                <i class="fa fa-3x fa-times"></i>
+              </a>
+              <div class="container">
+                <div class="text-center">
+                  <h2 class="text-secondary text-center text-uppercase mb-0">Stimulus</h2>
+                  <hr class="cog-dark mb-5">
                   <div class="row">
-                    <div class="col pb-3">
-                      <button class="btn btn-shadow btn-block btn-secondary btn-small rounded-pill">Add to Stimulus Set</button>
-                    </div>
-                    <div class="col pb-3">
-                      <button class="btn btn-shadow btn-block btn-secondary btn-small rounded-pill">Remove</button>
-                    </div>
-                  </div>
-                  <div class="input-group pb-3">
-                    <div class="input-group-prepend">
-                      <button class="btn btn-outline-secondary" type="button">+</button>
-                    </div>
-                    <select class="custom-select" id="inputGroupSelect04">
-                      <option selected>Stimulus Set 1</option>
-                      <option value="1">Stimulus Set 2</option>
-                      <option value="2">Stimulus Set 3</option>
-                      <option value="3">Stimulus Set 4</option>
-                    </select>
-                    <div class="input-group-append">
-                      <button class="btn btn-outline-secondary" type="button">-</button>
-                    </div>
-                  </div>
-                  <div class="form-group">
-                    <select multiple class="form-control" id="exampleFormControlSelect2">
-                      <option>Stimulus 1</option>
-                      <option>Stimulus 2</option>
-                      <option>Stimulus 3</option>
-                      <option>Stimulus 4</option>
-                      <option>Stimulus 5</option>
-                    </select>
-                  </div>
-                  <div class="row pb-3">
                     <div class="col">
-                      <button class="btn btn-shadow btn-block btn-secondary btn-small rounded-pill">Save</button>
-                    </div>
-                    <div class="col">
-                      <button class="btn btn-shadow btn-block btn-secondary btn-small rounded-pill">Load</button>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- Experiment Modal -->
-    <div class="portfolio-modal mfp-hide" id="experiment-modal">
-      <div class="portfolio-modal-dialog bg-white">
-        <a class="close-button d-none d-md-block text-secondary portfolio-modal-dismiss" href="#">
-          <i class="fa fa-3x fa-times"></i>
-        </a>
-        <div class="container">
-          <div class="row">
-            <div class="flex-column mx-auto">
-              <h2 class="text-secondary text-center text-uppercase mb-0">Experiment</h2>
-              <hr class="cog-dark mb-5">
-              <div class="row">
-                <div class="col">
-                  <object id="UnityObject" classid="clsid:444785F1-DE89-4295-863A-D46C3A781394"
-        width="420" height="750"
-        codebase="http://webplayer.unity3d.com/download_webplayer/UnityWebPlayer.cab#version=2,0,0,0">
- <param name="unity3d" value="WebPlayer.unity3d" />
- <embed id="UnityEmbed" src="mlpbeta/mlpbeta.unity3d" width="420" height="750"
-  type="application/vnd.unity" pluginspage="http://www.unity3d.com/unity-web-player-2.x" />
-                  <div class=" row pb-3">
-                    <div class="col">
-                      <select class="custom-select" id="inputGroupSelect04">
-                        <option selected>6x6 on Final Image</option>
-                        <option value="1">Stimulus Set 2</option>
-                        <option value="2">Stimulus Set 3</option>
-                        <option value="3">Stimulus Set 4</option>
-                      </select>
-                    </div>
-                    <div class="col">
-                      <div class="checkbox">
-                        <label><input type="checkbox" value=""> Show Board Cover</label>
+                      <div class="form-group row">
+                        <div class="col">
+                          <input type="text" class="form-control" id="usr" placeholder="Stimulus Name">
+                        </div>
+                        <div class="col">
+                          <button class="btn btn-shadow btn-block btn-secondary btn-small rounded-pill">Create Stimulus</button>
+                        </div>
+                      </div>
+                      <img class="img-fluid" src="img/portfolio/cabin.png" alt="">
+                      <div class="row pt-3 text-center">
+                        <div class="col m-auto">
+                          <div class="btn-group btn-shadow" role="group" aria-label="Basic example">
+                            <button type="button" class="btn btn-secondary">Label</button>
+                            <button type="button" class="btn btn-secondary">Stimulus</button>
+                          </div>
+                        </div>
+                        <div class="col m-auto">
+                          <div class="text-center">
+                            Value: (<span id="R"></span>, <span id="G"></span>, <span id="B"></span>)
+                          </div>
+                        </div>
+                      </div>
+                      <div class="pt-3">
+                        <input type="range" min="1" max="255" value="128" class="slider mb-3" id="Rvalue">
+                        <input type="range" min="1" max="255" value="128" class="slider mb-3" id="Gvalue">
+                        <input type="range" min="1" max="255" value="128" class="slider mb-4" id="Bvalue">
+                      </div>
+                      <div class="row">
+                        <div class="col pb-3">
+                          <button class="btn btn-shadow btn-block btn-secondary btn-small rounded-pill">Add to Stimulus Set</button>
+                        </div>
+                        <div class="col pb-3">
+                          <button class="btn btn-shadow btn-block btn-secondary btn-small rounded-pill">Remove</button>
+                        </div>
+                      </div>
+                      <div class="input-group pb-3">
+                        <div class="input-group-prepend">
+                          <button class="btn btn-outline-secondary" type="button">+</button>
+                        </div>
+                        <select class="custom-select" id="inputGroupSelect04">
+                          <option selected>Stimulus Set 1</option>
+                          <option value="1">Stimulus Set 2</option>
+                          <option value="2">Stimulus Set 3</option>
+                          <option value="3">Stimulus Set 4</option>
+                        </select>
+                        <div class="input-group-append">
+                          <button class="btn btn-outline-secondary" type="button">-</button>
+                        </div>
+                      </div>
+                      <div class="form-group">
+                        <select multiple class="form-control" id="exampleFormControlSelect2">
+                          <option>Stimulus 1</option>
+                          <option>Stimulus 2</option>
+                          <option>Stimulus 3</option>
+                          <option>Stimulus 4</option>
+                          <option>Stimulus 5</option>
+                        </select>
+                      </div>
+                      <div class="row pb-3">
+                        <div class="col">
+                          <button class="btn btn-shadow btn-block btn-secondary btn-small rounded-pill">Save</button>
+                        </div>
+                        <div class="col">
+                          <button class="btn btn-shadow btn-block btn-secondary btn-small rounded-pill">Load</button>
+                        </div>
                       </div>
                     </div>
                   </div>
                 </div>
-                <div class="col-5">
-                  <img class="img-fluid pb-3" src="img/portfolio/cabin.png" alt="">
-                  <input type="range" min="1" max="255" value="128" class="slider mb-3" id="Rvalue">
-                  <div class="input-group pb-3">
-                    <div class="input-group-prepend">
-                      <button class="btn btn-outline-secondary" type="button">+</button>
-                    </div>
-                    <select class="custom-select" id="inputGroupSelect04">
-                      <option selected>Stimulus Set 1</option>
-                      <option value="1">Stimulus Set 2</option>
-                      <option value="2">Stimulus Set 3</option>
-                      <option value="3">Stimulus Set 4</option>
-                    </select>
-                    <div class="input-group-append">
-                      <button class="btn btn-outline-secondary" type="button">-</button>
-                    </div>
-                  </div>
-                  <div class="form-group">
-                    <select multiple class="form-control" id="exampleFormControlSelect2">
-                      <option>Stimulus 1</option>
-                      <option>Stimulus 2</option>
-                      <option>Stimulus 3</option>
-                      <option>Stimulus 4</option>
-                      <option>Stimulus 5</option>
-                    </select>
-                  </div>
-                </div>
               </div>
-              <div class="row">
-                <div class="col">
-                  <button class="btn btn-shadow btn-secondary btn-block rounded-pill portfolio-modal-dismiss" href="#">Load Board</button>
-                </div>
-                <div class="col">
-                  <button class="btn btn-shadow btn-secondary btn-block rounded-pill portfolio-modal-dismiss" href="#">Begin Experiment</button>
-                </div>
-                <div class="col">
-                  <button class="btn btn-shadow btn-secondary btn-block rounded-pill portfolio-modal-dismiss" href="#">Load Stimulus</button>
+            </div>
+          </div>
+
+          <!-- Experiment Modal -->
+          <div class="portfolio-modal mfp-hide" id="experiment-modal">
+            <div class="portfolio-modal-dialog bg-white">
+              <a class="close-button d-none d-md-block text-secondary portfolio-modal-dismiss" href="#">
+                <i class="fa fa-3x fa-times"></i>
+              </a>
+              <div class="container">
+                <div class="row">
+                  <div class="flex-column mx-auto">
+                    <h2 class="text-secondary text-center text-uppercase mb-0">Experiment</h2>
+                    <hr class="cog-dark mb-5">
+                    <div class="row">
+                      <div class="col">
+                        <!-- Unity Stuff needs to be fixed
+                        <object id="UnityObject" classid="clsid:444785F1-DE89-4295-863A-D46C3A781394"
+                        width="420" height="750"
+                        codebase="http://webplayer.unity3d.com/download_webplayer/UnityWebPlayer.cab#version=2,0,0,0">
+                        <param name="unity3d" value="WebPlayer.unity3d" />
+                        <embed id="UnityEmbed" src="mlpbeta/mlpbeta.unity3d" width="420" height="750"
+                        type="application/vnd.unity" pluginspage="http://www.unity3d.com/unity-web-player-2.x" />
+                      -->
+                        <div class=" row pb-3">
+                          <div class="col">
+                            <select class="custom-select" id="inputGroupSelect04">
+                              <option selected>6x6 on Final Image</option>
+                              <option value="1">12x12 on Final Image</option>
+                              <option value="2">9x9 on Final Image</option>
+                              <option value="3">3x3 on Final Image</option>
+                            </select>
+                          </div>
+                          <div class="col">
+                            <div class="checkbox">
+                              <label><input type="checkbox" value=""> Show Board Cover</label>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-5">
+                        <img class="img-fluid pb-3" src="img/portfolio/cabin.png" alt="">
+                        <input type="range" min="1" max="255" value="128" class="slider mb-3" id="Rvalue">
+                        <div class="input-group pb-3">
+                          <div class="input-group-prepend">
+                            <button class="btn btn-outline-secondary" type="button">+</button>
+                          </div>
+                          <select class="custom-select" id="inputGroupSelect04">
+                            <option selected>Stimulus Set 1</option>
+                            <option value="1">Stimulus Set 2</option>
+                            <option value="2">Stimulus Set 3</option>
+                            <option value="3">Stimulus Set 4</option>
+                          </select>
+                          <div class="input-group-append">
+                            <button class="btn btn-outline-secondary" type="button">-</button>
+                          </div>
+                        </div>
+                        <div class="form-group">
+                          <select multiple class="form-control" id="exampleFormControlSelect2">
+                            <option>Stimulus 1</option>
+                            <option>Stimulus 2</option>
+                            <option>Stimulus 3</option>
+                            <option>Stimulus 4</option>
+                            <option>Stimulus 5</option>
+                          </select>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col">
+                        <button class="btn btn-shadow btn-secondary btn-block rounded-pill portfolio-modal-dismiss" href="#">Load Board</button>
+                      </div>
+                      <div class="col">
+                        <button class="btn btn-shadow btn-secondary btn-block rounded-pill portfolio-modal-dismiss" href="#">Begin Experiment</button>
+                      </div>
+                      <div class="col">
+                        <button class="btn btn-shadow btn-secondary btn-block rounded-pill portfolio-modal-dismiss" href="#">Load Stimulus</button>
+                      </div>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
           </div>
-        </div>
-      </div>
-    </div>
 
-      <!-- Bootstrap core JavaScript -->
-      <script src="vendor/jquery/jquery.min.js"></script>
-      <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+          <!-- Bootstrap core JavaScript -->
+          <script src="vendor/jquery/jquery.min.js"></script>
+          <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 
-      <!-- Plugin JavaScript -->
-      <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
-      <script src="vendor/magnific-popup/jquery.magnific-popup.min.js"></script>
+          <!-- Plugin JavaScript -->
+          <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
+          <script src="vendor/magnific-popup/jquery.magnific-popup.min.js"></script>
 
-      <!-- Contact Form JavaScript -->
-      <script src="js/jqBootstrapValidation.js"></script>
-      <script src="js/contact_me.js"></script>
+          <!-- Contact Form JavaScript -->
+          <script src="js/jqBootstrapValidation.js"></script>
+          <script src="js/contact_me.js"></script>
 
-      <!-- Custom scripts for this template -->
-      <script src="js/freelancer.min.js"></script>
+          <!-- Custom scripts for this template -->
+          <script src="js/freelancer.min.js"></script>
 
-      <!-- Randomly Created JavaScript -->
-      <script src="js/global.js"></script>
+          <!-- Randomly Created JavaScript -->
+          <script src="js/global.js"></script>
 
-    </body>
+          <!-- Unity Stuff -->
+          <script>
+          var gameInstance = UnityLoader.instantiate("gameContainer", "SosaUnity/Build/SosaUnity.json", {onProgress: UnityProgress});
+          </script>
 
-    </html>
+          <script>
+          //This section will be for the entirety of the first scene-----------------------------------------------------------------------------------------------------------------------------
+          //initializing the WebPlayer
+          var val = 1;
+          var TempBR=128;
+          var TempBG=128;
+          var TempBB=128;
+          var TempBgR=0;
+          var TempBgG=0;
+          var TempBgB=0;
+          var TempCR=128;
+          var TempCG=128;
+          var TempCB=128;
+
+          //Board, Background, or cover
+          function CurrentObject(button){
+            val = button;
+            if(val.value == "board"){
+              Rvalue.value = TempBR;
+              Gvalue.value = TempBG;
+              Bvalue.value = TempBB;
+            }
+
+            if(val.value == "background"){
+              Rvalue.value = TempBgR;
+              Gvalue.value = TempBgG;
+              Bvalue.value = TempBgB;
+            }
+
+            if(val.value == "cover"){
+              Rvalue.value= TempCR;
+              Gvalue.value= TempCG;
+              Bvalue.value= TempCB;
+            }
+          }
+
+          //Adds Color to the elements in the "Game"
+          function ColorStuff(){
+            if(val.value == "board"){
+              gameInstance.SendMessage("SceneController","setBoardRed",Rvalue.value/255);
+              gameInstance.SendMessage("SceneController","setBoardGreen",Gvalue.value/255);
+              gameInstance.SendMessage("SceneController","setBoardBlue",Bvalue.value/255);
+              TempBR=Rvalue.value;
+              TempBG=Gvalue.value;
+              TempBB=Bvalue.value;
+            }
+
+            if(val.value == "background"){
+              gameInstance.SendMessage("SceneController","setBackRed",Rvalue.value/255);
+              gameInstance.SendMessage("SceneController","setBackGreen",Gvalue.value/255);
+              gameInstance.SendMessage("SceneController","setBackBlue",Bvalue.value/255);
+              TempBgR = Rvalue.value;
+              TempBgG = Gvalue.value;
+              TempBgB = Bvalue.value;
+            }
+
+            if(val.value == "cover"){
+              gameInstance.SendMessage("SceneController","setCoverRed",Rvalue.value/255);
+              gameInstance.SendMessage("SceneController","setCoverGreen",Gvalue.value/255);
+              gameInstance.SendMessage("SceneController","setCoverBlue",Bvalue.value/255);
+              TempCR = Rvalue.value;
+              TempCG = Gvalue.value;
+              TempCB = Bvalue.value;
+            }
+            else if(val == 1) {
+              val=1;
+            }
+          }
+          function ClearOff() //Clears off the current selection (of colors and images), then also sets the slider values back to 128
+          {
+            if(val.value == "board")
+            {
+              gameInstance.SendMessage("SceneController","setBoardRed",128/255);
+              gameInstance.SendMessage("SceneController","setBoardGreen",128/255);
+              gameInstance.SendMessage("SceneController","setBoardBlue",128/255);
+              Rvalue.value = 128;
+              Gvalue.value = 128;
+              Bvalue.value = 128;
+            }
+            if(val.value == "background")
+            {
+              gameInstance.SendMessage("SceneController","setBackRed",0);
+              gameInstance.SendMessage("SceneController","setBackGreen",0);
+              gameInstance.SendMessage("SceneController","setBackBlue",0);
+              Rvalue.value = 0;
+              Gvalue.value = 0;
+              Bvalue.value = 0;
+            }
+            if(val.value == "cover")
+            {
+              gameInstance.SendMessage("SceneController","setCoverRed",128/255);
+              gameInstance.SendMessage("SceneController","setCoverGreen",128/255);
+              gameInstance.SendMessage("SceneController","setCoverBlue",128/255);
+              Rvalue.value = 128;
+              Gvalue.value = 128;
+              Bvalue.value = 128;
+            }
+
+          }
+          function setTiltLock()
+          {
+            gameInstance.SendMessage("SceneController","isTiltLocked",);
+          }
+          function setRotLock()
+          {
+            gameInstance.SendMessage("SceneController","isRotateLocked",);
+          }
+          function setZoomLock()
+          {
+            gameInstance.SendMessage("SceneController","isZoomLocked",);
+          }
+          function ToggleCover()
+          {
+            gameInstance.SendMessage("SceneController","toggleCover",);
+          }
+          function ChangeBoardText(text)
+          {
+            gameInstance.SendMessage("SceneController","setBoardText",text.value);
+          }
+          //This section will be for the entirety of the first scene-----------------------------------------------------------------------------------------------------------------------------
+          </Script>
+
+
+        </body>
+
+        </html>
