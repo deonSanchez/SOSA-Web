@@ -215,18 +215,18 @@ header.masthead h2 {
   }
 }
 
-.portfolio {
+.sosa {
   margin-bottom: -15px;
 }
 
-.portfolio .portfolio-item {
+.sosa .sosa-item {
   position: relative;
   display: block;
   max-width: 25rem;
   margin-bottom: 15px;
 }
 
-.portfolio .portfolio-item .portfolio-item-caption {
+.sosa .sosa-item .sosa-item-caption {
   -webkit-transition: all ease 0.5s;
   -moz-transition: all ease 0.5s;
   transition: all ease 0.5s;
@@ -235,24 +235,24 @@ header.masthead h2 {
   border-radius: 25rem;
 }
 
-.portfolio .portfolio-item .portfolio-item-caption:hover {
+.sosa .sosa-item .sosa-item-caption:hover {
   opacity: 1;
 }
 
-.portfolio .portfolio-item .portfolio-item-caption .portfolio-item-caption-content {
+.sosa .sosa-item .sosa-item-caption .sosa-item-caption-content {
   font-size: 1.5rem;
 }
 
 @media (min-width: 576px) {
-  .portfolio {
+  .sosa {
     margin-bottom: -30px;
   }
-  .portfolio .portfolio-item {
+  .sosa .sosa-item {
     margin-bottom: 30px;
   }
 }
 
-.portfolio-modal .portfolio-modal-dialog {
+.sosa-modal .sosa-modal-dialog {
   padding: 3rem 1rem;
   min-height: calc(100vh - 2rem);
   margin: 1rem calc(1rem - 8px);
@@ -263,26 +263,26 @@ header.masthead h2 {
   box-shadow: 0 0 3rem 1rem rgba(0, 0, 0, 0.5);
 }
 
-.portfolio-modal .portfolio-modal-dialog .close-button {
+.sosa-modal .sosa-modal-dialog .close-button {
   position: absolute;
   top: 2rem;
   right: 2rem;
 }
 
-.portfolio-modal .portfolio-modal-dialog .close-button i {
+.sosa-modal .sosa-modal-dialog .close-button i {
   line-height: 38px;
 }
 
-.portfolio-modal .portfolio-modal-dialog h2 {
+.sosa-modal .sosa-modal-dialog h2 {
   font-size: 2rem;
 }
 
 @media (min-width: 768px) {
-  .portfolio-modal .portfolio-modal-dialog {
+  .sosa-modal .sosa-modal-dialog {
     min-height: 100vh;
     margin: 3rem calc(3rem - 8px);
   }
-  .portfolio-modal .portfolio-modal-dialog h2 {
+  .sosa-modal .sosa-modal-dialog h2 {
     font-size: 3rem;
   }
 }

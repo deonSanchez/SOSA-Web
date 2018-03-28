@@ -50,13 +50,13 @@
   $(window).scroll(navbarCollapse);
 
   // Modal popup$(function () {
-  $('.portfolio-item').magnificPopup({
+  $('.sosa-item').magnificPopup({
     type: 'inline',
     preloader: false,
     focus: '#username',
     modal: true
   });
-  $(document).on('click', '.portfolio-modal-dismiss', function(e) {
+  $(document).on('click', '.sosa-modal-dismiss', function(e) {
     e.preventDefault();
     $.magnificPopup.close();
   });
