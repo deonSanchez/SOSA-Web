@@ -16,6 +16,13 @@ $session = new Session($dbc);
 ?>
 <html>
 <head>
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+	<script type="text/javascript">
+	$(function() {
+	    alert( "ready!" );
+	});
+	</script>
 </head>
 <!-- creating stimulus set -->
 <table>
@@ -69,49 +76,25 @@ $session = new Session($dbc);
 		<th>Label</th>
 		<th>Label color</th>
 		<th>Peg color</th>
-		<th>Delete</th>	
+		<th>Delete</th>
 	</tr>
 	<tr>
-		<td>
-			Happy
-		</td>
-		<td>
-			#ff0000
-		</td>
-		<td>
-			#ff0000
-		</td>
-		<td>
-			<input type="button" value="Delete" />
-		</td>
+		<td>Happy</td>
+		<td>#ff0000</td>
+		<td>#ff0000</td>
+		<td><input type="button" value="Delete" /></td>
 	</tr>
 	<tr>
-		<td>
-			Sad
-		</td>
-		<td>
-			#ff0000
-		</td>
-		<td>
-			#ff0000
-		</td>
-		<td>
-			<input type="button" value="Delete" />
-		</td>
+		<td>Sad</td>
+		<td>#ff0000</td>
+		<td>#ff0000</td>
+		<td><input type="button" value="Delete" /></td>
 	</tr>
 	<tr>
-		<td>
-			Mad
-		</td>
-		<td>
-			#ff0000
-		</td>
-		<td>
-			#ff0000
-		</td>
-		<td>
-			<input type="button" value="Delete" />
-		</td>
+		<td>Mad</td>
+		<td>#ff0000</td>
+		<td>#ff0000</td>
+		<td><input type="button" value="Delete" /></td>
 	</tr>
 </table>
 </html>
