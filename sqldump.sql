@@ -90,39 +90,6 @@ DEFAULT CHARACTER SET = latin1;
 
 
 -- -----------------------------------------------------
--- Table `sosa`.`runnable`
--- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `sosa`.`runnable` (
-  `stimset_id` INT(11) NOT NULL,
-  `experiment_id` INT(11) NOT NULL,
-  `runnable_id` INT(11) NOT NULL AUTO_INCREMENT,
-  `admin_id` INT(11) NOT NULL,
-  PRIMARY KEY (`runnable_id`),
-  UNIQUE INDEX `pairing_id_UNIQUE` (`runnable_id` ASC),
-  INDEX `id_idx` (`experiment_id` ASC),
-  INDEX `stimset_id_idx` (`stimset_id` ASC),
-  INDEX `admin_id_idx` (`admin_id` ASC),
-  CONSTRAINT `administrator`
-    FOREIGN KEY (`admin_id`)
-    REFERENCES `sosa`.`user` (`uid`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
-  CONSTRAINT `experiment_id`
-    FOREIGN KEY (`experiment_id`)
-    REFERENCES `sosa`.`experiment` (`experiment_id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
-  CONSTRAINT `stimset_id`
-    FOREIGN KEY (`stimset_id`)
-    REFERENCES `sosa`.`stimulus_set` (`stimset_id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
-ENGINE = InnoDB
-AUTO_INCREMENT = 3
-DEFAULT CHARACTER SET = latin1;
-
-
--- -----------------------------------------------------
 -- Table `sosa`.`stimulus`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `sosa`.`stimulus` (
