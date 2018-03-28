@@ -412,85 +412,10 @@ class Session {
 	 * @version 0.5.0
 	 */
 	public function updateExperiment($id,$data) {}
+
+
 	/*
 	 * END EXPERIMENT FUNCTIONS
-	 * BEGIN RUNNABLE FUNCTIONS
-	 */
-
-	/**
-	 * Creates the specification for runnable experiment configuration denoted by $runnable_id
-	 * @author Mitchell M.
-	 * @return runnable experiment configuration
-	 * @version 0.5.0
-	 */
-	public function createRunnable($stimset_id,$experimentID) {
-		$adminID = 1;
-		$mysqli = $this->mysqli->prepare("INSERT INTO `runnable` (`stimset_id`,`experiment_id`,`admin_id`) VALUES (?,?,?)");
-		echo $this->mysqli->error;
-		$mysqli->bind_param("iii", $stimset_id,$experimentID,$adminID);
-		$mysqli->execute();
-		$mysqli->close();
-	}
-
-	/**
-	 * Loads runnable configurations
-	 * @author Mitchell M.
-	 * @return runnable experiment configuration
-	 * @version 0.5.0
-	 */
-	public function pullRunnables() {
-		$results = null;
-		$stmt = $this->mysqli->query("SELECT * FROM `runnable`");
-		if ($stmt->num_rows >= 1) {
-			while ($row = $stmt->fetch_assoc()) {
-				$results[] = $row;
-			}
-		}
-		return $results;
-	}
-
-	/**
-	 * Loads runnable configurations based on $administrator id
-	 * @author Mitchell M.
-	 * @return runnable experiment configuration
-	 * @version 0.5.0
-	 */
-	public function pullRunnables($admin_id) {
-		$results = null;
-		$admin_id = intval($admin_id);
-		$stmt = $this->mysqli->query("SELECT * FROM `runnable` WHERE `admin_id` = '{$admin_id}'");
-		if ($stmt->num_rows >= 1) {
-			while ($row = $stmt->fetch_assoc()) {
-				$results[] = $row;
-			}
-		}
-		return $results;
-	}
-
-	/**
-	 * Gets the specification for runnable experiment configuration denoted by $runnable_id
-	 * @author Mitchell M.
-	 * @return runnable experiment configuration
-	 * @version 0.5.0
-	 */
-	public function pullRunnable($runnable_id) {
-		$results = null;
-		$runnable_id = intval($runnable_id);
-		$stmt = $this->mysqli->prepare("SELECT `stimset_id`, `experiment_id`, `admin_id` FROM `runnable` WHERE `runnable_id` = ?");
-		$stmt->bind_result($stimset_id,$experiment_id,$admin_id);
-		$stmt->bind_param("i", $runnable_id);
-		$stmt->execute();
-		$stmt->store_result();
-		if ($stmt->num_rows >= 1) {
-			while ($stmt->fetch()) {
-				$results[] = array('stimset_id' => $stimset_id, 'experiment_id' => $experiment_id, 'runnable_id' => $runnable_id, 'admin_id' => $admin_id);
-			}
-		}
-		return $results;
-	}
-
-	/*
-	 * END RUNNABLE FUNCTIONS
 	 * BEGIN STIMULUS FUNCTIONS
 	 */
 
