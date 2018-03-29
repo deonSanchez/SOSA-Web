@@ -232,10 +232,9 @@
                 <hr class="cog-dark mb-5">
                 <div class="row">
                   <div class="col">
-                    <!-- Unity Garbage DISABLED SO PAGE LOADS FASTER WHILE IM CONSTANTLY REFRESHING -->
-                    <!-- <div class=" webgl-content pb-3">
+                     <div class=" webgl-content pb-3">
                       <div id="gameContainer"></div>
-                    </div> -->
+                    </div> 
                     <div class="form-group">
                       <input oninput="ChangeBoardText(this)" type="text" class="form-control" placeholder="Board Name">
                     </div>
