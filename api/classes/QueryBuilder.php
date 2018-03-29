@@ -1,6 +1,6 @@
 <?php
 
-require_once __DIR__ . '../config.php';
+require_once __DIR__ . '/../config.php';
 
 /**
  * BASIC QUERY BUILDER
@@ -277,7 +277,6 @@ class QueryBuilder {
 		$this->firstWhere = true;
 		return $this;
 	}
-
 	/**
 	 * Will return 2D array if more than one record, otherwise the single record will be contained in a 1D array
 	 * Array indexes correspond to MySQL columns

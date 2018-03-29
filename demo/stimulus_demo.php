@@ -1,5 +1,5 @@
 <?php
-require_once __DIR__ . '/../classes/config.php';
+require_once __DIR__ . '/../api/config.php';
 
 function __autoload($class_name)
 {

@@ -8,7 +8,7 @@
  * @version    Release: 1.5.0
  * @since      Class available since Release 1.0.0
  */
-require_once __DIR__ . '../config.php';
+require_once __DIR__ . '/../config.php';
 class Session {
 	private static $self_instance;
 	public $sid;
@@ -465,12 +465,24 @@ class Session {
 	 * Builds and saves stimuli based on input $data
 	 * @author Mitchell M.
 	 * @param $setid required
-	 * @return created stimulus
 	 * @version 0.5.0
 	 */
 	public function createStimulus($label,$label_color,$peg_color,$setid) {
 		$mysqli = $this->mysqli->prepare("INSERT INTO `stimulus` (`label`,`label_color`,`peg_color`,`stimset_id`) VALUES (?,?,?,?)");
 		$mysqli->bind_param("sssi", $label,$label_color,$peg_color,$setid);
+		$mysqli->execute();
+		$mysqli->close();
+	}
+	
+	/**
+	 * Builds and saves stimuli set based on input $version, $relative_size, and $window_size
+	 * @author Mitchell M.
+	 * @return $set id
+	 * @version 0.5.0
+	 */
+	public function createStimulusSet($version,$relative_size,$window_size) {
+		$mysqli = $this->mysqli->prepare("INSERT INTO `stimulus_set` (`version`,`relative_size`,`window_size`) VALUES (?,?,?)");
+		$mysqli->bind_param("sss", $version,$relative_size,$window_size);
 		$mysqli->execute();
 		$mysqli->close();
 	}
@@ -496,7 +508,7 @@ class Session {
 	 */
 	public function deleteStimulusSet($stimset_id) {
 		$stimset_id = intval($stimset_id);
-		if ($this->mysqli->query("DELETE FROM `stimulus` WHERE `stimset_id`='{$stimset_id}'")) {
+		if ($this->mysqli->query("DELETE FROM `stimulus_set` WHERE `stimset_id`='{$stimset_id}'")) {
 			return true;
 		} else {
 			return $this->mysqli->error;
