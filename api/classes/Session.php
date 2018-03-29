@@ -8,7 +8,7 @@
  * @version    Release: 1.5.0
  * @since      Class available since Release 1.0.0
  */
-require_once __DIR__ . '/config.php';
+require_once __DIR__ . '../config.php';
 class Session {
 	private static $self_instance;
 	public $sid;

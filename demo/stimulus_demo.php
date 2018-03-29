@@ -19,7 +19,9 @@ $session = new Session($dbc);
 <script	src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <script type="text/javascript">
 	$(function() {
-	    alert( "ready!" );
+		$("input#createStimSet").on("click", function(e) {
+				alert("worked");
+		});
 	});
 </script>
 </head>
@@ -30,7 +32,7 @@ $session = new Session($dbc);
 		<td><input style="width: 100%;" type="text" value="stim set name" /></td>
 	</tr>
 	<tr>
-		<td colspan="2"><input style="width: 100%;" type="button" value="GO>" />
+		<td colspan="2"><input id="createStimSet" style="width: 100%;" type="button" value="GO>" />
 		</td>
 	</tr>
 </table>
