@@ -232,10 +232,10 @@
                 <hr class="cog-dark mb-5">
                 <div class="row">
                   <div class="col">
-                    <!-- Unity Garbage -->
-                    <div class=" webgl-content pb-3">
+                    <!-- Unity Garbage DISABLED SO PAGE LOADS FASTER WHILE IM CONSTANTLY REFRESHING -->
+                    <!-- <div class=" webgl-content pb-3">
                       <div id="gameContainer"></div>
-                    </div>
+                    </div> -->
                     <div class="form-group">
                       <input oninput="ChangeBoardText(this)" type="text" class="form-control" placeholder="Board Name">
                     </div>
@@ -315,10 +315,10 @@
                     <div class="col">
                       <div class="form-group row">
                         <div class="col">
-                          <input type="text" class="form-control" id="usr" placeholder="Stimulus Name">
+                          <input type="text" class="form-control" id="stimulus_name" placeholder="Stimulus Name">
                         </div>
                         <div class="col">
-                          <button class="btn btn-shadow btn-block btn-secondary btn-small rounded-pill">Create Stimulus</button>
+                          <button id="create_stimulus" class="btn btn-shadow btn-block btn-secondary btn-small rounded-pill">Create Stimulus</button>
                         </div>
                       </div>
                       <img class="img-fluid" src="img/test/cabin.png" alt="">
@@ -326,7 +326,7 @@
                         <div class="col m-auto">
                           <div class="btn-group btn-shadow" role="group" aria-label="Basic example">
                             <button type="button" class="btn btn-secondary">Label</button>
-                            <button type="button" class="btn btn-secondary">Stimulus</button>
+                            <button type="button" class="btn btn-secondary">Peg</button>
                           </div>
                         </div>
                         <div class="col m-auto">

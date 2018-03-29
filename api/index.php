@@ -55,13 +55,15 @@ if ($httpXrequested && ($isAjaxCall) && isset($request)) {
     $a = $httpXrequested ? "T" : "F";
     $b = $isAjaxCall ? "T" : "F";
     $c = isset($request) ? "T" : "F";
+    
     //Print error message
-    die("Attempting to direct access OR malformed request sent to API! (API Level) <br /> <br />
-    Error definitions: <br />
-    A=HTTP_X_REQUESTED_WITH server var set to \"XMLHttpRequest\" <br />
-    B=Verified as valid ajax call<br />
-    C=Request API var set<br/>
-    D=Value of request var<br /><br />
+    die("
+    Attempting to direct access OR malformed request sent to API! (API Level) <br /> <br />
+	Error definitions: <br />
+	    A=HTTP_X_REQUESTED_WITH server var set to \"XMLHttpRequest\" <br />
+	    B=Verified as valid ajax call <br />
+	    C=Request API variable set <br/>
+	    D=Value of request variable <br /><br />
     Errors: A[<b>" . $a . "</b>] // B[<b>" . $b . "</b>] // C[<b>" . $c . "</b>] // D[<b>" . $req_out . "</b>]");
 }
 ?>
