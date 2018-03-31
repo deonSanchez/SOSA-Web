@@ -25,9 +25,6 @@
   <!-- Custom styles for this template -->
   <link href="css/freelancer.min.css" rel="stylesheet">
 
-  <script src="SosaUnity/TemplateData/UnityProgress.js"></script>
-  <script src="SosaUnity/Build/UnityLoader.js"></script>
-
 </head>
 
 <body id="page-top">
@@ -253,8 +250,8 @@
       <!-- Board Modal -->
       <div class="sosa-modal mfp-hide mx-auto" id="board-modal" style="width: fit-content;">
         <div class="sosa-modal-dialog bg-white">
-          <a class="close-button d-none d-md-block text-secondary sosa-modal-dismiss" href="#">
-            <i class="fa fa-3x fa-times"></i>
+          <a class="close-button d-md-block text-secondary sosa-modal-dismiss" href="#">
+            <i class="fa fa-2x fa-times"></i>
           </a>
           <div class="container">
             <div class="mx-auto">
@@ -263,9 +260,11 @@
               <div class="row">
                 <div class="col">
 
+                  <!--Rico
                   <div class=" webgl-content pb-3">
                     <div id="gameContainer"></div>
                   </div>
+                -->
 
                   <div class="form-group">
                     <input oninput="ChangeBoardText(this)" type="text" class="form-control" placeholder="Board Name">
@@ -330,8 +329,8 @@
           <!-- Stimulus Modal -->
           <div class="sosa-modal mx-auto mfp-hide" id="stimulus-modal" style="width: fit-content;">
             <div class="sosa-modal-dialog bg-white">
-              <a class="close-button d-none d-md-block text-secondary sosa-modal-dismiss" href="#">
-                <i class="fa fa-3x fa-times"></i>
+              <a class="close-button d-md-block text-secondary sosa-modal-dismiss" href="#">
+                <i class="fa fa-2x fa-times"></i>
               </a>
               <div class="container">
                 <div class="text-center">
@@ -420,8 +419,8 @@
           <!-- Experiment Modal -->
           <div class="sosa-modal mx-auto mfp-hide" id="experiment-modal" style="width: fit-content;">
             <div class="sosa-modal-dialog bg-white">
-              <a class="close-button d-none d-md-block text-secondary sosa-modal-dismiss" href="#">
-                <i class="fa fa-3x fa-times"></i>
+              <a class="close-button d-md-block text-secondary sosa-modal-dismiss" href="#">
+                <i class="fa fa-2x fa-times"></i>
               </a>
               <div class="container">
                 <div class="row">
@@ -517,7 +516,13 @@
         <!-- Randomly Created JavaScript -->
         <script src="js/RGB_value_generator.js"></script>
 
+        <!-- WebGL -->
+
+
         <!-- Unity Stuff -->
+        <script src="SosaUnity/TemplateData/UnityProgress.js"></script>
+        <script src="SosaUnity/Build/UnityLoader.js"></script>
+
         <script>
         var gameInstance = UnityLoader.instantiate("gameContainer", "SosaUnity/Build/SosaUnity.json", {onProgress: UnityProgress});
         </script>
