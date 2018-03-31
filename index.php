@@ -32,16 +32,47 @@
 
 <body id="page-top">
 
+  <!-- Sign in Modal -->
+<div class="modal fade" id="sign-in" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLongTitle">SOSA: Sign in</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+          <input type="text" class="form-control mb-3" placeholder="Username">
+          <input type="text" class="form-control" placeholder="Password">
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary mr-3" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary">Sign In</button>
+      </div>
+    </div>
+  </div>
+</div>
+
   <!-- Navigation -->
   <nav class="navbar navbar-expand-lg bg-secondary fixed-top text-uppercase" id="mainNav">
     <div class="container">
       <a class="navbar-brand js-scroll-trigger" href="#page-top">SOSA</a>
-      <button class="navbar-toggler navbar-toggler-right text-uppercase bg-primary text-white rounded" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="navbar-toggler-right">
+      <button type="button" class="btn btn-primary navbar-toggler text-uppercase mr-3" data-toggle="modal" data-target="#sign-in">
+        Sign In
+      </button>
+      <button class="navbar-toggler text-uppercase bg-primary text-white rounded" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
         create
         <i class="fa fa-bars"></i>
       </button>
+    </div>
       <div class="collapse navbar-collapse" id="navbarResponsive">
         <ul class="navbar-nav ml-auto">
+          <li class="nav-item mx-0 mx-lg-1">
+            <a class="nav-link py-3 px-0 px-lg-3 rounded" data-toggle="modal" data-target="#sign-in" href="">Sign In</a>
+        </li>
           <li class="nav-item mx-0 mx-lg-1">
             <a class="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger" href="#board">Board</a>
           </li>
@@ -220,21 +251,22 @@
       <!-- Modals -->
 
       <!-- Board Modal -->
-      <div class="sosa-modal mx-auto" id="board-modal">
+      <div class="sosa-modal mfp-hide mx-auto" id="board-modal">
         <div class="sosa-modal-dialog bg-white">
           <a class="close-button d-none d-md-block text-secondary sosa-modal-dismiss" href="#">
             <i class="fa fa-3x fa-times"></i>
           </a>
           <div class="container">
-            <div class="">
               <div class="mx-auto">
                 <h2 class="text-secondary text-center text-uppercase mb-0">Board</h2>
                 <hr class="cog-dark mb-5">
                 <div class="row">
                   <div class="col">
+                
                      <div class=" webgl-content pb-3">
                       <div id="gameContainer"></div>
-                    </div> 
+                    </div>
+
                     <div class="form-group">
                       <input oninput="ChangeBoardText(this)" type="text" class="form-control" placeholder="Board Name">
                     </div>
@@ -262,12 +294,9 @@
                         </div>
                       </div>
                       <div class="flex-column m-auto align-self-end text-center">
-                        <div class="btn-group btn-shadow" role="group" aria-label="Basic example">
-                          <button input onclick = "CurrentObject(this)" type="button" value ="board" class="btn btn-secondary">Board</button>
-                          <button input onclick = "CurrentObject(this)" type="button" value ="background"class="btn btn-secondary">Background</button>
-                          <button input onclick = "CurrentObject(this)" type="button" value ="cover" class="btn btn-secondary">Cover</button>
-                        </div>
-
+                          <button input onclick = "CurrentObject(this)" type="button" value ="board" class="btn btn-secondary btn-shadow">Board</button>
+                          <button input onclick = "CurrentObject(this)" type="button" value ="background"class="btn btn-secondary btn-shadow">Background</button>
+                          <button input onclick = "CurrentObject(this)" type="button" value ="cover" class="btn btn-secondary btn-shadow">Cover</button>
                         <div class="pt-3 text-center">
                           Value: (<span id="R"></span>, <span id="G"></span>, <span id="B"></span>)
                         </div>
@@ -294,14 +323,13 @@
                       </div>
                     </div>
                   </div>
-                </div>
               </div>
             </div>
           </div>
 
 
           <!-- Stimulus Modal -->
-          <div class="sosa-modal mfp-hide" id="stimulus-modal">
+          <div class="sosa-modal mx-auto mfp-hide" id="stimulus-modal">
             <div class="sosa-modal-dialog bg-white">
               <a class="close-button d-none d-md-block text-secondary sosa-modal-dismiss" href="#">
                 <i class="fa fa-3x fa-times"></i>
@@ -323,21 +351,21 @@
                       <img class="img-fluid" src="img/test/cabin.png" alt="">
                       <div class="row pt-3 text-center">
                         <div class="col m-auto">
-                          <div class="btn-group btn-shadow" role="group" aria-label="Basic example">
-                            <button type="button" class="btn btn-secondary">Label</button>
-                            <button type="button" class="btn btn-secondary">Peg</button>
-                          </div>
+
+                            <button type="button" class="btn btn-secondary btn-shadow">Label</button>
+                            <button type="button" class="btn btn-secondary btn-shadow">Peg</button>
+
                         </div>
                         <div class="col m-auto">
                           <div class="text-center">
-                            Value: (<span id="R"></span>, <span id="G"></span>, <span id="B"></span>)
+                            Value: (<span id="sR"></span>, <span id="sG"></span>, <span id="sB"></span>)
                           </div>
                         </div>
                       </div>
                       <div class="pt-3">
-                        <input type="range" min="1" max="255" value="128" class="slider mb-3" id="Rvalue">
-                        <input type="range" min="1" max="255" value="128" class="slider mb-3" id="Gvalue">
-                        <input type="range" min="1" max="255" value="128" class="slider mb-4" id="Bvalue">
+                        <input type="range" min="1" max="255" value="128" class="slider mb-3" id="RvalueStim">
+                        <input type="range" min="1" max="255" value="128" class="slider mb-3" id="GvalueStim">
+                        <input type="range" min="1" max="255" value="128" class="slider mb-4" id="BvalueStim">
                       </div>
                       <div class="row">
                         <div class="col pb-3">
@@ -347,20 +375,25 @@
                           <button class="btn btn-shadow btn-block btn-secondary btn-small rounded-pill">Remove</button>
                         </div>
                       </div>
-                      <div class="input-group pb-3">
-                        <div class="input-group-prepend">
-                          <button class="btn btn-outline-secondary" type="button">+</button>
-                        </div>
-                        <select class="custom-select" id="inputGroupSelect04">
-                          <option selected>Stimulus Set 1</option>
-                          <option value="1">Stimulus Set 2</option>
-                          <option value="2">Stimulus Set 3</option>
-                          <option value="3">Stimulus Set 4</option>
+                      <div class="row pb-3">
+                      <div class="col input-group">
+                        <select class="form-control" id="stimulus-set">
+                          <option>Stimulus Set 1</option>
+                          <option>Stimulus Set 2</option>
+                          <option>Stimulus Set 3</option>
+                          <option>Stimulus Set 4</option>
                         </select>
+                      </div>
+                      <div class="col input-group">
+                        <div class="input-group-prepend">
+                          <button class="btn fa fa-arrow-left" type="button">Add</button>
+                        </div>
+                        <input type="text" class="form-control" placeholder="" aria-label="" aria-describedby="basic-addon1">
                         <div class="input-group-append">
-                          <button class="btn btn-outline-secondary" type="button">-</button>
+                          <button class="btn" type="button">Remove</button>
                         </div>
                       </div>
+                    </div>
                       <div class="form-group">
                         <select multiple class="form-control" id="exampleFormControlSelect2">
                           <option>Stimulus 1</option>
@@ -386,7 +419,7 @@
           </div>
 
           <!-- Experiment Modal -->
-          <div class="sosa-modal mfp-hide" id="experiment-modal">
+          <div class="sosa-modal mx-auto mfp-hide" id="experiment-modal">
             <div class="sosa-modal-dialog bg-white">
               <a class="close-button d-none d-md-block text-secondary sosa-modal-dismiss" href="#">
                 <i class="fa fa-3x fa-times"></i>
