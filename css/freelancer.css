@@ -403,3 +403,8 @@ a:focus, a:hover, a:active {
   background-color: #4d004d;
   border-color: #4d004d;
 }
+
+.active {
+  font-size: 1.3rem;
+  font-weight: 1000;
+}
