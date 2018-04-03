@@ -66,10 +66,12 @@
   </div>
 
   <!-- Navigation -->
-  <nav class="navbar navbar-expand-lg bg-secondary fixed-top text-uppercase" id="mainNav">
+  <nav class="navbar bg-secondary fixed-top text-uppercase" id="mainNav">
     <div class="container">
-      <a class="navbar-brand js-scroll-trigger" href="#page-top">SOSA</a>
-      <div class="navbar-toggler-right">
+      <a class="navbar-brand js-scroll-trigger" href="#page-top">
+      <i class="mr-2 fa fa-cog"></i> SOSA
+      </a>
+      <div class="navbar-brand navbar-toggler-right">
         <button class="navbar-toggler text-uppercase text-white rounded" style="font-weight:600" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
           create
           <i class="ml-2 fa fa-bars"></i>
@@ -113,7 +115,7 @@
       <h2 class="text-center text-uppercase text-secondary mb-0">Board</h2>
       <hr class="cog-dark mb-5">
       <div class="row">
-        <div class="col mx-auto">
+        <div class="col mx-auto text-secondary">
           <a class="sosa-item d-block mx-auto w-50" href="#board-modal">
             <div class="sosa-item-caption d-flex position-absolute h-100 w-100">
               <div class="sosa-item-caption-content my-auto w-100 text-center text-white">
@@ -173,7 +175,7 @@
       <h2 class="text-center text-uppercase text-secondary mb-0">Experiment</h2>
       <hr class="cog-dark mb-5">
       <div class="row">
-        <div class="col mx-auto">
+        <div class="col mx-auto text-secondary">
           <a class="sosa-item d-block mx-auto w-50" href="#experiment-modal">
             <div class="sosa-item-caption d-flex position-absolute h-100 w-100">
               <div class="sosa-item-caption-content my-auto w-100 text-center text-white">
@@ -208,31 +210,26 @@
             <br>Statesboro, GA 30458</p>
           </div>
           <div class="col-md-4 mb-5 mb-lg-0">
-            <h4 class="text-uppercase mb-4">Around the Web</h4>
+            <h4 class="text-uppercase mb-4">Psychology at GSU</h4>
             <ul class="list-inline mb-0">
               <li class="list-inline-item">
-                <a class="btn btn-outline-light btn-social text-center rounded-circle" href="#">
+                <a class="btn btn-outline-light btn-social text-center rounded-circle" href="https://www.facebook.com/Georgia-Southern-Psychology-Department-329359137086247/">
                   <i class="fa fa-fw fa-facebook"></i>
                 </a>
               </li>
               <li class="list-inline-item">
-                <a class="btn btn-outline-light btn-social text-center rounded-circle" href="#">
+                <a class="btn btn-outline-light btn-social text-center rounded-circle" href="https://plus.google.com/u/0/112976493760646515725">
                   <i class="fa fa-fw fa-google-plus"></i>
                 </a>
               </li>
               <li class="list-inline-item">
-                <a class="btn btn-outline-light btn-social text-center rounded-circle" href="#">
-                  <i class="fa fa-fw fa-twitter"></i>
+                <a class="btn btn-outline-light btn-social text-center rounded-circle" href="https://www.youtube.com/playlist?list=PL4FCF4BEFA60083FF">
+                  <i class="fa fa-fw fa-youtube"></i>
                 </a>
               </li>
               <li class="list-inline-item">
-                <a class="btn btn-outline-light btn-social text-center rounded-circle" href="#">
-                  <i class="fa fa-fw fa-linkedin"></i>
-                </a>
-              </li>
-              <li class="list-inline-item">
-                <a class="btn btn-outline-light btn-social text-center rounded-circle" href="#">
-                  <i class="fa fa-fw fa-dribbble"></i>
+                <a class="btn btn-outline-light btn-social text-center rounded-circle" href="https://www.pinterest.com/gsuclass/psychology/">
+                  <i class="fa fa-fw fa-pinterest"></i>
                 </a>
               </li>
             </ul>
@@ -248,7 +245,7 @@
 
       <div class="copyright py-4 text-center text-white">
         <div class="container">
-          <small>Copyright &copy; Your Website 2018</small>
+          <small>Copyright &copy; Department of Psychology at Georgia Southern 2018</small>
         </div>
       </div>
 
@@ -339,7 +336,6 @@
             </div>
           </div>
 
-
           <!-- Stimulus Modal -->
           <div class="sosa-modal mx-auto mfp-hide" id="stimulus-modal" style="width: fit-content;">
             <div class="sosa-modal-dialog bg-white">
@@ -363,10 +359,8 @@
                       <img class="img-fluid" src="img/test/cabin.png" alt="">
                       <div class="row pt-3 text-center">
                         <div class="col m-auto">
-
                           <button type="button" class="btn btn-secondary btn-shadow">Label</button>
                           <button type="button" class="btn btn-secondary btn-shadow">Peg</button>
-
                         </div>
                         <div class="col m-auto">
                           <div class="text-center">
@@ -388,22 +382,24 @@
                         </div>
                       </div>
                       <div class="row pb-3">
-                        <div class="col input-group">
+                        <div class="col-auto input-group mb-3">
+                          <div class="input-group-prepend">
+                            <button class="btn" type="button">
+                              <i class="fa fa-arrow-down pr-1"></i>Add
+                            </button>
+                          </div>
+                          <input type="text" class="form-control" placeholder="" aria-label="" aria-describedby="basic-addon1">
+                          <div class="input-group-append">
+                            <button class="btn" type="button">Remove</button>
+                          </div>
+                        </div>
+                        <div class="col-auto input-group">
                           <select class="form-control" id="stimulus-set">
                             <option>Stimulus Set 1</option>
                             <option>Stimulus Set 2</option>
                             <option>Stimulus Set 3</option>
                             <option>Stimulus Set 4</option>
                           </select>
-                        </div>
-                        <div class="col input-group">
-                          <div class="input-group-prepend">
-                            <button class="btn fa fa-arrow-left" type="button">Add</button>
-                          </div>
-                          <input type="text" class="form-control" placeholder="" aria-label="" aria-describedby="basic-addon1">
-                          <div class="input-group-append">
-                            <button class="btn" type="button">Remove</button>
-                          </div>
                         </div>
                       </div>
                       <div class="form-group">
@@ -496,14 +492,14 @@
                     </div>
                   </div>
                   <div class="row">
-                    <div class="col">
+                    <div class="col mt-3">
                       <button class="btn btn-shadow btn-secondary btn-block rounded-pill sosa-modal-dismiss" href="#">Load Board</button>
                     </div>
-                    <div class="col">
-                      <button class="btn btn-shadow btn-secondary btn-block rounded-pill sosa-modal-dismiss" href="#">Begin Experiment</button>
-                    </div>
-                    <div class="col">
+                    <div class="col mt-3">
                       <button class="btn btn-shadow btn-secondary btn-block rounded-pill sosa-modal-dismiss" href="#">Load Stimulus</button>
+                    </div>
+                    <div class="col mt-3">
+                      <button class="btn btn-shadow btn-secondary btn-block rounded-pill sosa-modal-dismiss" href="#">Begin Experiment</button>
                     </div>
                   </div>
                 </div>
