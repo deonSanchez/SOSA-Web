@@ -404,7 +404,7 @@ a:focus, a:hover, a:active {
   border-color: #4d004d;
 }
 
-.active {
+.active-modal {
   font-size: 1.3rem;
   font-weight: 1000;
 }
