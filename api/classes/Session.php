@@ -180,17 +180,17 @@ class Session {
 
 	/**
 	 * Registers the user into the database
-	 * @param string $email
+	 * @param string $username
 	 * @param string $password
 	 * @param string $passwordconf
 	 * @author Mitchell M.
 	 * @version 1.0.0
 	 */
-	public function register($email, $password, $passwordconf) {
+	public function register($username, $password, $passwordconf) {
 		$pass = md5($password);
 		$passconf = md5($passwordconf);
-		if (!$email) {
-			$errors[] = "Email is not defined!";
+		if (!$username) {
+			$errors[] = "Username is not defined!";
 		}
 		if (!$pass) {
 			$errors[] = "Password is not defined!";
@@ -198,26 +198,25 @@ class Session {
 		if (!$passconf) {
 			$errors[] = "Password confirmation is not defined!";
 		}
-		if (filter_var($email, FILTER_VALIDATE_EMAIL) == false) {
-			$errors[] = "Email address is invalid!";
-		}
 		if ($passconf != $pass) {
 			$errors[] = "The two passwords you entered do not match!";
 		}
-		if ($email) {
-			$stmt = $this->mysqli->prepare("SELECT * FROM `users` WHERE `email`= ?");
-			$stmt->bind_param("s", $email);
+		if ($username) {
+			$stmt = $this->mysqli->prepare("SELECT * FROM `users` WHERE `username`= ?");
+			
+			$stmt->bind_param("s", $username);
+			echo $this->mysqli->error;
 			$stmt->execute();
 			$stmt->store_result();
 			if ($stmt->num_rows > 0) {
-				$errors[] = "The e-mail address you supplied is already in use of another user!";
+				$errors[] = "The username you supplied is already in use of another user!";
 			}
 			$stmt->close();
 		}
 		if (!isset($errors)) {
 			//register the account
-			$mysqli = $this->mysqli->prepare("INSERT INTO `users` (`email`, `password`) VALUES (?,?)");
-			$mysqli->bind_param("ss", $email, $pass);
+			$mysqli = $this->mysqli->prepare("INSERT INTO `users` (`username`, `password`) VALUES (?,?)");
+			$mysqli->bind_param("ss", $username, $pass);
 			$mysqli->execute();
 			$mysqli->close();
 			return true;
@@ -228,17 +227,18 @@ class Session {
 
 	/**
 	 * Sets a users session in the database and sets their client side session
-	 * @param string $email
+	 * @param string $username
 	 * @param string $pass
 	 * @author Mitchell M.
 	 * @version 1.0.0
 	 */
-	function login($email, $pass) {
-		$response = "Initial login state";
+	function login($username, $pass) {
+		$response = "Attempting login protocol";
 		//Does the user exist?
-		if ($this->userExists($email, $pass)) {
+		if ($this->userExists($username, $pass)) {
+			$response = "Authentication valid, attempting to get UID and create session.";
 			//User exists, get their userID for session creation
-			$userid = $this->getUID($email);
+			$userid = $this->getUID($username);
 			if ($this->handleSID($userid)) {
 				return true;
 			}
@@ -250,16 +250,16 @@ class Session {
 
 	/**
 	 * Validates that the login details are valid
-	 * @param string $email
+	 * @param string $username
 	 * @param string $password
 	 * @author Mitchell M.
 	 * @version 1.0.0
 	 */
-	function userExists($email, $password) {
-		$email = htmlspecialchars(mysqli_real_escape_string($this->mysqli, $email));
-		$pass = md5($password);
-		$stmt = $this->mysqli->prepare("SELECT * FROM `users` WHERE `email` = ? AND `password` = ?");
-		$stmt->bind_param("ss", $email, $pass);
+	function userExists($username, $password) {
+		$username = htmlspecialchars(mysqli_real_escape_string($this->mysqli, $username));
+		$password = md5($password);
+		$stmt = $this->mysqli->prepare("SELECT * FROM `users` WHERE `username` = ? AND `password` = ?");
+		$stmt->bind_param("ss", $username, $password);
 		$stmt->execute();
 		$stmt->store_result();
 		if ($stmt->num_rows > 0) {
@@ -279,13 +279,15 @@ class Session {
 	function getUID($input) {
 		$qry = $this->qb->start();
 		$qry->select("userid");
-		if (filter_var($input, FILTER_VALIDATE_EMAIL) == true) {
-			$qry->from("users")
-			->where("email", "=", $input);
-			$result = $qry->get();
-		} else {
+		
+		if ($this->isValidMd5($input)) {
 			$qry->from("sessions")
 			->where("sid", "=", $input);
+			$result = $qry->get();
+		} else {
+			
+			$qry->from("users")
+			->where("username", "=", $input);
 			$result = $qry->get();
 		}
 		return isset($result[0]['userid']) ? $result[0]['userid'] : -1;
@@ -353,6 +355,15 @@ class Session {
 			}
 		}
 		return $randstr;
+	}
+
+	/**
+	 * Checks input to see if it matches md5 patterns
+	 * @param $md5 string
+	 */
+	function isValidMd5($md5 ='')
+	{
+		return preg_match('/^[a-f0-9]{32}$/', $md5);
 	}
 
 	/*

@@ -38,14 +38,14 @@
             <span aria-hidden="true">&times;</span>
           </button>
         </div>
-        <div class="modal-body">
-          <input type="text" class="form-control mb-3" placeholder="Username">
-          <input type="text" class="form-control" placeholder="Password">
+        <div class="modal-body" id="login_content">
+          <input id="username" type="text" class="form-control mb-3" placeholder="Username">
+          <input id="password" type="text" class="form-control" placeholder="Password">
 
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary mr-3" data-dismiss="modal">Close</button>
-          <button type="button" class="btn btn-primary">Sign In</button>
+          <button type="button" class="btn btn-primary" id="signin">Sign In</button>
         </div>
       </div>
     </div>
@@ -67,7 +67,10 @@
       <div class="collapse navbar-collapse" id="navbarResponsive">
         <ul class="navbar-nav ml-auto">
           <li class="nav-item mx-0 mx-lg-1">
-            <a class="nav-link py-3 px-0 px-lg-3 rounded" data-toggle="modal" data-target="#sign-in" href="">Sign In</a>
+            <a class="nav-link py-3 px-0 px-lg-3 rounded" id="sign-in-nav" data-toggle="modal" data-target="#sign-in" href="">Sign In</a>
+          </li>
+          <li class="nav-item mx-0 mx-lg-1">
+            <a class="nav-link py-3 px-0 px-lg-3 rounded" id="log-out-nav" style="display:none;"href="">Log out</a>
           </li>
           <li class="nav-item mx-0 mx-lg-1">
             <a class="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger" href="#board">Board</a>
@@ -509,6 +512,7 @@
         <!-- Contact Form JavaScript -->
         <script src="js/jqBootstrapValidation.js"></script>
         <script src="js/contact_me.js"></script>
+        <script src="js/mitchell.js"></script>
 
         <!-- Custom scripts for this template -->
         <script src="js/freelancer.min.js"></script>

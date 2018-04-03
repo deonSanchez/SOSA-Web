@@ -18,7 +18,8 @@ function __autoload($class_name) {
  * Creating the database connection and passing it to the primary session object
  * Need to define DB details in config/global.php
  */
-//$db = Database::getConnection();
+$db = Database::getConnection();
+$session = Session::getInstance($db);
 
 //Copies all the POST data values into variable variable names
 foreach ($_POST as $key => $val) {
@@ -26,7 +27,7 @@ foreach ($_POST as $key => $val) {
 }
 
 //List of valid requests that are handled
-$VALID_REQUESTS = array('example');
+$VALID_REQUESTS = array('login','checklogin');
 
 //Validating the existance of server variable "HTTP_X_REQUESTED_WITH", if it exists it can verify that the call is ajax
 $httpXrequested = isset($_SERVER['HTTP_X_REQUESTED_WITH']);
