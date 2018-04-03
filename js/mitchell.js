@@ -28,28 +28,20 @@ $("button#signin").on("click", function(e) {
 	});
 });
 
-$("a#log-out-nav").on('click', function() {	$.ajax( {
-	type : 'POST',
-	data : 'request=login&username=' + username + '&password=' + password,
-	url : 'api/index.php',
-	async : true,
-	success : function(response) {
-		if(response == 1) {
-			login_content.html("You are already signed in!");
-			$("button#signin").hide();
-			$("a#sign-in-nav").hide();
-			$("a#log-out-nav").show();
-			$("div#sign-in").modal('hide');
-		} else {
-			alert("Failed to login! Try again?");
-			login_content.html("<input id=\"username\" type=\"text\" class=\"form-control mb-3\" placeholder=\"Username\"> " +
-					"<input id=\"password\" type=\"text\" class=\"form-control\" placeholder=\"Password\">");
+$("a#log-out-nav").on('click', function() {	
+	$.ajax( {
+		type : 'POST',
+		data : 'request=logout',
+		url : 'api/index.php',
+		async : true,
+		success : function(response) {
+			window.location = "index.php";
+		},
+		error : function() {
+			  var err = eval("(" + xhr.responseText + ")");
+			  alert(err.Message);
 		}
-	},
-	error : function() {
-		alert("Error with logout!");
-	}
-});
+	});
 })
 
 /**
