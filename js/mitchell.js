@@ -69,3 +69,27 @@ $(function () {
         }
     });
 });
+
+$("button#add").on('click',function(){
+	var set_name = $("input#set_name");
+	alert("Create a set with name = " + set_name);
+});
+
+$("button#remove").on('click',function(){
+	var selected = $('#stimulus-set :selected').text();
+	alert("Remove currently selected set from dropdown, value is: " + selected);
+});
+
+$("#stimulus-set").on("change", function(){
+	var selected = $('#stimulus-set :selected').text();
+	alert("new stim set selected " + selected + " should load the stimuli for this set in the box below now");
+});
+
+$("#load").on("click", function(){
+	var stimulus = "a";
+	alert("code for loading the selected stimulus set is here, load info for stim " + stimulus);
+});
+
+$("#exampleFormControlSelect2").on("change", function(){
+	alert("test");
+});

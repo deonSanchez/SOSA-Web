@@ -384,13 +384,13 @@
                       <div class="row pb-3">
                         <div class="col-auto input-group mb-3">
                           <div class="input-group-prepend">
-                            <button class="btn" type="button">
+                            <button id="add" class="btn" type="button">
                               <i class="fa fa-arrow-down pr-1"></i>Add
                             </button>
                           </div>
-                          <input type="text" class="form-control" placeholder="" aria-label="" aria-describedby="basic-addon1">
+                          <input type="text" id="set_name" class="form-control" placeholder="" aria-label="" aria-describedby="basic-addon1">
                           <div class="input-group-append">
-                            <button class="btn" type="button">Remove</button>
+                            <button class="btn" type="button" id="remove">Remove</button>
                           </div>
                         </div>
                         <div class="col-auto input-group">
@@ -403,7 +403,7 @@
                         </div>
                       </div>
                       <div class="form-group">
-                        <select multiple class="form-control" id="exampleFormControlSelect2">
+                        <select class="form-control" id="exampleFormControlSelect2">
                           <option>Stimulus 1</option>
                           <option>Stimulus 2</option>
                           <option>Stimulus 3</option>
@@ -413,10 +413,10 @@
                       </div>
                       <div class="row pb-3">
                         <div class="col">
-                          <button class="btn btn-shadow btn-block btn-secondary btn-small rounded-pill">Save</button>
+                          <button id="load" class="btn btn-shadow btn-block btn-secondary btn-small rounded-pill">Save</button>
                         </div>
                         <div class="col">
-                          <button class="btn btn-shadow btn-block btn-secondary btn-small rounded-pill">Load</button>
+                          <button id="save" class="btn btn-shadow btn-block btn-secondary btn-small rounded-pill">Load</button>
                         </div>
                       </div>
                     </div>
