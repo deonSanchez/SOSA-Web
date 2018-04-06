@@ -70,6 +70,29 @@ $(function () {
     });
 });
 
+$("button#register-submit").on('click', function() {
+	var username = $("input#regusername").val();
+	var password = $("input#regpassword").val();
+	var passwordconf = $("input#regpasswordconf").val();	
+	$.ajax( {
+		type : 'POST',
+		data : 'request=register&username=' + username + '&password=' + password +'&passwordconf='+passwordconf,
+		url : 'api/index.php',
+		async : true,
+		success : function(response) {
+			if(response == 1) {
+				alert("Success!");
+				$("div#sign-in").modal('hide');
+			} else {
+				login_content.html(response);
+			}
+		},
+		error : function() {
+			alert("Error with logout!");
+		}
+	});
+});
+
 $("button#add").on('click',function(){
 	var set_name = $("input#set_name");
 	alert("Create a set with name = " + set_name);
