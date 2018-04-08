@@ -53,3 +53,9 @@ a {
     border-color: darken($secondary, 10%);
   }
 }
+
+a.active-modal {
+  text-decoration: none;
+  font-size: 1.3rem;
+  font-weight: 1000;
+}

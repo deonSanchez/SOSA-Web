@@ -1,7 +1,5 @@
 // Styling for the navbar
 #mainNav {
-  padding-top: 1rem;
-  padding-bottom: 1rem;
   @include heading-font;
   .navbar-brand {
     color: $white;

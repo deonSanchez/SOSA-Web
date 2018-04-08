@@ -116,8 +116,6 @@ section h2 {
 }
 
 #mainNav {
-  padding-top: 1rem;
-  padding-bottom: 1rem;
   font-weight: 700;
   font-family: 'Montserrat';
 }
@@ -402,4 +400,10 @@ a:focus, a:hover, a:active {
 .btn-secondary:hover, .btn-secondary:focus, .btn-secondary:active {
   background-color: #4d004d;
   border-color: #4d004d;
+}
+
+a.active-modal {
+  text-decoration: none;
+  font-size: 1.3rem;
+  font-weight: 1000;
 }

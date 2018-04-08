@@ -28,49 +28,75 @@
 
 <body id="page-top">
 
-  <!-- Sign in Modal -->
-  <div class="modal fade" id="sign-in" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered" role="document">
+  <!-- Sign in / Register Modal -->
+  <div class="modal fade" id="sign-in" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog" role="document">
       <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLongTitle">SOSA: Sign in</h5>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
+        <div class="modal-header bg-secondary text-center">
+          <div class="col">
+            <a href="#" class="active-modal text-white" id="login-form-link">Login</a>
+          </div>
+          <div class="col">
+            <a href="#" class="text-white" id="register-form-link">Register</a>
+          </div>
         </div>
-        <div class="modal-body" id="login_content">
-          <input id="username" type="text" class="form-control mb-3" placeholder="Username">
-          <input id="password" type="text" class="form-control" placeholder="Password">
-
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary mr-3" data-dismiss="modal">Close</button>
-          <button type="button" class="btn btn-primary" id="signin">Sign In</button>
-        </div>
+        <form id="login-content" action="#" method="post" role="form" style="display: block;">
+          <div class="modal-body" id="login_content">
+            <input type="text" name="username" id="username" class="form-control mb-3" placeholder="Username" value="">
+            <input type="password" name="password" id="password" type="text" class="form-control" placeholder="Password">
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-primary mr-3" data-dismiss="modal">Cancel</button>
+            <button type="button" class="btn btn-secondary" id="signin">Login</button>
+          </div>
+        </form>
+        <form id="register-content" action="#" method="post" role="form" style="display: none;">
+          <div class="modal-body" id="register_content">
+            <input type="text" name="username" id="regusername" class="form-control mb-3" placeholder="Username" value="">
+            <input type="password" name="password" id="regpassword" class="form-control mb-3" placeholder="Password">
+            <input type="password" name="confirm-password" id="regpasswordconf" class="form-control" placeholder="Confirm Password">
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-primary mr-3" data-dismiss="modal">Cancel</button>
+            <button type="button" class="btn btn-secondary" id="register-submit">Register</button>
+          </div>
+        </form>
       </div>
     </div>
   </div>
 
   <!-- Navigation -->
-  <nav class="navbar navbar-expand-lg bg-secondary fixed-top text-uppercase" id="mainNav">
+  <nav class="navbar bg-secondary fixed-top text-uppercase" id="mainNav">
     <div class="container">
+<<<<<<< HEAD
       <a class="navbar-brand js-scroll-trigger" href="#page-top">SOSA</a>
       <div class="navbar-toggler-right">
         <button type="button" class="btn btn-primary navbar-toggler text-uppercase mr-3" data-toggle="modal" data-target="#sign-in">
           Sign In/ Register
         </button>
         <button class="navbar-toggler text-uppercase bg-primary text-white rounded" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+=======
+      <a class="navbar-brand js-scroll-trigger" href="#page-top">
+      <i class="mr-2 fa fa-cog"></i> SOSA
+      </a>
+      <div class="navbar-brand navbar-toggler-right">
+        <button class="navbar-toggler text-uppercase text-white rounded" style="font-weight:600" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+>>>>>>> 0b2311690eb11d13d49b1e696031afa71871b1e5
           create
-          <i class="fa fa-bars"></i>
+          <i class="ml-2 fa fa-bars"></i>
         </button>
       </div>
       <div class="collapse navbar-collapse" id="navbarResponsive">
-        <ul class="navbar-nav ml-auto">
+        <ul class="navbar-nav ml-auto align-items-end">
           <li class="nav-item mx-0 mx-lg-1">
+<<<<<<< HEAD
             <a class="nav-link py-3 px-0 px-lg-3 rounded" id="sign-in-nav" data-toggle="modal" data-target="#sign-in" href="">Sign In / Register</a>
+=======
+            <a class="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger" id="sign-in-nav" data-toggle="modal" data-target="#sign-in" href="">Sign In / Register</a>
+>>>>>>> 0b2311690eb11d13d49b1e696031afa71871b1e5
           </li>
           <li class="nav-item mx-0 mx-lg-1">
-            <a class="nav-link py-3 px-0 px-lg-3 rounded" id="log-out-nav" style="display:none;"href="">Log out</a>
+            <a class="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger" id="log-out-nav" style="display:none;"href="">Log out</a>
           </li>
           <li class="nav-item mx-0 mx-lg-1">
             <a class="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger" href="#board">Board</a>
@@ -102,7 +128,7 @@
       <h2 class="text-center text-uppercase text-secondary mb-0">Board</h2>
       <hr class="cog-dark mb-5">
       <div class="row">
-        <div class="col mx-auto">
+        <div class="col mx-auto text-secondary">
           <a class="sosa-item d-block mx-auto w-50" href="#board-modal">
             <div class="sosa-item-caption d-flex position-absolute h-100 w-100">
               <div class="sosa-item-caption-content my-auto w-100 text-center text-white">
@@ -162,7 +188,7 @@
       <h2 class="text-center text-uppercase text-secondary mb-0">Experiment</h2>
       <hr class="cog-dark mb-5">
       <div class="row">
-        <div class="col mx-auto">
+        <div class="col mx-auto text-secondary">
           <a class="sosa-item d-block mx-auto w-50" href="#experiment-modal">
             <div class="sosa-item-caption d-flex position-absolute h-100 w-100">
               <div class="sosa-item-caption-content my-auto w-100 text-center text-white">
@@ -197,31 +223,26 @@
             <br>Statesboro, GA 30458</p>
           </div>
           <div class="col-md-4 mb-5 mb-lg-0">
-            <h4 class="text-uppercase mb-4">Around the Web</h4>
+            <h4 class="text-uppercase mb-4">Psychology at GSU</h4>
             <ul class="list-inline mb-0">
               <li class="list-inline-item">
-                <a class="btn btn-outline-light btn-social text-center rounded-circle" href="#">
+                <a class="btn btn-outline-light btn-social text-center rounded-circle" href="https://www.facebook.com/Georgia-Southern-Psychology-Department-329359137086247/">
                   <i class="fa fa-fw fa-facebook"></i>
                 </a>
               </li>
               <li class="list-inline-item">
-                <a class="btn btn-outline-light btn-social text-center rounded-circle" href="#">
+                <a class="btn btn-outline-light btn-social text-center rounded-circle" href="https://plus.google.com/u/0/112976493760646515725">
                   <i class="fa fa-fw fa-google-plus"></i>
                 </a>
               </li>
               <li class="list-inline-item">
-                <a class="btn btn-outline-light btn-social text-center rounded-circle" href="#">
-                  <i class="fa fa-fw fa-twitter"></i>
+                <a class="btn btn-outline-light btn-social text-center rounded-circle" href="https://www.youtube.com/playlist?list=PL4FCF4BEFA60083FF">
+                  <i class="fa fa-fw fa-youtube"></i>
                 </a>
               </li>
               <li class="list-inline-item">
-                <a class="btn btn-outline-light btn-social text-center rounded-circle" href="#">
-                  <i class="fa fa-fw fa-linkedin"></i>
-                </a>
-              </li>
-              <li class="list-inline-item">
-                <a class="btn btn-outline-light btn-social text-center rounded-circle" href="#">
-                  <i class="fa fa-fw fa-dribbble"></i>
+                <a class="btn btn-outline-light btn-social text-center rounded-circle" href="https://www.pinterest.com/gsuclass/psychology/">
+                  <i class="fa fa-fw fa-pinterest"></i>
                 </a>
               </li>
             </ul>
@@ -237,7 +258,7 @@
 
       <div class="copyright py-4 text-center text-white">
         <div class="container">
-          <small>Copyright &copy; Your Website 2018</small>
+          <small>Copyright &copy; Department of Psychology at Georgia Southern 2018</small>
         </div>
       </div>
 
@@ -328,7 +349,6 @@
             </div>
           </div>
 
-
           <!-- Stimulus Modal -->
           <div class="sosa-modal mx-auto mfp-hide" id="stimulus-modal" style="width: fit-content;">
             <div class="sosa-modal-dialog bg-white">
@@ -352,10 +372,8 @@
                       <img class="img-fluid" src="img/test/cabin.png" alt="">
                       <div class="row pt-3 text-center">
                         <div class="col m-auto">
-
                           <button type="button" class="btn btn-secondary btn-shadow">Label</button>
                           <button type="button" class="btn btn-secondary btn-shadow">Peg</button>
-
                         </div>
                         <div class="col m-auto">
                           <div class="text-center">
@@ -377,7 +395,18 @@
                         </div>
                       </div>
                       <div class="row pb-3">
-                        <div class="col input-group">
+                        <div class="col-auto input-group mb-3">
+                          <div class="input-group-prepend">
+                            <button id="add" class="btn" type="button">
+                              <i class="fa fa-arrow-down pr-1"></i>Add
+                            </button>
+                          </div>
+                          <input type="text" id="set_name" class="form-control" placeholder="" aria-label="" aria-describedby="basic-addon1">
+                          <div class="input-group-append">
+                            <button class="btn" type="button" id="remove">Remove</button>
+                          </div>
+                        </div>
+                        <div class="col-auto input-group">
                           <select class="form-control" id="stimulus-set">
                             <option>Stimulus Set 1</option>
                             <option>Stimulus Set 2</option>
@@ -385,18 +414,9 @@
                             <option>Stimulus Set 4</option>
                           </select>
                         </div>
-                        <div class="col input-group">
-                          <div class="input-group-prepend">
-                            <button class="btn fa fa-arrow-left" type="button">Add</button>
-                          </div>
-                          <input type="text" class="form-control" placeholder="" aria-label="" aria-describedby="basic-addon1">
-                          <div class="input-group-append">
-                            <button class="btn" type="button">Remove</button>
-                          </div>
-                        </div>
                       </div>
                       <div class="form-group">
-                        <select multiple class="form-control" id="exampleFormControlSelect2">
+                        <select class="form-control" id="exampleFormControlSelect2">
                           <option>Stimulus 1</option>
                           <option>Stimulus 2</option>
                           <option>Stimulus 3</option>
@@ -406,10 +426,10 @@
                       </div>
                       <div class="row pb-3">
                         <div class="col">
-                          <button class="btn btn-shadow btn-block btn-secondary btn-small rounded-pill">Save</button>
+                          <button id="load" class="btn btn-shadow btn-block btn-secondary btn-small rounded-pill">Save</button>
                         </div>
                         <div class="col">
-                          <button class="btn btn-shadow btn-block btn-secondary btn-small rounded-pill">Load</button>
+                          <button id="save" class="btn btn-shadow btn-block btn-secondary btn-small rounded-pill">Load</button>
                         </div>
                       </div>
                     </div>
@@ -485,14 +505,14 @@
                     </div>
                   </div>
                   <div class="row">
-                    <div class="col">
+                    <div class="col mt-3">
                       <button class="btn btn-shadow btn-secondary btn-block rounded-pill sosa-modal-dismiss" href="#">Load Board</button>
                     </div>
-                    <div class="col">
-                      <button class="btn btn-shadow btn-secondary btn-block rounded-pill sosa-modal-dismiss" href="#">Begin Experiment</button>
-                    </div>
-                    <div class="col">
+                    <div class="col mt-3">
                       <button class="btn btn-shadow btn-secondary btn-block rounded-pill sosa-modal-dismiss" href="#">Load Stimulus</button>
+                    </div>
+                    <div class="col mt-3">
+                      <button class="btn btn-shadow btn-secondary btn-block rounded-pill sosa-modal-dismiss" href="#">Begin Experiment</button>
                     </div>
                   </div>
                 </div>
