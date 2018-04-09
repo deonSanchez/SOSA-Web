@@ -247,6 +247,22 @@ $("#stimulus-set").on("change", function(){
 	loadCurrentStimulusSet();
 });
 
+$("button#remove_stim").on("click", function() {	
+	var stimulus_id = $("select#individual_stimulus :selected").attr('id');
+	$.ajax( {
+		type : 'POST',
+		data : 'request=deletestimulus&stimulus_id='+ stimulus_id,
+		url : 'api/index.php',
+		async : true,
+		success : function(response) {
+			loadCurrentStimulusSet();
+		},
+		error : function() {
+			alert("Error with create stimulus!");
+		}
+	});
+});
+
 $("button#load").on("click", function(){
 	var stimulus_id = $("select#individual_stimulus :selected").attr('id');
 	$.ajax( {
