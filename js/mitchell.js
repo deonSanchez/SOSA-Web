@@ -81,16 +81,18 @@ $(function () {
     //this part deals with loading initial stimulus set list
     $.ajax( {
 		type : 'POST',
-		data : 'request=createset&set_name='+ set_name,
+		data : 'request=loadstimsets',
 		url : 'api/index.php',
 		async : true,
 		success : function(response) {
-			if(response == 1) {
-				alert("Stimulus set added!");
-				$("select#stimulus-set").append("<option>"+set_name+"</option>");
-			} else {
-				alert("Cannot create new stimulus set with name of another set OR with non-alphanumeric name!");
+			var json = JSON.parse(response);
+			console.log(json);
+			var len = objLength(json);
+			var appendLabel = "";
+			for (var i = 0; i < len; i++) {
+				appendLabel = appendLabel + "<option>"+json[i].title+"</option>";
 			}
+			$("select#stimulus-set").html(appendLabel);
 		},
 		error : function() {
 			alert("Error with create stimulus!");
@@ -149,6 +151,18 @@ $("button#create_stimulus").on('click',function(){
 
 $("button#remove").on('click',function(){
 	var selected = $('#stimulus-set :selected').text();
+	$.ajax( {
+		type : 'POST',
+		data : 'request=deleteset&set_name='+ selected,
+		url : 'api/index.php',
+		async : true,
+		success : function(response) {
+			alert(response);
+		},
+		error : function() {
+			alert("Error with create stimulus!");
+		}
+	});
 });
 
 /**
@@ -190,13 +204,17 @@ $("#stimulus-set").on("change", function(){
 		url : 'api/index.php',
 		async : true,
 		success : function(response) {
-			var json = JSON.parse(response);
-			var len = objLength(json);
-			var appendLabel = "";
-			for (var i = 0; i < len; i++) {
-				appendLabel = appendLabel + "<option>"+json[i].label+"</option>";
+			if(response != "null") {
+				var json = JSON.parse(response);
+				var len = objLength(json);
+				var appendLabel = "";
+				for (var i = 0; i < len; i++) {
+					appendLabel = appendLabel + "<option>"+json[i].label+"</option>";
+				}
+				$("select#individual_stimulus").html(appendLabel);
+			} else {
+				$("select#individual_stimulus").html("");
 			}
-			$("select#individual_stimulus").html(appendLabel);
 		},
 		error : function() {
 			alert("Error with create stimulus!");

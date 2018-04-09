@@ -438,13 +438,13 @@ class Session {
 	 */
 	public function loadStimSets() {
 		$results = null;
-		$stmt = $this->mysqli->prepare("SELECT `stimset_id`, `name` FROM `stimulus_set`");
-		$stmt->bind_result($stimset_id,$name);
+		$stmt = $this->mysqli->prepare("SELECT `stimset_id`, `title` FROM `stimulus_set`");
+		$stmt->bind_result($stimset_id,$title);
 		$stmt->execute();
 		$stmt->store_result();
 		if ($stmt->num_rows >= 1) {
 			while ($stmt->fetch()) {
-				$results[] = array('stimset_id' => $stimset_id, 'name' => $name);
+				$results[] = array('stimset_id' => $stimset_id, 'title' => $title);
 			}
 		}
 		return $results;
@@ -460,7 +460,6 @@ class Session {
 		$results = null;
 		$stimset_id = intval($stimset_id);
 		$stmt = $this->mysqli->prepare("SELECT `label`,`peg_r`,`peg_g`,`peg_b`,`label_r`,`label_g`,`label_b` FROM `stimulus` WHERE `stimset_id` = ?");
-		echo $this->mysqli->error;
 		$stmt->bind_param("i",$stimset_id);
 		$stmt->bind_result($label,$peg_r,$peg_g,$peg_b,$label_r,$label_g,$label_b);
 		$stmt->execute();
