@@ -1,0 +1,130 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1" MembersFormat="FullSignature">
+  <Class Name="GlobalControl">
+    <Position X="1.25" Y="0.5" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAEA=</HashCode>
+      <FileName>Assets\Global\GlobalControl.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="BckColor">
+    <Position X="3.25" Y="0.5" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>GAQAABAAACAIAAAAAAIABAACAAAAIMABAAAAEBBAAgA=</HashCode>
+      <FileName>Assets\Scene1\Scripts\BckColor.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="BoardMove">
+    <Position X="5.5" Y="0.5" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAQAAAAAACAAAAAAAAAEIAAABAQAAQAAAAAAACAAACA=</HashCode>
+      <FileName>Assets\Scene1\Scripts\BoardMove.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="BrdColor">
+    <Position X="7.5" Y="0.5" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>EUQAAAAAAAAAAAAAATIAAAAAAAAEAAAAAAAAAAAAAkA=</HashCode>
+      <FileName>Assets\Scene1\Scripts\BrdColor.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="BrdImg">
+    <Position X="9.75" Y="0.5" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAQAAAAAACAAAAAAAAAAAAABAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Scene1\Scripts\BrdImg.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CvrColor">
+    <Position X="11.75" Y="0.5" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>EAQAAAAAACAAQAAAACIAAAAAAQAQAAEAAAAAAAQAAhA=</HashCode>
+      <FileName>Assets\Scene1\Scripts\CvrColor.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CvrImg">
+    <Position X="14" Y="0.5" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAQAAAAAACAAAAAAAAAAAAAAAAAAAAABAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Scene1\Scripts\CvrImg.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CvrToggle">
+    <Position X="16" Y="0.5" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAQAAAAAACAAAAAAAAAAAAACAAAAAAAAAAAAACAAAAA=</HashCode>
+      <FileName>Assets\Scene1\Scripts\CvrToggle.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CreateStim">
+    <Position X="1.25" Y="5" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAQAAAAAACACCAAABAAAAAAAAAAAAAAAAAgAAAAAAAA=</HashCode>
+      <FileName>Assets\Scene2\Scripts\CreateStim.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="PegColor">
+    <Position X="3.25" Y="5" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>EAQAAAAAAAACQAAAASIQAAAAAAAAAAAAACAAAAQAAkA=</HashCode>
+      <FileName>Assets\Scene2\Scripts\PegColor.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="PegRot">
+    <Position X="5.5" Y="5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAAAAAACAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Scene2\Scripts\PegRot.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SetToStim">
+    <Position X="7" Y="5" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAQAAIAAACAAAAAAAAAAAAAAAAAAAABAAAAEgAAAEAA=</HashCode>
+      <FileName>Assets\Scene2\Scripts\SetToStim.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="DataHold">
+    <Position X="9.25" Y="5" Width="2.75" />
+    <TypeIdentifier>
+      <HashCode>AAQAAAEBACAAAAAAAAAAAAQAAAAAAASEAAgAAAAAAAA=</HashCode>
+      <FileName>Assets\Scene3\Scripts\DataHold.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Pan">
+    <Position X="12" Y="5" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAEAAQAgAAAACAACAEAAAAAAAAAAAAAAAAAAABAAA=</HashCode>
+      <FileName>Assets\Scene3\Scripts\Pan.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="PegMove">
+    <Position X="14" Y="5" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAQAAAAAACAAAAAAAAAAAAAAAEAAAAQAIAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Scene3\Scripts\PegMove.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Rotation">
+    <Position X="16" Y="5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAAAAQAAAAAAAAAAAAAAAAAAAAAQAAAAAgAAAAAAA=</HashCode>
+      <FileName>Assets\Scene3\Scripts\Rotation.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Spawn">
+    <Position X="17.5" Y="5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAAAAAACAACAAABAAAAAAAAAAAgAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Scene3\Scripts\Spawn.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Zoom">
+    <Position X="17.75" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAAAAAAAAAAACAAAAAAgAAAAAAAQCIAAAQABAAAEA=</HashCode>
+      <FileName>Assets\Scene3\Scripts\Zoom.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>
