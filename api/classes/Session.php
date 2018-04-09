@@ -485,6 +485,7 @@ class Session {
 		$mysqli->bind_param("siiiiiii",$label,$peg_r,$peg_g,$peg_b,$temp,$temp,$temp,$setid);
 		$mysqli->execute();
 		$mysqli->close();
+		return true;
 	}
 	
 	public function lookupSetID($title) {		

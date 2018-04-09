@@ -44,11 +44,17 @@ if ($httpXrequested && ($isAjaxCall) && isset($request)) {
 
     //If the request is in the subfolder, and its listed in the valid request array..
     //open it
-    if (file_exists($file) && in_array($request, $VALID_REQUESTS)) {
+    $file_exists = file_exists($file);
+    $in_array = in_array($request, $VALID_REQUESTS);
+    if ($file_exists && $in_array) {
         //LOAD THE CONTENT OF THE REQUEST
         require_once($file);
     } else {
-        die("Request not found in host file-system OR not whitelisted. {$request}");
+    	$a = $file_exists ? "T" : "F";
+    	$b = $in_array ? "T" : "F";
+        die("Request not found in host file-system OR not whitelisted. {$request} <br />
+        	File exists: {$a} <br />
+        	In Array: {$b}");
     }
 } else {
     //Build error message
