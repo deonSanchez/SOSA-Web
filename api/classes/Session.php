@@ -570,7 +570,12 @@ class Session {
 	 * @return created stimulus
 	 * @version 0.5.0
 	 */
-	public function updateStimulus($stimulus_id,$label,$label_color,$peg_color) {}
+	public function updateStimulus($stimulus_id,$label,$peg_r,$peg_g,$peg_b) {
+		$qry = $this->mysqli->prepare("UPDATE `stimulus` SET `label` = ?, `peg_r` = ?, `peg_g` = ?, `peg_b` = ? WHERE `stimulus_id` = ?");
+		$qry->bind_param("siiii", $label,$peg_r,$peg_g,$peg_b,$stimulus_id);
+		$qry->execute();
+		$qry->close();
+	}
 
 	/*
 	 * END STIMULUS FUNCTIONS

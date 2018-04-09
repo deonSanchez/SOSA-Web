@@ -1,5 +1,123 @@
+/**
+ *@author mitchell murphy
+ *@version 1.0 
+ */
+
 var login_content = $("div#login_content");
 var color_selection = -1;
+
+/**
+ * Counts object length
+ * @param obj
+ * @returns {Number}
+ */
+function objLength(obj){
+	var i=0;
+	for (var x in obj){
+		if(obj.hasOwnProperty(x)){
+			i++;
+		}
+	} 
+	return i;
+}
+
+/**
+ * Verifies logged-in status
+ */
+function checkLogin() {
+	$.ajax({
+		type: 'POST',
+		data: 'request=checklogin',
+		url : 'api/index.php',
+		async: true,
+		success: function (response) {
+			if(response == 1) {
+				login_content.html("You are already signed in!");
+				$("button#signin").hide();
+				$("a#sign-in-nav").hide();
+				$("a#log-out-nav").show();
+			}
+		},
+		error: function () {
+			alert("An error has occured while verifying logged-in status!");
+		}
+	});
+}
+
+/**
+ * This loads all the stimulus sets then loads the selected set's entries
+ * @param callback
+ */
+function loadStimulusSets(callback) {
+    $.ajax( {
+		type : 'POST',
+		data : 'request=loadstimsets',
+		url : 'api/index.php',
+		async : true,
+		success : function(response) {
+			var json = JSON.parse(response);
+			console.log(json);
+			var len = objLength(json);
+			var appendLabel = "";
+			for (var i = 0; i < len; i++) {
+				appendLabel = appendLabel + "<option>"+json[i].title+"</option>";
+			}
+			$("select#stimulus-set").html(appendLabel);
+			if(typeof callback === 'function') {
+				callback();
+			}
+		},
+		error : function() {
+			alert("Error with create stimulus!");
+		}
+	});
+}
+
+/***
+ * This loads all the stimulus sets into the modal dropdown
+ */
+function loadCurrentStimulusSet() {
+	var set_title = $('#stimulus-set :selected').text();
+	$.ajax( {
+		type : 'POST',
+		data : 'request=loadstimset&set_title='+set_title,
+		url : 'api/index.php',
+		async : true,
+		success : function(response) {
+			if(response != "null") {
+				var json = JSON.parse(response);
+				var len = objLength(json);
+				var appendLabel = "";
+				for (var i = len-1; i > -1; i--) {
+					appendLabel = appendLabel + "<option id=\""+json[i].stimulus_id+"\">"+json[i].label+"</option>";
+				}
+				$("select#individual_stimulus").html(appendLabel);
+			} else {
+				$("select#individual_stimulus").html("");
+			}
+		},
+		error : function() {
+			alert("Error with create stimulus!");
+		}
+	});
+}
+
+/**
+ * This document ready function fires when the page is loaded, it checks the api to see if the user is logged in. 
+ * If they are logged in, it hides the login/register forms and displays a message and a logout button.
+ * @returns {undefined}
+ */
+$(function () {
+    //this part deals with login check
+	checkLogin();
+	
+    //this part deals with loading initial stimulus set list and stimuli
+    loadStimulusSets(loadCurrentStimulusSet);
+});
+
+/**
+ * Login form processing, takes in input and submits to php
+ */
 $("button#signin").on("click", function(e) {
 	var username = $("input#username").val();
 	var password = $("input#password").val();
@@ -29,6 +147,9 @@ $("button#signin").on("click", function(e) {
 	});
 });
 
+/**
+ * Log out processor
+ */
 $("a#log-out-nav").on('click', function() {	
 	$.ajax( {
 		type : 'POST',
@@ -45,99 +166,9 @@ $("a#log-out-nav").on('click', function() {
 	});
 })
 
-function objLength(obj){
-	var i=0;
-	for (var x in obj){
-		if(obj.hasOwnProperty(x)){
-			i++;
-		}
-	} 
-	return i;
-}
-
-function checkLogin() {
-	$.ajax({
-		type: 'POST',
-		data: 'request=checklogin',
-		url : 'api/index.php',
-		async: true,
-		success: function (response) {
-			if(response == 1) {
-				login_content.html("You are already signed in!");
-				$("button#signin").hide();
-				$("a#sign-in-nav").hide();
-				$("a#log-out-nav").show();
-			}
-		},
-		error: function () {
-			alert("An error has occured while verifying logged-in status!");
-		}
-	});
-}
-
-function loadStimulusSets(callback) {
-    $.ajax( {
-		type : 'POST',
-		data : 'request=loadstimsets',
-		url : 'api/index.php',
-		async : true,
-		success : function(response) {
-			var json = JSON.parse(response);
-			console.log(json);
-			var len = objLength(json);
-			var appendLabel = "";
-			for (var i = 0; i < len; i++) {
-				appendLabel = appendLabel + "<option>"+json[i].title+"</option>";
-			}
-			$("select#stimulus-set").html(appendLabel);
-			if(typeof callback === 'function') {
-				callback();
-			}
-		},
-		error : function() {
-			alert("Error with create stimulus!");
-		}
-	});
-}
-
-function loadCurrentStimulusSet() {
-	var set_title = $('#stimulus-set :selected').text();
-	$.ajax( {
-		type : 'POST',
-		data : 'request=loadstimset&set_title='+set_title,
-		url : 'api/index.php',
-		async : true,
-		success : function(response) {
-			if(response != "null") {
-				var json = JSON.parse(response);
-				var len = objLength(json);
-				var appendLabel = "";
-				for (var i = len-1; i > -1; i--) {
-					appendLabel = appendLabel + "<option id=\""+json[i].stimulus_id+"\">"+json[i].label+"</option>";
-				}
-				$("select#individual_stimulus").html(appendLabel);
-			} else {
-				$("select#individual_stimulus").html("");
-			}
-		},
-		error : function() {
-			alert("Error with create stimulus!");
-		}
-	});
-}
 /**
- * This document ready function fires when the page is loaded, it checks the api to see if the user is logged in. 
- * If they are logged in, it hides the login/register forms and displays a message and a logout button.
- * @returns {undefined}
+ * Register form processing, takes in input and submits to php
  */
-$(function () {
-    //this part deals with login check
-	checkLogin();
-	
-    //this part deals with loading initial stimulus set list
-    loadStimulusSets(loadCurrentStimulusSet);
-});
-
 $("button#register-submit").on('click', function() {
 	var username = $("input#regusername").val();
 	var password = $("input#regpassword").val();
@@ -192,77 +223,9 @@ $("button#create_stimulus").on('click',function(){
 	});
 });
 
-$("button#remove").on('click',function(){
-	var selected = $('#stimulus-set :selected').text();
-	$.ajax( {
-		type : 'POST',
-		data : 'request=deleteset&set_name='+ selected,
-		url : 'api/index.php',
-		async : true,
-		success : function(response) {
-			loadStimulusSets(loadCurrentStimulusSet);
-		},
-		error : function() {
-			alert("Error with create stimulus!");
-		}
-	});
-});
-
 /**
- * Adds a new stimulus set to the dropdown and database
+ * load stimulus data into form for change or inspection
  */
-$("button#add").on('click',function(){
-	var set_name = $("input#set_name").val();
-	$.ajax( {
-		type : 'POST',
-		data : 'request=createset&set_name='+ set_name,
-		url : 'api/index.php',
-		async : true,
-		success : function(response) {
-			if(response == 1) {
-				$("select#stimulus-set").prepend("<option>"+set_name+"</option>");
-			} else {
-				alert("Cannot create new stimulus set with name of another set OR with non-alphanumeric name!");
-			}
-		},
-		error : function() {
-			alert("Error with create stimulus!");
-		}
-	});
-});
-
-$("button#save").on('click',function(){
-	var set_title = $('#stimulus-set :selected').text();
-	var stimulus_name = $("input#stimulus_name").val();
-	var peg_r = $("input#RvalueStim").val();
-	var peg_g = $("input#GvalueStim").val();
-	var peg_b = $("input#BvalueStim").val();
-	
-});
-
-/**
- * When dropdown changed, loads the simuli under the selected set into the individual stimulus dropdown
- */
-$("#stimulus-set").on("change", function(){
-	loadCurrentStimulusSet();
-});
-
-$("button#remove_stim").on("click", function() {	
-	var stimulus_id = $("select#individual_stimulus :selected").attr('id');
-	$.ajax( {
-		type : 'POST',
-		data : 'request=deletestimulus&stimulus_id='+ stimulus_id,
-		url : 'api/index.php',
-		async : true,
-		success : function(response) {
-			loadCurrentStimulusSet();
-		},
-		error : function() {
-			alert("Error with create stimulus!");
-		}
-	});
-});
-
 $("button#load").on("click", function(){
 	var stimulus_id = $("select#individual_stimulus :selected").attr('id');
 	$.ajax( {
@@ -297,8 +260,95 @@ $("button#load").on("click", function(){
 	});
 });
 
-$("button#peg").on("click", function() {	
+/**
+ * Saves stimulus updates
+ */
+$("button#save").on('click',function(){
+	var set_title = $('#stimulus-set :selected').text();
+	var stimulus_name = $("input#stimulus_name").val();
+	var peg_r = $("input#RvalueStim").val();
+	var peg_g = $("input#GvalueStim").val();
+	var peg_b = $("input#BvalueStim").val();
+	var stimulus_id = $("input#selected_stimulus").val();
+	$.ajax( {
+		type : 'POST',
+		data : 'request=updatestimulus&set_name='+ stimulus_name+'&peg_r='+peg_r+'&peg_g='+peg_g+'&peg_b='+peg_b+'&stimulus_id='+stimulus_id,
+		url : 'api/index.php',
+		async : true,
+		success : function(response) {
+			loadCurrentStimulusSet();
+		},
+		error : function() {
+			alert("Error with create stimulus!");
+		}
+	});
+	
 });
 
-$("button#label").on("click", function() {
+/**
+ * Handles deleting individual stimulus
+ */
+$("button#remove_stim").on("click", function() {	
+	var stimulus_id = $("select#individual_stimulus :selected").attr('id');
+	$.ajax( {
+		type : 'POST',
+		data : 'request=deletestimulus&stimulus_id='+ stimulus_id,
+		url : 'api/index.php',
+		async : true,
+		success : function(response) {
+			loadCurrentStimulusSet();
+		},
+		error : function() {
+			alert("Error with create stimulus!");
+		}
+	});
+});
+
+
+/**
+ * Adds a new stimulus set to the dropdown and database
+ */
+$("button#add").on('click',function(){
+	var set_name = $("input#set_name").val();
+	$.ajax( {
+		type : 'POST',
+		data : 'request=createset&set_name='+ set_name,
+		url : 'api/index.php',
+		async : true,
+		success : function(response) {
+			if(response == 1) {
+				$("select#stimulus-set").prepend("<option>"+set_name+"</option>");
+			} else {
+				alert("Cannot create new stimulus set with name of another set OR with non-alphanumeric name!");
+			}
+		},
+		error : function() {
+			alert("Error with create stimulus!");
+		}
+	});
+});
+
+/**
+ * Deletes the currently selected stimulus set from the database
+ */
+$("button#remove").on('click',function(){
+	var selected = $('#stimulus-set :selected').text();
+	$.ajax( {
+		type : 'POST',
+		data : 'request=deleteset&set_name='+ selected,
+		url : 'api/index.php',
+		async : true,
+		success : function(response) {
+			loadStimulusSets(loadCurrentStimulusSet);
+		},
+		error : function() {
+			alert("Error with create stimulus!");
+		}
+	});
+});
+/**
+ * When dropdown changed, loads the simuli under the selected set into the individual stimulus dropdown
+ */
+$("#stimulus-set").on("change", function(){
+	loadCurrentStimulusSet();
 });
