@@ -304,19 +304,29 @@
                   </div>
                 </div>
                 <div class="flex-column m-auto align-self-end text-center">
-                  <button input onclick = "CurrentObject(this)" type="button" value ="board" class="btn btn-secondary btn-shadow">Board</button>
-                  <button input onclick = "CurrentObject(this)" type="button" value ="background"class="btn btn-secondary btn-shadow">Background</button>
-                  <button input onclick = "CurrentObject(this)" type="button" value ="cover" class="btn btn-secondary btn-shadow">Cover</button>
+                  <button onclick="displayColorSlider1()" value ="board" class="btn btn-secondary btn-shadow">Board</button>
+                  <button onclick="displayColorSlider2()" value ="background"class="btn btn-secondary btn-shadow">Background</button>
+                  <button onclick="displayColorSlider3()" value ="cover" class="btn btn-secondary btn-shadow">Cover</button>
                   <div class="pt-3 text-center">
                     Value: (<span id="R"></span>, <span id="G"></span>, <span id="B"></span>)
                   </div>
                 </div>
               </div>
               <div>
-                <div>
-                  <input type="range" min="0" max="255" value="128" class="slider mb-3" id="Rvalue" onchange = "ColorStuff()" oninput = "ColorStuff()" >
-                  <input type="range" min="0" max="255" value="128" class="slider mb-3" id="Gvalue" onchange = "ColorStuff()" oninput = "ColorStuff()" >
-                  <input type="range" min="0" max="255" value="128" class="slider mb-4" id="Bvalue" onchange = "ColorStuff()" oninput = "ColorStuff()" >
+                <div id="displaySliderBoard" style="display: block;">
+                  <input type="range" min="0" max="255" value="128" class="slider mb-3" id="BoardRvalue">
+                  <input type="range" min="0" max="255" value="128" class="slider mb-3" id="BoardGvalue">
+                  <input type="range" min="0" max="255" value="128" class="slider mb-4" id="BoardBvalue">
+                </div>
+                <div id="displaySliderBackground" style="display: none;">
+                  <input type="range" min="0" max="255" value="128" class="slider mb-3" id="BackgroundRvalue">
+                  <input type="range" min="0" max="255" value="128" class="slider mb-3" id="BackgroundGvalue">
+                  <input type="range" min="0" max="255" value="128" class="slider mb-4" id="BackgroundBvalue">
+                </div>
+                <div id="displaySliderCover" style="display: none;">
+                  <input type="range" min="0" max="255" value="128" class="slider mb-3" id="CoverRvalue">
+                  <input type="range" min="0" max="255" value="128" class="slider mb-3" id="CoverGvalue">
+                  <input type="range" min="0" max="255" value="128" class="slider mb-4" id="CoverBvalue">
                 </div>
                 <div class="row text-uppercase">
                   <div class="col">
@@ -397,7 +407,7 @@
                   </div>
                   <div class="row pt-3 text-center">
                     <div class="col m-auto">
-                      <!-- 
+                      <!--
                       <button type="button" class="btn btn-secondary btn-shadow">Label</button>
                        -->
                       <button type="button" class="btn btn-secondary btn-shadow">Peg</button>
@@ -529,7 +539,7 @@
     <!-- WebGL -->
 
 
-    <!-- Unity Stuff -->
+    <!-- Unity Stuff
     <script src="SosaUnity/TemplateData/UnityProgress.js"></script>
     <script src="SosaUnity/Build/UnityLoader.js"></script>
 
@@ -538,7 +548,7 @@
     </script>
 
     <script>
-    //This section will be for the entirety of the first scene-----------------------------------------------------------------------------------------------------------------------------
+    //This section will be for the entirety of the first scene
     //initializing the WebPlayer
     var val = 1;
     var TempBR=128;
@@ -656,9 +666,9 @@
     {
       gameInstance.SendMessage("SceneController","setBoardText",text.value);
     }
-    //This section will be for the entirety of the first scene-----------------------------------------------------------------------------------------------------------------------------
+    //This section will be for the entirety of the first scene
     </Script>
-
+-->
 
   </body>
 
