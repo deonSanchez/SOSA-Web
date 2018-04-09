@@ -200,7 +200,7 @@ $("button#remove").on('click',function(){
 		url : 'api/index.php',
 		async : true,
 		success : function(response) {
-			alert(response);
+			loadStimulusSets(loadCurrentStimulusSet);
 		},
 		error : function() {
 			alert("Error with create stimulus!");
@@ -249,6 +249,36 @@ $("#stimulus-set").on("change", function(){
 
 $("button#load").on("click", function(){
 	var stimulus_id = $("select#individual_stimulus :selected").attr('id');
+	$.ajax( {
+		type : 'POST',
+		data : 'request=loadstimulus&stimulus_id='+ stimulus_id,
+		url : 'api/index.php',
+		async : true,
+		success : function(response) {
+			var json = JSON.parse(response);
+			//set the field values to reflect current internal values
+			var stimulus_name = json[0].label;
+			var peg_r = json[0].peg_r;
+			var peg_g = json[0].peg_g;
+			var peg_b = json[0].peg_b;
+			
+			$("input#stimulus_name").val(stimulus_name);
+			
+			$("input#RvalueStim").val(peg_r);
+			$("span#sR").val(peg_r);
+			
+			$("input#GvalueStim").val(peg_g);
+			$("span#sG").val(peg_g);
+			
+			$("input#BvalueStim").val(peg_g);
+			$("span#sB").val(peg_b);
+			
+			$("input#selected_stimulus").val(stimulus_id) 
+		},
+		error : function() {
+			alert("Error with create stimulus!");
+		}
+	});
 });
 
 $("button#peg").on("click", function() {	

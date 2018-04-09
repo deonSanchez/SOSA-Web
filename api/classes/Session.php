@@ -479,18 +479,10 @@ class Session {
 	 * @version 0.5.0
 	 */
 	public function loadStimulus($stimulus_id) {
-		$results = null;
-		$stimset_id = intval($stimulus_id);
-		$stmt = $this->mysqli->prepare("SELECT `stimset_id`, `label`,`peg_r`,`peg_g`,`peg_b`,`label_r`,`label_g`,`label_b` FROM `stimulus` WHERE `stimset_id` = ?");
-		$stmt->bind_param("i",$stimulus_id);
-		$stmt->bind_result($stimset_id, $label,$peg_r,$peg_g,$peg_b,$label_r,$label_g,$label_b);
-		$stmt->execute();
-		$stmt->store_result();
-		if ($stmt->num_rows >= 1) {
-			while ($stmt->fetch()) {
-				$results[] = array('stimset_id' => $stimset_id,'label' => $label, 'peg_r' => $peg_r,'peg_g' => $peg_g,'peg_b' => $peg_b, 'label_r' => $label_r,'label_g' => $label_g,'label_b' => $label_b);
-			}
-		}
+		$stimulus_id = intval($stimulus_id);
+		$qry = $this->qb->start();
+		$qry->select("*")->from("stimulus")->where("stimulus_id", "=", $stimulus_id);
+		$results = $qry->get();
 		return $results;
 	}
 
