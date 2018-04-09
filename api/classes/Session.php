@@ -459,14 +459,15 @@ class Session {
 	public function loadStimSet($stimset_id) {
 		$results = null;
 		$stimset_id = intval($stimset_id);
-		$stmt = $this->mysqli->prepare("SELECT `label`, `label_color`, `peg_color` FROM `stimulus` WHERE `stimset_id` = ?");
+		$stmt = $this->mysqli->prepare("SELECT `label`,`peg_r`,`peg_g`,`peg_b`,`label_r`,`label_g`,`label_b` FROM `stimulus` WHERE `stimset_id` = ?");
+		echo $this->mysqli->error;
 		$stmt->bind_param("i",$stimset_id);
-		$stmt->bind_result($label, $lc, $pc);
+		$stmt->bind_result($label,$peg_r,$peg_g,$peg_b,$label_r,$label_g,$label_b);
 		$stmt->execute();
 		$stmt->store_result();
 		if ($stmt->num_rows >= 1) {
 			while ($stmt->fetch()) {
-				$results[] = array('label' => $label, 'label_color' => $lc, 'peg_color' => $pc);
+				$results[] = array('label' => $label, 'peg_r' => $peg_r,'peg_g' => $peg_g,'peg_b' => $peg_b, 'label_r' => $label_r,'label_g' => $label_g,'label_b' => $label_b);
 			}
 		}
 		return $results;
@@ -478,11 +479,21 @@ class Session {
 	 * @param $setid required
 	 * @version 0.5.0
 	 */
-	public function createStimulus($label,$label_color,$peg_color,$setid) {
-		$mysqli = $this->mysqli->prepare("INSERT INTO `stimulus` (`label`,`label_color`,`peg_color`,`stimset_id`) VALUES (?,?,?,?)");
-		$mysqli->bind_param("sssi", $label,$label_color,$peg_color,$setid);
+	public function createStimulus($label,$peg_r,$peg_g,$peg_b,$label_r,$label_g,$label_b,$set_title) {
+		$setid = $this->lookupSetID($set_title);
+		$temp = -1;
+		$mysqli = $this->mysqli->prepare("INSERT INTO `stimulus` (`label`,`peg_r`,`peg_g`,`peg_b`,`label_r`,`label_g`,`label_b`, `stimset_id`) VALUES (?,?,?,?,?,?,?,?)");
+		$mysqli->bind_param("siiiiiii",$label,$peg_r,$peg_g,$peg_b,$temp,$temp,$temp,$setid);
 		$mysqli->execute();
 		$mysqli->close();
+	}
+	
+	public function lookupSetID($title) {		
+		$qry = $this->qb->start();
+		$qry->select("stimset_id");
+		$qry->from("stimulus_set")->where("title", "=", $title);
+		$result = $qry->get();
+		return isset($result[0]['stimset_id']) ? $result[0]['stimset_id'] : -1;
 	}
 	
 	/**
@@ -491,11 +502,23 @@ class Session {
 	 * @return $set id
 	 * @version 0.5.0
 	 */
-	public function createStimulusSet($version,$relative_size,$window_size) {
-		$mysqli = $this->mysqli->prepare("INSERT INTO `stimulus_set` (`version`,`relative_size`,`window_size`) VALUES (?,?,?)");
-		$mysqli->bind_param("sss", $version,$relative_size,$window_size);
+	public function createStimulusSet($title, $version,$relative_size,$window_size) {
+		$version = 1;
+		$relative_size = 1;
+		$window_size = 1;
+		
+		$stmt = $this->mysqli->prepare("SELECT * FROM `stimulus_set` WHERE `title` = ?");
+		$stmt->bind_param("s", $title);
+		$stmt->execute();
+		$stmt->store_result();
+		if ($stmt->num_rows > 0) {
+			return false;
+		}
+		$mysqli = $this->mysqli->prepare("INSERT INTO `stimulus_set` (`title`, `version`,`relative_size`,`window_size`) VALUES (?,?,?,?)");
+		$mysqli->bind_param("siii", $title,$version,$relative_size,$window_size);
 		$mysqli->execute();
 		$mysqli->close();
+		return true;
 	}
 
 	/**

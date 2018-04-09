@@ -1,4 +1,5 @@
 var login_content = $("div#login_content");
+var color_selection = -1;
 $("button#signin").on("click", function(e) {
 	var username = $("input#username").val();
 	var password = $("input#password").val();
@@ -43,6 +44,15 @@ $("a#log-out-nav").on('click', function() {
 		}
 	});
 })
+function objLength(obj){
+	  var i=0;
+	  for (var x in obj){
+	    if(obj.hasOwnProperty(x)){
+	      i++;
+	    }
+	  } 
+	  return i;
+	}
 
 /**
  * This document ready function fires when the page is loaded, it checks the api to see if the user is logged in. 
@@ -50,7 +60,7 @@ $("a#log-out-nav").on('click', function() {
  * @returns {undefined}
  */
 $(function () {
-    //jQuery ajax call to the api
+    //this part deals with login check
     $.ajax({
         type: 'POST',
         data: 'request=checklogin',
@@ -68,6 +78,24 @@ $(function () {
             alert("An error has occured while verifying logged-in status!");
         }
     });
+    //this part deals with loading initial stimulus set list
+    $.ajax( {
+		type : 'POST',
+		data : 'request=createset&set_name='+ set_name,
+		url : 'api/index.php',
+		async : true,
+		success : function(response) {
+			if(response == 1) {
+				alert("Stimulus set added!");
+				$("select#stimulus-set").append("<option>"+set_name+"</option>");
+			} else {
+				alert("Cannot create new stimulus set with name of another set OR with non-alphanumeric name!");
+			}
+		},
+		error : function() {
+			alert("Error with create stimulus!");
+		}
+	});
 });
 
 $("button#register-submit").on('click', function() {
@@ -93,26 +121,94 @@ $("button#register-submit").on('click', function() {
 	});
 });
 
-$("button#add").on('click',function(){
-	var set_name = $("input#set_name");
-	alert("Create a set with name = " + set_name);
+/**
+ * This runs when the create stimulus button at the top of the modal is clicked
+ */
+$("button#create_stimulus").on('click',function(){
+	var stimulus_name = $("input#stimulus_name").val();
+	var peg_r = $("input#RvalueStim").val();
+	var peg_g = $("input#GvalueStim").val();
+	var peg_b = $("input#BvalueStim").val();
+	var set_title = $('#stimulus-set :selected').text();
+	$.ajax( {
+		type : 'POST',
+		data : 'request=createstimulus&label='+ stimulus_name 
+		+ '&peg_r=' + peg_r +'&peg_g='+peg_g+'&peg_b='+peg_b
+		+'&label_r=' + peg_r +'&label_g='+peg_g+'&label_b='+peg_b
+		+'&set_title='+set_title,
+		url : 'api/index.php',
+		async : true,
+		success : function(response) {
+			alert(response);
+		},
+		error : function() {
+			alert("Error with create stimulus!");
+		}
+	});
 });
 
 $("button#remove").on('click',function(){
 	var selected = $('#stimulus-set :selected').text();
-	alert("Remove currently selected set from dropdown, value is: " + selected);
 });
 
+/**
+ * Adds a new stimulus set to the dropdown and database
+ */
+$("button#add").on('click',function(){
+	var set_name = $("input#set_name").val();
+	$.ajax( {
+		type : 'POST',
+		data : 'request=createset&set_name='+ set_name,
+		url : 'api/index.php',
+		async : true,
+		success : function(response) {
+			if(response == 1) {
+				alert("Stimulus set added!");
+				$("select#stimulus-set").append("<option>"+set_name+"</option>");
+			} else {
+				alert("Cannot create new stimulus set with name of another set OR with non-alphanumeric name!");
+			}
+		},
+		error : function() {
+			alert("Error with create stimulus!");
+		}
+	});
+});
+
+$("button#save").on('click',function(){
+	var set_title = $('#stimulus-set :selected').text();
+});
+
+/**
+ * When dropdown changed, loads the simuli under the selected set into the individual stimulus dropdown
+ */
 $("#stimulus-set").on("change", function(){
-	var selected = $('#stimulus-set :selected').text();
-	alert("new stim set selected " + selected + " should load the stimuli for this set in the box below now");
+	var set_title = $('#stimulus-set :selected').text();
+	$.ajax( {
+		type : 'POST',
+		data : 'request=loadstimset&set_title='+set_title,
+		url : 'api/index.php',
+		async : true,
+		success : function(response) {
+			var json = JSON.parse(response);
+			var len = objLength(json);
+			var appendLabel = "";
+			for (var i = 0; i < len; i++) {
+				appendLabel = appendLabel + "<option>"+json[i].label+"</option>";
+			}
+			$("select#individual_stimulus").html(appendLabel);
+		},
+		error : function() {
+			alert("Error with create stimulus!");
+		}
+	});
 });
 
-$("#load").on("click", function(){
-	var stimulus = "a";
-	alert("code for loading the selected stimulus set is here, load info for stim " + stimulus);
+$("button#load").on("click", function(){
 });
 
-$("#exampleFormControlSelect2").on("change", function(){
-	alert("test");
+$("button#peg").on("click", function() {	
+});
+
+$("button#label").on("click", function() {
 });
