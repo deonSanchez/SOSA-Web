@@ -68,20 +68,11 @@
   <!-- Navigation -->
   <nav class="navbar bg-secondary fixed-top text-uppercase" id="mainNav">
     <div class="container">
-<<<<<<< HEAD
-      <a class="navbar-brand js-scroll-trigger" href="#page-top">SOSA</a>
-      <div class="navbar-toggler-right">
-        <button type="button" class="btn btn-primary navbar-toggler text-uppercase mr-3" data-toggle="modal" data-target="#sign-in">
-          Sign In/ Register
-        </button>
-        <button class="navbar-toggler text-uppercase bg-primary text-white rounded" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
-=======
       <a class="navbar-brand js-scroll-trigger" href="#page-top">
-      <i class="mr-2 fa fa-cog"></i> SOSA
+        <i class="mr-2 fa fa-cog"></i> SOSA
       </a>
       <div class="navbar-brand navbar-toggler-right">
         <button class="navbar-toggler text-uppercase text-white rounded" style="font-weight:600" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
->>>>>>> 0b2311690eb11d13d49b1e696031afa71871b1e5
           create
           <i class="ml-2 fa fa-bars"></i>
         </button>
@@ -89,11 +80,7 @@
       <div class="collapse navbar-collapse" id="navbarResponsive">
         <ul class="navbar-nav ml-auto align-items-end">
           <li class="nav-item mx-0 mx-lg-1">
-<<<<<<< HEAD
-            <a class="nav-link py-3 px-0 px-lg-3 rounded" id="sign-in-nav" data-toggle="modal" data-target="#sign-in" href="">Sign In / Register</a>
-=======
             <a class="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger" id="sign-in-nav" data-toggle="modal" data-target="#sign-in" href="">Sign In / Register</a>
->>>>>>> 0b2311690eb11d13d49b1e696031afa71871b1e5
           </li>
           <li class="nav-item mx-0 mx-lg-1">
             <a class="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger" id="log-out-nav" style="display:none;"href="">Log out</a>
@@ -286,233 +273,60 @@
 
                   <!--Rico
                   <div class=" webgl-content pb-3">
-                    <div id="gameContainer"></div>
-                  </div>
-                -->
+                  <div id="gameContainer"></div>
+                </div>
+              -->
 
-                  <div class="form-group">
-                    <input oninput="ChangeBoardText(this)" type="text" class="form-control" placeholder="Board Name">
+              <div class="form-group">
+                <input oninput="ChangeBoardText(this)" type="text" class="form-control" placeholder="Board Name">
+              </div>
+              <div class="row">
+                <div class="col">
+                  <button class="btn btn-shadow btn-block btn-secondary btn-small rounded-pill">Add Image</button>
+                </div>
+                <div class="col">
+                  <button class="btn btn-shadow btn-block btn-secondary btn-small rounded-pill" onclick = "ClearOff()">Clear</button>
+                </div>
+              </div>
+              <div class="row">
+                <div class="flex-column p-3">
+                  <div class="checkbox">
+                    <label><input type="checkbox" value="" oninput = "setTiltLock()"> Lock Tilt</label>
                   </div>
-                  <div class="row">
-                    <div class="col">
-                      <button class="btn btn-shadow btn-block btn-secondary btn-small rounded-pill">Add Image</button>
-                    </div>
-                    <div class="col">
-                      <button class="btn btn-shadow btn-block btn-secondary btn-small rounded-pill" onclick = "ClearOff()">Clear</button>
-                    </div>
+                  <div class="checkbox">
+                    <label><input type="checkbox" value="" oninput = "setRotLock()"> Lock Rotate</label>
                   </div>
-                  <div class="row">
-                    <div class="flex-column p-3">
-                      <div class="checkbox">
-                        <label><input type="checkbox" value="" oninput = "setTiltLock()"> Lock Tilt</label>
-                      </div>
-                      <div class="checkbox">
-                        <label><input type="checkbox" value="" oninput = "setRotLock()"> Lock Rotate</label>
-                      </div>
-                      <div class="checkbox">
-                        <label><input type="checkbox" value="" oninput = "setZoomLock()"> Lock Zoom</label>
-                      </div>
-                      <div class="checkbox">
-                        <label><input type="checkbox" value="" oninput = "ToggleCover()"> Cover Board</label>
-                      </div>
-                    </div>
-                    <div class="flex-column m-auto align-self-end text-center">
-                      <button input onclick = "CurrentObject(this)" type="button" value ="board" class="btn btn-secondary btn-shadow">Board</button>
-                      <button input onclick = "CurrentObject(this)" type="button" value ="background"class="btn btn-secondary btn-shadow">Background</button>
-                      <button input onclick = "CurrentObject(this)" type="button" value ="cover" class="btn btn-secondary btn-shadow">Cover</button>
-                      <div class="pt-3 text-center">
-                        Value: (<span id="R"></span>, <span id="G"></span>, <span id="B"></span>)
-                      </div>
-                    </div>
+                  <div class="checkbox">
+                    <label><input type="checkbox" value="" oninput = "setZoomLock()"> Lock Zoom</label>
                   </div>
-                  <div>
-                    <div>
-                      <input type="range" min="0" max="255" value="128" class="slider mb-3" id="Rvalue" onchange = "ColorStuff()" oninput = "ColorStuff()" >
-                      <input type="range" min="0" max="255" value="128" class="slider mb-3" id="Gvalue" onchange = "ColorStuff()" oninput = "ColorStuff()" >
-                      <input type="range" min="0" max="255" value="128" class="slider mb-4" id="Bvalue" onchange = "ColorStuff()" oninput = "ColorStuff()" >
-                    </div>
-                    <div class="row text-uppercase">
-                      <div class="col">
-                        <button class="btn btn-shadow btn-secondary btn-block rounded-pill sosa-modal-dismiss" href="#">
-                          Load</button>
-                        </div>
-                        <div class="col">
-                          <button class="btn btn-shadow btn-secondary btn-block rounded-pill sosa-modal-dismiss" href="#">
-                            Save</button>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
+                  <div class="checkbox">
+                    <label><input type="checkbox" value="" oninput = "ToggleCover()"> Cover Board</label>
+                  </div>
+                </div>
+                <div class="flex-column m-auto align-self-end text-center">
+                  <button input onclick = "CurrentObject(this)" type="button" value ="board" class="btn btn-secondary btn-shadow">Board</button>
+                  <button input onclick = "CurrentObject(this)" type="button" value ="background"class="btn btn-secondary btn-shadow">Background</button>
+                  <button input onclick = "CurrentObject(this)" type="button" value ="cover" class="btn btn-secondary btn-shadow">Cover</button>
+                  <div class="pt-3 text-center">
+                    Value: (<span id="R"></span>, <span id="G"></span>, <span id="B"></span>)
                   </div>
                 </div>
               </div>
-            </div>
-          </div>
-
-          <!-- Stimulus Modal -->
-          <div class="sosa-modal mx-auto mfp-hide" id="stimulus-modal" style="width: fit-content;">
-            <div class="sosa-modal-dialog bg-white">
-              <a class="close-button d-md-block text-secondary sosa-modal-dismiss" href="#">
-                <i class="fa fa-2x fa-times"></i>
-              </a>
-              <div class="container">
-                <div class="text-center">
-                  <h3 class="text-secondary text-center text-uppercase mb-0">Stimulus</h3>
-                  <hr class="cog-dark mb-5">
-                  <div class="row">
-                    <div class="col">
-                      <div class="form-group row">
-                        <div class="col">
-                          <input type="text" class="form-control" id="stimulus_name" placeholder="Stimulus Name">
-                        </div>
-                        <div class="col">
-                          <button id="create_stimulus" class="btn btn-shadow btn-block btn-secondary btn-small rounded-pill">Create Stimulus</button>
-                        </div>
-                      </div>
-                      <img class="img-fluid" src="img/test/cabin.png" alt="">
-                      <div class="row pt-3 text-center">
-                        <div class="col m-auto">
-                          <button type="button" class="btn btn-secondary btn-shadow">Label</button>
-                          <button type="button" class="btn btn-secondary btn-shadow">Peg</button>
-                        </div>
-                        <div class="col m-auto">
-                          <div class="text-center">
-                            Value: (<span id="sR"></span>, <span id="sG"></span>, <span id="sB"></span>)
-                          </div>
-                        </div>
-                      </div>
-                      <div class="pt-3">
-                        <input type="range" min="1" max="255" value="128" class="slider mb-3" id="RvalueStim">
-                        <input type="range" min="1" max="255" value="128" class="slider mb-3" id="GvalueStim">
-                        <input type="range" min="1" max="255" value="128" class="slider mb-4" id="BvalueStim">
-                      </div>
-                      <div class="row">
-                        <div class="col pb-3">
-                          <button class="btn btn-shadow btn-block btn-secondary btn-small rounded-pill">Add to Stimulus Set</button>
-                        </div>
-                        <div class="col pb-3">
-                          <button class="btn btn-shadow btn-block btn-secondary btn-small rounded-pill">Remove</button>
-                        </div>
-                      </div>
-                      <div class="row pb-3">
-                        <div class="col-auto input-group mb-3">
-                          <div class="input-group-prepend">
-                            <button id="add" class="btn" type="button">
-                              <i class="fa fa-arrow-down pr-1"></i>Add
-                            </button>
-                          </div>
-                          <input type="text" id="set_name" class="form-control" placeholder="" aria-label="" aria-describedby="basic-addon1">
-                          <div class="input-group-append">
-                            <button class="btn" type="button" id="remove">Remove</button>
-                          </div>
-                        </div>
-                        <div class="col-auto input-group">
-                          <select class="form-control" id="stimulus-set">
-                            <option>Stimulus Set 1</option>
-                            <option>Stimulus Set 2</option>
-                            <option>Stimulus Set 3</option>
-                            <option>Stimulus Set 4</option>
-                          </select>
-                        </div>
-                      </div>
-                      <div class="form-group">
-                        <select class="form-control" id="exampleFormControlSelect2">
-                          <option>Stimulus 1</option>
-                          <option>Stimulus 2</option>
-                          <option>Stimulus 3</option>
-                          <option>Stimulus 4</option>
-                          <option>Stimulus 5</option>
-                        </select>
-                      </div>
-                      <div class="row pb-3">
-                        <div class="col">
-                          <button id="load" class="btn btn-shadow btn-block btn-secondary btn-small rounded-pill">Save</button>
-                        </div>
-                        <div class="col">
-                          <button id="save" class="btn btn-shadow btn-block btn-secondary btn-small rounded-pill">Load</button>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
+              <div>
+                <div>
+                  <input type="range" min="0" max="255" value="128" class="slider mb-3" id="Rvalue" onchange = "ColorStuff()" oninput = "ColorStuff()" >
+                  <input type="range" min="0" max="255" value="128" class="slider mb-3" id="Gvalue" onchange = "ColorStuff()" oninput = "ColorStuff()" >
+                  <input type="range" min="0" max="255" value="128" class="slider mb-4" id="Bvalue" onchange = "ColorStuff()" oninput = "ColorStuff()" >
                 </div>
-              </div>
-            </div>
-          </div>
-
-          <!-- Experiment Modal -->
-          <div class="sosa-modal mx-auto mfp-hide" id="experiment-modal" style="width: fit-content;">
-            <div class="sosa-modal-dialog bg-white">
-              <a class="close-button d-md-block text-secondary sosa-modal-dismiss" href="#">
-                <i class="fa fa-2x fa-times"></i>
-              </a>
-              <div class="container">
-                <div class="row">
-                  <div class="flex-column mx-auto">
-                    <h3 class="text-secondary text-center text-uppercase mb-0">Experiment</h3>
-                    <hr class="cog-dark mb-5">
-                    <div class="row">
-                      <div class="col">
-                        <!-- Unity Stuff needs to be fixed
-                        <object id="UnityObject" classid="clsid:444785F1-DE89-4295-863A-D46C3A781394"
-                        width="420" height="750"
-                        codebase="http://webplayer.unity3d.com/download_webplayer/UnityWebPlayer.cab#version=2,0,0,0">
-                        <param name="unity3d" value="WebPlayer.unity3d" />
-                        <embed id="UnityEmbed" src="mlpbeta/mlpbeta.unity3d" width="420" height="750"
-                        type="application/vnd.unity" pluginspage="http://www.unity3d.com/unity-web-player-2.x" />
-                      -->
-                      <div class=" row pb-3">
-                        <div class="col">
-                          <select class="custom-select" id="inputGroupSelect04">
-                            <option selected>6x6 on Final Image</option>
-                            <option value="1">12x12 on Final Image</option>
-                            <option value="2">9x9 on Final Image</option>
-                            <option value="3">3x3 on Final Image</option>
-                          </select>
-                        </div>
-                        <div class="col">
-                          <div class="checkbox">
-                            <label><input type="checkbox" value=""> Show Board Cover</label>
-                          </div>
-                        </div>
+                <div class="row text-uppercase">
+                  <div class="col">
+                    <button class="btn btn-shadow btn-secondary btn-block rounded-pill sosa-modal-dismiss" href="#">
+                      Load</button>
+                    </div>
+                    <div class="col">
+                      <button class="btn btn-shadow btn-secondary btn-block rounded-pill sosa-modal-dismiss" href="#">
+                        Save</button>
                       </div>
-                    </div>
-                    <div class="col-5">
-                      <img class="img-fluid pb-3" src="img/test/cabin.png" alt="">
-                      <input type="range" min="1" max="255" value="128" class="slider mb-3" id="Rvalue">
-                      <div class="input-group pb-3">
-                        <div class="input-group-prepend">
-                          <button class="btn btn-outline-secondary" type="button">+</button>
-                        </div>
-                        <select class="custom-select" id="inputGroupSelect04">
-                          <option selected>Stimulus Set 1</option>
-                          <option value="1">Stimulus Set 2</option>
-                          <option value="2">Stimulus Set 3</option>
-                          <option value="3">Stimulus Set 4</option>
-                        </select>
-                        <div class="input-group-append">
-                          <button class="btn btn-outline-secondary" type="button">-</button>
-                        </div>
-                      </div>
-                      <div class="form-group">
-                        <select multiple class="form-control" id="exampleFormControlSelect2">
-                          <option>Stimulus 1</option>
-                          <option>Stimulus 2</option>
-                          <option>Stimulus 3</option>
-                          <option>Stimulus 4</option>
-                          <option>Stimulus 5</option>
-                        </select>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="row">
-                    <div class="col mt-3">
-                      <button class="btn btn-shadow btn-secondary btn-block rounded-pill sosa-modal-dismiss" href="#">Load Board</button>
-                    </div>
-                    <div class="col mt-3">
-                      <button class="btn btn-shadow btn-secondary btn-block rounded-pill sosa-modal-dismiss" href="#">Load Stimulus</button>
-                    </div>
-                    <div class="col mt-3">
-                      <button class="btn btn-shadow btn-secondary btn-block rounded-pill sosa-modal-dismiss" href="#">Begin Experiment</button>
                     </div>
                   </div>
                 </div>
@@ -520,160 +334,333 @@
             </div>
           </div>
         </div>
+      </div>
 
-        <!-- Bootstrap core JavaScript -->
-        <script src="vendor/jquery/jquery.min.js"></script>
-        <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+      <!-- Stimulus Modal -->
+      <div class="sosa-modal mx-auto mfp-hide" id="stimulus-modal" style="width: fit-content;">
+        <div class="sosa-modal-dialog bg-white">
+          <a class="close-button d-md-block text-secondary sosa-modal-dismiss" href="#">
+            <i class="fa fa-2x fa-times"></i>
+          </a>
+          <div class="container">
+            <div class="text-center">
+              <h3 class="text-secondary text-center text-uppercase mb-0">Stimulus</h3>
+              <hr class="cog-dark mb-5">
+              <div class="row">
+                <div class="col">
+                  <div class="form-group row">
+                    <div class="col">
+                      <input type="text" class="form-control" id="stimulus_name" placeholder="Stimulus Name">
+                    </div>
+                    <div class="col">
+                      <button id="create_stimulus" class="btn btn-shadow btn-block btn-secondary btn-small rounded-pill">Create Stimulus</button>
+                    </div>
+                  </div>
+                  <img class="img-fluid" src="img/test/cabin.png" alt="">
+                  <div class="row pt-3 text-center">
+                    <div class="col m-auto">
+                      <button type="button" class="btn btn-secondary btn-shadow">Label</button>
+                      <button type="button" class="btn btn-secondary btn-shadow">Peg</button>
+                    </div>
+                    <div class="col m-auto">
+                      <div class="text-center">
+                        Value: (<span id="sR"></span>, <span id="sG"></span>, <span id="sB"></span>)
+                      </div>
+                    </div>
+                  </div>
+                  <div class="pt-3">
+                    <input type="range" min="1" max="255" value="128" class="slider mb-3" id="RvalueStim">
+                    <input type="range" min="1" max="255" value="128" class="slider mb-3" id="GvalueStim">
+                    <input type="range" min="1" max="255" value="128" class="slider mb-4" id="BvalueStim">
+                  </div>
+                  <div class="row">
+                    <div class="col pb-3">
+                      <button class="btn btn-shadow btn-block btn-secondary btn-small rounded-pill">Add to Stimulus Set</button>
+                    </div>
+                    <div class="col pb-3">
+                      <button class="btn btn-shadow btn-block btn-secondary btn-small rounded-pill">Remove</button>
+                    </div>
+                  </div>
+                  <div class="row pb-3">
+                    <div class="col-auto input-group mb-3">
+                      <div class="input-group-prepend">
+                        <button id="add" class="btn" type="button">
+                          <i class="fa fa-arrow-down pr-1"></i>Add
+                        </button>
+                      </div>
+                      <input type="text" id="set_name" class="form-control" placeholder="" aria-label="" aria-describedby="basic-addon1">
+                      <div class="input-group-append">
+                        <button class="btn" type="button" id="remove">Remove</button>
+                      </div>
+                    </div>
+                    <div class="col-auto input-group">
+                      <select class="form-control" id="stimulus-set">
+                        <option>Stimulus Set 1</option>
+                        <option>Stimulus Set 2</option>
+                        <option>Stimulus Set 3</option>
+                        <option>Stimulus Set 4</option>
+                      </select>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <select class="form-control" id="exampleFormControlSelect2">
+                      <option>Stimulus 1</option>
+                      <option>Stimulus 2</option>
+                      <option>Stimulus 3</option>
+                      <option>Stimulus 4</option>
+                      <option>Stimulus 5</option>
+                    </select>
+                  </div>
+                  <div class="row pb-3">
+                    <div class="col">
+                      <button id="load" class="btn btn-shadow btn-block btn-secondary btn-small rounded-pill">Save</button>
+                    </div>
+                    <div class="col">
+                      <button id="save" class="btn btn-shadow btn-block btn-secondary btn-small rounded-pill">Load</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
 
-        <!-- Plugin JavaScript -->
-        <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
-        <script src="vendor/magnific-popup/jquery.magnific-popup.min.js"></script>
+      <!-- Experiment Modal -->
+      <div class="sosa-modal mx-auto mfp-hide" id="experiment-modal" style="width: fit-content;">
+        <div class="sosa-modal-dialog bg-white">
+          <a class="close-button d-md-block text-secondary sosa-modal-dismiss" href="#">
+            <i class="fa fa-2x fa-times"></i>
+          </a>
+          <div class="container">
+            <div class="row">
+              <div class="flex-column mx-auto">
+                <h3 class="text-secondary text-center text-uppercase mb-0">Experiment</h3>
+                <hr class="cog-dark mb-5">
+                <div class="row">
+                  <div class="col">
+                    <!-- Unity Stuff needs to be fixed
+                    <object id="UnityObject" classid="clsid:444785F1-DE89-4295-863A-D46C3A781394"
+                    width="420" height="750"
+                    codebase="http://webplayer.unity3d.com/download_webplayer/UnityWebPlayer.cab#version=2,0,0,0">
+                    <param name="unity3d" value="WebPlayer.unity3d" />
+                    <embed id="UnityEmbed" src="mlpbeta/mlpbeta.unity3d" width="420" height="750"
+                    type="application/vnd.unity" pluginspage="http://www.unity3d.com/unity-web-player-2.x" />
+                  -->
+                  <div class=" row pb-3">
+                    <div class="col">
+                      <select class="custom-select" id="inputGroupSelect04">
+                        <option selected>6x6 on Final Image</option>
+                        <option value="1">12x12 on Final Image</option>
+                        <option value="2">9x9 on Final Image</option>
+                        <option value="3">3x3 on Final Image</option>
+                      </select>
+                    </div>
+                    <div class="col">
+                      <div class="checkbox">
+                        <label><input type="checkbox" value=""> Show Board Cover</label>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-5">
+                  <img class="img-fluid pb-3" src="img/test/cabin.png" alt="">
+                  <input type="range" min="1" max="255" value="128" class="slider mb-3" id="Rvalue">
+                  <div class="input-group pb-3">
+                    <div class="input-group-prepend">
+                      <button class="btn btn-outline-secondary" type="button">+</button>
+                    </div>
+                    <select class="custom-select" id="inputGroupSelect04">
+                      <option selected>Stimulus Set 1</option>
+                      <option value="1">Stimulus Set 2</option>
+                      <option value="2">Stimulus Set 3</option>
+                      <option value="3">Stimulus Set 4</option>
+                    </select>
+                    <div class="input-group-append">
+                      <button class="btn btn-outline-secondary" type="button">-</button>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <select multiple class="form-control" id="exampleFormControlSelect2">
+                      <option>Stimulus 1</option>
+                      <option>Stimulus 2</option>
+                      <option>Stimulus 3</option>
+                      <option>Stimulus 4</option>
+                      <option>Stimulus 5</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col mt-3">
+                  <button class="btn btn-shadow btn-secondary btn-block rounded-pill sosa-modal-dismiss" href="#">Load Board</button>
+                </div>
+                <div class="col mt-3">
+                  <button class="btn btn-shadow btn-secondary btn-block rounded-pill sosa-modal-dismiss" href="#">Load Stimulus</button>
+                </div>
+                <div class="col mt-3">
+                  <button class="btn btn-shadow btn-secondary btn-block rounded-pill sosa-modal-dismiss" href="#">Begin Experiment</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
 
-        <!-- Contact Form JavaScript -->
-        <script src="js/jqBootstrapValidation.js"></script>
-        <script src="js/contact_me.js"></script>
-        <script src="js/mitchell.js"></script>
+    <!-- Bootstrap core JavaScript -->
+    <script src="vendor/jquery/jquery.min.js"></script>
+    <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 
-        <!-- Custom scripts for this template -->
-        <script src="js/freelancer.min.js"></script>
+    <!-- Plugin JavaScript -->
+    <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
+    <script src="vendor/magnific-popup/jquery.magnific-popup.min.js"></script>
 
-        <!-- Randomly Created JavaScript -->
-        <script src="js/RGB_value_generator.js"></script>
+    <!-- Contact Form JavaScript -->
+    <script src="js/jqBootstrapValidation.js"></script>
+    <script src="js/contact_me.js"></script>
+    <script src="js/mitchell.js"></script>
 
-        <!-- WebGL -->
+    <!-- Custom scripts for this template -->
+    <script src="js/freelancer.min.js"></script>
 
+    <!-- Randomly Created JavaScript -->
+    <script src="js/RGB_value_generator.js"></script>
 
-        <!-- Unity Stuff -->
-        <script src="SosaUnity/TemplateData/UnityProgress.js"></script>
-        <script src="SosaUnity/Build/UnityLoader.js"></script>
-
-        <script>
-        var gameInstance = UnityLoader.instantiate("gameContainer", "SosaUnity/Build/SosaUnity.json", {onProgress: UnityProgress});
-        </script>
-
-        <script>
-        //This section will be for the entirety of the first scene-----------------------------------------------------------------------------------------------------------------------------
-        //initializing the WebPlayer
-        var val = 1;
-        var TempBR=128;
-        var TempBG=128;
-        var TempBB=128;
-        var TempBgR=0;
-        var TempBgG=0;
-        var TempBgB=0;
-        var TempCR=128;
-        var TempCG=128;
-        var TempCB=128;
-
-        //Board, Background, or cover
-        function CurrentObject(button){
-          val = button;
-          if(val.value == "board"){
-            Rvalue.value = TempBR;
-            Gvalue.value = TempBG;
-            Bvalue.value = TempBB;
-          }
-
-          if(val.value == "background"){
-            Rvalue.value = TempBgR;
-            Gvalue.value = TempBgG;
-            Bvalue.value = TempBgB;
-          }
-
-          if(val.value == "cover"){
-            Rvalue.value= TempCR;
-            Gvalue.value= TempCG;
-            Bvalue.value= TempCB;
-          }
-        }
-
-        //Adds Color to the elements in the "Game"
-        function ColorStuff(){
-          if(val.value == "board"){
-            gameInstance.SendMessage("SceneController","setBoardRed",Rvalue.value/255);
-            gameInstance.SendMessage("SceneController","setBoardGreen",Gvalue.value/255);
-            gameInstance.SendMessage("SceneController","setBoardBlue",Bvalue.value/255);
-            TempBR=Rvalue.value;
-            TempBG=Gvalue.value;
-            TempBB=Bvalue.value;
-          }
-
-          if(val.value == "background"){
-            gameInstance.SendMessage("SceneController","setBackRed",Rvalue.value/255);
-            gameInstance.SendMessage("SceneController","setBackGreen",Gvalue.value/255);
-            gameInstance.SendMessage("SceneController","setBackBlue",Bvalue.value/255);
-            TempBgR = Rvalue.value;
-            TempBgG = Gvalue.value;
-            TempBgB = Bvalue.value;
-          }
-
-          if(val.value == "cover"){
-            gameInstance.SendMessage("SceneController","setCoverRed",Rvalue.value/255);
-            gameInstance.SendMessage("SceneController","setCoverGreen",Gvalue.value/255);
-            gameInstance.SendMessage("SceneController","setCoverBlue",Bvalue.value/255);
-            TempCR = Rvalue.value;
-            TempCG = Gvalue.value;
-            TempCB = Bvalue.value;
-          }
-          else if(val == 1) {
-            val=1;
-          }
-        }
-        function ClearOff() //Clears off the current selection (of colors and images), then also sets the slider values back to 128
-        {
-          if(val.value == "board")
-          {
-            gameInstance.SendMessage("SceneController","setBoardRed",128/255);
-            gameInstance.SendMessage("SceneController","setBoardGreen",128/255);
-            gameInstance.SendMessage("SceneController","setBoardBlue",128/255);
-            Rvalue.value = 128;
-            Gvalue.value = 128;
-            Bvalue.value = 128;
-          }
-          if(val.value == "background")
-          {
-            gameInstance.SendMessage("SceneController","setBackRed",0);
-            gameInstance.SendMessage("SceneController","setBackGreen",0);
-            gameInstance.SendMessage("SceneController","setBackBlue",0);
-            Rvalue.value = 0;
-            Gvalue.value = 0;
-            Bvalue.value = 0;
-          }
-          if(val.value == "cover")
-          {
-            gameInstance.SendMessage("SceneController","setCoverRed",128/255);
-            gameInstance.SendMessage("SceneController","setCoverGreen",128/255);
-            gameInstance.SendMessage("SceneController","setCoverBlue",128/255);
-            Rvalue.value = 128;
-            Gvalue.value = 128;
-            Bvalue.value = 128;
-          }
-
-        }
-        function setTiltLock()
-        {
-          gameInstance.SendMessage("SceneController","isTiltLocked",);
-        }
-        function setRotLock()
-        {
-          gameInstance.SendMessage("SceneController","isRotateLocked",);
-        }
-        function setZoomLock()
-        {
-          gameInstance.SendMessage("SceneController","isZoomLocked",);
-        }
-        function ToggleCover()
-        {
-          gameInstance.SendMessage("SceneController","toggleCover",);
-        }
-        function ChangeBoardText(text)
-        {
-          gameInstance.SendMessage("SceneController","setBoardText",text.value);
-        }
-        //This section will be for the entirety of the first scene-----------------------------------------------------------------------------------------------------------------------------
-        </Script>
+    <!-- WebGL -->
 
 
-      </body>
+    <!-- Unity Stuff -->
+    <script src="SosaUnity/TemplateData/UnityProgress.js"></script>
+    <script src="SosaUnity/Build/UnityLoader.js"></script>
 
-      </html>
+    <script>
+    var gameInstance = UnityLoader.instantiate("gameContainer", "SosaUnity/Build/SosaUnity.json", {onProgress: UnityProgress});
+    </script>
+
+    <script>
+    //This section will be for the entirety of the first scene-----------------------------------------------------------------------------------------------------------------------------
+    //initializing the WebPlayer
+    var val = 1;
+    var TempBR=128;
+    var TempBG=128;
+    var TempBB=128;
+    var TempBgR=0;
+    var TempBgG=0;
+    var TempBgB=0;
+    var TempCR=128;
+    var TempCG=128;
+    var TempCB=128;
+
+    //Board, Background, or cover
+    function CurrentObject(button){
+      val = button;
+      if(val.value == "board"){
+        Rvalue.value = TempBR;
+        Gvalue.value = TempBG;
+        Bvalue.value = TempBB;
+      }
+
+      if(val.value == "background"){
+        Rvalue.value = TempBgR;
+        Gvalue.value = TempBgG;
+        Bvalue.value = TempBgB;
+      }
+
+      if(val.value == "cover"){
+        Rvalue.value= TempCR;
+        Gvalue.value= TempCG;
+        Bvalue.value= TempCB;
+      }
+    }
+
+    //Adds Color to the elements in the "Game"
+    function ColorStuff(){
+      if(val.value == "board"){
+        gameInstance.SendMessage("SceneController","setBoardRed",Rvalue.value/255);
+        gameInstance.SendMessage("SceneController","setBoardGreen",Gvalue.value/255);
+        gameInstance.SendMessage("SceneController","setBoardBlue",Bvalue.value/255);
+        TempBR=Rvalue.value;
+        TempBG=Gvalue.value;
+        TempBB=Bvalue.value;
+      }
+
+      if(val.value == "background"){
+        gameInstance.SendMessage("SceneController","setBackRed",Rvalue.value/255);
+        gameInstance.SendMessage("SceneController","setBackGreen",Gvalue.value/255);
+        gameInstance.SendMessage("SceneController","setBackBlue",Bvalue.value/255);
+        TempBgR = Rvalue.value;
+        TempBgG = Gvalue.value;
+        TempBgB = Bvalue.value;
+      }
+
+      if(val.value == "cover"){
+        gameInstance.SendMessage("SceneController","setCoverRed",Rvalue.value/255);
+        gameInstance.SendMessage("SceneController","setCoverGreen",Gvalue.value/255);
+        gameInstance.SendMessage("SceneController","setCoverBlue",Bvalue.value/255);
+        TempCR = Rvalue.value;
+        TempCG = Gvalue.value;
+        TempCB = Bvalue.value;
+      }
+      else if(val == 1) {
+        val=1;
+      }
+    }
+    function ClearOff() //Clears off the current selection (of colors and images), then also sets the slider values back to 128
+    {
+      if(val.value == "board")
+      {
+        gameInstance.SendMessage("SceneController","setBoardRed",128/255);
+        gameInstance.SendMessage("SceneController","setBoardGreen",128/255);
+        gameInstance.SendMessage("SceneController","setBoardBlue",128/255);
+        Rvalue.value = 128;
+        Gvalue.value = 128;
+        Bvalue.value = 128;
+      }
+      if(val.value == "background")
+      {
+        gameInstance.SendMessage("SceneController","setBackRed",0);
+        gameInstance.SendMessage("SceneController","setBackGreen",0);
+        gameInstance.SendMessage("SceneController","setBackBlue",0);
+        Rvalue.value = 0;
+        Gvalue.value = 0;
+        Bvalue.value = 0;
+      }
+      if(val.value == "cover")
+      {
+        gameInstance.SendMessage("SceneController","setCoverRed",128/255);
+        gameInstance.SendMessage("SceneController","setCoverGreen",128/255);
+        gameInstance.SendMessage("SceneController","setCoverBlue",128/255);
+        Rvalue.value = 128;
+        Gvalue.value = 128;
+        Bvalue.value = 128;
+      }
+
+    }
+    function setTiltLock()
+    {
+      gameInstance.SendMessage("SceneController","isTiltLocked",);
+    }
+    function setRotLock()
+    {
+      gameInstance.SendMessage("SceneController","isRotateLocked",);
+    }
+    function setZoomLock()
+    {
+      gameInstance.SendMessage("SceneController","isZoomLocked",);
+    }
+    function ToggleCover()
+    {
+      gameInstance.SendMessage("SceneController","toggleCover",);
+    }
+    function ChangeBoardText(text)
+    {
+      gameInstance.SendMessage("SceneController","setBoardText",text.value);
+    }
+    //This section will be for the entirety of the first scene-----------------------------------------------------------------------------------------------------------------------------
+    </Script>
+
+
+  </body>
+
+  </html>
