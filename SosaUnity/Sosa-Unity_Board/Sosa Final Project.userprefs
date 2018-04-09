@@ -1,0 +1,20 @@
+﻿<Properties StartupItem="Assembly-CSharp.csproj">
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="Unity.Instance.Unity Editor" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scene3\Scripts\DataHold.cs">
+    <Files>
+      <File FileName="Assets\Scene3\Scripts\PegMove.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scene3\Scripts\Pan.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scene3\Scripts\Zoom.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scene2\Scripts\CreateStim.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scene1\Scripts\CvrToggle.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scene3\Scripts\DataHold.cs" Line="3" Column="19" />
+      <File FileName="Assets\Scene2\Scripts\SetToStim.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scene2\Scripts\PegColor.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scene1\Scripts\CvrImg.cs" Line="1" Column="1" />
+    </Files>
+  </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore />
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+</Properties>
