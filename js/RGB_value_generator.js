@@ -1,4 +1,4 @@
-//Board Main
+//Main Board
 var sliderbR = document.getElementById("BoardRvalue");
 var outputbR = document.getElementById("Rbv");
 outputbR.innerHTML = sliderbR.value;
@@ -73,7 +73,7 @@ slidercB.oninput = function() {
   outputcB.innerHTML = this.value;
 }
 
-//Stimulus
+//Stimulus Peg
 var StimSliderR = document.getElementById("RvalueStim");
 var StimOutputR = document.getElementById("sR");
 StimOutputR.innerHTML = StimSliderR.value;
@@ -123,7 +123,7 @@ StimLabelSliderB.oninput = function() {
   StimLabelOutputB.innerHTML = this.value;
 }
 
-//For Board Sliders
+//Board Sliders and Button that trigger on/off
 var displaySliderBoard, displaySliderBackground, displaySliderCover;
 var displayValueBoard, displayValueBackground, displayValueCover;
 
@@ -192,7 +192,7 @@ function displayColorSliderCover() {
   }
 }
 
-//Stimulus Slider
+//Stimulus Slider and Button that trigger on/off
 var displaySliderLabel, displaySliderStimulus;
 var displayValueLabelStimulus, displayValuePeg;
 
