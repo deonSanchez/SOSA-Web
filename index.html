@@ -356,7 +356,44 @@
                       <button id="create_stimulus" class="btn btn-shadow btn-block btn-secondary btn-small rounded-pill">Create Stimulus</button>
                     </div>
                   </div>
-                  <img class="img-fluid" src="img/test/cabin.png" alt="">
+                    <div class="col-auto input-group mb-3">
+                      <div class="input-group-prepend">
+                        <button id="add" class="btn" type="button">
+                          <i class="fa fa-arrow-down pr-1"></i>Add
+                        </button>
+                      </div>
+                      <input style="padding-left:10px;padding-right:10px;" type="text" id="set_name" class="form-control" placeholder="Stimulus set identifier" aria-label="" aria-describedby="basic-addon1">
+                      <div class="input-group-append">
+                        <button class="btn" type="button" id="remove">Remove</button>
+                      </div>
+                    </div>
+                  <div class="row pb-3">
+                    <div class="col-auto input-group">
+                      <select class="form-control" id="stimulus-set">
+                        <option>Stimulus Set 1</option>
+                        <option>Stimulus Set 2</option>
+                        <option>Stimulus Set 3</option>
+                        <option>Stimulus Set 4</option>
+                      </select>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <select multiple class="form-control" id="individual_stimulus">
+                      <option>Stimulus 1</option>
+                      <option>Stimulus 2</option>
+                      <option>Stimulus 3</option>
+                      <option>Stimulus 4</option>
+                      <option>Stimulus 5</option>
+                    </select>
+                  </div>
+                  <div class="row pb-3">
+                    <div class="col">
+                      <button id="save" class="btn btn-shadow btn-block btn-secondary btn-small rounded-pill">Save</button>
+                    </div>
+                    <div class="col">
+                      <button id="load" class="btn btn-shadow btn-block btn-secondary btn-small rounded-pill">Load</button>
+                    </div>
+                  </div>
                   <div class="row pt-3 text-center">
                     <div class="col m-auto">
                       <button type="button" class="btn btn-secondary btn-shadow">Label</button>
@@ -379,44 +416,6 @@
                     </div>
                     <div class="col pb-3">
                       <button class="btn btn-shadow btn-block btn-secondary btn-small rounded-pill">Remove</button>
-                    </div>
-                  </div>
-                  <div class="row pb-3">
-                    <div class="col-auto input-group mb-3">
-                      <div class="input-group-prepend">
-                        <button id="add" class="btn" type="button">
-                          <i class="fa fa-arrow-down pr-1"></i>Add
-                        </button>
-                      </div>
-                      <input type="text" id="set_name" class="form-control" placeholder="" aria-label="" aria-describedby="basic-addon1">
-                      <div class="input-group-append">
-                        <button class="btn" type="button" id="remove">Remove</button>
-                      </div>
-                    </div>
-                    <div class="col-auto input-group">
-                      <select class="form-control" id="stimulus-set">
-                        <option>Stimulus Set 1</option>
-                        <option>Stimulus Set 2</option>
-                        <option>Stimulus Set 3</option>
-                        <option>Stimulus Set 4</option>
-                      </select>
-                    </div>
-                  </div>
-                  <div class="form-group">
-                    <select class="form-control" id="individual_stimulus">
-                      <option>Stimulus 1</option>
-                      <option>Stimulus 2</option>
-                      <option>Stimulus 3</option>
-                      <option>Stimulus 4</option>
-                      <option>Stimulus 5</option>
-                    </select>
-                  </div>
-                  <div class="row pb-3">
-                    <div class="col">
-                      <button id="load" class="btn btn-shadow btn-block btn-secondary btn-small rounded-pill">Save</button>
-                    </div>
-                    <div class="col">
-                      <button id="save" class="btn btn-shadow btn-block btn-secondary btn-small rounded-pill">Load</button>
                     </div>
                   </div>
                 </div>

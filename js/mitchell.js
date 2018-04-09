@@ -112,8 +112,8 @@ function loadCurrentStimulusSet() {
 				var json = JSON.parse(response);
 				var len = objLength(json);
 				var appendLabel = "";
-				for (var i = 0; i < len; i++) {
-					appendLabel = appendLabel + "<option>"+json[i].label+"</option>";
+				for (var i = len-1; i > -1; i--) {
+					appendLabel = appendLabel + "<option id=\""+json[i].stimulus_id+"\">"+json[i].label+"</option>";
 				}
 				$("select#individual_stimulus").html(appendLabel);
 			} else {
@@ -181,6 +181,7 @@ $("button#create_stimulus").on('click',function(){
 		success : function(response) {
 			if(response == 1) {
 				loadCurrentStimulusSet();
+				$('#invididual_stimulus').val(stimulus_name);
 			} else {
 				alert("Error adding stimulus!");
 			}
@@ -219,8 +220,7 @@ $("button#add").on('click',function(){
 		async : true,
 		success : function(response) {
 			if(response == 1) {
-				alert("Stimulus set added!");
-				$("select#stimulus-set").append("<option>"+set_name+"</option>");
+				$("select#stimulus-set").prepend("<option>"+set_name+"</option>");
 			} else {
 				alert("Cannot create new stimulus set with name of another set OR with non-alphanumeric name!");
 			}
@@ -233,6 +233,11 @@ $("button#add").on('click',function(){
 
 $("button#save").on('click',function(){
 	var set_title = $('#stimulus-set :selected').text();
+	var stimulus_name = $("input#stimulus_name").val();
+	var peg_r = $("input#RvalueStim").val();
+	var peg_g = $("input#GvalueStim").val();
+	var peg_b = $("input#BvalueStim").val();
+	
 });
 
 /**
@@ -243,6 +248,7 @@ $("#stimulus-set").on("change", function(){
 });
 
 $("button#load").on("click", function(){
+	var stimulus_id = $("select#individual_stimulus :selected").attr('id');
 });
 
 $("button#peg").on("click", function() {	
