@@ -1,30 +1,77 @@
 //Board Main
-var sliderR = document.getElementById("BoardRvalue");
-var outputR = document.getElementById("R");
-outputR.innerHTML = sliderR.value;
+var sliderbR = document.getElementById("BoardRvalue");
+var outputbR = document.getElementById("Rbv");
+outputbR.innerHTML = sliderbR.value;
 
-sliderR.oninput = function() {
-  outputR.innerHTML = this.value;
+sliderbR.oninput = function() {
+  outputbR.innerHTML = this.value;
 }
 
-var sliderG = document.getElementById("BoardGvalue");
-var outputG = document.getElementById("G");
-outputG.innerHTML = sliderG.value;
+var sliderbG = document.getElementById("BoardGvalue");
+var outputbG = document.getElementById("Gbv");
+outputbG.innerHTML = sliderbG.value;
 
-sliderG.oninput = function() {
-  outputG.innerHTML = this.value;
+sliderbG.oninput = function() {
+  outputbG.innerHTML = this.value;
 }
 
-var sliderB = document.getElementById("BoardBvalue");
-var outputB = document.getElementById("B");
-outputB.innerHTML = sliderB.value;
+var sliderbB = document.getElementById("BoardBvalue");
+var outputbB = document.getElementById("Bbv");
+outputbB.innerHTML = sliderbB.value;
 
-sliderB.oninput = function() {
-  outputB.innerHTML = this.value;
+sliderbB.oninput = function() {
+  outputbB.innerHTML = this.value;
 }
 
 //Board Background
+var sliderbgR = document.getElementById("BackgroundRvalue");
+var outputbgR = document.getElementById("Rbgv");
+outputbgR.innerHTML = sliderbgR.value;
 
+sliderbgR.oninput = function() {
+  outputbgR.innerHTML = this.value;
+}
+
+var sliderbgG = document.getElementById("BackgroundGvalue");
+var outputbgG = document.getElementById("Gbgv");
+outputbgG.innerHTML = sliderbgG.value;
+
+sliderbgG.oninput = function() {
+  outputbgG.innerHTML = this.value;
+}
+
+var sliderbgB = document.getElementById("BackgroundBvalue");
+var outputbgB = document.getElementById("Bbgv");
+outputbgB.innerHTML = sliderbgB.value;
+
+sliderbgB.oninput = function() {
+  outputbgB.innerHTML = this.value;
+}
+
+//Board Cover
+var slidercR = document.getElementById("CoverRvalue");
+var outputcR = document.getElementById("Rcv");
+outputcR.innerHTML = slidercR.value;
+
+slidercR.oninput = function() {
+  outputcR.innerHTML = this.value;
+}
+
+var slidercG = document.getElementById("CoverGvalue");
+var outputcG = document.getElementById("Gcv");
+outputcG.innerHTML = slidercG.value;
+
+slidercG.oninput = function() {
+  outputcG.innerHTML = this.value;
+}
+
+var slidercB = document.getElementById("CoverBvalue");
+var outputcB = document.getElementById("Bcv");
+outputcB.innerHTML = slidercB.value;
+
+slidercB.oninput = function() {
+  outputcB.innerHTML = this.value;
+}
 
 //Stimulus
 var StimSliderR = document.getElementById("RvalueStim");
@@ -51,6 +98,31 @@ StimSliderB.oninput = function() {
   StimOutputB.innerHTML = this.value;
 }
 
+//Stimulus label
+var StimLabelSliderR = document.getElementById("lRvalueStim");
+var StimLabelOutputR = document.getElementById("lR");
+StimLabelOutputR.innerHTML = StimLabelSliderR.value;
+
+StimLabelSliderR.oninput = function() {
+  StimLabelOutputR.innerHTML = this.value;
+}
+
+var StimLabelSliderG = document.getElementById("lGvalueStim");
+var StimLabelOutputG = document.getElementById("lG");
+StimLabelOutputG.innerHTML = StimLabelSliderG.value;
+
+StimLabelSliderG.oninput = function() {
+  StimLabelOutputG.innerHTML = this.value;
+}
+
+var StimLabelSliderB = document.getElementById("lBvalueStim");
+var StimLabelOutputB = document.getElementById("lB");
+StimLabelOutputB.innerHTML = StimLabelSliderB.value;
+
+StimLabelSliderB.oninput = function() {
+  StimLabelOutputB.innerHTML = this.value;
+}
+
 //For Board Sliders
 var displaySliderBoard, displaySliderBackground, displaySliderCover;
 
@@ -59,10 +131,12 @@ function displayColorSliderBoard() {
   displaySliderBackground = document.getElementById("displaySliderBackground");
   displaySliderCover = document.getElementById("displaySliderCover");
 
-  if (displaySliderBoard.style.display === "none" ) {
+  if (displaySliderBoard.style.display === "none") {
+
     displaySliderBoard.style.display = "block";
     displaySliderBackground.style.display = "none";
     displaySliderCover.style.display = "none";
+
   }
 }
 
@@ -71,10 +145,11 @@ function displayColorSliderBackground() {
   displaySliderBackground = document.getElementById("displaySliderBackground");
   displaySliderCover = document.getElementById("displaySliderCover");
 
-  if (displaySliderBackground.style.display === "none" ) {
+  if (displaySliderBackground.style.display === "none") {
     displaySliderBoard.style.display = "none";
     displaySliderBackground.style.display = "block";
     displaySliderCover.style.display = "none";
+
   }
 }
 
@@ -83,14 +158,15 @@ function displayColorSliderCover() {
   displaySliderBackground = document.getElementById("displaySliderBackground");
   displaySliderCover = document.getElementById("displaySliderCover");
 
-  if (displaySliderCover.style.display === "none" ) {
+  if (displaySliderCover.style.display === "none") {
     displaySliderBoard.style.display = "none";
     displaySliderBackground.style.display = "none";
     displaySliderCover.style.display = "block";
+
   }
 }
 
-
+//Stimulus Slider
 var displaySliderLabel, displaySliderStimulus;
 
 function displayColorSliderLabel() {

@@ -307,8 +307,14 @@
                   <button onclick="displayColorSliderBoard()" value ="board" class="btn btn-secondary btn-shadow">Board</button>
                   <button onclick="displayColorSliderBackground()" value ="background"class="btn btn-secondary btn-shadow">Background</button>
                   <button onclick="displayColorSliderCover()" value ="cover" class="btn btn-secondary btn-shadow">Cover</button>
-                  <div class="pt-3 text-center">
-                    Value: (<span id="R"></span>, <span id="G"></span>, <span id="B"></span>)
+                  <div class="pt-3 text-center" style="display: block;">
+                    Value: (<span id="Rbv"></span>, <span id="Gbv"></span>, <span id="Bbv"></span>)
+                  </div>
+                  <div class="pt-3 text-center" style="display: block;">
+                    Value: (<span id="Rbgv"></span>, <span id="Gbgv"></span>, <span id="Bbgv"></span>)
+                  </div>
+                  <div class="pt-3 text-center" style="display: block;">
+                    Value: (<span id="Rcv"></span>, <span id="Gcv"></span>, <span id="Bcv"></span>)
                   </div>
                 </div>
               </div>
@@ -412,6 +418,9 @@
                     </div>
                     <div class="col m-auto">
                       <div class="text-center">
+                        Value: (<span id="lR"></span>, <span id="lG"></span>, <span id="lB"></span>)
+                      </div>
+                      <div class="text-center">
                         Value: (<span id="sR"></span>, <span id="sG"></span>, <span id="sB"></span>)
                       </div>
                     </div>
@@ -422,9 +431,9 @@
                     <input type="range" min="1" max="255" value="128" class="slider mb-4" id="BvalueStim">
                   </div>
                   <div id="displaySliderStimulus" class="pt-3" style="display: none;">
-                    <input type="range" min="1" max="255" value="128" class="slider mb-3" id="RvalueStim">
-                    <input type="range" min="1" max="255" value="128" class="slider mb-3" id="GvalueStim">
-                    <input type="range" min="1" max="255" value="128" class="slider mb-4" id="BvalueStim">
+                    <input type="range" min="1" max="255" value="128" class="slider mb-3" id="lRvalueStim">
+                    <input type="range" min="1" max="255" value="128" class="slider mb-3" id="lGvalueStim">
+                    <input type="range" min="1" max="255" value="128" class="slider mb-4" id="lBvalueStim">
                   </div>
                   <div class="row">
                     <div class="col pb-6">
