@@ -1,4 +1,4 @@
-//Board
+//Board Main
 var sliderR = document.getElementById("BoardRvalue");
 var outputR = document.getElementById("R");
 outputR.innerHTML = sliderR.value;
@@ -22,6 +22,8 @@ outputB.innerHTML = sliderB.value;
 sliderB.oninput = function() {
   outputB.innerHTML = this.value;
 }
+
+//Board Background
 
 
 //Stimulus
@@ -49,9 +51,10 @@ StimSliderB.oninput = function() {
   StimOutputB.innerHTML = this.value;
 }
 
+//For Board Sliders
 var displaySliderBoard, displaySliderBackground, displaySliderCover;
 
-function displayColorSlider1() {
+function displayColorSliderBoard() {
   displaySliderBoard = document.getElementById("displaySliderBoard");
   displaySliderBackground = document.getElementById("displaySliderBackground");
   displaySliderCover = document.getElementById("displaySliderCover");
@@ -63,7 +66,7 @@ function displayColorSlider1() {
   }
 }
 
-function displayColorSlider2() {
+function displayColorSliderBackground() {
   displaySliderBoard = document.getElementById("displaySliderBoard");
   displaySliderBackground = document.getElementById("displaySliderBackground");
   displaySliderCover = document.getElementById("displaySliderCover");
@@ -75,7 +78,7 @@ function displayColorSlider2() {
   }
 }
 
-function displayColorSlider3() {
+function displayColorSliderCover() {
   displaySliderBoard = document.getElementById("displaySliderBoard");
   displaySliderBackground = document.getElementById("displaySliderBackground");
   displaySliderCover = document.getElementById("displaySliderCover");
@@ -84,5 +87,28 @@ function displayColorSlider3() {
     displaySliderBoard.style.display = "none";
     displaySliderBackground.style.display = "none";
     displaySliderCover.style.display = "block";
+  }
+}
+
+
+var displaySliderLabel, displaySliderStimulus;
+
+function displayColorSliderLabel() {
+  displaySliderLabel = document.getElementById("displaySliderLabel");
+  displaySliderStimulus = document.getElementById("displaySliderStimulus");
+
+  if (displaySliderLabel.style.display === "none" ) {
+    displaySliderLabel.style.display = "block";
+    displaySliderStimulus.style.display = "none";
+  }
+}
+
+function displayColorSliderStimulus() {
+  displaySliderLabel = document.getElementById("displaySliderLabel");
+  displaySliderStimulus = document.getElementById("displaySliderStimulus");
+
+  if (displaySliderStimulus.style.display === "none" ) {
+    displaySliderLabel.style.display = "none";
+    displaySliderStimulus.style.display = "block";
   }
 }
