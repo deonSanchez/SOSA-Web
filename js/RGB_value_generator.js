@@ -194,22 +194,35 @@ function displayColorSliderCover() {
 
 //Stimulus Slider
 var displaySliderLabel, displaySliderStimulus;
+var displayValueLabelStimulus, displayValuePeg;
 
 function displayColorSliderLabel() {
+  displayValueLabelStimulus = document.getElementById("displayValueLabelStimulus");
+  displayValuePeg = document.getElementById("displayValuePeg");
+
   displaySliderLabel = document.getElementById("displaySliderLabel");
   displaySliderStimulus = document.getElementById("displaySliderStimulus");
 
   if (displaySliderLabel.style.display === "none" ) {
+    displayValueLabelStimulus.style.display = "block";
+    displayValuePeg.style.display = "none";
+
     displaySliderLabel.style.display = "block";
     displaySliderStimulus.style.display = "none";
   }
 }
 
 function displayColorSliderStimulus() {
+  displayValueLabelStimulus = document.getElementById("displayValueLabelStimulus");
+  displayValuePeg = document.getElementById("displayValuePeg");
+
   displaySliderLabel = document.getElementById("displaySliderLabel");
   displaySliderStimulus = document.getElementById("displaySliderStimulus");
 
   if (displaySliderStimulus.style.display === "none" ) {
+    displayValueLabelStimulus.style.display = "none";
+    displayValuePeg.style.display = "block";
+
     displaySliderLabel.style.display = "none";
     displaySliderStimulus.style.display = "block";
   }

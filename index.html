@@ -417,20 +417,20 @@
                       <button onclick="displayColorSliderStimulus()" type="button" class="btn btn-secondary btn-shadow">Peg</button>
                     </div>
                     <div class="col m-auto">
-                      <div class="text-center">
+                      <div id="displayValueLabelStimulus" class="text-center" style="display: none;">
                         Value: (<span id="lR"></span>, <span id="lG"></span>, <span id="lB"></span>)
                       </div>
-                      <div class="text-center">
+                      <div id="displayValuePeg" class="text-center" style="display: block;">
                         Value: (<span id="sR"></span>, <span id="sG"></span>, <span id="sB"></span>)
                       </div>
                     </div>
                   </div>
-                  <div id="displaySliderLabel" class="pt-3" style="display: block;">
+                  <div id="displaySliderStimulus" class="pt-3" style="display: block;">
                     <input type="range" min="1" max="255" value="128" class="slider mb-3" id="RvalueStim">
                     <input type="range" min="1" max="255" value="128" class="slider mb-3" id="GvalueStim">
                     <input type="range" min="1" max="255" value="128" class="slider mb-4" id="BvalueStim">
                   </div>
-                  <div id="displaySliderStimulus" class="pt-3" style="display: none;">
+                  <div id="displaySliderLabel" class="pt-3" style="display: none;">
                     <input type="range" min="1" max="255" value="128" class="slider mb-3" id="lRvalueStim">
                     <input type="range" min="1" max="255" value="128" class="slider mb-3" id="lGvalueStim">
                     <input type="range" min="1" max="255" value="128" class="slider mb-4" id="lBvalueStim">
