@@ -125,13 +125,22 @@ StimLabelSliderB.oninput = function() {
 
 //For Board Sliders
 var displaySliderBoard, displaySliderBackground, displaySliderCover;
+var displayValueBoard, displayValueBackground, displayValueCover;
 
 function displayColorSliderBoard() {
+  displayValueBoard = document.getElementById("displayValueBoard");
+  displayValueBackground = document.getElementById("displayValueBackground");
+  displayValueCover = document.getElementById("displayValueCover");
+
   displaySliderBoard = document.getElementById("displaySliderBoard");
   displaySliderBackground = document.getElementById("displaySliderBackground");
   displaySliderCover = document.getElementById("displaySliderCover");
 
   if (displaySliderBoard.style.display === "none") {
+
+    displayValueBoard.style.display = "block";
+    displayValueBackground.style.display = "none";
+    displayValueCover.style.display = "none";
 
     displaySliderBoard.style.display = "block";
     displaySliderBackground.style.display = "none";
@@ -141,11 +150,20 @@ function displayColorSliderBoard() {
 }
 
 function displayColorSliderBackground() {
+  displayValueBoard = document.getElementById("displayValueBoard");
+  displayValueBackground = document.getElementById("displayValueBackground");
+  displayValueCover = document.getElementById("displayValueCover");
+
   displaySliderBoard = document.getElementById("displaySliderBoard");
   displaySliderBackground = document.getElementById("displaySliderBackground");
   displaySliderCover = document.getElementById("displaySliderCover");
 
   if (displaySliderBackground.style.display === "none") {
+
+    displayValueBoard.style.display = "none";
+    displayValueBackground.style.display = "block";
+    displayValueCover.style.display = "none";
+
     displaySliderBoard.style.display = "none";
     displaySliderBackground.style.display = "block";
     displaySliderCover.style.display = "none";
@@ -154,11 +172,19 @@ function displayColorSliderBackground() {
 }
 
 function displayColorSliderCover() {
+  displayValueBoard = document.getElementById("displayValueBoard");
+  displayValueBackground = document.getElementById("displayValueBackground");
+  displayValueCover = document.getElementById("displayValueCover");
+
   displaySliderBoard = document.getElementById("displaySliderBoard");
   displaySliderBackground = document.getElementById("displaySliderBackground");
   displaySliderCover = document.getElementById("displaySliderCover");
 
   if (displaySliderCover.style.display === "none") {
+    displayValueBoard.style.display = "none";
+    displayValueBackground.style.display = "none";
+    displayValueCover.style.display = "block";
+
     displaySliderBoard.style.display = "none";
     displaySliderBackground.style.display = "none";
     displaySliderCover.style.display = "block";
