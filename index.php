@@ -440,14 +440,12 @@
                     <hr class="cog-dark mb-5">
                     <div class="row">
                       <div class="col">
-                        <!-- Unity Stuff needs to be fixed
-                        <object id="UnityObject" classid="clsid:444785F1-DE89-4295-863A-D46C3A781394"
-                        width="420" height="750"
-                        codebase="http://webplayer.unity3d.com/download_webplayer/UnityWebPlayer.cab#version=2,0,0,0">
-                        <param name="unity3d" value="WebPlayer.unity3d" />
-                        <embed id="UnityEmbed" src="mlpbeta/mlpbeta.unity3d" width="420" height="750"
-                        type="application/vnd.unity" pluginspage="http://www.unity3d.com/unity-web-player-2.x" />
-                      -->
+                       	<Script>
+						src="SosaUnity3/Build/UnityLoader.js"
+						var Scene3 = UnityLoader.instantiate("gameContainer3", "SosaUnity3/Build/SosaUnity3.json",{onProgress: UnityProgress});
+					</Script>
+			<div class=" webgl-content pb-3">
+                      <div id="gameContainer3">
                         <div class=" row pb-3">
                           <div class="col">
                             <select class="custom-select" id="inputGroupSelect04">
@@ -508,15 +506,6 @@
               </div>
             </div>
           </div>
-			<Script>
-			function OpenExperiment()
-			{
-					 src="SosaUnity3/Build/UnityLoader.js"
-					var Scene3 = UnityLoader.instantiate("gameContainer3", "SosaUnity3/Build/SosaUnity3.json",{onProgress: UnityProgress});
-			}
-			</Script>
-			<div class=" webgl-content pb-3">
-                      <div id="gameContainer3">
 					  
           <!-- Bootstrap core JavaScript -->
           <script src="vendor/jquery/jquery.min.js"></script>

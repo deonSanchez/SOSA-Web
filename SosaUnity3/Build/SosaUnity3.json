@@ -1,0 +1,9 @@
+{
+"TOTAL_MEMORY": 268435456,
+"dataUrl": "SosaUnity3.data.unityweb",
+"asmCodeUrl": "SosaUnity3.asm.code.unityweb",
+"asmMemoryUrl": "SosaUnity3.asm.memory.unityweb",
+"asmFrameworkUrl": "SosaUnity3.asm.framework.unityweb",
+"splashScreenStyle": "Dark",
+"backgroundColor": "#231F20"
+}
