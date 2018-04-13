@@ -24,6 +24,11 @@
   <!-- Custom styles for this template -->
   <link href="css/freelancer.min.css" rel="stylesheet">
 
+  <!-- Threejs created with JavaScript-->
+  <script src="js/Three.js"></script>
+  <script src="js/Detector.js"></script>
+  <script src="js/OrbitControls.js"></script>
+
 </head>
 
 <body id="page-top">
@@ -274,78 +279,80 @@
                   <!-- Where board should go-->
                 <div id="ThreeJSBoard"></div>
 
-                <script id="ThreeJSBoard">
-                var container, scene, camera, renderer, controls, board, material;
+                <script>
+                  var container, scene, camera, renderer, controls;
 
-                initBoard();
-                animate();
+                  initBoard();
+                  animate();
 
-                function initBoard() {
-                  // SCENE
-                  scene = new THREE.Scene();
+                  function initBoard() {
+                    // SCENE
+                    scene = new THREE.Scene();
 
-                  // CAMERA
-                  var SCREEN_WIDTH = 500, SCREEN_HEIGHT = 500;
-                  var VIEW_ANGLE = 10, ASPECT = SCREEN_WIDTH / SCREEN_HEIGHT, NEAR = 0.1, FAR = 20000;
-                  camera = new THREE.PerspectiveCamera( VIEW_ANGLE, ASPECT, NEAR, FAR);
-                  scene.add(camera);
-                  camera.position.set(0,0,400);
-                  camera.lookAt(scene.position);
+                    // CAMERA
+                    var SCREEN_WIDTH = 500, SCREEN_HEIGHT = 500;
+                    var VIEW_ANGLE = 10, ASPECT = SCREEN_WIDTH / SCREEN_HEIGHT, NEAR = 0.1, FAR = 20000;
+                    camera = new THREE.PerspectiveCamera( VIEW_ANGLE, ASPECT, NEAR, FAR);
+                    scene.add(camera);
+                    camera.position.set(0,0,400);
+                    camera.lookAt(scene.position);
 
-                  // RENDERER
-                  if ( Detector.webgl )
-                  renderer = new THREE.WebGLRenderer( {antialias:true} );
-                  else
-                  renderer = new THREE.CanvasRenderer();
-                  renderer.setSize(SCREEN_WIDTH, SCREEN_HEIGHT);
-                  container = document.getElementById( 'ThreeJSBoard' );
-                  container.appendChild( renderer.domElement );
-                  // CONTROLS
-                  controls = new THREE.OrbitControls( camera, renderer.domElement );
+                    // RENDERER
+                    if ( Detector.webgl ) {
+                    renderer = new THREE.WebGLRenderer( {antialias:true} );
+                    } else {
+                    renderer = new THREE.CanvasRenderer();
+                    }
 
-                  // LIGHT
-                  var light = new THREE.PointLight(0xFFFFFF, 1);
-                  light.position.set(90,90,45);
-                  scene.add(light);
+                    renderer.setSize(SCREEN_WIDTH, SCREEN_HEIGHT);
+                    container = document.getElementById( 'ThreeJSBoard' );
+                    container.appendChild( renderer.domElement );
+                    // CONTROLS
+                    controls = new THREE.OrbitControls( camera, renderer.domElement );
 
-                  // AMBIENT
-                  var ambiColor = "0xFFFFFF";
-                  var ambient = new THREE.AmbientLight(ambiColor, .5);
-                  scene.add(ambient);
+                    // LIGHT
+                    var light = new THREE.PointLight(0xFFFFFF, 1);
+                    light.position.set(90,90,45);
+                    scene.add(light);
 
-                  // SKYBOX/FOG
-                  var skyBoxGeometry = new THREE.CubeGeometry( 10000, 10000, 10000 );
-                  var skyBoxMaterial = new THREE.MeshBasicMaterial( { color: 0x00000, side: THREE.BackSide } );
-                  var skyBox = new THREE.Mesh( skyBoxGeometry, skyBoxMaterial );
-                  scene.add(skyBox);
+                    // AMBIENT
+                    var ambiColor = "0xFFFFFF";
+                    var ambient = new THREE.AmbientLight(ambiColor, .5);
+                    scene.add(ambient);
 
-                  //Board
-                  board = new THREE.PlaneGeometry( 32, 32 );
-                  material = new THREE.MeshBasicMaterial({ color: 0xFEEEE });
-                  mesh = new THREE.Mesh( board, material );
-                  mesh.position.set(0,0,10);
-                  scene.add(mesh);
-                }
+                    // SKYBOX/FOG
+                    var skyBoxGeometry = new THREE.CubeGeometry( 10000, 10000, 10000 );
+                    var skyBoxMaterial = new THREE.MeshBasicMaterial( { color: 0x00000, side: THREE.BackSide } );
+                    var skyBox = new THREE.Mesh( skyBoxGeometry, skyBoxMaterial );
+                    scene.add(skyBox);
 
-                function animate()
-                {
-                  requestAnimationFrame( animate );
-                  render();
-                  update();
-                }
+                    //Board
+                    var board = new THREE.PlaneGeometry( 32, 32 );
+                    var material = new THREE.MeshBasicMaterial({ color: 0xFEEEE });
+                    var mesh = new THREE.Mesh( board, material );
+                    mesh.position.set(0,0,10);
+                    scene.add(mesh);
+                  }
 
-                function update()
-                {
-                  controls.update();
-                  stats.update();
-                }
+                  function animate()
+                  {
+                    requestAnimationFrame( animate );
+                    render();
+                    update();
+                  }
 
-                function render()
-                {
-                  renderer.render( scene, camera );
-                }
-                </script>
+                  function update()
+                  {
+                    controls.update();
+                    stats.update();
+                  }
 
+                  function render()
+                  {
+                    renderer.render( scene, camera );
+                  }
+
+                  </script>
 
               <div class="form-group">
                 <input oninput="ChangeBoardText(this)" type="text" class="form-control" placeholder="Board Name">
@@ -438,7 +445,7 @@
                   <!-- Where the stimulus/pegs should go-->
                   	<div id="ThreeJSPeg"></div>
 
-                    <script id=ThreeJSPeg>
+                    <script>
 
                     // standard global variables
                     var container, scene, camera, renderer, controls;
@@ -589,6 +596,7 @@
                       }
 
                       </script>
+                    </script>
 
                   <div class="form-group row pt-3">
                     <div class="col">
@@ -772,12 +780,6 @@
 
     <!-- Randomly Created JavaScript -->
     <script src="js/RGB_value_generator.js"></script>
-
-    <!-- Threejs created with JavaScript-->
-    <script src="js/Three.js"></script>
-    <script src="js/Detector.js"></script>
-    <script src="js/OrbitControls.js"></script>
-
 
   </body>
   </html>
