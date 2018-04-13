@@ -323,7 +323,7 @@
 
                     // SKYBOX/FOG
                     var skyBoxGeometry = new THREE.CubeGeometry( 10000, 10000, 10000 );
-                    var skyBoxMaterial = new THREE.MeshBasicMaterial( { color: 0x00000, side: THREE.BackSide } );
+                    var skyBoxMaterial = new THREE.MeshBasicMaterial( { color: 0xFFFFFF, side: THREE.BackSide } );
                     var skyBox = new THREE.Mesh( skyBoxGeometry, skyBoxMaterial );
                     scene.add(skyBox);
 
@@ -448,7 +448,7 @@
 
                       // CAMERA
                       var SCREEN_WIDTH = 500, SCREEN_HEIGHT = 500;
-                      var VIEW_ANGLE = 10, ASPECT = SCREEN_WIDTH / SCREEN_HEIGHT, NEAR = 0.1, FAR = 20000;
+                      var VIEW_ANGLE = 6, ASPECT = SCREEN_WIDTH / SCREEN_HEIGHT, NEAR = 0.1, FAR = 20000;
                       pegCamera = new THREE.PerspectiveCamera( VIEW_ANGLE, ASPECT, NEAR, FAR);
                       pegScene.add(pegCamera);
                       pegCamera.position.set(0,50,400);
@@ -460,7 +460,7 @@
                       } else {
                         pegRenderer = new THREE.CanvasRenderer();
                       }
-                      
+
                       pegRenderer.setSize(SCREEN_WIDTH, SCREEN_HEIGHT);
                       pegContainer = document.getElementById( 'ThreeJSPeg' );
                       pegContainer.appendChild( pegRenderer.domElement );
@@ -479,7 +479,7 @@
 
                       // SKYBOX/FOG
                       var skyBoxGeometry = new THREE.CubeGeometry( 10000, 10000, 10000 );
-                      var skyBoxMaterial = new THREE.MeshLambertMaterial( { color: 0x0808080, side: THREE.BackSide } );
+                      var skyBoxMaterial = new THREE.MeshBasicMaterial( { color: 0xFFFFFF, side: THREE.BackSide } );
                       var skyBox = new THREE.Mesh( skyBoxGeometry, skyBoxMaterial );
                       pegScene.add(skyBox);
 
