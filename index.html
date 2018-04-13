@@ -271,11 +271,10 @@
               <div class="row">
                 <div class="col">
 
-                  <!--Rico
-                  <div class=" webgl-content pb-3">
-                  <div id="gameContainer"></div>
-                </div>
-              -->
+                  <!-- Where board should go-->
+                  <div id="ThreeJSboard"></div>
+                  </canvas>
+
 
               <div class="form-group">
                 <input oninput="ChangeBoardText(this)" type="text" class="form-control" placeholder="Board Name">
@@ -366,6 +365,7 @@
                 <div class="col">
 
                   <!-- Where the stimulus/pegs should go-->
+                  <div id="ThreeJSpeg"></div>
 
                   <div class="form-group row pt-3">
                     <div class="col">
@@ -464,14 +464,7 @@
                 <div class="row">
                   <div class="col">
 
-                    <!-- Unity Stuff needs to be fixed
-                    <object id="UnityObject" classid="clsid:444785F1-DE89-4295-863A-D46C3A781394"
-                    width="420" height="750"
-                    codebase="http://webplayer.unity3d.com/download_webplayer/UnityWebPlayer.cab#version=2,0,0,0">
-                    <param name="unity3d" value="WebPlayer.unity3d" />
-                    <embed id="UnityEmbed" src="mlpbeta/mlpbeta.unity3d" width="420" height="750"
-                    type="application/vnd.unity" pluginspage="http://www.unity3d.com/unity-web-player-2.x" />
-                  -->
+                    <!-- -->
 
                   <div class=" row pb-3">
                     <div class="col">
@@ -557,138 +550,19 @@
     <!-- Randomly Created JavaScript -->
     <script src="js/RGB_value_generator.js"></script>
 
-
-    <!-- Unity Stuff
-    <script src="SosaUnity/TemplateData/UnityProgress.js"></script>
-    <script src="SosaUnity/Build/UnityLoader.js"></script>
-
-    <script>
-    var gameInstance = UnityLoader.instantiate("gameContainer", "SosaUnity/Build/SosaUnity.json", {onProgress: UnityProgress});
-    </script>
-
-    <script>
-    //This section will be for the entirety of the first scene
-    //initializing the WebPlayer
-    var val = 1;
-    var TempBR=128;
-    var TempBG=128;
-    var TempBB=128;
-    var TempBgR=0;
-    var TempBgG=0;
-    var TempBgB=0;
-    var TempCR=128;
-    var TempCG=128;
-    var TempCB=128;
-
-    //Board, Background, or cover
-    function CurrentObject(button){
-      val = button;
-      if(val.value == "board"){
-        Rvalue.value = TempBR;
-        Gvalue.value = TempBG;
-        Bvalue.value = TempBB;
-      }
-
-      if(val.value == "background"){
-        Rvalue.value = TempBgR;
-        Gvalue.value = TempBgG;
-        Bvalue.value = TempBgB;
-      }
-
-      if(val.value == "cover"){
-        Rvalue.value= TempCR;
-        Gvalue.value= TempCG;
-        Bvalue.value= TempCB;
-      }
-    }
-
-    //Adds Color to the elements in the "Game"
-    function ColorStuff(){
-      if(val.value == "board"){
-        gameInstance.SendMessage("SceneController","setBoardRed",Rvalue.value/255);
-        gameInstance.SendMessage("SceneController","setBoardGreen",Gvalue.value/255);
-        gameInstance.SendMessage("SceneController","setBoardBlue",Bvalue.value/255);
-        TempBR=Rvalue.value;
-        TempBG=Gvalue.value;
-        TempBB=Bvalue.value;
-      }
-
-      if(val.value == "background"){
-        gameInstance.SendMessage("SceneController","setBackRed",Rvalue.value/255);
-        gameInstance.SendMessage("SceneController","setBackGreen",Gvalue.value/255);
-        gameInstance.SendMessage("SceneController","setBackBlue",Bvalue.value/255);
-        TempBgR = Rvalue.value;
-        TempBgG = Gvalue.value;
-        TempBgB = Bvalue.value;
-      }
-
-      if(val.value == "cover"){
-        gameInstance.SendMessage("SceneController","setCoverRed",Rvalue.value/255);
-        gameInstance.SendMessage("SceneController","setCoverGreen",Gvalue.value/255);
-        gameInstance.SendMessage("SceneController","setCoverBlue",Bvalue.value/255);
-        TempCR = Rvalue.value;
-        TempCG = Gvalue.value;
-        TempCB = Bvalue.value;
-      }
-      else if(val == 1) {
-        val=1;
-      }
-    }
-    function ClearOff() //Clears off the current selection (of colors and images), then also sets the slider values back to 128
-    {
-      if(val.value == "board")
-      {
-        gameInstance.SendMessage("SceneController","setBoardRed",128/255);
-        gameInstance.SendMessage("SceneController","setBoardGreen",128/255);
-        gameInstance.SendMessage("SceneController","setBoardBlue",128/255);
-        Rvalue.value = 128;
-        Gvalue.value = 128;
-        Bvalue.value = 128;
-      }
-      if(val.value == "background")
-      {
-        gameInstance.SendMessage("SceneController","setBackRed",0);
-        gameInstance.SendMessage("SceneController","setBackGreen",0);
-        gameInstance.SendMessage("SceneController","setBackBlue",0);
-        Rvalue.value = 0;
-        Gvalue.value = 0;
-        Bvalue.value = 0;
-      }
-      if(val.value == "cover")
-      {
-        gameInstance.SendMessage("SceneController","setCoverRed",128/255);
-        gameInstance.SendMessage("SceneController","setCoverGreen",128/255);
-        gameInstance.SendMessage("SceneController","setCoverBlue",128/255);
-        Rvalue.value = 128;
-        Gvalue.value = 128;
-        Bvalue.value = 128;
-      }
-
-    }
-    function setTiltLock()
-    {
-      gameInstance.SendMessage("SceneController","isTiltLocked",);
-    }
-    function setRotLock()
-    {
-      gameInstance.SendMessage("SceneController","isRotateLocked",);
-    }
-    function setZoomLock()
-    {
-      gameInstance.SendMessage("SceneController","isZoomLocked",);
-    }
-    function ToggleCover()
-    {
-      gameInstance.SendMessage("SceneController","toggleCover",);
-    }
-    function ChangeBoardText(text)
-    {
-      gameInstance.SendMessage("SceneController","setBoardText",text.value);
-    }
-    //This section will be for the entirety of the first scene
-    </Script>
--->
+    <!-- Threejs created with JavaScript-->
+    <script src="js/threejs/lib/Three.js"></script>
+    <script src="js/threejs/lib/three.min.js"></script>
+    <script src="js/threejs/controls.js"></script>
+    <script src="js/threejs/board.js"></script>
+    <script src="js/threejs/peg.js"></script>
+    <script src="js/threejs/controls.js"></script>
+    <script src="js/threejs/lib/Detector.js"></script>
+    <script src="js/threejs/lib/Stats.js"></script>
+    <script src="js/threejs/lib/OrbitControls.js"></script>
+    <script src="js/threejs/lib/THREEx.KeyboardState.js"></script>
+    <script src="js/threejs/lib/THREEx.FullScreen.js"></script>
+    <script src="js/threejs/lib/THREEx.WindowResize.js"></script>
 
   </body>
-
   </html>

@@ -1,0 +1,2 @@
+C:\Users\Deon\Desktop\SOSA-Web-Project\SOSA-Web\SosaUnity\Sosa-Unity_Board\Temp\UnityVS_obj\Debug\Sosa Final Project.csprojResolveAssemblyReference.cache
+C:\Users\Deon\Desktop\SOSA-Web-Project\SOSA-Web\SosaUnity\Sosa-Unity_Board\Temp\UnityVS_obj\Debug\Sosa Final Project.csproj.CoreCompileInputs.cache

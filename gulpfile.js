@@ -88,7 +88,9 @@ gulp.task('css', ['css:compile', 'css:minify']);
 gulp.task('js:minify', function() {
   return gulp.src([
       './js/*.js',
-      '!./js/*.min.js'
+      '!./js/*.min.js',
+      '!./js/threejs/*.js',
+      '!./js/threejs/lib/*.js'
     ])
     .pipe(uglify())
     .pipe(rename({
