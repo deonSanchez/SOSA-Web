@@ -283,7 +283,7 @@
                   var container, scene, camera, renderer, controls;
 
                   initBoard();
-                  animate();
+                  animateBoard();
 
                   function initBoard() {
                     // SCENE
@@ -307,6 +307,7 @@
                     renderer.setSize(SCREEN_WIDTH, SCREEN_HEIGHT);
                     container = document.getElementById( 'ThreeJSBoard' );
                     container.appendChild( renderer.domElement );
+
                     // CONTROLS
                     controls = new THREE.OrbitControls( camera, renderer.domElement );
 
@@ -334,22 +335,10 @@
                     scene.add(mesh);
                   }
 
-                  function animate()
-                  {
-                    requestAnimationFrame( animate );
-                    render();
-                    update();
-                  }
-
-                  function update()
-                  {
-                    controls.update();
-                    stats.update();
-                  }
-
-                  function render()
-                  {
+                  function animateBoard() {
+                    requestAnimationFrame( animateBoard );
                     renderer.render( scene, camera );
+                    controls.update();
                   }
 
                   </script>
@@ -446,16 +435,14 @@
                   	<div id="ThreeJSPeg"></div>
 
                     <script>
-                    
                     // standard global variables
                     var pegContainer, pegScene, pegCamera, pegRenderer, pegControls;
 
                     initPeg();
-                    animate();
+                    animatePeg();
 
                     // FUNCTIONS
-                    function initPeg()
-                    {
+                    function initPeg() {
                       // SCENE
                       pegScene = new THREE.Scene();
 
@@ -468,10 +455,12 @@
                       pegCamera.lookAt(pegScene.position);
 
                       // RENDERER
-                      if ( Detector.webgl )
+                      if ( Detector.webgl ) {
                       pegRenderer = new THREE.WebGLRenderer( {antialias:true} );
-                      else
-                      pegRenderer = new THREE.CanvasRenderer();
+                      } else {
+                        pegRenderer = new THREE.CanvasRenderer();
+                      }
+                      
                       pegRenderer.setSize(SCREEN_WIDTH, SCREEN_HEIGHT);
                       pegContainer = document.getElementById( 'ThreeJSPeg' );
                       pegContainer.appendChild( pegRenderer.domElement );
@@ -504,11 +493,9 @@
                       var spritey = makeTextSprite( " Label ", { fontsize: 32, backgroundColor: {r:255, g:255, b:255, a:110} } );
                       spritey.position = peg.faces[8].centroid.clone().multiplyScalar(4);
                       pegScene.add( spritey );
-
                     }
 
-                    function makeTextSprite( message, parameters )
-                    {
+                    function makeTextSprite( message, parameters ) {
                       if ( parameters === undefined ) parameters = {};
 
                       var fontface = parameters.hasOwnProperty("fontface") ?
@@ -558,8 +545,7 @@
                       }
 
                       // function for drawing rounded rectangles
-                      function roundRect(ctx, x, y, w, h, r)
-                      {
+                      function roundRect(ctx, x, y, w, h, r) {
                         ctx.beginPath();
                         ctx.moveTo(x+r, y);
                         ctx.lineTo(x+w-r, y);
@@ -575,21 +561,18 @@
                         ctx.stroke();
                       }
 
-                      function animate()
-                      {
-                        requestAnimationFrame( animate );
+                      function animatePeg() {
+                        requestAnimationFrame( animatePeg );
                         render();
                         update();
                       }
 
-                      function update()
-                      {
+                      function update() {
                         pegControls.update();
-                        stats.update();
+
                       }
 
-                      function render()
-                      {
+                      function render() {
                         pegRenderer.render( pegScene, pegCamera );
                       }
 
