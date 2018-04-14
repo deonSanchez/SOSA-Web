@@ -280,7 +280,7 @@
                 <div id="ThreeJSBoard"></div>
 
                 <script>
-                var container, scene, camera, renderer, controls;
+                var container, scene, camera, renderer, controls, group;
 
                 initBoard();
                 animateBB();
@@ -303,7 +303,7 @@
                   } else {
                   renderer = new THREE.CanvasRenderer();
                   }
-
+                  renderer.shadowMapEnabled = true;
                   renderer.setSize(SCREEN_WIDTH, SCREEN_HEIGHT);
                   container = document.getElementById( 'ThreeJSBoard' );
                   container.appendChild( renderer.domElement );
@@ -330,11 +330,117 @@
                   scene.add(skyBox);
 
                   //Board
-                  var board = new THREE.PlaneGeometry( 32, 32 );
+                  var board = new THREE.PlaneGeometry( 24, 24 );
                   var material = new THREE.MeshPhongMaterial({ color: 0x4f0059, specular: 0x05050, ambientLight: 0x0, shininess: 30 });
                   var mesh = new THREE.Mesh( board, material );
-                  mesh.position.set(0,0,10);
+                  mesh.position.set(0,0,0);
                   scene.add(mesh);
+                }
+
+                function changeGrid(gridInput){
+                  if (gridInput == "NoGrid") {
+                    //remove previous grid
+                    scene.remove(group);
+                  }
+                  else if (gridInput == "6x6") {
+                    drawGrid6x6();
+                  }
+                  else if (gridInput == "12x12") {
+                    drawGrid12x12();
+                  }
+                  else if (gridInput == "24x24") {
+                    drawGrid24x24();
+                }
+              }
+
+                function drawGrid6x6(){
+
+                  var material = new THREE.LineBasicMaterial( {
+                    color: 0x000000,
+                    linewidth: 3
+
+                  });
+
+                  //remove previous grid
+                  scene.remove(group);
+                  //keeping track of line objects by adding them to a group so we can remove them later.
+                  group = new THREE.Object3D();
+                  
+                  for (var i = 1; i <= 5; i++) {
+                    var geometry = new THREE.Geometry();
+                    geometry.vertices.push(new THREE.Vector3( -12, -12 + i*4, 0.1) );
+                    geometry.vertices.push(new THREE.Vector3( 12, -12 + i*4, 0.1) );
+                    var line = new THREE.Line( geometry, material );
+                    group.add(line);
+                 }
+                 for (var i = 1; i <= 5; i++) {
+                    var geometry = new THREE.Geometry();
+                    geometry.vertices.push(new THREE.Vector3( -12 + i*4, 12, 0.1) );
+                    geometry.vertices.push(new THREE.Vector3( -12  + i*4, -12, 0.1) );
+                    var line = new THREE.Line( geometry, material );
+                    group.add(line);
+                 }
+                 scene.add(group);
+                }
+
+                function drawGrid12x12(){
+
+                  var material = new THREE.LineBasicMaterial( {
+                    color: 0x000000,
+                    linewidth: 3
+
+                  });
+
+                  //remove previous grid
+                  scene.remove(group);
+                  //keeping track of line objects by adding them to a group so we can remove them later.
+                  group = new THREE.Object3D();
+
+                  for (var i = 1; i <= 11; i++) {
+                    var geometry = new THREE.Geometry();
+                    geometry.vertices.push(new THREE.Vector3( -12, -12 + i*2, 0.1) );
+                    geometry.vertices.push(new THREE.Vector3( 12, -12 + i*2, 0.1) );
+                    var line = new THREE.Line( geometry, material );
+                    group.add(line);
+                 }
+                 for (var i = 1; i <= 11; i++) {
+                    var geometry = new THREE.Geometry();
+                    geometry.vertices.push(new THREE.Vector3( -12 + i*2, 12, 0.1) );
+                    geometry.vertices.push(new THREE.Vector3( -12  + i*2, -12, 0.1) );
+                    var line = new THREE.Line( geometry, material );
+                    group.add(line);
+                 }
+                 scene.add(group);
+                }
+
+                function drawGrid24x24(){
+
+                  var material = new THREE.LineBasicMaterial( {
+                    color: 0x000000,
+                    linewidth: 3
+
+                  });
+
+                  //remove previous grid
+                  scene.remove(group);
+                  //keeping track of line objects by adding them to a group so we can remove them later.
+                  group = new THREE.Object3D();
+
+                  for (var i = 1; i <= 23; i++) {
+                    var geometry = new THREE.Geometry();
+                    geometry.vertices.push(new THREE.Vector3( -12, -12 + i*1, 0.1) );
+                    geometry.vertices.push(new THREE.Vector3( 12, -12 + i*1, 0.1) );
+                    var line = new THREE.Line( geometry, material );
+                    group.add(line);
+                 }
+                 for (var i = 1; i <= 23; i++) {
+                    var geometry = new THREE.Geometry();
+                    geometry.vertices.push(new THREE.Vector3( -12 + i*1, 12, 0.1) );
+                    geometry.vertices.push(new THREE.Vector3( -12  + i*1, -12, 0.1) );
+                    var line = new THREE.Line( geometry, material );
+                    group.add(line);
+                 }
+                 scene.add(group);
                 }
 
                 function animateBB()
@@ -343,7 +449,6 @@
                   controls.update();
                   renderer.render( scene, camera );
                 }
-
                 </script>
 
               <div class="form-group">
@@ -376,6 +481,13 @@
                   <button onclick="displayColorSliderBoard()" value ="board" class="btn btn-secondary btn-shadow">Board</button>
                   <button onclick="displayColorSliderBackground()" value ="background"class="btn btn-secondary btn-shadow">Background</button>
                   <button onclick="displayColorSliderCover()" value ="cover" class="btn btn-secondary btn-shadow">Cover</button>
+
+                    <select name="Grid dropdown" onchange="changeGrid(this.value)">
+                      <option value="NoGrid">No Grid Overlay</option>
+                      <option value="6x6">6 x 6 Grid</option>
+                      <option value="12x12">12 x 12 Grid</option>
+                      <option value="24x24">24 x 24 Grid</option>
+                    </select> 
                   <div id="displayValueBoard" class="pt-3 text-center" style="display: block;">
                     Value: (<span id="Rbv"></span>, <span id="Gbv"></span>, <span id="Bbv"></span>)
                   </div>
@@ -385,6 +497,7 @@
                   <div id="displayValueCover" class="pt-3 text-center" style="display: none;">
                     Value: (<span id="Rcv"></span>, <span id="Gcv"></span>, <span id="Bcv"></span>)
                   </div>
+
                 </div>
               </div>
               <div>
