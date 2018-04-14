@@ -303,7 +303,6 @@
                   } else {
                   renderer = new THREE.CanvasRenderer();
                   }
-                  renderer.shadowMapEnabled = true;
                   renderer.setSize(SCREEN_WIDTH, SCREEN_HEIGHT);
                   container = document.getElementById( 'ThreeJSBoard' );
                   container.appendChild( renderer.domElement );
@@ -350,8 +349,8 @@
                   }
                   else if (gridInput == "24x24") {
                     drawGrid24x24();
+                  }
                 }
-              }
 
                 function drawGrid6x6(){
 
@@ -488,6 +487,7 @@
                       <option value="12x12">12 x 12 Grid</option>
                       <option value="24x24">24 x 24 Grid</option>
                     </select> 
+
                   <div id="displayValueBoard" class="pt-3 text-center" style="display: block;">
                     Value: (<span id="Rbv"></span>, <span id="Gbv"></span>, <span id="Bbv"></span>)
                   </div>
@@ -497,7 +497,6 @@
                   <div id="displayValueCover" class="pt-3 text-center" style="display: none;">
                     Value: (<span id="Rcv"></span>, <span id="Gcv"></span>, <span id="Bcv"></span>)
                   </div>
-
                 </div>
               </div>
               <div>
