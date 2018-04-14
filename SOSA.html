@@ -111,6 +111,7 @@ function initExperiment() {
 	// CUSTOM //
 	////////////
 
+
   /*  Will create an image on the plane
 	var squareT = new THREE.ImageUtils.loadTexture("images/Chrome.png");
 	squareT.wrapS = squareT.wrapT = THREE.RepeatWrapping;
@@ -131,7 +132,6 @@ function initExperiment() {
 	ExperiBoard.base = true;
 	ExperimentScene.add(ExperiBoard);
 
-
 	this.stimuliGeo = new THREE.CylinderGeometry(1,1,3,100);
 
 	this.offset = [
@@ -143,14 +143,15 @@ function initExperiment() {
 	this.colors = [ new THREE.Color(0x66FFFF), new THREE.Color(0xff0000), new THREE.Color(0xff8800), new THREE.Color(0xffff00), new THREE.Color(0x00cc00),
 	                new THREE.Color(0x0000ff), new THREE.Color(0x8800ff), new THREE.Color(0x804000), new THREE.Color(0x222222), new THREE.Color(0xFF66FF) ];
 
-  this.materials = { "solid":[], "add":[], "delete":[], "color":[] };
+  this.label = ["Deon", "Jeffery", "Rico", "Flynt", "Mitchell"];
+
+  this.materials = { "solid":[], "add":[], "delete":[] };
 
 
   for (var i = 0; i < colors.length; i++) {
 		materials["solid"][i]   = new THREE.MeshLambertMaterial({ color: colors[i] });
 		materials["add"][i]     = new THREE.MeshLambertMaterial({ color: colors[i], transparent: true, opacity:0.50 });
 		materials["delete"][i]  = new THREE.MeshLambertMaterial({ color: colors[i], transparent: true, opacity:0.75 });
-		materials["color"][i]   = new THREE.MeshLambertMaterial({ color: colors[i], transparent: true, opacity:0.75 });
 	}
 
 	this.brush = new THREE.Mesh( stimuliGeo.clone(), materials["add"][1] );
@@ -179,7 +180,9 @@ function mouseClick( event ) {
 	brushAction();
 }
 
+  var i = 0;
 function brushAction() {
+  var spritey;
 	if (brush.mode == "add") {
 		var stimuli = new THREE.Mesh( stimuliGeo );
     stimuli.material = materials["solid"][ brush.colorIndex ];
@@ -188,6 +191,14 @@ function brushAction() {
 		stimuli.colorIndex = brush.colorIndex;
 		ExperimentScene.add( stimuli );
 		stimuliNames.push( stimuli.name );
+
+    //creates the label for the stimulus
+    spritey = makeTextSprite( label[i], { fontsize: 32, backgroundColor: {r:0, g:0, b:0, a:0} } );
+    spritey.position = brush.position.clone();
+    spritey.position.y = 2;
+    ExperimentScene.add( spritey );
+    i++;
+
 	}
 
 	if (brush.mode == "delete") {
@@ -195,15 +206,6 @@ function brushAction() {
 		ExperimentScene.remove( stimuli );
 		var index = stimuliNames.indexOf( brush.targetName );
 		if ( index != -1 ) stimuliNames.splice( index, 1 );
-	}
-
-	if (brush.mode == "color") {
-		var stimuli = ExperimentScene.getObjectByName( brush.targetName );
-
-    if (stimuli) {
-			stimuli.material = materials["solid"][ brush.colorIndex ];
-			stimuli.colorIndex = brush.colorIndex;
-		}
 	}
 }
 
@@ -260,8 +262,6 @@ function update() {
 	if (keyboard.down("P"))
 		viewSet(2);
 
-	// voxel painting ExperimentControls
-
 	// when digit is pressed, change brush color data
 	for (var i = 0; i < 10; i++)
 	if ( keyboard.down( i.toString() ) )
@@ -273,14 +273,7 @@ function update() {
 		brush.mode = "add";
 	if ( keyboard.down("X") )
 		brush.mode = "delete";
-	if ( keyboard.down("C") )
-		brush.mode = "color";
-	// perform brush action
-	if ( keyboard.down("V") )
-		brushAction();
-	// delete last stimuli entered
-	if ( keyboard.down("B") && stimuliNames.length > 0 )
-		ExperimentScene.remove( ExperimentScene.getObjectByName( stimuliNames.pop() ) );
+
 
 	///////////////////////////////////////////////////////////////////////////
 
@@ -310,15 +303,6 @@ function update() {
 			brush.addName = "X" + intPosition.x + "Y" + intPosition.y + "Z" + intPosition.z;
 		}
 
-    // place stimuli on another stimuli
-		if ( (brush.mode == "add") && !result.object.base ) {
-			brush.visible = true;
-			var faceIndex = Math.floor(result.faceIndex / 2);
-			brush.position = result.object.position.clone().add( offset[faceIndex] );
-			brush.addName = "X" + Math.floor(brush.position.x) + "Y" + Math.floor(brush.position.y)
-				+ "Z" + Math.floor(brush.position.z);
-		}
-
     // delete stimuli
 		if ( (brush.mode == "delete") && !result.object.base ) {
 			brush.visible = false;
@@ -328,17 +312,52 @@ function update() {
 			var targetCube = ExperimentScene.getObjectByName( brush.targetName );
 			targetCube.material = materials["delete"][ targetCube.colorIndex ];
 		}
-    // (re)color stimuli
-		if ( (brush.mode == "color") && !result.object.base ) {
-			brush.visible = false;
-			var intPosition = new THREE.Vector3( Math.floor(result.object.position.x),
-				Math.floor(result.object.position.y), Math.floor(result.object.position.z) );
-			brush.targetName = "X" + intPosition.x + "Y" + intPosition.y + "Z" + intPosition.z;
-			var targetCube = ExperimentScene.getObjectByName( brush.targetName );
-			targetCube.material = materials["color"][ brush.colorIndex ];
-		}
 	}
 }
+
+function makeTextSprite( message, parameters )
+{
+  if ( parameters === undefined ) parameters = {};
+
+  var fontface = parameters.hasOwnProperty("fontface") ?
+  parameters["fontface"] : "Arial";
+
+  var fontsize = parameters.hasOwnProperty("fontsize") ?
+  parameters["fontsize"] : 18;
+
+  var borderThickness = parameters.hasOwnProperty("borderThickness") ?
+  parameters["borderThickness"] : 4;
+
+  var backgroundColor = parameters.hasOwnProperty("backgroundColor") ?
+  parameters["backgroundColor"] : { r:255, g:255, b:255, a:0 };
+
+  var canvas = document.createElement('canvas');
+  var context = canvas.getContext('2d');
+  context.font = "Bold " + fontsize + "px " + fontface;
+
+  // get size data (height depends only on font size)
+  var metrics = context.measureText( message );
+  var textWidth = metrics.width;
+
+  // background color
+  context.fill();
+  context.stroke();
+
+  // text color
+  context.fillStyle = "rgba(255, 255, 255, 1.0)";
+
+  context.fillText( message, borderThickness, fontsize + borderThickness);
+
+  // canvas contents will be used for a texture
+  var texture = new THREE.Texture(canvas)
+  texture.needsUpdate = true;
+
+  var spriteMaterial = new THREE.SpriteMaterial(
+    { map: texture, useScreenCoordinates: false } );
+    var sprite = new THREE.Sprite( spriteMaterial );
+    sprite.scale.set(8,4,0);
+    return sprite;
+  }
 
 function render() {
 	ExperimentRenderer.render( ExperimentScene, ExperimentCamera );
