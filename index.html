@@ -497,7 +497,7 @@
                       mesh.position.set(0,0,10);
                       pegScene.add(mesh);
 
-                      var spritey = makeTextSprite( " Label ", { fontsize: 32, backgroundColor: {r:255, g:255, b:255, a:110} } );
+                      var spritey = makeTextSprite( " Label ", { fontsize: 32 } );
                       spritey.position = peg.faces[8].centroid.clone().multiplyScalar(4);
                       pegScene.add( spritey );
 
@@ -530,15 +530,10 @@
                       var metrics = context.measureText( message );
                       var textWidth = metrics.width;
 
-                      // background color
-                      context.fillStyle   = "rgba(" + backgroundColor.r + "," + backgroundColor.g + ","
-                      + backgroundColor.b + "," + backgroundColor.a + ")";
-
-                      context.lineWidth = borderThickness;
-                      roundRect(context, borderThickness/2, borderThickness/2, textWidth + borderThickness, fontsize * 1.4 + borderThickness, 6);
-
                       // text color
-                      context.fillStyle = "rgba(0, 0, 0, 1.0)";
+                      context.fillStyle = "rgba(255, 0, 0, 1.0)";
+                      context.fill();
+                      context.stroke();
 
                       context.fillText( message, borderThickness, fontsize + borderThickness);
 
@@ -551,24 +546,6 @@
                         var sprite = new THREE.Sprite( spriteMaterial );
                         sprite.scale.set(100,50,1.0);
                         return sprite;
-                      }
-
-                      // function for drawing rounded rectangles
-                      function roundRect(ctx, x, y, w, h, r)
-                      {
-                        ctx.beginPath();
-                        ctx.moveTo(x+r, y);
-                        ctx.lineTo(x+w-r, y);
-                        ctx.quadraticCurveTo(x+w, y, x+w, y+r);
-                        ctx.lineTo(x+w, y+h-r);
-                        ctx.quadraticCurveTo(x+w, y+h, x+w-r, y+h);
-                        ctx.lineTo(x+r, y+h);
-                        ctx.quadraticCurveTo(x, y+h, x, y+h-r);
-                        ctx.lineTo(x, y+r);
-                        ctx.quadraticCurveTo(x, y, x+r, y);
-                        ctx.closePath();
-                        ctx.fill();
-                        ctx.stroke();
                       }
 
                       function animate()
