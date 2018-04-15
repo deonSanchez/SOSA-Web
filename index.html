@@ -25,9 +25,9 @@
   <link href="css/freelancer.min.css" rel="stylesheet">
 
   <!-- Threejs created with JavaScript-->
-  <script src="js/threejs/lib/Three.js"></script>
-  <script src="js/threejs/lib/Detector.js"></script>
-  <script src="js/threejs/lib/OrbitControls.js"></script>
+  <script src="js/Three.js"></script>
+  <script src="js/Detector.js"></script>
+  <script src="js/OrbitControls-Touch.js"></script>
 
 </head>
 
@@ -263,7 +263,7 @@
 
       <!-- Modals -->
 
-      <!-- Board Modal -->
+<!-- Board Modal -->
       <div class="sosa-modal mfp-hide mx-auto" id="board-modal" style="width: fit-content;">
         <div class="sosa-modal-dialog bg-white">
           <a class="close-button d-md-block text-secondary sosa-modal-dismiss" href="#">
@@ -280,7 +280,7 @@
                 <div id="ThreeJSBoard"></div>
 
                 <script>
-                var BoardContainer, BoardScene, BoardCamera, BoardRenderer, BoardControl;
+                var BoardContainer, BoardScene, BoardCamera, BoardRenderer, BoardControl, Boardmaterial, skyBoxMaterial;
 
                 initBoard();
                 animateBoard();
@@ -324,24 +324,72 @@
 
                   // SKYBOX/FOG
                   var skyBoxGeometry = new THREE.CubeGeometry( 10000, 10000, 10000 );
-                  var skyBoxMaterial = new THREE.MeshBasicMaterial( { color: 0xffffff, side: THREE.BackSide } );
+                  skyBoxMaterial = new THREE.MeshBasicMaterial( { color: 0xffffff, side: THREE.BackSide } );
                   var skyBox = new THREE.Mesh( skyBoxGeometry, skyBoxMaterial );
                   BoardScene.add(skyBox);
 
                   //Board
                   var board = new THREE.PlaneGeometry( 24, 24 );
-                  var material = new THREE.MeshPhongMaterial({ color: 0x4f0059, specular: 0x05050, ambientLight: 0x0, shininess: 30 });
-                  var mesh = new THREE.Mesh( board, material );
+                  Boardmaterial = new THREE.MeshPhongMaterial({ color: 0x4f0059, specular: 0x05050, ambientLight: 0x0, shininess: 30 });
+                  var mesh = new THREE.Mesh( board, Boardmaterial );
                   mesh.position.set(0,0,0);
                   BoardScene.add(mesh);
                 }
+				
+				//function to convert rgb to hex (Source: https://campushippo.com/lessons/how-to-convert-rgb-colors-to-hexadecimal-with-javascript-78219fdb)  
+				  function rgbToHex(rgb){ 
+					var hex = Number(rgb).toString(16);
+					if (hex.length < 2) {
+						hex = "0" + hex;
+					}
+					return hex;
+				}		
 
                 function animateBoard()
                 {
                   requestAnimationFrame( animateBoard );
                   BoardControl.update();
                   BoardRenderer.render( BoardScene, BoardCamera );
-                }
+				  
+				}
+                
+				//sets tilt lock
+				function setTiltLock()
+				{
+					BoardControl.noTilt = !BoardControl.noTilt;
+					BoardControl.update();
+					
+				}
+				  
+				//sets rotate lock
+				function setRotLock(){
+					BoardControl.noRotate = !BoardControl.noRotate;
+					BoardControl.update();
+				}
+				  
+				//sets zoom lock
+				function setZoomLock(){
+					BoardControl.noZoom = !BoardControl.noZoom;
+					BoardControl.update();
+				}
+
+				//updates the color of the board
+				function setBoardRGB(){
+					var redHex = rgbToHex(document.getElementById("BoardRvalue").value);
+					var greenHex = rgbToHex(document.getElementById("BoardGvalue").value);
+					var blueHex = rgbToHex(document.getElementById("BoardBvalue").value);
+					var stringHex = "0x" + redHex + greenHex + blueHex;
+					Boardmaterial.color.setHex(stringHex);
+				}
+				  
+				//updates the color of the background
+				function setBackgroundRGB(){
+					var redHex = rgbToHex(document.getElementById("BackgroundRvalue").value);
+					var greenHex = rgbToHex(document.getElementById("BackgroundGvalue").value);
+					var blueHex = rgbToHex(document.getElementById("BackgroundBvalue").value);
+					var stringHex = "0x" + redHex + greenHex + blueHex;
+					skyBoxMaterial.color.setHex(stringHex);
+				}
                 </script>
 
               <div class="form-group">
@@ -357,17 +405,17 @@
               </div>
               <div class="row">
                 <div class="flex-column p-3">
-                  <div class="checkbox">
-                    <label><input type="checkbox" value="" oninput = "setTiltLock()"> Lock Tilt</label>
+                   <div class="checkbox">
+                    <label><input id = "tiltSet" type="checkbox" value="false" onchange = "setTiltLock()"> Lock Tilt</label>
                   </div>
                   <div class="checkbox">
-                    <label><input type="checkbox" value="" oninput = "setRotLock()"> Lock Rotate</label>
+                    <label><input id = "rotateSet" type="checkbox" value="false" onchange = "setRotLock()"> Lock Rotate</label>
                   </div>
                   <div class="checkbox">
-                    <label><input type="checkbox" value="" oninput = "setZoomLock()"> Lock Zoom</label>
+                    <label><input id = "zoomSet" type="checkbox" value="false" onchange = "setZoomLock()"> Lock Zoom</label>
                   </div>
                   <div class="checkbox">
-                    <label><input type="checkbox" value="" oninput = "ToggleCover()"> Cover Board</label>
+                    <label><input id = "coverSet" type="checkbox" value="false" onchange = "ToggleCover()"> Cover Board</label>
                   </div>
                 </div>
                 <div class="flex-column m-auto align-self-end text-center">
@@ -388,14 +436,14 @@
               </div>
               <div>
                 <div id="displaySliderBoard" style="display: block;">
-                  <input type="range" min="0" max="255" value="128" class="slider mb-3" id="BoardRvalue">
-                  <input type="range" min="0" max="255" value="128" class="slider mb-3" id="BoardGvalue">
-                  <input type="range" min="0" max="255" value="128" class="slider mb-4" id="BoardBvalue">
+                  <input type="range" min="0" max="255" value="128" class="slider mb-3" id="BoardRvalue" onchange = "setBoardRGB()">
+                  <input type="range" min="0" max="255" value="128" class="slider mb-3" id="BoardGvalue" onchange = "setBoardRGB()">
+                  <input type="range" min="0" max="255" value="128" class="slider mb-4" id="BoardBvalue" onchange = "setBoardRGB()">
                 </div>
                 <div id="displaySliderBackground" style="display: none;">
-                  <input type="range" min="0" max="255" value="128" class="slider mb-3" id="BackgroundRvalue">
-                  <input type="range" min="0" max="255" value="128" class="slider mb-3" id="BackgroundGvalue">
-                  <input type="range" min="0" max="255" value="128" class="slider mb-4" id="BackgroundBvalue">
+                  <input type="range" min="0" max="255" value="128" class="slider mb-3" id="BackgroundRvalue" onchange = "setBackgroundRGB()">
+                  <input type="range" min="0" max="255" value="128" class="slider mb-3" id="BackgroundGvalue" onchange = "setBackgroundRGB()">
+                  <input type="range" min="0" max="255" value="128" class="slider mb-4" id="BackgroundBvalue" onchange = "setBackgroundRGB()">
                 </div>
                 <div id="displaySliderCover" style="display: none;">
                   <input type="range" min="0" max="255" value="128" class="slider mb-3" id="CoverRvalue">
@@ -419,7 +467,7 @@
           </div>
         </div>
       </div>
-
+	  
       <!-- Stimulus Modal -->
       <div class="sosa-modal mx-auto mfp-hide" id="stimulus-modal" style="width: fit-content;">
         <div class="sosa-modal-dialog bg-white">
@@ -437,140 +485,164 @@
                   	<div id="ThreeJSPeg"></div>
 
                     <script>
+                    // standard global variables
+                    var pegContainer, pegScene, pegCamera, pegRenderer, pegControls, material, sprite;
 
-                    	// standard global variables
-                    	var pegContainer, pegScene, pegCamera, pegRenderer, pegControls;
+                    initPeg();
+                    animatePeg();
 
-                    	initPeg();
-                    	animatePeg();
+                    // FUNCTIONS
+                    function initPeg() {
+                      // SCENE
+                      pegScene = new THREE.Scene();
 
-                    	// FUNCTIONS
-                    	function initPeg()
-                    	{
-                    		// SCENE
-                    		pegScene = new THREE.Scene();
+                      // CAMERA
+                      var SCREEN_WIDTH = 500, SCREEN_HEIGHT = 500;
+                      var VIEW_ANGLE = 6, ASPECT = SCREEN_WIDTH / SCREEN_HEIGHT, NEAR = 0.1, FAR = 20000;
+                      pegCamera = new THREE.PerspectiveCamera( VIEW_ANGLE, ASPECT, NEAR, FAR);
+                      pegScene.add(pegCamera);
+                      pegCamera.position.set(0,50,400);
+                      pegCamera.lookAt(pegScene.position);
 
-                    		// CAMERA
-                    		var SCREEN_WIDTH = 500, SCREEN_HEIGHT = 500;
-                    		var VIEW_ANGLE = 10, ASPECT = SCREEN_WIDTH / SCREEN_HEIGHT, NEAR = 0.1, FAR = 20000;
-                    		pegCamera = new THREE.PerspectiveCamera( VIEW_ANGLE, ASPECT, NEAR, FAR);
-                    		pegScene.add(pegCamera);
-                    		pegCamera.position.set(0,50,400);
-                    		pegCamera.lookAt(pegScene.position);
+                      // RENDERER
+                      if ( Detector.webgl ) {
+                      pegRenderer = new THREE.WebGLRenderer( {antialias:true} );
+                      } else {
+                        pegRenderer = new THREE.CanvasRenderer();
+                      }
 
-                    		// RENDERER
-                    		if ( Detector.webgl )
-                    		pegRenderer = new THREE.WebGLRenderer( {antialias:true} );
-                    		else
-                    		pegRenderer = new THREE.CanvasRenderer();
+                      pegRenderer.setSize(SCREEN_WIDTH, SCREEN_HEIGHT);
+                      pegContainer = document.getElementById( 'ThreeJSPeg' );
+                      pegContainer.appendChild( pegRenderer.domElement );
+                      // CONTROLS
+                      pegControls = new THREE.OrbitControls( pegCamera, pegRenderer.domElement );
 
-                    		pegRenderer.setSize(SCREEN_WIDTH, SCREEN_HEIGHT);
-                    		pegContainer = document.getElementById( 'ThreeJSPeg' );
-                    		pegContainer.appendChild( pegRenderer.domElement );
-                    		// CONTROLS
-                    		pegControls = new THREE.OrbitControls( pegCamera, pegRenderer.domElement );
+                      // LIGHT
+                      var light = new THREE.PointLight(0xFFFFFF, 1);
+                      light.position.set(90,90,45);
+                      pegScene.add(light);
 
-                    		// LIGHT
-                    		hemiLight = new THREE.HemisphereLight( 0xffffff, 0xffffff, 0.6 );
-                    		hemiLight.color.setHSL( 0.6, 1, 0.6 );
-                    		hemiLight.groundColor.setHSL( 0.095, 1, 0.75 );
-                    		hemiLight.position.set( 0, 50, 0 );
-                    		pegScene.add( hemiLight );
+                      // AMBIENT
+                      var ambiColor = "0xFFFFFF";
+                      var ambient = new THREE.AmbientLight(ambiColor, .5);
+                      pegScene.add(ambient);
 
-                    	  dirLight = new THREE.DirectionalLight( 0xffffff, 1 );
-                    		dirLight.color.setHSL( 0.1, 1, 0.95 );
-                    		dirLight.position.set( -1, 1.75, 1 );
-                    		dirLight.position.multiplyScalar( 30 );
-                    		pegScene.add( dirLight );
-                    	  dirLight.castShadow = true;
+                      // SKYBOX/FOG
+                      var skyBoxGeometry = new THREE.CubeGeometry( 10000, 10000, 10000 );
+                      var skyBoxMaterial = new THREE.MeshBasicMaterial( { color: 0xFFFFFF, side: THREE.BackSide } );
+                      var skyBox = new THREE.Mesh( skyBoxGeometry, skyBoxMaterial );
+                      pegScene.add(skyBox);
 
-                    		// SKYBOX/FOG
-                    		var skyBoxGeometry = new THREE.CubeGeometry( 10000, 10000, 10000 );
-                    		var skyBoxMaterial = new THREE.MeshBasicMaterial( { color: 0xffffff, side: THREE.BackSide } );
-                    		var skyBox = new THREE.Mesh( skyBoxGeometry, skyBoxMaterial );
-                    		pegScene.add(skyBox);
+                      //peg
+                      var peg = new THREE.CylinderGeometry( 5, 5, 15, 100 );
+                      material = new THREE.MeshPhongMaterial({ color: 0xFFFFFF, shininess: 1 });
+                      mesh = new THREE.Mesh( peg, material );
+                      mesh.position.set(0,0,10);
+                      pegScene.add(mesh);
 
-                    		//peg
-                    		var peg = new THREE.CylinderGeometry( 8, 8, 25, 100 );
-                    		var material = new THREE.MeshPhongMaterial({ color: 0xff0000, shininess: 30 });
-                    		mesh = new THREE.Mesh( peg, material );
-                    		mesh.position.set(0,0,10);
-                    		pegScene.add(mesh);
+                      spritey = makeTextSprite( " Label ", { fontsize: 32, backgroundColor: {r:255, g:255, b:255, a:110} } );
+                      spritey.position = peg.faces[8].centroid.clone().multiplyScalar(4);
+                      pegScene.add( spritey );
+                    }
 
-                    		var spritey = makeTextSprite( " Label ", { fontsize: 64 } );
-                        spritey.position = mesh.position.clone();
-                        spritey.position.x = 2;
-                        spritey.position.y = 18;
-                    		pegScene.add( spritey );
+                    function makeTextSprite( message, parameters ) {
+                      if ( parameters === undefined ) parameters = {};
 
-                    	}
+                      var fontface = parameters.hasOwnProperty("fontface") ?
+                      parameters["fontface"] : "Arial";
 
-                    	function makeTextSprite( message, parameters )
-                    	{
-                    		if ( parameters === undefined ) parameters = {};
+                      var fontsize = parameters.hasOwnProperty("fontsize") ?
+                      parameters["fontsize"] : 18;
 
-                    		var fontface = parameters.hasOwnProperty("fontface") ?
-                    		parameters["fontface"] : "Arial";
+                      var borderThickness = parameters.hasOwnProperty("borderThickness") ?
+                      parameters["borderThickness"] : 4;
 
-                    		var fontsize = parameters.hasOwnProperty("fontsize") ?
-                    		parameters["fontsize"] : 18;
+                      var backgroundColor = parameters.hasOwnProperty("backgroundColor") ?
+                      parameters["backgroundColor"] : { r:255, g:255, b:255, a:0 };
 
-                    		var borderThickness = parameters.hasOwnProperty("borderThickness") ?
-                    		parameters["borderThickness"] : 4;
-
-                    		var backgroundColor = parameters.hasOwnProperty("backgroundColor") ?
-                    		parameters["backgroundColor"] : { r:255, g:255, b:255, a:0 };
-
-                    		var spriteAlignment = THREE.SpriteAlignment.top;
+                      var spriteAlignment = THREE.SpriteAlignment.top;
 
 
-                    		var canvas = document.createElement('canvas');
-                    		var context = canvas.getContext('2d');
-                    		context.font = "Bold " + fontsize + "px " + fontface;
+                      var canvas = document.createElement('canvas');
+                      var context = canvas.getContext('2d');
+                      context.font = "Bold " + fontsize + "px " + fontface;
 
-                    		// get size data (height depends only on font size)
-                    		var metrics = context.measureText( message );
-                    		var textWidth = metrics.width;
+                      // get size data (height depends only on font size)
+                      var metrics = context.measureText( message );
+                      var textWidth = metrics.width;
 
-                    		// background color
+                      // background color
+                      context.fillStyle   = "rgba(" + backgroundColor.r + "," + backgroundColor.g + ","
+                      + backgroundColor.b + "," + backgroundColor.a + ")";
 
-                    		context.fill();
-                    		context.stroke();
+                      context.lineWidth = borderThickness;
+                      roundRect(context, borderThickness/2, borderThickness/2, textWidth + borderThickness, fontsize * 1.4 + borderThickness, 6);
 
-                    		// text color
-                    		context.fillStyle = "rgba(255, 0, 0, 1.0)";
+                      // text color
+                      context.fillStyle = "rgba(0, 0, 0, 1.0)";
 
-                    		context.fillText( message, borderThickness, fontsize + borderThickness);
+                      context.fillText( message, borderThickness, fontsize + borderThickness);
 
-                    		// canvas contents will be used for a texture
-                    		var texture = new THREE.Texture(canvas)
-                    		texture.needsUpdate = true;
+                      // canvas contents will be used for a texture
+                      var texture = new THREE.Texture(canvas)
+                      texture.needsUpdate = true;
 
-                    		var spriteMaterial = new THREE.SpriteMaterial({ map: texture, useScreenCoordinates: false, alignment: spriteAlignment } );
-                    			var sprite = new THREE.Sprite( spriteMaterial );
-                    			sprite.scale.set(100,50,1.0);
-                    			return sprite;
-                    		}
+                      var spriteMaterial = new THREE.SpriteMaterial(
+                        { map: texture, useScreenCoordinates: false, alignment: spriteAlignment } );
+                        var sprite = new THREE.Sprite( spriteMaterial );
+                        sprite.scale.set(100,50,1.0);
+                        return sprite;
+                      }
 
-                    		function animatePeg()
-                    		{
-                    			requestAnimationFrame( animatePeg );
-                    			render();
-                    			update();
-                    		}
+                      // function for drawing rounded rectangles
+                      function roundRect(ctx, x, y, w, h, r) {
+                        ctx.beginPath();
+                        ctx.moveTo(x+r, y);
+                        ctx.lineTo(x+w-r, y);
+                        ctx.quadraticCurveTo(x+w, y, x+w, y+r);
+                        ctx.lineTo(x+w, y+h-r);
+                        ctx.quadraticCurveTo(x+w, y+h, x+w-r, y+h);
+                        ctx.lineTo(x+r, y+h);
+                        ctx.quadraticCurveTo(x, y+h, x, y+h-r);
+                        ctx.lineTo(x, y+r);
+                        ctx.quadraticCurveTo(x, y, x+r, y);
+                        ctx.closePath();
+                        ctx.fill();
+                        ctx.stroke();
+                      }
 
-                    		function update()
-                    		{
-                    			pegControls.update();
-                    		}
+                      function animatePeg() {
+                        requestAnimationFrame( animatePeg );
+                        render();
+                        update();
+                      }
 
-                    		function render()
-                    		{
-                    			pegRenderer.render( pegScene, pegCamera );
-                    		}
+                      function update() {
+                        pegControls.update();
 
+                      }
 
-                      </script>
+                      function render() {
+                        pegRenderer.render( pegScene, pegCamera );
+                      }
+					  
+					  function setPegRGB(){
+						var redHex = rgbToHex(document.getElementById("RvalueStim").value);
+						var greenHex = rgbToHex(document.getElementById("GvalueStim").value);
+						var blueHex = rgbToHex(document.getElementById("BvalueStim").value);
+						var stringHex = "0x" + redHex + greenHex + blueHex;
+						material.color.setHex(stringHex);
+						}
+						
+					function setLabelRGB(){
+						var redHex = rgbToHex(document.getElementById("RvalueStim").value);
+						var greenHex = rgbToHex(document.getElementById("GvalueStim").value);
+						var blueHex = rgbToHex(document.getElementById("BvalueStim").value);
+						var stringHex = "0x" + redHex + greenHex + blueHex;
+						sprite.backgroundColor.setHex(stringHex);
+						}
+
+                    </script>
 
                   <div class="form-group row pt-3">
                     <div class="col">
@@ -634,9 +706,9 @@
                     </div>
                   </div>
                   <div id="displaySliderStimulus" class="pt-3" style="display: block;">
-                    <input type="range" min="1" max="255" value="128" class="slider mb-3" id="RvalueStim">
-                    <input type="range" min="1" max="255" value="128" class="slider mb-3" id="GvalueStim">
-                    <input type="range" min="1" max="255" value="128" class="slider mb-4" id="BvalueStim">
+                    <input type="range" min="1" max="255" value="128" class="slider mb-3" id="RvalueStim" onchange = "setPegRGB()">
+                    <input type="range" min="1" max="255" value="128" class="slider mb-3" id="GvalueStim" onchange = "setPegRGB()">
+                    <input type="range" min="1" max="255" value="128" class="slider mb-4" id="BvalueStim" onchange = "setPegRGB()">
                   </div>
                   <div id="displaySliderLabel" class="pt-3" style="display: none;">
                     <input type="range" min="1" max="255" value="128" class="slider mb-3" id="lRvalueStim">
