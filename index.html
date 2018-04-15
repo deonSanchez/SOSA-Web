@@ -291,7 +291,7 @@
 
                   // CAMERA
                   var SCREEN_WIDTH = 500, SCREEN_HEIGHT = 500;
-                  var VIEW_ANGLE = 10, ASPECT = SCREEN_WIDTH / SCREEN_HEIGHT, NEAR = 0.1, FAR = 20000;
+                  var VIEW_ANGLE = 5, ASPECT = SCREEN_WIDTH / SCREEN_HEIGHT, NEAR = 0.1, FAR = 20000;
                   BoardCamera = new THREE.PerspectiveCamera( VIEW_ANGLE, ASPECT, NEAR, FAR);
                   BoardScene.add(BoardCamera);
                   BoardCamera.position.set(0,0,400);
@@ -374,13 +374,6 @@
                   <button onclick="displayColorSliderBoard()" value ="board" class="btn btn-secondary btn-shadow">Board</button>
                   <button onclick="displayColorSliderBackground()" value ="background"class="btn btn-secondary btn-shadow">Background</button>
                   <button onclick="displayColorSliderCover()" value ="cover" class="btn btn-secondary btn-shadow">Cover</button>
-
-                    <select name="Grid dropdown" onchange="changeGrid(this.value)">
-                      <option value="NoGrid">No Grid Overlay</option>
-                      <option value="6x6">6 x 6 Grid</option>
-                      <option value="12x12">12 x 12 Grid</option>
-                      <option value="24x24">24 x 24 Grid</option>
-                    </select>
 
                   <div id="displayValueBoard" class="pt-3 text-center" style="display: block;">
                     Value: (<span id="Rbv"></span>, <span id="Gbv"></span>, <span id="Bbv"></span>)
