@@ -139,19 +139,21 @@ function initExperiment() {
 		new THREE.Vector3(0,1,0), new THREE.Vector3(0,-1,0),
 		new THREE.Vector3(0,0,1), new THREE.Vector3(0,0,-1) ];
 
-//this will generate the stimulus
-	this.colors = [ new THREE.Color(0x66FFFF), new THREE.Color(0xff0000), new THREE.Color(0xff8800), new THREE.Color(0xffff00), new THREE.Color(0x00cc00),
-	                new THREE.Color(0x0000ff), new THREE.Color(0x8800ff), new THREE.Color(0x804000), new THREE.Color(0x222222), new THREE.Color(0xFF66FF) ];
-
-  label = ["Deon", "Jeffery", "Rico", "Flynt", "Mitchell"];
-
-  this.materials = { "solid":[], "add":[], "delete":[] };
 
 
-  for (var i = 0; i < colors.length; i++) {
-		materials["solid"][i]   = new THREE.MeshLambertMaterial({ color: colors[i] });
-		materials["add"][i]     = new THREE.MeshLambertMaterial({ color: colors[i], transparent: true, opacity:0.50 });
-		materials["delete"][i]  = new THREE.MeshLambertMaterial({ color: colors[i], transparent: true, opacity:0.75 });
+//this will generate the stimulus colors
+
+	TestColors = [ new THREE.Color(0x66FFFF), new THREE.Color(0xff0000), new THREE.Color(0xff8800), new THREE.Color(0xffff00), new THREE.Color(0x00cc00) ];
+
+  TestLabels = ["Deon", "Jeffery", "Rico", "Flynt", "Mitchell"];
+
+  materials = { "solid":[], "add":[], "delete":[] };
+
+
+  for (var i = 0; i <= TestColors.length; i++) {
+		materials["solid"][i]   = new THREE.MeshLambertMaterial({ color: TestColors[i] });
+		materials["add"][i]     = new THREE.MeshLambertMaterial({ color: TestColors[i], transparent: true, opacity:0.50 });
+		materials["delete"][i]  = new THREE.MeshLambertMaterial({ color: TestColors[i], transparent: true });
 	}
 
 	brush = new THREE.Mesh( stimuliGeo.clone(), materials["add"][1] );
@@ -182,20 +184,22 @@ function mouseClick( event ) {
 
   var i = 0;
 function brushAction() {
-	if (brush.mode == "add" && i <= label.length-1) {
+	if (brush.mode == "add" && i < TestLabels.length) {
 		var stimuli = new THREE.Mesh( stimuliGeo );
-    stimuli.material = materials["solid"][ brush.colorIndex ];
+    stimuli.material = materials["solid"][ brush.colorIndex+i];
 		stimuli.position = brush.position.clone();
 		stimuli.name = brush.addName;
-		stimuli.colorIndex = brush.colorIndex;
+
 		ExperimentScene.add( stimuli );
 		stimuliNames.push( stimuli.name );
 
     //creates the label for the stimulus
-    var stimLabel = makeTextSprite( label[i], { fontsize: 32, backgroundColor: {r:0, g:0, b:0, a:0} } );
+    stimLabel = makeTextSprite( TestLabels[i], { fontsize: 32, backgroundColor: {r:0, g:0, b:0, a:0} } );
     stimLabel.position = brush.position.clone();
     stimLabel.position.y = 2;
+    stimLabel.name = String(TestLabels[i]);
     ExperimentScene.add( stimLabel );
+    i++;
 	}
 
 	if (brush.mode == "delete") {
@@ -206,8 +210,8 @@ function brushAction() {
 
     if ( index != -1) {
       stimuliNames.splice( index, 1 );
-      //var removeLabel = ExperimentScene.getObjectByName(String(--i));
-      //ExperimentScene.remove( removeLabel );
+      var removeLabel = ExperimentScene.getObjectByName(String(TestLabels[--i]));
+      ExperimentScene.remove( removeLabel );
     }
 	}
 }
@@ -250,6 +254,7 @@ function update() {
 		ExperimentCamera.rotateX(  rotateAngle );
 	if ( keyboard.pressed("G") )
 		ExperimentCamera.rotateX( -rotateAngle );
+
 	// limit ExperimentCamera to +/- 45 degrees (0.7071 radians) or +/- 60 degrees (1.04 radians) or 85 (1.48)
 	ExperimentCamera.rotation.x = THREE.Math.clamp( ExperimentCamera.rotation.x, -1.48, 1.48 );
 	// pressing both buttons moves look angle to original position
@@ -258,6 +263,7 @@ function update() {
 		person.rotateY( -6 * (-Math.PI / 2.0 - person.rotation.y) * rotateAngle * factor );
 	if ( keyboard.pressed("T") && keyboard.pressed("G") )
 		ExperimentCamera.rotateX( -6 * ExperimentCamera.rotation.x * rotateAngle );
+
 	// set view to Origin
 	if (keyboard.down("O"))
 		viewSet(1);
@@ -265,12 +271,8 @@ function update() {
 	if (keyboard.down("P"))
 		viewSet(2);
 
-	// when digit is pressed, change brush color data
-	for (var i = 0; i < 10; i++)
-	if ( keyboard.down( i.toString() ) )
-		brush.colorIndex = i;
-
 	brush.material = materials["add"][ brush.colorIndex ];
+
 	// brush modes
 	if ( keyboard.down("Z") )
 		brush.mode = "add";
@@ -291,11 +293,6 @@ function update() {
 
 	// brush will only be visible only in "add" mode, when mouse hovers over plane/stimuli
 	brush.visible = false;
-	// restore appearance of potential delete/(re)color target stimuli
-	var targetCube = ExperimentScene.getObjectByName( brush.targetName );
-	if ( targetCube )
-		targetCube.material = materials["solid"][ targetCube.colorIndex ];
-	brush.targetName = null;
 
 	if ( result ) {
      //place stimuli on ExperiBoard
@@ -307,7 +304,7 @@ function update() {
 		}
 
     // delete stimuli
-		if ( (brush.mode == "delete") && !result.object.base ) {
+    if ( (brush.mode == "delete") && !result.object.base ) {
 			brush.visible = false;
 			var intPosition = new THREE.Vector3( Math.floor(result.object.position.x),
 				Math.floor(result.object.position.y), Math.floor(result.object.position.z) );
