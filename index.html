@@ -28,7 +28,8 @@
   <script src="js/Three.js"></script>
   <script src="js/Detector.js"></script>
   <script src="js/OrbitControls-Touch.js"></script>
-  <script src="js/OrbitControls.js"></script>
+  <!-- using this script breaks the lock functions for the controls --!>
+  <!-- <script src="js/OrbitControls.js"></script>--!>
 
 </head>
 
@@ -491,7 +492,7 @@
 
                       <script>
                       // standard global variables
-                      var pegContainer, pegScene, pegCamera, pegRenderer, pegControls, Pegmaterial, sprite;
+                      var pegContainer, pegScene, pegCamera, pegRenderer, pegControls, Pegmaterial, spriteMaterial;
 
                       initPeg();
                       animatePeg();
@@ -579,7 +580,7 @@
                         var textWidth = metrics.width;
 
                         // text color
-                        context.fillStyle = "rgba(255, 0, 0, 1.0)";
+                        context.fillStyle = "rgba(255, 255, 255, 1.0)";
 
                         context.fillText( message, borderThickness, fontsize + borderThickness);
 
@@ -587,10 +588,9 @@
                         var texture = new THREE.Texture(canvas)
                         texture.needsUpdate = true;
 
-                        spriteMaterial = new THREE.SpriteMaterial(
-                          { map: texture, useScreenCoordinates: false } );
-                          spriteMaterial.color.setHex("0xFFFFFF");
-                          sprite = new THREE.Sprite( spriteMaterial );
+                        spriteMaterial = new THREE.SpriteMaterial( { map: texture, useScreenCoordinates: false} );
+                        spriteMaterial.color.setHex("0xFF0000");
+                          var sprite = new THREE.Sprite( spriteMaterial );
                           sprite.scale.set(400,200,1.0);
                           return sprite;
                         }
@@ -611,11 +611,11 @@
                       }
 
                       function setLabelRGB(){
-                        var redHex = document.getElementById("lRvalueStim").value;
-                        var greenHex = document.getElementById("lGvalueStim").value;
-                        var blueHex = document.getElementById("lBvalueStim").value;
-                        var stringHex = "rgba( " + redHex + ", " + greenHex + ", " + blueHex + ")";
-                        SpriteMaterial.color.setHex(stringHex);
+                        var redHex = rgbToHex(document.getElementById("lRvalueStim").value);
+                        var greenHex = rgbToHex(document.getElementById("lGvalueStim").value);
+                        var blueHex = rgbToHex(document.getElementById("lBvalueStim").value);
+                        var stringHex = "0x" + redHex + greenHex + blueHex;
+                        spriteMaterial.color.setHex(stringHex);
                       }
 
                     </script>
