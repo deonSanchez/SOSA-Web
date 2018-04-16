@@ -296,7 +296,7 @@
                     var VIEW_ANGLE = 5, ASPECT = SCREEN_WIDTH / SCREEN_HEIGHT, NEAR = 0.1, FAR = 20000;
                     BoardCamera = new THREE.PerspectiveCamera( VIEW_ANGLE, ASPECT, NEAR, FAR);
                     BoardScene.add(BoardCamera);
-                    BoardCamera.position.set(0,0,700);
+                    BoardCamera.position.set(0,0,400);
                     BoardCamera.lookAt(BoardScene.position);
 
                     // RENDERER
@@ -338,27 +338,28 @@
                     BoardScene.add(mesh);
                     
                     //Creates meshes on the sides of the board to make it look 3D
-                    var BoardSideGeo = new THREE.PlaneGeometry(40,2);
+                    var BoardSideGeo = new THREE.PlaneGeometry(25,1);
                     var BoardSideMat = new THREE.MeshPhongMaterial({ color: 0xC0C0C0});  
                     var BoardSide = new THREE.Mesh(BoardSideGeo, BoardSideMat);
-                    BoardSide.position.set(0 , 20, -1);
+                    BoardSide.position.set(0 , 12.5, -0.5);
                     BoardSide.rotation.x = -Math.PI/2;
                     BoardScene.add(BoardSide);
                     var BoardSide = new THREE.Mesh(BoardSideGeo, BoardSideMat);
                     BoardSide.rotation.x = -Math.PI/2;
                     BoardSide.rotation.y = -Math.PI / 2;
-                    BoardSide.position.set(-20, 0, -1);
+                    BoardSide.position.set(-12.5, 0, -0.5);
                     BoardScene.add(BoardSide);
                     var BoardSide = new THREE.Mesh(BoardSideGeo, BoardSideMat);
                     BoardSide.rotation.x = -Math.PI/2;
                     BoardSide.rotation.y = -Math.PI / 2 * 2;
-                    BoardSide.position.set(0,-20, -1);
+                    BoardSide.position.set(0,-12.5, - 0.5);
                     BoardScene.add(BoardSide);
                     var BoardSide = new THREE.Mesh(BoardSideGeo, BoardSideMat);
                     BoardSide.rotation.x = -Math.PI/2;
                     BoardSide.rotation.y = -Math.PI / 2 * 3;
-                    BoardSide.position.set(20, 0, -1);
+                    BoardSide.position.set(12.5, 0, - 0.5);
                     BoardScene.add(BoardSide);
+                  }
                   }
 
                   //function to convert rgb to hex (Source: https://campushippo.com/lessons/how-to-convert-rgb-colors-to-hexadecimal-with-javascript-78219fdb)
