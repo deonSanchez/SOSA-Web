@@ -29,6 +29,12 @@
   <script src="js/Detector.js"></script>
   <script src="js/OrbitControls-Touch.js"></script>
 
+  <!-- AJAX JavaScript for loading and saving to the database -->
+  <script src="js/addImage.js"></script>
+  <script src="js/LoadBoard.js"></script>
+  <script src="js/SaveBoard.js"></script>
+  <script src="js/QueryForExperiment.js"></script>
+
 </head>
 
 <body id="page-top">
@@ -336,14 +342,22 @@
                   BoardScene.add(mesh);
                 }
 				
-				//function to convert rgb to hex (Source: https://campushippo.com/lessons/how-to-convert-rgb-colors-to-hexadecimal-with-javascript-78219fdb)  
+				//functions to convert rgb to hex (Source: https://campushippo.com/lessons/how-to-convert-rgb-colors-to-hexadecimal-with-javascript-78219fdb)
 				  function rgbToHex(rgb){ 
 					var hex = Number(rgb).toString(16);
 					if (hex.length < 2) {
 						hex = "0" + hex;
 					}
 					return hex;
-				}		
+
+					function fullColorHex(r,g,b){
+					    var red = rgbToHex(r);
+					    var green = rgbToHex(g);
+					    var blue = rgbToHex(b);
+					    return red+green+blue;
+                    }
+				}
+
 
                 function animateBoard()
                 {
@@ -393,11 +407,11 @@
                 </script>
 
               <div class="form-group">
-                <input oninput="ChangeBoardText(this)" type="text" class="form-control" placeholder="Board Name">
+                <input oninput="ChangeBoardText(this)" type="text" id="boardName" class="form-control" placeholder="Board Name">
               </div>
               <div class="row">
                 <div class="col">
-                  <button class="btn btn-shadow btn-block btn-secondary btn-small rounded-pill">Add Image</button>
+                  <button class="btn btn-shadow btn-block btn-secondary btn-small rounded-pill" id="addImage">Add Image</button>
                 </div>
                 <div class="col">
                   <button class="btn btn-shadow btn-block btn-secondary btn-small rounded-pill" onclick = "ClearOff()">Clear</button>
@@ -452,11 +466,11 @@
                 </div>
                 <div class="row text-uppercase">
                   <div class="col">
-                    <button class="btn btn-shadow btn-secondary btn-block rounded-pill sosa-modal-dismiss" href="#">
+                    <button class="btn btn-shadow btn-secondary btn-block rounded-pill sosa-modal-dismiss" id="loadCreatedBoard" href="#">
                       Load</button>
                     </div>
                     <div class="col">
-                      <button class="btn btn-shadow btn-secondary btn-block rounded-pill sosa-modal-dismiss" href="#">
+                      <button onclick="sendBoard()" class="btn btn-shadow btn-secondary btn-block rounded-pill sosa-modal-dismiss" id="saveCreatedBoard" href="#">
                         Save</button>
                       </div>
                     </div>
@@ -993,10 +1007,10 @@
               </div>
               <div class="row">
                 <div class="col mt-3">
-                  <button class="btn btn-shadow btn-secondary btn-block rounded-pill sosa-modal-dismiss" href="#">Load Board</button>
+                  <button class="btn btn-shadow btn-secondary btn-block rounded-pill sosa-modal-dismiss" id="loadBoard" href="#">Load Board</button>
                 </div>
                 <div class="col mt-3">
-                  <button class="btn btn-shadow btn-secondary btn-block rounded-pill sosa-modal-dismiss" href="#">Load Stimulus</button>
+                  <button class="btn btn-shadow btn-secondary btn-block rounded-pill sosa-modal-dismiss" id="loadStimulus" href="#">Load Stimulus</button>
                 </div>
                 <div class="col mt-3">
                   <a class="btn btn-shadow btn-secondary btn-block rounded-pill" target="_blank" href="SOSA.html">Begin Experiment</a>
@@ -1015,6 +1029,8 @@
     <!-- Plugin JavaScript -->
     <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
     <script src="vendor/magnific-popup/jquery.magnific-popup.min.js"></script>
+    <!-- W3color JavaScript -->
+    <script src="https://www.w3schools.com/lib/w3color.js"></script>
 
     <!-- Contact Form JavaScript -->
     <script src="js/jqBootstrapValidation.js"></script>
