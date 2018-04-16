@@ -145,6 +145,26 @@ function initExperiment() {
 	ExperiBoard.base = true;
 	ExperimentScene.add(ExperiBoard);
 
+	//Creates meshes on the sides of the board to make it look 3D
+	this.BoardSideGeo = new THREE.PlaneGeometry(40,2);
+	this.BoardSideMat = new THREE.MeshPhongMaterial({ color: 0xC0C0C0});
+	var BoardSide = new THREE.Mesh(BoardSideGeo, BoardSideMat);
+	BoardSide.position.set(16,-2, 36);
+	ExperimentScene.add(BoardSide);
+	var BoardSide = new THREE.Mesh(BoardSideGeo, BoardSideMat);
+	BoardSide.rotation.y = -Math.PI / 2;
+	BoardSide.position.set(-4,-2,16);
+	ExperimentScene.add(BoardSide);
+	var BoardSide = new THREE.Mesh(BoardSideGeo, BoardSideMat);
+	BoardSide.rotation.y = -Math.PI / 2 * 2;
+	BoardSide.position.set(16,-2,-4);
+	ExperimentScene.add(BoardSide);
+	var BoardSide = new THREE.Mesh(BoardSideGeo, BoardSideMat);
+	BoardSide.rotation.y = -Math.PI / 2 * 3;
+	BoardSide.position.set(36,-2,16);
+	ExperimentScene.add(BoardSide);
+
+
 	this.stimuliGeo = new THREE.CylinderGeometry(40/gridScale/2,40/gridScale/2,3,100);
 
 	this.offset = [
