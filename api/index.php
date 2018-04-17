@@ -30,7 +30,8 @@ foreach ($_POST as $key => $val) {
 $VALID_REQUESTS = array('login','checklogin','logout',
  'register','createstimulus','loadstimsets',
  'loadstimset','createset','deleteset',
- 'loadstimulus','deletestimulus','updatestimulus');
+ 'loadstimulus','deletestimulus','updatestimulus','saveboard'
+ ,'loadboard');
 
 //Validating the existance of server variable "HTTP_X_REQUESTED_WITH", if it exists it can verify that the call is ajax
 $httpXrequested = isset($_SERVER['HTTP_X_REQUESTED_WITH']);

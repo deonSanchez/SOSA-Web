@@ -580,5 +580,23 @@ class Session {
 	/*
 	 * END STIMULUS FUNCTIONS
 	 */
+
+	/**
+	 * BEGIN BOARD FUNCTIONS
+	 * loading will be based on $board_name
+	 * @author Dan Blocker <db04839@georgiasouthern.edu>
+	 * @return
+     * @version 0.0.1
+	 *
+	 */
+	public function saveBoard($board_name, $lock_tilt, $lock_rotate, $lock_zoom, $board_color, $background_color, $cover_color, $image){
+	    $qry = $this->mysqli->prepare("INSERT INTO `board` VALUES(?,?,?,?,?,?,?,?)");
+	    $qry->bind_param("siiiiiib",$board_name, $lock_tilt, $lock_rotate, $lock_zoom, $board_color, $background_color, $cover_color, $image);
+	    $qry->execute();
+	    $qry->close();
+    }
+    /*
+     * END BOARD FUNCTIONS
+     */
 }
 ?>

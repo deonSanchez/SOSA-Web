@@ -10,4 +10,3 @@ define('DB_PASS', 'sosa2018');
 define('DB_NAME', 'sosa');
 define('SESSION_LENGTH', 60);
 error_reporting(E_ALL & ~E_NOTICE);
-?>
