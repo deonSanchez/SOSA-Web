@@ -350,8 +350,8 @@ function update() {
     // delete stimuli
     if ( (brush.mode == "delete") && !result.object.base ) {
 			brush.visible = false;
-			var intPosition = new THREE.Vector3( Math.floor(result.object.position.x),
-				Math.floor(result.object.position.y), Math.floor(result.object.position.z) );
+			var intPosition = new THREE.Vector3(toGridCoordinate(result.point.x), 0, toGridCoordinate(result.point.z) );
+      			brush.position = intPosition.clone().add( new THREE.Vector3(0.5, 0.5, 0.5) );
 			brush.targetName = "X" + intPosition.x + "Y" + intPosition.y + "Z" + intPosition.z;
 			var targetCube = ExperimentScene.getObjectByName( brush.targetName );
 			targetCube.material = materials["delete"][ targetCube.colorIndex ];
