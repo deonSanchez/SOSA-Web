@@ -283,7 +283,6 @@
 
                   <script>
                   var BoardContainer, BoardScene, BoardCamera, BoardRenderer, BoardControl, Boardmaterial, skyBoxMaterial;
-
                   initBoard();
                   animateBoard();
 
@@ -360,7 +359,6 @@
                     BoardSide.position.set(12.5, 0, - 0.5);
                     BoardScene.add(BoardSide);
                   }
-                  }
 
                   //function to convert rgb to hex (Source: https://campushippo.com/lessons/how-to-convert-rgb-colors-to-hexadecimal-with-javascript-78219fdb)
                   function rgbToHex(rgb){
@@ -396,7 +394,7 @@
                     BoardControl.noZoom = !BoardControl.noZoom;
                     BoardControl.update();
                   }
-
+				  
                   //updates the color of the board
                   function setBoardRGB(){
                     var redHex = rgbToHex(document.getElementById("BoardRvalue").value);
@@ -546,6 +544,9 @@
                         pegContainer.appendChild( pegRenderer.domElement );
                         // CONTROLS
                         pegControls = new THREE.OrbitControls( pegCamera, pegRenderer.domElement );
+						pegControls.noTilt = true;
+						pegControls.noRotate = true;
+						pegControls.noZoom = true;
 
                         // LIGHT
                         hemiLight = new THREE.HemisphereLight( 0xffffff, 0xffffff, 0.6 );
@@ -613,7 +614,7 @@
                         texture.needsUpdate = true;
 
                         spriteMaterial = new THREE.SpriteMaterial( { map: texture, useScreenCoordinates: false} );
-                        spriteMaterial.color.setHex("0xFF0000");
+                        spriteMaterial.color.setHex("0x000000");
                           var sprite = new THREE.Sprite( spriteMaterial );
                           sprite.scale.set(400,200,1.0);
                           return sprite;
@@ -706,14 +707,14 @@
                         </div>
                       </div>
                       <div id="displaySliderStimulus" class="pt-3" style="display: block;">
-                        <input type="range" min="1" max="255" value="0" class="slider mb-3" id="RvalueStim" onchange = "setPegRGB()">
-                        <input type="range" min="1" max="255" value="0" class="slider mb-3" id="GvalueStim" onchange = "setPegRGB()">
-                        <input type="range" min="1" max="255" value="0" class="slider mb-4" id="BvalueStim" onchange = "setPegRGB()">
+                        <input type="range" min="0" max="255" value="0" class="slider mb-3" id="RvalueStim" onchange = "setPegRGB()">
+                        <input type="range" min="0" max="255" value="0" class="slider mb-3" id="GvalueStim" onchange = "setPegRGB()">
+                        <input type="range" min="0" max="255" value="0" class="slider mb-4" id="BvalueStim" onchange = "setPegRGB()">
                       </div>
                       <div id="displaySliderLabel" class="pt-3" style="display: none;">
-                        <input type="range" min="1" max="255" value="128" class="slider mb-3" id="lRvalueStim" onchange = "setLabelRGB()">
-                        <input type="range" min="1" max="255" value="128" class="slider mb-3" id="lGvalueStim" onchange = "setLabelRGB()">
-                        <input type="range" min="1" max="255" value="128" class="slider mb-4" id="lBvalueStim" onchange = "setLabelRGB()">
+                        <input type="range" min="0" max="255" value="0" class="slider mb-3" id="lRvalueStim" onchange = "setLabelRGB()">
+                        <input type="range" min="0" max="255" value="0" class="slider mb-3" id="lGvalueStim" onchange = "setLabelRGB()">
+                        <input type="range" min="0" max="255" value="0" class="slider mb-4" id="lBvalueStim" onchange = "setLabelRGB()">
                       </div>
                       <div class="row">
                         <div class="col pb-6">
