@@ -24,26 +24,24 @@ var hexCover = fullColorHex(cover_Color[0], cover_Color[1], cover_Color[2]);
 
 
 function sendBoard(){
-        var json = {"boardName": boardName, "lock_tilt": lockTilt, "lock_rotate": lockRotate, "lock_zoom": lock_zoom, "board_color": hexBoard,
-            "background_color": hexBackground, "cover_color": hexCover, "image": image};
-
-        var packet = JSON.stringify(json);
-
-        $.ajax({
-            type: 'POST',
-            data: 'request=saveboard&board=' + packet,
-            url: 'api/index.php',
-            async: true,
-            cache: false,
-            dataType: 'json',
-            success: function (response) {
-                var board = JSON.parse()
-                alert('Success');
-            },
-            error: function () {
-                alert('Failed');
-            }
-        });
+    var json = {"boardName": boardName, "lock_tilt": lockTilt, "lock_rotate": lockRotate, "lock_zoom": lock_zoom, "board_color": hexBoard,
+        "background_color": hexBackground, "cover_color": hexCover, "image": image};
+    var packet = JSON.stringify(json);
+    $.ajax({
+        type: 'POST',
+        data: 'request=saveboard&board=' + packet,
+        url: 'api/index.php',
+        async: true,
+        cache: false,
+        dataType: 'json',
+        success: function (response) {
+            alert('Success');
+        },
+        error: function(xhr, status, error) {
+        	  var err = eval("(" + xhr.responseText + ")");
+        	  alert(err.Message);
+        	}
+    });
 }
 
 

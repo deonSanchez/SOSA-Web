@@ -590,10 +590,16 @@ class Session {
 	 *
 	 */
 	public function saveBoard($board_name, $lock_tilt, $lock_rotate, $lock_zoom, $board_color, $background_color, $cover_color, $image){
-	    $qry = $this->mysqli->prepare("INSERT INTO `board` VALUES(?,?,?,?,?,?,?,?)");
-	    $qry->bind_param("siiiiiib",$board_name, $lock_tilt, $lock_rotate, $lock_zoom, $board_color, $background_color, $cover_color, $image);
+		$image = "null";
+	    $qry = $this->mysqli->prepare("INSERT INTO `board` 
+	    (`board_name`,`lock_tilt`, `lock_rotate`, `lock_zoom`, `board_color`, `background_color`, `cover_color`, `image`) 
+	    VALUES 
+	    (?,?,?,?,?,?,?,?)");
+	    echo "INSERT INTO `board` 	    (`board_name`,`lock_tilt`, `lock_rotate`, `lock_zoom`, `board_color`, `background_color`, `cover_color`, `image`)  VALUES ('$board_name','$lock_tilt', '$lock_rotate', '$lock_zoom', '$board_color', '$background_color', '$cover_color', '$image')";
+	    $qry->bind_param("siiiiiis",$board_name, $lock_tilt, $lock_rotate, $lock_zoom, $board_color, $background_color, $cover_color, $image);
 	    $qry->execute();
 	    $qry->close();
+	    echo $this->mysqli->affected_rows;
     }
     /*
      * END BOARD FUNCTIONS
