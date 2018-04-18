@@ -30,13 +30,6 @@
   <script src="js/OrbitControls-Touch.js"></script>
   <!-- using this script breaks the lock functions for the controls --!>
   <!-- <script src="js/OrbitControls.js"></script>--!>
-
-  <!-- AJAX JavaScript for loading and saving to the database -->
-  <script src="js/addImage.js"></script>
-  <script src="js/LoadBoard.js"></script>
-  <script src="js/SaveBoard.js"></script>
-  <script src="js/QueryForExperiment.js"></script>
-
 </head>
 
 <body id="page-top">
@@ -459,7 +452,7 @@
                 </script>
 
               <div class="form-group">
-                <input oninput="ChangeBoardText(this)" type="text" id="boardName" class="form-control" placeholder="Board Name">
+                <input type="text" id="board_name" class="form-control" placeholder="Board Name">
               </div>
               <div class="row">
                 <div class="col">
@@ -522,7 +515,7 @@
                       Load</button>
                     </div>
                     <div class="col">
-                      <button onclick="sendBoard()" class="btn btn-shadow btn-secondary btn-block rounded-pill" id="saveCreatedBoard" href="#">
+                      <button class="btn btn-shadow btn-secondary btn-block rounded-pill" id="saveCreatedBoard" href="#">
                         Save</button>
                       </div>
                     </div>
@@ -1276,6 +1269,13 @@
             <script src="js/jqBootstrapValidation.js"></script>
             <script src="js/contact_me.js"></script>
             <script src="js/mitchell.js"></script>
+
+			  <!-- AJAX JavaScript for loading and saving to the database -->
+			  <script src="js/addImage.js"></script>
+			  <script src="js/LoadBoard.js"></script>
+			  <script src="js/SaveBoard.js"></script>
+			  <script src="js/QueryForExperiment.js"></script>
+			            
 
             <!-- Custom scripts for this template -->
             <script src="js/freelancer.min.js"></script>

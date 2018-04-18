@@ -521,6 +521,10 @@ class Session {
 		$relative_size = 1;
 		$window_size = 1;
 		
+		if(strlen($title) < 1) {
+			return false;
+		}
+		
 		$stmt = $this->mysqli->prepare("SELECT * FROM `stimulus_set` WHERE `title` = ?");
 		$stmt->bind_param("s", $title);
 		$stmt->execute();
@@ -591,16 +595,45 @@ class Session {
 	 */
 	public function saveBoard($board_name, $lock_tilt, $lock_rotate, $lock_zoom, $board_color, $background_color, $cover_color, $image){
 		$image = "null";
+		if($board_name == ""){
+			return "You did not specify a board name!";
+		}
+		
+		$stmt = $this->mysqli->prepare("SELECT * FROM `board` WHERE `board_name` = ?");
+		$stmt->bind_param("s", $board_name);
+		$stmt->execute();
+		$stmt->store_result();
+		if ($stmt->num_rows > 0) {
+			return "You cannot have two boards with the same name!";
+		}
+		
 	    $qry = $this->mysqli->prepare("INSERT INTO `board` 
 	    (`board_name`,`lock_tilt`, `lock_rotate`, `lock_zoom`, `board_color`, `background_color`, `cover_color`, `image`) 
 	    VALUES 
 	    (?,?,?,?,?,?,?,?)");
-	    echo "INSERT INTO `board` 	    (`board_name`,`lock_tilt`, `lock_rotate`, `lock_zoom`, `board_color`, `background_color`, `cover_color`, `image`)  VALUES ('$board_name','$lock_tilt', '$lock_rotate', '$lock_zoom', '$board_color', '$background_color', '$cover_color', '$image')";
+	    
 	    $qry->bind_param("siiiiiis",$board_name, $lock_tilt, $lock_rotate, $lock_zoom, $board_color, $background_color, $cover_color, $image);
 	    $qry->execute();
 	    $qry->close();
-	    echo $this->mysqli->affected_rows;
     }
+    
+	/**
+	 * Return an array of all available saved experiment details
+	 * @author Mitchell M.
+	 * @return array of stimuli
+	 * @version 0.5.0
+	 */
+	public function loadBoard($board_name) {
+		$results = null;
+		$board_name = htmlentities(mysqli_real_escape_string($this->mysqli, $board_name));
+		$stmt = $this->mysqli->query("SELECT * FROM `board` WHERE `board_name` = {$board_name}");
+		if ($stmt->num_rows >= 1) {
+			while ($row = $stmt->fetch_assoc()) {
+				$results[] = $row;
+			}
+		}
+		return $results;
+	}
     /*
      * END BOARD FUNCTIONS
      */

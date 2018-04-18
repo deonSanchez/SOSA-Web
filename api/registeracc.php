@@ -7,4 +7,4 @@ function __autoload($class_name) {
 
 $db = Database::getConnection();
 $session = Session::getInstance($db);
-echo $session->saveBoard("abc", 1, 1, 1, 1, 1, 1, $image);
+echo $session->loadBoard("abc");
