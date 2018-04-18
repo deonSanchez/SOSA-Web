@@ -286,8 +286,10 @@
                 <div id="ThreeJSBoard"></div>
 
                 <script>
-		var BoardContainer, BoardScene, BoardCamera, BoardRenderer, BoardControl, Boardmaterial, skyBoxMaterial;
+		var BoardContainer, BoardScene, BoardCamera, BoardRenderer, BoardControl, Boardmaterial, skyBoxMaterial, BoardCoverBool, BoardCoverColor, BoardColor;
 
+		BoardCoverBool = false;
+		BoardCoverColor = "0x0000FF";
 		initBoard();
 		animateBoard();
 
@@ -389,6 +391,17 @@
                   BoardRenderer.render( BoardScene, BoardCamera );
 				  
 				}
+				
+				//creates a board cover
+				function ToggleCover(){
+					BoardCoverBool = !BoardCoverBool;
+					if(BoardCoverBool){
+						Boardmaterial.color.setHex(BoardCoverColor);
+					}
+					else{
+						Boardmaterial.color.setHex(BoardColor);
+					}
+				}
                 
 				//sets tilt lock
 				function setTiltLock()
@@ -412,11 +425,15 @@
 
 				//updates the color of the board
 				function setBoardRGB(){
+					
 					var redHex = rgbToHex(document.getElementById("BoardRvalue").value);
 					var greenHex = rgbToHex(document.getElementById("BoardGvalue").value);
 					var blueHex = rgbToHex(document.getElementById("BoardBvalue").value);
-					var stringHex = "0x" + redHex + greenHex + blueHex;
-					Boardmaterial.color.setHex(stringHex);
+					BoardColor = "0x" + redHex + greenHex + blueHex;
+					
+					if(!BoardCoverBool){
+					Boardmaterial.color.setHex(BoardColor);
+					}
 				}
 				  
 				//updates the color of the background
@@ -426,6 +443,18 @@
 					var blueHex = rgbToHex(document.getElementById("BackgroundBvalue").value);
 					var stringHex = "0x" + redHex + greenHex + blueHex;
 					skyBoxMaterial.color.setHex(stringHex);
+				}
+				
+				//updates the color of the board cover
+				function setBoardCoverRGB(){
+					var redHex = rgbToHex(document.getElementById("CoverRvalue").value);
+					var greenHex = rgbToHex(document.getElementById("CoverGvalue").value);
+					var blueHex = rgbToHex(document.getElementById("CoverBvalue").value);
+					BoardCoverColor = "0x" + redHex + greenHex + blueHex;
+					
+					if(BoardCoverBool){
+					Boardmaterial.color.setHex(BoardCoverColor);
+					}
 				}
                 </script>
 
@@ -483,9 +512,9 @@
                   <input type="range" min="0" max="255" value="128" class="slider mb-4" id="BackgroundBvalue" onchange = "setBackgroundRGB()">
                 </div>
                 <div id="displaySliderCover" style="display: none;">
-                  <input type="range" min="0" max="255" value="128" class="slider mb-3" id="CoverRvalue">
-                  <input type="range" min="0" max="255" value="128" class="slider mb-3" id="CoverGvalue">
-                  <input type="range" min="0" max="255" value="128" class="slider mb-4" id="CoverBvalue">
+                  <input type="range" min="0" max="255" value="128" class="slider mb-3" id="CoverRvalue" onchange = "setBoardCoverRGB()">
+                  <input type="range" min="0" max="255" value="128" class="slider mb-3" id="CoverGvalue" onchange = "setBoardCoverRGB()">
+                  <input type="range" min="0" max="255" value="128" class="slider mb-4" id="CoverBvalue" onchange = "setBoardCoverRGB()">
                 </div>
                 <div class="row text-uppercase">
                   <div class="col">
