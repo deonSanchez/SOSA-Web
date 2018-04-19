@@ -610,7 +610,7 @@ class Session {
      * @version 0.0.1
 	 *
 	 */
-	public function saveBoard($board_name, $lock_tilt, $lock_rotate, $lock_zoom, $cover_board, $board_color, $background_color, $cover_color, $image){
+	public function saveBoard($board_name, $lock_tilt, $lock_rotate, $lock_zoom, $cover_board, $board_color, $background_color, $cover_color, $image,$camerax,$cameray,$cameraz){
 		$image = "null";
 		if($board_name == ""){
 			return "You did not specify a board name!";
@@ -625,11 +625,10 @@ class Session {
 		}
 		
 	    $qry = $this->mysqli->prepare("INSERT INTO `board` 
-	    (`board_name`,`lock_tilt`, `lock_rotate`, `lock_zoom`, `cover_board`, `board_color`, `background_color`, `cover_color`, `image`) 
+	    (`board_name`,`lock_tilt`, `lock_rotate`, `lock_zoom`, `cover_board`, `board_color`, `background_color`, `cover_color`, `image`, `camerax`,`cameray`,`cameraz`) 
 	    VALUES 
-	    (?,?,?,?,?,?,?,?,?)");
-	    
-	    $qry->bind_param("siiiissss",$board_name, $lock_tilt, $lock_rotate, $lock_zoom, $cover_board, $board_color, $background_color, $cover_color, $image);
+	    (?,?,?,?,?,?,?,?,?,?,?,?)");
+	    $qry->bind_param("siiiissssddd",$board_name, $lock_tilt, $lock_rotate, $lock_zoom, $cover_board, $board_color, $background_color, $cover_color, $image,$camerax,$cameray,$cameraz);
 	    $qry->execute();
 	    $qry->close();
     }

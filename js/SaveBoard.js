@@ -22,6 +22,10 @@ $("button#saveCreatedBoard").on('click', function(){
 	lockRotate = $("input#rotateSet").is(":checked");
 	lock_zoom = $("input#zoomSet").is(":checked");
 	cover_board = $("input#coverSet").is(":checked");
+
+    var camerax = BoardCamera.position.x;
+    var cameray = BoardCamera.position.y;
+    var cameraz = BoardCamera.position.z;
 	
 	board_color = [$("#BoardRvalue").val(), $("#BoardGvalue").val() , $("#BoardBvalue").val()];
 	backgroundColor = [$("#BackgroundRvalue").val(), $("#BackgroundGvalue").val() , $("#BackgroundBvalue").val()];
@@ -33,7 +37,7 @@ $("button#saveCreatedBoard").on('click', function(){
 
 	image = null;
 	var json = {"boardName": boardName, "lock_tilt": lockTilt, "lock_rotate": lockRotate, "lock_zoom": lock_zoom, "board_color": hexBoard,
-			"background_color": hexBackground, "cover_color": hexCover, "image": image, "cover_board": cover_board};
+			"background_color": hexBackground, "cover_color": hexCover, "image": image, "cover_board": cover_board,"camerax" : camerax, "cameray" : cameray, "cameraz" : cameraz};
 	var packet = JSON.stringify(json);
 	$.ajax({
 		type: 'POST',

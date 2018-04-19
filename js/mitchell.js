@@ -56,7 +56,6 @@ function loadStimulusSets(callback) {
 		async : true,
 		success : function(response) {
 			var json = JSON.parse(response);
-			console.log(json);
 			var len = objLength(json);
 			var appendLabel = "";
 			for (var i = 0; i < len; i++) {
