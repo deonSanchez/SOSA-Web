@@ -21,6 +21,7 @@ $("button#saveCreatedBoard").on('click', function(){
 	lockTilt = $("input#tiltSet").is(":checked");
 	lockRotate = $("input#rotateSet").is(":checked");
 	lock_zoom = $("input#zoomSet").is(":checked");
+	cover_board = $("input#coverSet").is(":checked");
 	
 	board_color = [$("#BoardRvalue").val(), $("#BoardGvalue").val() , $("#BoardBvalue").val()];
 	backgroundColor = [$("#BackgroundRvalue").val(), $("#BackgroundGvalue").val() , $("#BackgroundBvalue").val()];
@@ -32,7 +33,7 @@ $("button#saveCreatedBoard").on('click', function(){
 
 	image = null;
 	var json = {"boardName": boardName, "lock_tilt": lockTilt, "lock_rotate": lockRotate, "lock_zoom": lock_zoom, "board_color": hexBoard,
-			"background_color": hexBackground, "cover_color": hexCover, "image": image};
+			"background_color": hexBackground, "cover_color": hexCover, "image": image, "cover_board": cover_board};
 	var packet = JSON.stringify(json);
 	$.ajax({
 		type: 'POST',
@@ -41,7 +42,6 @@ $("button#saveCreatedBoard").on('click', function(){
 		async : true,
 		dataType: 'json',
 		success: function () {
-			alert('Success');
 		},
 		error: function() {
 		}
