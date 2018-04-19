@@ -7,4 +7,6 @@ function __autoload($class_name) {
 
 $db = Database::getConnection();
 $session = Session::getInstance($db);
-echo $session->register("admin","password","password");
+echo "<pre>";
+var_dump($session->loadBoard("y45656"));
+echo "</pre>";

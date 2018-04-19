@@ -292,6 +292,23 @@ class Session {
 		}
 		return isset($result[0]['userid']) ? $result[0]['userid'] : -1;
 	}
+	
+	
+	/**
+	 * Returns the UID based on email/sid input
+	 * Determines input type no specification required
+	 * @author Mitchell M.
+	 * @param type $input
+	 * @return type
+	 * @version 1.2.0
+	 */
+	function getBoardID($input) {
+		$qry = $this->qb->start();
+		$qry->select("idboard");
+		$qry->from("board")->where("board_name", "=", $input);
+		$result = $qry->get();
+		return isset($result[0]['idboard']) ? $result[0]['idboard'] : -1;
+	}
 
 	/**
 	 * Is a user logged in?
@@ -521,6 +538,10 @@ class Session {
 		$relative_size = 1;
 		$window_size = 1;
 		
+		if(strlen($title) < 1) {
+			return false;
+		}
+		
 		$stmt = $this->mysqli->prepare("SELECT * FROM `stimulus_set` WHERE `title` = ?");
 		$stmt->bind_param("s", $title);
 		$stmt->execute();
@@ -589,12 +610,47 @@ class Session {
      * @version 0.0.1
 	 *
 	 */
-	public function saveBoard($board_name, $lock_tilt, $lock_rotate, $lock_zoom, $board_color, $background_color, $cover_color, $image){
-	    $qry = $this->mysqli->prepare("INSERT INTO `board` VALUES(?,?,?,?,?,?,?,?)");
-	    $qry->bind_param("siiiiiib",$board_name, $lock_tilt, $lock_rotate, $lock_zoom, $board_color, $background_color, $cover_color, $image);
+	public function saveBoard($board_name, $lock_tilt, $lock_rotate, $lock_zoom, $cover_board, $board_color, $background_color, $cover_color, $image){
+		$image = "null";
+		if($board_name == ""){
+			return "You did not specify a board name!";
+		}
+		
+		$stmt = $this->mysqli->prepare("SELECT * FROM `board` WHERE `board_name` = ?");
+		$stmt->bind_param("s", $board_name);
+		$stmt->execute();
+		$stmt->store_result();
+		if ($stmt->num_rows > 0) {
+			return "You cannot have two boards with the same name!";
+		}
+		
+	    $qry = $this->mysqli->prepare("INSERT INTO `board` 
+	    (`board_name`,`lock_tilt`, `lock_rotate`, `lock_zoom`, `cover_board`, `board_color`, `background_color`, `cover_color`, `image`) 
+	    VALUES 
+	    (?,?,?,?,?,?,?,?,?)");
+	    
+	    $qry->bind_param("siiiissss",$board_name, $lock_tilt, $lock_rotate, $lock_zoom, $cover_board, $board_color, $background_color, $cover_color, $image);
 	    $qry->execute();
 	    $qry->close();
     }
+    
+	/**
+	 * Return an array of all available saved experiment details
+	 * @author Mitchell M.
+	 * @return array of stimuli
+	 * @version 0.5.0
+	 */
+	public function loadBoard($board_name) {
+		$results = array();
+		$board_id = $this->getBoardID($board_name);
+		if ($result = $this->mysqli->query("SELECT * FROM `board` WHERE `idboard` = {$board_id}")) {
+		    while($row = $result->fetch_assoc()) {
+		            $results[] = $row;
+		    }
+		    $results = json_encode($results);
+		}
+		return $results;
+	}
     /*
      * END BOARD FUNCTIONS
      */

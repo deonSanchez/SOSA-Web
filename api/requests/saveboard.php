@@ -7,14 +7,17 @@ require_once("base.php");
  * Time: 4:52 PM
  */
 header("Content-Type: application/json; charset=UTF-8");
-$board = json_decode($_POST["x"], false);
-$board_name = $board[0];
-$lock_tilt = $board[1];
-$lock_rotate = $board[2];
-$lock_zoom = $board[3];
-$board_color = $board[4];
-$background_color = $board[5];
-$cover_color = $board[6];
-$image = $board[7];
 
-echo $session->saveBoard($board_name, $lock_tilt, $lock_rotate, $lock_zoom, $board_color, $background_color, $cover_color, $image);
+$board = (array) json_decode($_POST["board"]);
+
+$board_name = $board["boardName"];
+$lock_tilt = $board["lock_tilt"] ? 1 : 0;
+$lock_rotate = $board["lock_rotate"] ? 1 : 0;
+$lock_zoom = $board["lock_zoom"] ? 1 : 0;
+$cover_board = $board["cover_board"] ? 1 : 0;
+$board_color = $board["board_color"];
+$background_color = $board["background_color"];
+$cover_color = $board["cover_color"];
+$image = $board["image"];
+
+echo $session->saveBoard($board_name, $lock_tilt, $lock_rotate, $lock_zoom,$cover_board, $board_color, $background_color, $cover_color, $image);

@@ -30,13 +30,6 @@
   <script src="js/OrbitControls-Touch.js"></script>
   <!-- using this script breaks the lock functions for the controls --!>
   <!-- <script src="js/OrbitControls.js"></script>--!>
-
-  <!-- AJAX JavaScript for loading and saving to the database -->
-  <script src="js/addImage.js"></script>
-  <script src="js/LoadBoard.js"></script>
-  <script src="js/SaveBoard.js"></script>
-  <script src="js/QueryForExperiment.js"></script>
-
 </head>
 
 <body id="page-top">
@@ -286,60 +279,85 @@
                 <div id="ThreeJSBoard"></div>
 
                 <script>
-                var BoardContainer, BoardScene, BoardCamera, BoardRenderer, BoardControl, Boardmaterial, skyBoxMaterial;
+		var BoardContainer, BoardScene, BoardCamera, BoardRenderer, BoardControl, Boardmaterial, skyBoxMaterial, BoardCoverBool, BoardCoverColor, BoardColor;
 
-                initBoard();
-                animateBoard();
+		BoardCoverBool = false;
+		BoardCoverColor = "0x0000FF";
+		initBoard();
+		animateBoard();
 
-                function initBoard() {
-                  // SCENE
-                  BoardScene = new THREE.Scene();
+		function initBoard() {
+		// SCENE
+		BoardScene = new THREE.Scene();
 
-                  // CAMERA
-                  var SCREEN_WIDTH = 500, SCREEN_HEIGHT = 500;
-                  var VIEW_ANGLE = 5, ASPECT = SCREEN_WIDTH / SCREEN_HEIGHT, NEAR = 0.1, FAR = 20000;
-                  BoardCamera = new THREE.PerspectiveCamera( VIEW_ANGLE, ASPECT, NEAR, FAR);
-                  BoardScene.add(BoardCamera);
-                  BoardCamera.position.set(0,0,400);
-                  BoardCamera.lookAt(BoardScene.position);
+		// CAMERA
+		var SCREEN_WIDTH = 500, SCREEN_HEIGHT = 500;
+		var VIEW_ANGLE = 5, ASPECT = SCREEN_WIDTH / SCREEN_HEIGHT, NEAR = 0.1, FAR = 20000;
+		BoardCamera = new THREE.PerspectiveCamera( VIEW_ANGLE, ASPECT, NEAR, FAR);
+		BoardScene.add(BoardCamera);
+		BoardCamera.position.set(0,0,400);
+		BoardCamera.lookAt(BoardScene.position);
 
-                  // RENDERER
-                  if ( Detector.webgl ) {
-                  BoardRenderer = new THREE.WebGLRenderer( {antialias:true} );
-                  } else {
-                  BoardRenderer = new THREE.CanvasRenderer();
-                  }
-                  BoardRenderer.setSize(SCREEN_WIDTH, SCREEN_HEIGHT);
-                  BoardContainer = document.getElementById( 'ThreeJSBoard' );
-                  BoardContainer.appendChild( BoardRenderer.domElement );
-                  // CONTROLS
-                  BoardControl = new THREE.OrbitControls( BoardCamera, BoardRenderer.domElement );
+		// RENDERER
+		if ( Detector.webgl ) {
+		BoardRenderer = new THREE.WebGLRenderer( {antialias:true} );
+		} else {
+		BoardRenderer = new THREE.CanvasRenderer();
+		}
+		BoardRenderer.setSize(SCREEN_WIDTH, SCREEN_HEIGHT);
+		BoardContainer = document.getElementById( 'ThreeJSBoard' );
+		BoardContainer.appendChild( BoardRenderer.domElement );
+		// CONTROLS
+		BoardControl = new THREE.OrbitControls( BoardCamera, BoardRenderer.domElement );
 
-                  // LIGHT
-                  hemiLight = new THREE.HemisphereLight( 0xffffff, 0xffffff, 0.6 );
-                  hemiLight.color.setHSL( 0.6, 1, 0.6 );
-                  hemiLight.groundColor.setHSL( 0.095, 1, 0.75 );
-                  hemiLight.position.set( 0, 50, 0 );
-                  BoardScene.add( hemiLight );
+		// LIGHT
+		hemiLight = new THREE.HemisphereLight( 0xffffff, 0xffffff, 0.6 );
+		hemiLight.color.setHSL( 0.6, 1, 0.6 );
+		hemiLight.groundColor.setHSL( 0.095, 1, 0.75 );
+		hemiLight.position.set( 0, 50, 0 );
+		BoardScene.add( hemiLight );
 
-                  dirLight = new THREE.DirectionalLight( 0xdfebff, 1 );
-                  dirLight.position.set( 50, 200, 100 );
-                  dirLight.position.multiplyScalar( 1.3 );
+		dirLight = new THREE.DirectionalLight( 0xdfebff, 1 );
+		dirLight.position.set( 50, 200, 100 );
+		dirLight.position.multiplyScalar( 1.3 );
 
-                  BoardScene.add( dirLight );
+		BoardScene.add( dirLight );
 
-                  // SKYBOX/FOG
-                  var skyBoxGeometry = new THREE.CubeGeometry( 10000, 10000, 10000 );
-                  skyBoxMaterial = new THREE.MeshBasicMaterial( { color: 0xffffff, side: THREE.BackSide } );
-                  var skyBox = new THREE.Mesh( skyBoxGeometry, skyBoxMaterial );
-                  BoardScene.add(skyBox);
+		// SKYBOX/FOG
+		var skyBoxGeometry = new THREE.CubeGeometry( 10000, 10000, 10000 );
+		skyBoxMaterial = new THREE.MeshBasicMaterial( { color: 0xffffff, side: THREE.BackSide } );
+		var skyBox = new THREE.Mesh( skyBoxGeometry, skyBoxMaterial );
+		BoardScene.add(skyBox);
 
-                  //Board
-                  var board = new THREE.PlaneGeometry( 24, 24 );
-                  Boardmaterial = new THREE.MeshPhongMaterial({ color: 0x4f0059, specular: 0x05050, ambientLight: 0x0, shininess: 30 });
-                  var mesh = new THREE.Mesh( board, Boardmaterial );
-                  mesh.position.set(0,0,0);
-                  BoardScene.add(mesh);
+		  //Board
+		var board = new THREE.PlaneGeometry(24, 24);
+		Boardmaterial = new THREE.MeshPhongMaterial({ color: 0x000000, specular: 0x05050, ambientLight: 0x0, shininess: 30 });
+		var mesh = new THREE.Mesh( board, Boardmaterial );
+		mesh.position.set(0,0,0);
+		BoardScene.add(mesh);
+
+		//Creates meshes on the sides of the board to make it look 3D
+		var BoardSideGeo = new THREE.PlaneGeometry(24,1);
+		var BoardSideMat = new THREE.MeshPhongMaterial({ color: 0xC0C0C0});
+		var BoardSide = new THREE.Mesh(BoardSideGeo, BoardSideMat);
+		BoardSide.position.set(0 , 12, -0.5);
+		BoardSide.rotation.x = -Math.PI/2;
+		BoardScene.add(BoardSide);
+		var BoardSide = new THREE.Mesh(BoardSideGeo, BoardSideMat);
+		BoardSide.rotation.x = -Math.PI/2;
+		BoardSide.rotation.y = -Math.PI / 2;
+		BoardSide.position.set(-12, 0, -0.5);
+		BoardScene.add(BoardSide);
+		var BoardSide = new THREE.Mesh(BoardSideGeo, BoardSideMat);
+		BoardSide.rotation.x = -Math.PI/2;
+		BoardSide.rotation.y = -Math.PI / 2 * 2;
+		BoardSide.position.set(0,-12, - 0.5);
+		BoardScene.add(BoardSide);
+		var BoardSide = new THREE.Mesh(BoardSideGeo, BoardSideMat);
+		BoardSide.rotation.x = -Math.PI/2;
+		BoardSide.rotation.y = -Math.PI / 2 * 3;
+		BoardSide.position.set(12, 0, - 0.5);
+		BoardScene.add(BoardSide);
                 }
 				
 				//functions to convert rgb to hex (Source: https://campushippo.com/lessons/how-to-convert-rgb-colors-to-hexadecimal-with-javascript-78219fdb)
@@ -366,6 +384,17 @@
                   BoardRenderer.render( BoardScene, BoardCamera );
 				  
 				}
+				
+				//creates a board cover
+				function ToggleCover(){
+					BoardCoverBool = !BoardCoverBool;
+					if(BoardCoverBool){
+						Boardmaterial.color.setHex(BoardCoverColor);
+					}
+					else{
+						Boardmaterial.color.setHex(BoardColor);
+					}
+				}
                 
 				//sets tilt lock
 				function setTiltLock()
@@ -389,11 +418,15 @@
 
 				//updates the color of the board
 				function setBoardRGB(){
+					
 					var redHex = rgbToHex(document.getElementById("BoardRvalue").value);
 					var greenHex = rgbToHex(document.getElementById("BoardGvalue").value);
 					var blueHex = rgbToHex(document.getElementById("BoardBvalue").value);
-					var stringHex = "0x" + redHex + greenHex + blueHex;
-					Boardmaterial.color.setHex(stringHex);
+					BoardColor = "0x" + redHex + greenHex + blueHex;
+					
+					if(!BoardCoverBool){
+					Boardmaterial.color.setHex(BoardColor);
+					}
 				}
 				  
 				//updates the color of the background
@@ -404,10 +437,22 @@
 					var stringHex = "0x" + redHex + greenHex + blueHex;
 					skyBoxMaterial.color.setHex(stringHex);
 				}
+				
+				//updates the color of the board cover
+				function setBoardCoverRGB(){
+					var redHex = rgbToHex(document.getElementById("CoverRvalue").value);
+					var greenHex = rgbToHex(document.getElementById("CoverGvalue").value);
+					var blueHex = rgbToHex(document.getElementById("CoverBvalue").value);
+					BoardCoverColor = "0x" + redHex + greenHex + blueHex;
+					
+					if(BoardCoverBool){
+					Boardmaterial.color.setHex(BoardCoverColor);
+					}
+				}
                 </script>
 
               <div class="form-group">
-                <input oninput="ChangeBoardText(this)" type="text" id="boardName" class="form-control" placeholder="Board Name">
+                <input type="text" id="board_name" class="form-control" placeholder="Board Name">
               </div>
               <div class="row">
                 <div class="col">
@@ -450,19 +495,19 @@
               </div>
               <div>
                 <div id="displaySliderBoard" style="display: block;">
-                  <input type="range" min="0" max="255" value="128" class="slider mb-3" id="BoardRvalue" onchange = "setBoardRGB()">
-                  <input type="range" min="0" max="255" value="128" class="slider mb-3" id="BoardGvalue" onchange = "setBoardRGB()">
-                  <input type="range" min="0" max="255" value="128" class="slider mb-4" id="BoardBvalue" onchange = "setBoardRGB()">
+                  <input type="range" min="0" max="255" value="0" class="slider mb-3" id="BoardRvalue" onchange = "setBoardRGB()">
+                  <input type="range" min="0" max="255" value="0" class="slider mb-3" id="BoardGvalue" onchange = "setBoardRGB()">
+                  <input type="range" min="0" max="255" value="0" class="slider mb-4" id="BoardBvalue" onchange = "setBoardRGB()">
                 </div>
                 <div id="displaySliderBackground" style="display: none;">
-                  <input type="range" min="0" max="255" value="128" class="slider mb-3" id="BackgroundRvalue" onchange = "setBackgroundRGB()">
-                  <input type="range" min="0" max="255" value="128" class="slider mb-3" id="BackgroundGvalue" onchange = "setBackgroundRGB()">
-                  <input type="range" min="0" max="255" value="128" class="slider mb-4" id="BackgroundBvalue" onchange = "setBackgroundRGB()">
+                  <input type="range" min="0" max="255" value="255" class="slider mb-3" id="BackgroundRvalue" onchange = "setBackgroundRGB()">
+                  <input type="range" min="0" max="255" value="255" class="slider mb-3" id="BackgroundGvalue" onchange = "setBackgroundRGB()">
+                  <input type="range" min="0" max="255" value="255" class="slider mb-4" id="BackgroundBvalue" onchange = "setBackgroundRGB()">
                 </div>
                 <div id="displaySliderCover" style="display: none;">
-                  <input type="range" min="0" max="255" value="128" class="slider mb-3" id="CoverRvalue">
-                  <input type="range" min="0" max="255" value="128" class="slider mb-3" id="CoverGvalue">
-                  <input type="range" min="0" max="255" value="128" class="slider mb-4" id="CoverBvalue">
+                  <input type="range" min="0" max="255" value="0" class="slider mb-3" id="CoverRvalue" onchange = "setBoardCoverRGB()">
+                  <input type="range" min="0" max="255" value="0" class="slider mb-3" id="CoverGvalue" onchange = "setBoardCoverRGB()">
+                  <input type="range" min="0" max="255" value="255" class="slider mb-4" id="CoverBvalue" onchange = "setBoardCoverRGB()">
                 </div>
                 <div class="row text-uppercase">
                   <div class="col">
@@ -470,7 +515,7 @@
                       Load</button>
                     </div>
                     <div class="col">
-                      <button onclick="sendBoard()" class="btn btn-shadow btn-secondary btn-block rounded-pill sosa-modal-dismiss" id="saveCreatedBoard" href="#">
+                      <button class="btn btn-shadow btn-secondary btn-block rounded-pill" id="saveCreatedBoard" href="#">
                         Save</button>
                       </div>
                     </div>
@@ -482,7 +527,7 @@
         </div>
       </div>
 	  
-      <!-- Stimulus Modal -->
+      <!-- extra? 
       <div class="sosa-modal mx-auto mfp-hide" id="stimulus-modal" style="width: fit-content;">
         <div class="sosa-modal-dialog bg-white">
           <a class="close-button d-md-block text-secondary sosa-modal-dismiss" href="#">
@@ -495,7 +540,6 @@
               <div class="row">
                 <div class="col">
 
-                  <!-- Where the stimulus/pegs should go-->
                   	<div id="ThreeJSPeg"></div>
 
                     <script>
@@ -561,146 +605,57 @@
 
                     function makeTextSprite( message, parameters ) {
                       if ( parameters === undefined ) parameters = {};
-					  </script>
-                  <script>
-                  var BoardContainer, BoardScene, BoardCamera, BoardRenderer, BoardControl, Boardmaterial, skyBoxMaterial;
-                  initBoard();
-                  animateBoard();
 
-                  function initBoard() {
-                    // SCENE
-                    BoardScene = new THREE.Scene();
+                      var fontface = parameters.hasOwnProperty("fontface") ?
+                      parameters["fontface"] : "Arial";
 
-                    // CAMERA
-                    var SCREEN_WIDTH = 500, SCREEN_HEIGHT = 500;
-                    var VIEW_ANGLE = 5, ASPECT = SCREEN_WIDTH / SCREEN_HEIGHT, NEAR = 0.1, FAR = 20000;
-                    BoardCamera = new THREE.PerspectiveCamera( VIEW_ANGLE, ASPECT, NEAR, FAR);
-                    BoardScene.add(BoardCamera);
-                    BoardCamera.position.set(0,0,400);
-                    BoardCamera.lookAt(BoardScene.position);
+                      var fontsize = parameters.hasOwnProperty("fontsize") ?
+                      parameters["fontsize"] : 18;
 
-                    // RENDERER
-                    if ( Detector.webgl ) {
-                      BoardRenderer = new THREE.WebGLRenderer( {antialias:true} );
-                    } else {
-                      BoardRenderer = new THREE.CanvasRenderer();
-                    }
-                    BoardRenderer.setSize(SCREEN_WIDTH, SCREEN_HEIGHT);
-                    BoardContainer = document.getElementById( 'ThreeJSBoard' );
-                    BoardContainer.appendChild( BoardRenderer.domElement );
-                    // CONTROLS
-                    BoardControl = new THREE.OrbitControls( BoardCamera, BoardRenderer.domElement );
+                      var borderThickness = parameters.hasOwnProperty("borderThickness") ?
+                      parameters["borderThickness"] : 4;
 
-                    // LIGHT
-                    hemiLight = new THREE.HemisphereLight( 0xffffff, 0xffffff, 0.6 );
-                    hemiLight.color.setHSL( 0.6, 1, 0.6 );
-                    hemiLight.groundColor.setHSL( 0.095, 1, 0.75 );
-                    hemiLight.position.set( 0, 50, 0 );
-                    BoardScene.add( hemiLight );
+                      var backgroundColor = parameters.hasOwnProperty("backgroundColor") ?
+                      parameters["backgroundColor"] : { r:255, g:255, b:255, a:0 };
 
-                    dirLight = new THREE.DirectionalLight( 0xdfebff, 1 );
-                    dirLight.position.set( 50, 200, 100 );
-                    dirLight.position.multiplyScalar( 1.3 );
+                      var spriteAlignment = THREE.SpriteAlignment.top;
 
-                    BoardScene.add( dirLight );
 
-                    // SKYBOX/FOG
-                    var skyBoxGeometry = new THREE.CubeGeometry( 10000, 10000, 10000 );
-                    skyBoxMaterial = new THREE.MeshBasicMaterial( { color: 0xffffff, side: THREE.BackSide } );
-                    var skyBox = new THREE.Mesh( skyBoxGeometry, skyBoxMaterial );
-                    BoardScene.add(skyBox);
+                      var canvas = document.createElement('canvas');
+                      var context = canvas.getContext('2d');
+                      context.font = "Bold " + fontsize + "px " + fontface;
 
-                    //Board
-                    var board = new THREE.PlaneGeometry(25, 25);
-                    Boardmaterial = new THREE.MeshPhongMaterial({ color: 0x000000, specular: 0x05050, ambientLight: 0x0, shininess: 30 });
-                    var mesh = new THREE.Mesh( board, Boardmaterial );
-                    mesh.position.set(0,0,0);
-                    BoardScene.add(mesh);
-                    
-                    //Creates meshes on the sides of the board to make it look 3D
-                    var BoardSideGeo = new THREE.PlaneGeometry(25,1);
-                    var BoardSideMat = new THREE.MeshPhongMaterial({ color: 0xC0C0C0});  
-                    var BoardSide = new THREE.Mesh(BoardSideGeo, BoardSideMat);
-                    BoardSide.position.set(0 , 12.5, -0.5);
-                    BoardSide.rotation.x = -Math.PI/2;
-                    BoardScene.add(BoardSide);
-                    var BoardSide = new THREE.Mesh(BoardSideGeo, BoardSideMat);
-                    BoardSide.rotation.x = -Math.PI/2;
-                    BoardSide.rotation.y = -Math.PI / 2;
-                    BoardSide.position.set(-12.5, 0, -0.5);
-                    BoardScene.add(BoardSide);
-                    var BoardSide = new THREE.Mesh(BoardSideGeo, BoardSideMat);
-                    BoardSide.rotation.x = -Math.PI/2;
-                    BoardSide.rotation.y = -Math.PI / 2 * 2;
-                    BoardSide.position.set(0,-12.5, - 0.5);
-                    BoardScene.add(BoardSide);
-                    var BoardSide = new THREE.Mesh(BoardSideGeo, BoardSideMat);
-                    BoardSide.rotation.x = -Math.PI/2;
-                    BoardSide.rotation.y = -Math.PI / 2 * 3;
-                    BoardSide.position.set(12.5, 0, - 0.5);
-                    BoardScene.add(BoardSide);
-                  }
+                      // get size data (height depends only on font size)
+                      var metrics = context.measureText( message );
+                      var textWidth = metrics.width;
 
-                  //function to convert rgb to hex (Source: https://campushippo.com/lessons/how-to-convert-rgb-colors-to-hexadecimal-with-javascript-78219fdb)
-                  function rgbToHex(rgb){
-                    var hex = Number(rgb).toString(16);
-                    if (hex.length < 2) {
-                      hex = "0" + hex;
-                    }
-                    return hex;
-                  }
+                      // text color
+                      context.fillStyle = "rgba(255, 0, 0, 1.0)";
+                      context.fill();
+                      context.stroke();
 
-                  function animateBoard()
-                  {
-                    requestAnimationFrame( animateBoard );
-                    BoardControl.update();
-                    BoardRenderer.render( BoardScene, BoardCamera );
-                  }
+                      context.fillText( message, borderThickness, fontsize + borderThickness);
 
-                  //sets tilt lock
-                  function setTiltLock()
-                  {
-                    BoardControl.noTilt = !BoardControl.noTilt;
-                    BoardControl.update();
-                  }
+                      // canvas contents will be used for a texture
+                      var texture = new THREE.Texture(canvas)
+                      texture.needsUpdate = true;
 
-                  //sets rotate lock
-                  function setRotLock(){
-                    BoardControl.noRotate = !BoardControl.noRotate;
-                    BoardControl.update();
-                  }
+                      var spriteMaterial = new THREE.SpriteMaterial(
+                        { map: texture, useScreenCoordinates: false, alignment: spriteAlignment } );
+                        var sprite = new THREE.Sprite( spriteMaterial );
+                        sprite.scale.set(400,200,1.0);
+                        return sprite;
+                      }
 
-                  //sets zoom lock
-                  function setZoomLock(){
-                    BoardControl.noZoom = !BoardControl.noZoom;
-                    BoardControl.update();
-                  }
-				  
-                  //updates the color of the board
-                  function setBoardRGB(){
-                    var redHex = rgbToHex(document.getElementById("BoardRvalue").value);
-                    var greenHex = rgbToHex(document.getElementById("BoardGvalue").value);
-                    var blueHex = rgbToHex(document.getElementById("BoardBvalue").value);
-                    var stringHex = "0x" + redHex + greenHex + blueHex;
-                    Boardmaterial.color.setHex(stringHex);
-                  }
+                      function animatePegLoader()
+                      {
+                        requestAnimationFrame( animatePegLoader );
+                        pegControlLoader.update();
+                        pegRendererLoader.render( pegSceneLoader, pegCameraLoader );
+                      }
 
-                  //updates the color of the background
-                  function setBackgroundRGB(){
-                    var redHex = rgbToHex(document.getElementById("BackgroundRvalue").value);
-                    var greenHex = rgbToHex(document.getElementById("BackgroundGvalue").value);
-                    var blueHex = rgbToHex(document.getElementById("BackgroundBvalue").value);
-                    var stringHex = "0x" + redHex + greenHex + blueHex;
-                    skyBoxMaterial.color.setHex(stringHex);
-                  }
-
-                  //updates grid selection if user changes dropdown option
-                  function updateGrid(Input){
-                    document.getElementById('StartExperimentButton').href = "SOSA.html?demo=" + Input;
-                  }
-
-                  </script>
-
+                      </script>
+                  
                   <div class="form-group">
                     <input oninput="ChangeBoardText(this)" type="text" class="form-control" placeholder="Board Name">
                   </div>
@@ -775,7 +730,7 @@
                 </div>
               </div>
             </div>
-          </div>
+          </div> end extra -->
 
           <!-- Stimulus Modal -->
           <div class="sosa-modal mx-auto mfp-hide" id="stimulus-modal" style="width: fit-content;">
@@ -796,7 +751,7 @@
                       <script>
                       // standard global variables
                       var pegContainer, pegScene, pegCamera, pegRenderer, pegControls, Pegmaterial, spriteMaterial;
-
+					  var pegLabelSprite;
                       initPeg();
                       animatePeg();
 
@@ -855,13 +810,24 @@
                     		mesh.position.set(0,0,10);
                     		pegScene.add(mesh);
 
-                        spritey = makeTextSprite( " Label ", { fontsize: 32 } );
-                        spritey.position = mesh.position.clone();
-                        spritey.position.x = 13;
-                        spritey.position.y = 4;
-                        pegScene.add( spritey );
+                        pegLabelSprite = makeTextSprite( " Label ", { fontsize: 32 } );
+                        pegLabelSprite.position = mesh.position.clone();
+                        pegLabelSprite.position.x = 13;
+                        pegLabelSprite.position.y = 4;
+                        pegScene.add( pegLabelSprite );
                       }
-
+					  
+						//creating a new Label for the object by deleting the current one and replacing it. 
+						function setNewLabel(name)
+						{
+						pegScene.remove(pegLabelSprite);
+						pegLabelSprite = makeTextSprite(name.value, { fontsize: 32} );
+						pegLabelSprite.position = mesh.position.clone();
+						pegLabelSprite.position.x = 13;
+						pegLabelSprite.position.y = 4;
+						pegScene.add(pegLabelSprite);
+						} 
+						
                       function makeTextSprite( message, parameters ) {
                         if ( parameters === undefined ) parameters = {};
 
@@ -928,7 +894,7 @@
 
                       <div class="form-group row pt-3">
                         <div class="col">
-                          <input type="text" class="form-control" id="stimulus_name" placeholder="Stimulus Name">
+                          <input type="text" class="form-control" id="stimulus_name" placeholder="Stimulus Name" oninput= "setNewLabel(this)" >
                         </div>
                         <div class="col">
                           <button id="create_stimulus" class="btn btn-shadow btn-block btn-secondary btn-small rounded-pill">Create Stimulus</button>
@@ -1076,33 +1042,33 @@
                           scene.add(skyBox);
 
                           //Board
-                          var board = new THREE.PlaneGeometry( 40, 40 );
+                          var board = new THREE.PlaneGeometry( 24, 24 );
                           var material = new THREE.MeshPhongMaterial({ color: 0x4f0059, specular: 0x05050, ambientLight: 0x0, shininess: 30 });
                           var mesh = new THREE.Mesh( board, material );
                           mesh.position.set(0,0,0);
                           scene.add(mesh);
                           
-                          //Creates meshes on the sides of the board to make it look 3D
-                          var BoardSideGeo = new THREE.PlaneGeometry(40,2);
-                          var BoardSideMat = new THREE.MeshPhongMaterial({ color: 0xC0C0C0});  
+                                                    //Creates meshes on the sides of the board to make it look 3D
+                          var BoardSideGeo = new THREE.PlaneGeometry(24,1);
+                          var BoardSideMat = new THREE.MeshPhongMaterial({ color: 0xC0C0C0});
                           var BoardSide = new THREE.Mesh(BoardSideGeo, BoardSideMat);
-                          BoardSide.position.set(0 , 20, -1);
+                          BoardSide.position.set(0 , 12, -.5);
                           BoardSide.rotation.x = -Math.PI/2;
                           scene.add(BoardSide);
                           var BoardSide = new THREE.Mesh(BoardSideGeo, BoardSideMat);
                           BoardSide.rotation.x = -Math.PI/2;
                           BoardSide.rotation.y = -Math.PI / 2;
-                          BoardSide.position.set(-20, 0, -1);
+                          BoardSide.position.set(-12, 0, -.5);
                           scene.add(BoardSide);
                           var BoardSide = new THREE.Mesh(BoardSideGeo, BoardSideMat);
                           BoardSide.rotation.x = -Math.PI/2;
                           BoardSide.rotation.y = -Math.PI / 2 * 2;
-                          BoardSide.position.set(0,-20, -1);
+                          BoardSide.position.set(0,-12, -.5);
                           scene.add(BoardSide);
                           var BoardSide = new THREE.Mesh(BoardSideGeo, BoardSideMat);
                           BoardSide.rotation.x = -Math.PI/2;
                           BoardSide.rotation.y = -Math.PI / 2 * 3;
-                          BoardSide.position.set(20, 0, -1);
+                          BoardSide.position.set(12, 0, -.5);
                           scene.add(BoardSide);
                         }
 
@@ -1257,7 +1223,6 @@
                             pegControlLoader.update();
                             pegRendererLoader.render( pegSceneLoader, pegCameraLoader );
                           }
-
                           </script>
 
 
@@ -1299,8 +1264,6 @@
                         </div>
                       </div>
                     </div>
-                  </div>=
-                </div>
               </div>
             </div>
 
@@ -1317,6 +1280,13 @@
             <script src="js/jqBootstrapValidation.js"></script>
             <script src="js/contact_me.js"></script>
             <script src="js/mitchell.js"></script>
+
+			  <!-- AJAX JavaScript for loading and saving to the database -->
+			  <script src="js/addImage.js"></script>
+			  <script src="js/LoadBoard.js"></script>
+			  <script src="js/SaveBoard.js"></script>
+			  <script src="js/QueryForExperiment.js"></script>
+			            
 
             <!-- Custom scripts for this template -->
             <script src="js/freelancer.min.js"></script>
