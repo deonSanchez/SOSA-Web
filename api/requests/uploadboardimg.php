@@ -8,7 +8,8 @@ if ( 0 < $_FILES['file']['error'] ) {
 	echo 'Error: ' . $_FILES['file']['error'] . '<br>';
 }
 else {
-	$new_path = dirname(__FILE__) . "/../../board_images/" . $_FILES['file']['name'];
+	$path = dirname(__FILE__) . "/../../board_images/" . $_FILES['file']['name'];
 	move_uploaded_file($_FILES['file']['tmp_name'], $new_path);
+	$session->saveBoardImage($board_name,$path);
 	echo "Board image uploaded successfully!";
 }

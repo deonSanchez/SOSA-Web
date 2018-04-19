@@ -649,6 +649,16 @@ class Session {
 		}
 		return $results;
 	}
+	
+	public function saveBoardImage($board_name, $path) {
+		$board_id = $this->getBoardID($board_name);
+		
+		$qry = $this->mysqli->prepare("UPDATE `board` SET `image` = ? WHERE `idboard` = ?");
+		$qry->bind_param("si", $path,$board_id);
+		$qry->execute();
+		$qry->close();
+		return true;
+	}
     /*
      * END BOARD FUNCTIONS
      */
