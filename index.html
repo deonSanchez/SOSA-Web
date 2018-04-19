@@ -425,7 +425,7 @@
 									BoardColor = "0x" + redHex + greenHex + blueHex;
 									
 									if(!BoardCoverBool){
-									Boardmaterial.color.setHex(BoardColor);
+										Boardmaterial.color.setHex(BoardColor);
 									}
 								}
 								  
@@ -458,6 +458,7 @@
               <div class="row">
                 <div class="col">
                   <button class="btn btn-shadow btn-block btn-secondary btn-small rounded-pill" id="addImage">Add Image</button>
+                	<input id="boardImg" type="file" style="display:none;" />
                 </div>
                 <div class="col">
                   <button class="btn btn-shadow btn-block btn-secondary btn-small rounded-pill" onclick = "ClearOff()">Clear</button>

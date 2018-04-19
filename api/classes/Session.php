@@ -631,6 +631,7 @@ class Session {
 	    $qry->bind_param("siiiissssddd",$board_name, $lock_tilt, $lock_rotate, $lock_zoom, $cover_board, $board_color, $background_color, $cover_color, $image,$camerax,$cameray,$cameraz);
 	    $qry->execute();
 	    $qry->close();
+	    return true;
     }
     
 	/**
@@ -645,7 +646,6 @@ class Session {
 		    while($row = $result->fetch_assoc()) {
 		            $results[] = $row;
 		    }
-		    $results = json_encode($results);
 		}
 		return $results;
 	}

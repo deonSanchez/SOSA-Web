@@ -7,6 +7,9 @@ function __autoload($class_name) {
 
 $db = Database::getConnection();
 $session = Session::getInstance($db);
+$res = $session->loadBoard(18);
 echo "<pre>";
-var_dump($session->loadBoard("ght6yug"));
+var_dump($session->loadBoard(18));
+
+echo $
 echo "</pre>";
