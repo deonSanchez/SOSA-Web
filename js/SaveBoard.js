@@ -47,23 +47,25 @@ $("button#saveCreatedBoard").on('click', function(){
 			async : true,
 			dataType: 'json',
 			success: function (json) {
-				var file_data = $('#boardImg').prop('files')[0];   
-				var form_data = new FormData();                  
-				form_data.append('file', file_data);
-				form_data.append('request','uploadboardimg');
-				alert(form_data);    
-				$.ajax({
-					url: 'api/index.php',
-					dataType: 'text',
-					cache: false,
-					contentType: false,
-					processData: false,
-					data: form_data,                         
-					type: 'post',
-					success: function(php_script_response){
-						alert(php_script_response); // display response from the PHP script, if any
-					}
-				});
+				if($('#boardImg').val()) {
+					var file_data = $('#boardImg').prop('files')[0];   
+					var form_data = new FormData();                  
+					form_data.append('file', file_data);
+					form_data.append('request','uploadboardimg');
+					alert(form_data);    
+					$.ajax({
+						url: 'api/index.php',
+						dataType: 'text',
+						cache: false,
+						contentType: false,
+						processData: false,
+						data: form_data,                         
+						type: 'post',
+						success: function(php_script_response){
+							alert(php_script_response); // display response from the PHP script, if any
+						}
+					});
+				}
 			},
 			error: function() {
 				alert("Failed!");
