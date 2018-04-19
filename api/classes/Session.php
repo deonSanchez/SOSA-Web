@@ -651,8 +651,9 @@ class Session {
 	}
 	
 	public function saveBoardImage($board_name, $path) {
+		echo "atttempting to save board image";
 		$board_id = $this->getBoardID($board_name);
-		
+		echo $board_id;
 		$qry = $this->mysqli->prepare("UPDATE `board` SET `image` = ? WHERE `idboard` = ?");
 		$qry->bind_param("si", $path,$board_id);
 		$qry->execute();
