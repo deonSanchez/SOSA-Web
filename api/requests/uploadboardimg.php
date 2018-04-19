@@ -11,7 +11,6 @@ else {
 	$parts = explode(".", $_FILES['file']['name']);
 	$path = dirname(__FILE__) . "/../../board_images/". $session->generateRandID(8) .".". $parts[1];
 	move_uploaded_file($_FILES['file']['tmp_name'], $path);
-	echo "Board image uploaded successfully! Did we save the path?"; 
 	$resp = $session->saveBoardImage($board_name,$path);
 	echo $resp == 1 ? 1 : $resp; 
 }
