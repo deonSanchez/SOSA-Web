@@ -751,7 +751,7 @@
                       <script>
                       // standard global variables
                       var pegContainer, pegScene, pegCamera, pegRenderer, pegControls, Pegmaterial, spriteMaterial;
-
+					  var pegLabelSprite;
                       initPeg();
                       animatePeg();
 
@@ -810,13 +810,24 @@
                     		mesh.position.set(0,0,10);
                     		pegScene.add(mesh);
 
-                        spritey = makeTextSprite( " Label ", { fontsize: 32 } );
-                        spritey.position = mesh.position.clone();
-                        spritey.position.x = 13;
-                        spritey.position.y = 4;
-                        pegScene.add( spritey );
+                        pegLabelSprite = makeTextSprite( " Label ", { fontsize: 32 } );
+                        pegLabelSprite.position = mesh.position.clone();
+                        pegLabelSprite.position.x = 13;
+                        pegLabelSprite.position.y = 4;
+                        pegScene.add( pegLabelSprite );
                       }
-
+					  
+						//creating a new Label for the object by deleting the current one and replacing it. 
+						function setNewLabel(name)
+						{
+						pegScene.remove(pegLabelSprite);
+						pegLabelSprite = makeTextSprite(name.value, { fontsize: 32} );
+						pegLabelSprite.position = mesh.position.clone();
+						pegLabelSprite.position.x = 13;
+						pegLabelSprite.position.y = 4;
+						pegScene.add(pegLabelSprite);
+						} 
+						
                       function makeTextSprite( message, parameters ) {
                         if ( parameters === undefined ) parameters = {};
 
@@ -883,7 +894,7 @@
 
                       <div class="form-group row pt-3">
                         <div class="col">
-                          <input type="text" class="form-control" id="stimulus_name" placeholder="Stimulus Name">
+                          <input type="text" class="form-control" id="stimulus_name" placeholder="Stimulus Name" oninput= "setNewLabel(this)" >
                         </div>
                         <div class="col">
                           <button id="create_stimulus" class="btn btn-shadow btn-block btn-secondary btn-small rounded-pill">Create Stimulus</button>
