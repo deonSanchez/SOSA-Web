@@ -639,9 +639,8 @@ class Session {
 	 * @return array of stimuli
 	 * @version 0.5.0
 	 */
-	public function loadBoard($board_name) {
+	public function loadBoard($board_id) {
 		$results = array();
-		$board_id = $this->getBoardID($board_name);
 		if ($result = $this->mysqli->query("SELECT * FROM `board` WHERE `idboard` = {$board_id}")) {
 		    while($row = $result->fetch_assoc()) {
 		            $results[] = $row;

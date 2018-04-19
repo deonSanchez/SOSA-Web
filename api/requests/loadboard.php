@@ -4,4 +4,4 @@ require_once("base.php");
 //IE $_POST['username'] accessible here as $username
 //echo $label . " , " . $peg_r . " , " . $peg_g . " , " . $peg_b . " , " . $label_r . " , " . $label_g . " , " . $label_b . " , " . $set_title;
 
-echo json_encode($session->loadStimSets(), JSON_FORCE_OBJECT);
+echo json_encode($session->loadBoard($board), JSON_FORCE_OBJECT);

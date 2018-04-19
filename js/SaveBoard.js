@@ -52,6 +52,33 @@ $("button#saveCreatedBoard").on('click', function(){
 	});
 });
 
+$("button#loadCreatedBoard").on('click', function(){
+	$.ajax({
+		type: 'POST',
+		data: 'request=loadboard&board=18',
+		url: 'api/index.php',
+		async : true,
+		dataType: 'json',
+		success: function (response) {
+			var json = JSON.parse(response);
+			var len = objLength(json);
+			var background_hex = json[0].background_color;
+			var board_hex = json[0].board_color;
+			var board_name  = json[0].board_name;
+			var cover_hex = json[0].cover_color;
+			var lock_tilt =  json[0].lock_tilt;
+			var lock_rotate =  json[0].lock_rotate;
+			var lock_zoom =  json[0].board_color;
+			boardName = $("input#board_name").val(board_name);
+			/*for (var i = 0; i < lend; i++) {
+				appendLabel = appendLabel + "<option>"+json[i].title+"</option>";
+			}*/
+		},
+		error: function() {
+		}
+	});
+});
+
 
 
 
