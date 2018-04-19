@@ -62,6 +62,7 @@ function loadStimulusSets(callback) {
 				appendLabel = appendLabel + "<option>"+json[i].title+"</option>";
 			}
 			$("select#stimulus-set").html(appendLabel);
+			$("select#experi_set").html(appendLabel);
 			if(typeof callback === 'function') {
 				callback();
 			}
@@ -75,7 +76,7 @@ function loadStimulusSets(callback) {
 /***
  * This loads all the stimulus sets into the modal dropdown
  */
-function loadCurrentStimulusSet() {
+function loadCreatorStimulus() {
 	var set_title = $('#stimulus-set :selected').text();
 	$.ajax( {
 		type : 'POST',
@@ -101,6 +102,35 @@ function loadCurrentStimulusSet() {
 	});
 }
 
+/***
+ * This loads all the stimulus sets into the modal dropdown
+ */
+function loadExprStimulus() {
+	var set_title = $('#experi_set :selected').text();
+	$.ajax( {
+		type : 'POST',
+		data : 'request=loadstimset&set_title='+set_title,
+		url : 'api/index.php',
+		async : true,
+		success : function(response) {
+			if(response != "null") {
+				var json = JSON.parse(response);
+				var len = objLength(json);
+				var appendLabel = "";
+				for (var i = len-1; i > -1; i--) {
+					appendLabel = appendLabel + "<option id=\""+json[i].stimulus_id+"\">"+json[i].label+"</option>";
+				}
+				$("select#exper_stim").html(appendLabel);
+			} else {
+				$("select#exper_stim").html("");
+			}
+		},
+		error : function() {
+			alert("Error with create stimulus!");
+		}
+	});
+}
+
 /**
  * This document ready function fires when the page is loaded, it checks the api to see if the user is logged in. 
  * If they are logged in, it hides the login/register forms and displays a message and a logout button.
@@ -111,7 +141,10 @@ $(function () {
 	checkLogin();
 	
     //this part deals with loading initial stimulus set list and stimuli
-    loadStimulusSets(loadCurrentStimulusSet);
+    loadStimulusSets(function () {
+    	loadCreatorStimulus();
+        loadExprStimulus();
+    });
 });
 
 /**
@@ -210,7 +243,7 @@ $("button#create_stimulus").on('click',function(){
 		async : true,
 		success : function(response) {
 			if(response == 1) {
-				loadCurrentStimulusSet();
+				loadCreatorStimulus();
 				$('#invididual_stimulus').val(stimulus_name);
 			} else {
 				alert("Error adding stimulus!");
@@ -275,7 +308,7 @@ $("button#save").on('click',function(){
 		url : 'api/index.php',
 		async : true,
 		success : function(response) {
-			loadCurrentStimulusSet();
+			loadCreatorStimulus();
 		},
 		error : function() {
 			alert("Error with create stimulus!");
@@ -295,7 +328,7 @@ $("button#remove_stim").on("click", function() {
 		url : 'api/index.php',
 		async : true,
 		success : function(response) {
-			loadCurrentStimulusSet();
+			loadCreatorStimulus();
 		},
 		error : function() {
 			alert("Error with create stimulus!");
@@ -338,7 +371,7 @@ $("button#remove").on('click',function(){
 		url : 'api/index.php',
 		async : true,
 		success : function(response) {
-			loadStimulusSets(loadCurrentStimulusSet);
+			loadStimulusSets(loadCreatorStimulus);
 		},
 		error : function() {
 			alert("Error with create stimulus!");
@@ -349,5 +382,12 @@ $("button#remove").on('click',function(){
  * When dropdown changed, loads the simuli under the selected set into the individual stimulus dropdown
  */
 $("#stimulus-set").on("change", function(){
-	loadCurrentStimulusSet();
+	loadCreatorStimulus();
+});
+
+/**
+ * When dropdown changed, loads the simuli under the selected set into the individual stimulus dropdown
+ */
+$("#experi_set").on("change", function(){
+	loadExprStimulus();
 });

@@ -893,15 +893,6 @@
                       }
 
                     </script>
-
-                      <div class="form-group row pt-3">
-                        <div class="col">
-                          <input type="text" class="form-control" id="stimulus_name" placeholder="Stimulus Name" oninput= "setNewLabel(this)" >
-                        </div>
-                        <div class="col">
-                          <button id="create_stimulus" class="btn btn-shadow btn-block btn-secondary btn-small rounded-pill">Create Stimulus</button>
-                        </div>
-                      </div>
                       <div class="col-auto input-group mb-3">
                         <div class="input-group-prepend">
                           <button id="add" class="btn" type="button">
@@ -921,6 +912,14 @@
                             <option>Stimulus Set 3</option>
                             <option>Stimulus Set 4</option>
                           </select>
+                        </div>
+                      </div>
+                      <div class="form-group row pt-3">
+                        <div class="col">
+                          <input type="text" class="form-control" id="stimulus_name" placeholder="Stimulus Name" oninput= "setNewLabel(this)" >
+                        </div>
+                        <div class="col">
+                          <button id="create_stimulus" class="btn btn-shadow btn-block btn-secondary btn-small rounded-pill">Create Stimulus</button>
                         </div>
                       </div>
                       <div class="form-group">
@@ -1233,7 +1232,7 @@
                             <div class="input-group-prepend">
                               <button class="btn btn-outline-secondary" type="button">+</button>
                             </div>
-                            <select class="custom-select" id="inputGroupSelect04">
+                            <select class="custom-select" id="experi_set">
                               <option selected>Stimulus Set 1</option>
                               <option value="1">Stimulus Set 2</option>
                               <option value="2">Stimulus Set 3</option>
@@ -1244,7 +1243,7 @@
                             </div>
                           </div>
                           <div class="form-group">
-                            <select multiple class="form-control" id="exampleFormControlSelect2">
+                            <select multiple class="form-control" id="exper_stim">
                               <option>Stimulus 1</option>
                               <option>Stimulus 2</option>
                               <option>Stimulus 3</option>
@@ -1281,7 +1280,7 @@
             <!-- Contact Form JavaScript -->
             <script src="js/jqBootstrapValidation.js"></script>
             <script src="js/contact_me.js"></script>
-            <script src="js/mitchell.js"></script>
+            <script src="js/experiment.js"></script>
 
 			  <!-- AJAX JavaScript for loading and saving  board information to the database -->
 			  <script src="js/forms/addImage.js"></script>
