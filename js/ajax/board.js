@@ -154,6 +154,23 @@ $("button#loadCreatedBoard").on('click', function(){
 	});
 });
 
+$("button#deleteCreatedBoard").on('click', function(){
+	var boardid = $('#boards :selected').attr('boardid');
+	$.ajax({
+		type: 'POST',
+		data: 'request=deleteboard&board=' + boardid,
+		url: 'api/index.php',
+		async : true,
+		dataType: 'json',
+		success: function (json) {
+			loadBoardModal();
+			alert("Board deleted!");
+	},
+	error: function() {
+	}
+	});
+});
+
 
 $("button#loadExprBoard").on('click', function(){
 	var boardid = 50;

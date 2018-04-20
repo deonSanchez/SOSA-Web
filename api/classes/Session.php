@@ -430,6 +430,19 @@ class Session {
 		} else {
 			return $this->mysqli->error;
 		}
+	}	
+	
+	/**
+	 * Deletes experiment based on input id $data
+	 * @author Mitchell M.
+	 * @version 0.5.0
+	 */
+	public function deleteBoard($board) {
+		if ($this->mysqli->query("DELETE FROM `board` WHERE `idboard`='{$board}'")) {
+			return true;
+		} else {
+			return $this->mysqli->error;
+		}
 	}
 
 	/**
