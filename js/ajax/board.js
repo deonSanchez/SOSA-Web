@@ -136,7 +136,7 @@ $("button#loadCreatedBoard").on('click', function(){
 			setRotLock();
 		if(Boolean(lock_zoom))
 			setZoomLock();
-
+		
 		BoardCamera.position.set(camerax,cameray,cameraz);
 		boardName = $("input#board_name").val(board_name);
 		Boardmaterial.color.setHex(board_hex);
@@ -145,6 +145,57 @@ $("button#loadCreatedBoard").on('click', function(){
 			Boardmaterial.color.setHex(cover_hex);
 		}
 
+		/*for (var i = 0; i < lend; i++) {
+				appendLabel = appendLabel + "<option>"+json[i].title+"</option>";
+			}*/
+	},
+	error: function() {
+	}
+	});
+});
+
+
+$("button#loadExprBoard").on('click', function(){
+	var boardid = 50;
+	$.ajax({
+		type: 'POST',
+		data: 'request=loadboard&board=' + boardid,
+		url: 'api/index.php',
+		async : true,
+		dataType: 'json',
+		success: function (json) {
+		var len = objLength(json);
+
+		var background_hex = json[0].background_color;
+		var board_hex = json[0].board_color;
+		var cover_hex = json[0].cover_color;
+
+		var board_name  = json[0].board_name;
+		var lock_tilt =  json[0].lock_tilt;
+		var lock_rotate =  json[0].lock_rotate;
+		var lock_zoom =  json[0].lock_zoom;
+		var cover_board = json[0].cover_board;
+		var camerax =  json[0].camerax;
+		var cameray =  json[0].cameray;
+		var cameraz =  json[0].cameraz;
+
+		$("input#tiltSet").prop('checked', Boolean(lock_tilt));
+		$("input#rotateSet").prop('checked', Boolean(lock_rotate));
+		$("input#zoomSet").prop('checked', Boolean(lock_zoom));
+
+		if(Boolean(lock_tilt))
+			setTiltLock();
+		if(Boolean(lock_rotate))
+			setRotLock();
+		if(Boolean(lock_zoom))
+			setZoomLock();
+		
+		camera.position.set(camerax,cameray,cameraz);
+        skyBoxMaterial.color.setHex(background_hex);
+        mesh.material.color.setHex(board_hex);
+		if(cover_board == 1) {
+			material.color.setHex(cover_hex);
+		}
 		/*for (var i = 0; i < lend; i++) {
 				appendLabel = appendLabel + "<option>"+json[i].title+"</option>";
 			}*/
