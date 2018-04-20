@@ -224,12 +224,12 @@ function initExperiment() {
 //function for converting coordinates on a 24x24 grid to the grid the experiment is set to.
 function toGridCoordinate(coordinate){
 	var unit = 24/gridScale;
-	coordinate = coordinate + 4;
-	if (unit/2 - Math.abs(coordinate%unit) < 0){
-		return unit * Math.ceil(coordinate/unit) - 4;
+	coordinate = coordinate - 4;
+	if ((unit/2 - Math.abs(coordinate%unit)) < 0){
+		return unit * Math.ceil(coordinate/unit) + 4;
 	}
 	else
-		return unit * Math.floor(coordinate/unit) - 4;
+		return unit * Math.floor(coordinate/unit) + 4;
 }
 
 //Checks to see if a given input is the name of a peg in TestStimuli.
@@ -385,20 +385,27 @@ function update() {
 
     // delete stimuli
     //intersectionList.length > 1 means the raycaster has intersected the board + a cylinder.
-    if ( (brush.mode == "delete" && intersectionList.length > 1) ) {
-
+    if ( (brush.mode == "delete" && intersectionList.length > 0) ) {
+      var cylinderFound = false;
       for(var i = 0; i < intersectionList.length; i++ ) {
         //this is basically to check if we've selected a stimuli
         if (isPegName(intersectionList[i].object.name)){
           brush.targetName = intersectionList[i].object.name;
           isHovering = true;
           ExperimentScene.getObjectByName( brush.targetName ).material.opacity = .65 + .35 * Math.sin(new Date().getTime() * .0036);
+          cylinderFound = true;
           break;
+        }
+      }
+      if(!cylinderFound){
+        brush.targetName = null;
+        for(var i = 0; i < TestStimuli.length; i++ ) {
+          TestStimuli[i].material.opacity = 1;
         }
       }
 		}
     //Resets the blinking opacity for the stimuli when it is selected in delete mode.
-    else if (intersectionList.length <= 1){
+    else if (intersectionList.length == 0){
       //resets brush target so that pressing the delete button won't delete a peg you're no longer hovering.
       brush.targetName = null;
       for(var i = 0; i < TestStimuli.length; i++ ) {
