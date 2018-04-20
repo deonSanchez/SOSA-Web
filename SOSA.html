@@ -165,7 +165,7 @@ function initExperiment() {
 	ExperimentScene.add(BoardSide);
 
 
-	this.stimuliGeo = new THREE.CylinderGeometry(40/gridScale/2,40/gridScale/2,3,100);
+	this.stimuliGeo = new THREE.CylinderGeometry(1,1,3,100);
 
 	this.offset = [
 		new THREE.Vector3(1,0,0), new THREE.Vector3(-1,0,0),
@@ -181,12 +181,13 @@ function initExperiment() {
   TestLabels = ["Deon", "Jeffery", "Rico", "Flynt", "Mitchell"];
 
   materials = { "solid":[], "add":[], "delete":[] };
-
+  TestStimuli = [];
 
   for (var i = 0; i <= TestColors.length; i++) {
 		materials["solid"][i]   = new THREE.MeshLambertMaterial({ color: TestColors[i] });
 		materials["add"][i]     = new THREE.MeshLambertMaterial({ color: TestColors[i], transparent: true, opacity:0.50 });
 		materials["delete"][i]  = new THREE.MeshLambertMaterial({ color: TestColors[i], transparent: true });
+
 	}
 
 	brush = new THREE.Mesh( stimuliGeo.clone(), materials["add"][1] );
@@ -327,34 +328,39 @@ function update() {
 	///////////////////////////////////////////////////////////////////////////
 
 	var raycaster = projector.pickingRay( mouse2D.clone(), ExperimentCamera );
+  raycaster.visible = true;
 	var intersectionList = [];
 	intersectionList = raycaster.intersectObjects( ExperimentScene.children );
 	var result = null;
-	for ( var i = 0; i < intersectionList.length; i++ ) {
-		if ( (result == null) && (intersectionList[i].object instanceof THREE.Mesh) && !(intersectionList[i].object.ignore) )
-			result = intersectionList[i];
-	}
+  //Gets first object that intersects the raycaster.
+  if (intersectionList.length != 0){
+    result = intersectionList[intersectionList.length - 1];
+  }
+  else result = null;
+	// for ( var i = 0; i < intersectionList.length; i++ ) {
+	// 	if ( (result == null) && (intersectionList[i].object instanceof THREE.Mesh) && !(intersectionList[i].object.ignore) )
+	// 		result = intersectionList[i];
+	// }
 
 	// brush will only be visible only in "add" mode, when mouse hovers over plane/stimuli
-	brush.visible = false;
+	if ( (brush.mode == "add") ) {
+    brush.visible = true;
+  }
+  else brush.visible = false;
 
 	if ( result ) {
      //place stimuli on ExperiBoard
-		if ( (brush.mode == "add") && result.object.base ) {
-			brush.visible = true;
+		if ( (brush.mode == "add")) {
 			var intPosition = new THREE.Vector3(toGridCoordinate(result.point.x), 0, toGridCoordinate(result.point.z) );
 			brush.position = intPosition.clone().add( new THREE.Vector3(0.5, 0.5, 0.5) );
 			brush.addName = "X" + intPosition.x + "Y" + intPosition.y + "Z" + intPosition.z;
 		}
 
     // delete stimuli
-    if ( (brush.mode == "delete") && !result.object.base ) {
-			brush.visible = false;
+    if ( (brush.mode == "delete") ) {
 			var intPosition = new THREE.Vector3(toGridCoordinate(result.point.x), 0, toGridCoordinate(result.point.z) );
-      			brush.position = intPosition.clone().add( new THREE.Vector3(0.5, 0.5, 0.5) );
+      brush.position = intPosition.clone().add( new THREE.Vector3(0.5, 0.5, 0.5) );
 			brush.targetName = "X" + intPosition.x + "Y" + intPosition.y + "Z" + intPosition.z;
-			var targetCube = ExperimentScene.getObjectByName( brush.targetName );
-			targetCube.material = materials["delete"][ targetCube.colorIndex ];
 		}
 	}
 }

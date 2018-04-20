@@ -280,16 +280,16 @@
 
                 <script>
 						var BoardContainer, BoardScene, BoardCamera, BoardRenderer, BoardControl, Boardmaterial, skyBoxMaterial, BoardCoverBool, BoardCoverColor, BoardColor;
-				
+
 						BoardCoverBool = false;
 						BoardCoverColor = "0x0000FF";
 						initBoard();
 						animateBoard();
-				
+
 						function initBoard() {
 						// SCENE
 						BoardScene = new THREE.Scene();
-				
+
 						// CAMERA
 						var SCREEN_WIDTH = 500, SCREEN_HEIGHT = 500;
 						var VIEW_ANGLE = 5, ASPECT = SCREEN_WIDTH / SCREEN_HEIGHT, NEAR = 0.1, FAR = 20000;
@@ -297,7 +297,7 @@
 						BoardScene.add(BoardCamera);
 						BoardCamera.position.set(0,0,400);
 						BoardCamera.lookAt(BoardScene.position);
-				
+
 						// RENDERER
 						if ( Detector.webgl ) {
 						BoardRenderer = new THREE.WebGLRenderer( {antialias:true} );
@@ -309,33 +309,33 @@
 						BoardContainer.appendChild( BoardRenderer.domElement );
 						// CONTROLS
 						BoardControl = new THREE.OrbitControls( BoardCamera, BoardRenderer.domElement );
-				
+
 						// LIGHT
 						hemiLight = new THREE.HemisphereLight( 0xffffff, 0xffffff, 0.6 );
 						hemiLight.color.setHSL( 0.6, 1, 0.6 );
 						hemiLight.groundColor.setHSL( 0.095, 1, 0.75 );
 						hemiLight.position.set( 0, 50, 0 );
 						BoardScene.add( hemiLight );
-				
+
 						dirLight = new THREE.DirectionalLight( 0xdfebff, 1 );
 						dirLight.position.set( 50, 200, 100 );
 						dirLight.position.multiplyScalar( 1.3 );
-				
+
 						BoardScene.add( dirLight );
-				
+
 						// SKYBOX/FOG
 						var skyBoxGeometry = new THREE.CubeGeometry( 10000, 10000, 10000 );
 						skyBoxMaterial = new THREE.MeshBasicMaterial( { color: 0xffffff, side: THREE.BackSide } );
 						var skyBox = new THREE.Mesh( skyBoxGeometry, skyBoxMaterial );
 						BoardScene.add(skyBox);
-				
+
 						  //Board
 						var board = new THREE.PlaneGeometry(24, 24);
 						Boardmaterial = new THREE.MeshPhongMaterial({ color: 0x000000, specular: 0x05050, ambientLight: 0x0, shininess: 30 });
 						var mesh = new THREE.Mesh( board, Boardmaterial );
 						mesh.position.set(0,0,0);
 						BoardScene.add(mesh);
-				
+
 						//Creates meshes on the sides of the board to make it look 3D
 						var BoardSideGeo = new THREE.PlaneGeometry(24,1);
 						var BoardSideMat = new THREE.MeshPhongMaterial({ color: 0xC0C0C0});
@@ -359,15 +359,15 @@
 						BoardSide.position.set(12, 0, - 0.5);
 						BoardScene.add(BoardSide);
 				                }
-								
+
 								//functions to convert rgb to hex (Source: https://campushippo.com/lessons/how-to-convert-rgb-colors-to-hexadecimal-with-javascript-78219fdb)
-								  function rgbToHex(rgb){ 
+								  function rgbToHex(rgb){
 									var hex = Number(rgb).toString(16);
 									if (hex.length < 2) {
 										hex = "0" + hex;
 									}
 									return hex;
-				
+
 									function fullColorHex(r,g,b){
 									    var red = rgbToHex(r);
 									    var green = rgbToHex(g);
@@ -375,16 +375,16 @@
 									    return red+green+blue;
 				                    }
 								}
-				
-				
+
+
 				                function animateBoard()
 				                {
 				                  requestAnimationFrame( animateBoard );
 				                  BoardControl.update();
 				                  BoardRenderer.render( BoardScene, BoardCamera );
-								  
+
 								}
-								
+
 								//creates a board cover
 								function ToggleCover(){
 									BoardCoverBool = !BoardCoverBool;
@@ -395,40 +395,40 @@
 										Boardmaterial.color.setHex(BoardColor);
 									}
 								}
-				                
+
 								//sets tilt lock
 								function setTiltLock()
 								{
 									BoardControl.noTilt = !BoardControl.noTilt;
 									BoardControl.update();
-									
+
 								}
-								  
+
 								//sets rotate lock
 								function setRotLock(){
 									BoardControl.noRotate = !BoardControl.noRotate;
 									BoardControl.update();
 								}
-								  
+
 								//sets zoom lock
 								function setZoomLock(){
 									BoardControl.noZoom = !BoardControl.noZoom;
 									BoardControl.update();
 								}
-				
+
 								//updates the color of the board
 								function setBoardRGB(){
-									
+
 									var redHex = rgbToHex(document.getElementById("BoardRvalue").value);
 									var greenHex = rgbToHex(document.getElementById("BoardGvalue").value);
 									var blueHex = rgbToHex(document.getElementById("BoardBvalue").value);
 									BoardColor = "0x" + redHex + greenHex + blueHex;
-									
+
 									if(!BoardCoverBool){
 										Boardmaterial.color.setHex(BoardColor);
 									}
 								}
-								  
+
 								//updates the color of the background
 								function setBackgroundRGB(){
 									var redHex = rgbToHex(document.getElementById("BackgroundRvalue").value);
@@ -437,14 +437,14 @@
 									var stringHex = "0x" + redHex + greenHex + blueHex;
 									skyBoxMaterial.color.setHex(stringHex);
 								}
-								
+
 								//updates the color of the board cover
 								function setBoardCoverRGB(){
 									var redHex = rgbToHex(document.getElementById("CoverRvalue").value);
 									var greenHex = rgbToHex(document.getElementById("CoverGvalue").value);
 									var blueHex = rgbToHex(document.getElementById("CoverBvalue").value);
 									BoardCoverColor = "0x" + redHex + greenHex + blueHex;
-									
+
 									if(BoardCoverBool){
 									Boardmaterial.color.setHex(BoardCoverColor);
 									}
@@ -528,8 +528,8 @@
           </div>
         </div>
       </div>
-	  
-      <!-- extra? 
+
+      <!-- extra?
       <div class="sosa-modal mx-auto mfp-hide" id="stimulus-modal" style="width: fit-content;">
         <div class="sosa-modal-dialog bg-white">
           <a class="close-button d-md-block text-secondary sosa-modal-dismiss" href="#">
@@ -657,7 +657,7 @@
                       }
 
                       </script>
-                  
+
                   <div class="form-group">
                     <input oninput="ChangeBoardText(this)" type="text" class="form-control" placeholder="Board Name">
                   </div>
@@ -818,8 +818,8 @@
                         pegLabelSprite.position.y = 4;
                         pegScene.add( pegLabelSprite );
                       }
-					  
-						//creating a new Label for the object by deleting the current one and replacing it. 
+
+						//creating a new Label for the object by deleting the current one and replacing it.
 						function setNewLabel(name)
 						{
 						pegScene.remove(pegLabelSprite);
@@ -828,8 +828,8 @@
 						pegLabelSprite.position.x = 13;
 						pegLabelSprite.position.y = 4;
 						pegScene.add(pegLabelSprite);
-						} 
-						
+						}
+
                       function makeTextSprite( message, parameters ) {
                         if ( parameters === undefined ) parameters = {};
 
@@ -992,7 +992,7 @@
 
                         <!--Board -->
                         <div class="pb-3" id="ThreeJSBoardLoader"></div>
-<!-- 
+<!--
                         <script>
                         var container, scene, camera, renderer, controls, group;
 
@@ -1048,7 +1048,7 @@
                           var mesh = new THREE.Mesh( board, material );
                           mesh.position.set(0,0,0);
                           scene.add(mesh);
-                          
+
                                                     //Creates meshes on the sides of the board to make it look 3D
                           var BoardSideGeo = new THREE.PlaneGeometry(24,1);
                           var BoardSideMat = new THREE.MeshPhongMaterial({ color: 0xC0C0C0});
@@ -1087,9 +1087,10 @@
                         <div class=" row pb-3">
                           <div class="col">
                             <select class="custom-select" id="gridInputDropdown" onchange="updateGrid(this.value)">
-                              <option value = 6 selected>6x6 on Final Image</option>
+                              <option value = 1000 selected>Freeform on Final Image</option>
                               <option value = 12>12x12 on Final Image</option>
                               <option value = 8>9x9 on Final Image</option>
+                              <option value = 6>6x6 on Final Image</option>
                               <option value = 3>3x3 on Final Image</option>
                             </select>
                           </div>
@@ -1261,7 +1262,7 @@
                           <button class="btn btn-shadow btn-secondary btn-block rounded-pill sosa-modal-dismiss" href="#">Load Stimulus</button>
                         </div>
                         <div class="col mt-3">
-                          <a class="btn btn-shadow btn-secondary btn-block rounded-pill" target="_blank" href="SOSA.html?demo=6" id = "StartExperimentButton">Begin Experiment</a>
+                          <a class="btn btn-shadow btn-secondary btn-block rounded-pill" target="_blank" href="SOSA.html?demo=1000" id = "StartExperimentButton">Begin Experiment</a>
                         </div>
                       </div>
                     </div>
@@ -1286,7 +1287,7 @@
 			  <script src="js/forms/addImage.js"></script>
 			  <script src="js/forms/board.js"></script>
 			  <script src="js/QueryForExperiment.js"></script>
-			            
+
 
             <!-- Custom scripts for this template -->
             <script src="js/freelancer.min.js"></script>
