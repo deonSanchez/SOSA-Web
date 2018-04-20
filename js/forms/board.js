@@ -63,9 +63,13 @@ $("button#saveCreatedBoard").on('click', function(){
 						data: form_data,                         
 						type: 'post',
 						success: function(php_script_response){
-							alert(php_script_response); // display response from the PHP script, if any
+
+						loadBoardModal();
 						}
 					});
+				} else {
+
+					loadBoardModal();
 				}
 			},
 			error: function() {
@@ -75,7 +79,7 @@ $("button#saveCreatedBoard").on('click', function(){
 });
 
 $("button#loadCreatedBoard").on('click', function(){
-	var boardid = 18;
+	var boardid = $('#boards :selected').attr('boardid');
 	$.ajax({
 		type: 'POST',
 		data: 'request=loadboard&board=' + boardid,

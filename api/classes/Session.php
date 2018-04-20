@@ -634,6 +634,51 @@ class Session {
 	    return true;
     }
     
+	public function editBoard($board_name, $lock_tilt, $lock_rotate, $lock_zoom, $cover_board, $board_color, $background_color, $cover_color, $image,$camerax,$cameray,$cameraz){
+		$image = "null";
+		if($board_name == ""){
+			return "You did not specify a board name!";
+		}
+		
+		$stmt = $this->mysqli->prepare("SELECT * FROM `board` WHERE `board_name` = ?");
+		$stmt->bind_param("s", $board_name);
+		$stmt->execute();
+		$stmt->store_result();
+		if ($stmt->num_rows < 1) {
+			return "Board doesn't exist!";
+		}
+		
+		$board_id = $this->getBoardID($board_name);
+		
+	    $qry = $this->mysqli->prepare("UPDATE `board` 
+	    								SET `board_name` = ?,`lock_tilt` = ?, `lock_rotate` = ?, `lock_zoom` = ?,
+	    								`cover_board` = ?, `board_color` = ?, `background_color` = ?, `cover_color` = ?,
+	    								 `camerax` = ?,`cameray` = ?,`cameraz` = ? WHERE `idboard` = ?");
+	    $qry->bind_param("siiiisssdddi",$board_name, $lock_tilt, $lock_rotate, $lock_zoom, $cover_board, $board_color, $background_color, $cover_color, $camerax,$cameray,$cameraz, $board_id);
+	    $qry->execute();
+	    $qry->close();
+	    return true;
+    }
+	/**
+	 * Return an array of all available saved stimuli sets
+	 * @author Mitchell M.
+	 * @return array of stimuli
+	 * @version 0.5.0
+	 */
+	public function loadBoards() {
+		$results = null;
+		$stmt = $this->mysqli->prepare("SELECT `board_name`, `idboard` FROM `board`");
+		$stmt->bind_result($board,$id);
+		$stmt->execute();
+		$stmt->store_result();
+		if ($stmt->num_rows >= 1) {
+			while ($stmt->fetch()) {
+				$results[] = array('board_name' => $board, 'idboard' => $id);
+			}
+		}
+		return $results;
+	}
+    
 	/**
 	 * Return an array of all available saved experiment details
 	 * @author Mitchell M.

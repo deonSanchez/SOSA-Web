@@ -26,5 +26,8 @@ $cameray = $board["cameray"];
 $cameraz = $board["cameraz"];
 
 $image = $board["image"];
-
-echo $session->saveBoard($board_name, $lock_tilt, $lock_rotate, $lock_zoom, $cover_board, $board_color, $background_color, $cover_color, $image,$camerax,$cameray,$cameraz) ? 1 : 0;
+if($session->getBoardID($board_name) == -1) {
+	echo $session->saveBoard($board_name, $lock_tilt, $lock_rotate, $lock_zoom, $cover_board, $board_color, $background_color, $cover_color, $image,$camerax,$cameray,$cameraz) ? 1 : 0;
+} else {
+	echo $session->editBoard($board_name, $lock_tilt, $lock_rotate, $lock_zoom, $cover_board, $board_color, $background_color, $cover_color, $image,$camerax,$cameray,$cameraz) ? 1 : 0;
+}
