@@ -359,7 +359,10 @@
 						BoardSide.position.set(12, 0, - 0.5);
 						BoardScene.add(BoardSide);
 				                }
-
+        //updates grid selection if user changes dropdown option
+        function updateGrid(Input){
+            document.getElementById('StartExperimentButton').href = "SOSA.html?demo=" + Input;
+        }
 								//functions to convert rgb to hex (Source: https://campushippo.com/lessons/how-to-convert-rgb-colors-to-hexadecimal-with-javascript-78219fdb)
 								  function rgbToHex(rgb){
 									var hex = Number(rgb).toString(16);
@@ -1089,7 +1092,7 @@
                             <select class="custom-select" id="gridInputDropdown" onchange="updateGrid(this.value)">
                               <option value = 1000 selected>Freeform on Final Image</option>
                               <option value = 12>12x12 on Final Image</option>
-                              <option value = 8>9x9 on Final Image</option>
+                              <option value = 9>9x9 on Final Image</option>
                               <option value = 6>6x6 on Final Image</option>
                               <option value = 3>3x3 on Final Image</option>
                             </select>

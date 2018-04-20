@@ -221,9 +221,9 @@ function initExperiment() {
 	document.addEventListener( 'mousedown', mouseClick, false );
 }
 
-//function for converting coordinates on a 40x40 grid to the grid the experiment is set to.
+//function for converting coordinates on a 24x24 grid to the grid the experiment is set to.
 function toGridCoordinate(coordinate){
-	var unit = 40/gridScale;
+	var unit = 24/gridScale;
 	coordinate = coordinate + 4;
 	if (unit/2 - Math.abs(coordinate%unit) < 0){
 		return unit * Math.ceil(coordinate/unit) - 4;
@@ -399,6 +399,7 @@ function update() {
 		}
     //Resets the blinking opacity for the stimuli when it is selected in delete mode.
     else if (intersectionList.length <= 1){
+      //resets brush target so that pressing the delete button won't delete a peg you're no longer hovering.
       brush.targetName = null;
       for(var i = 0; i < TestStimuli.length; i++ ) {
         TestStimuli[i].material.opacity = 1;
