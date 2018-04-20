@@ -392,13 +392,14 @@ function update() {
         if (isPegName(intersectionList[i].object.name)){
           brush.targetName = intersectionList[i].object.name;
           isHovering = true;
-          ExperimentScene.getObjectByName( brush.targetName ).material.opacity = .7 + .3 * Math.sin(new Date().getTime() * .0033);
+          ExperimentScene.getObjectByName( brush.targetName ).material.opacity = .65 + .35 * Math.sin(new Date().getTime() * .0036);
           break;
         }
       }
 		}
     //Resets the blinking opacity for the stimuli when it is selected in delete mode.
     else if (intersectionList.length <= 1){
+      brush.targetName = null;
       for(var i = 0; i < TestStimuli.length; i++ ) {
         TestStimuli[i].material.opacity = 1;
       }
