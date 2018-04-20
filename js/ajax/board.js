@@ -145,7 +145,6 @@ $("button#loadCreatedBoard").on('click', function(){
 			Boardmaterial.color.setHex(cover_hex);
 		}
 
-		console.log(board_color);
 		/*for (var i = 0; i < lend; i++) {
 				appendLabel = appendLabel + "<option>"+json[i].title+"</option>";
 			}*/

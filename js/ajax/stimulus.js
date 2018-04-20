@@ -61,7 +61,7 @@ $("button#load").on("click", function(){
 			$("input#selected_stimulus").val(stimulus_id) 
 		},
 		error : function() {
-			alert("Error with create stimulus!");
+			alert("Error with load stimulus!");
 		}
 	});
 });
@@ -85,7 +85,7 @@ $("button#save").on('click',function(){
 			loadCreatorStimulus();
 		},
 		error : function() {
-			alert("Error with create stimulus!");
+			alert("Error with save stimulus!");
 		}
 	});
 	
@@ -105,7 +105,7 @@ $("button#remove_stim").on("click", function() {
 			loadCreatorStimulus();
 		},
 		error : function() {
-			alert("Error with create stimulus!");
+			alert("Error with delete stimulus!");
 		}
 	});
 });
@@ -129,7 +129,7 @@ $("button#add").on('click',function(){
 			}
 		},
 		error : function() {
-			alert("Error with create stimulus!");
+			alert("Error with add stimulus!");
 		}
 	});
 });
@@ -148,7 +148,7 @@ $("button#remove").on('click',function(){
 			loadStimulusSets(loadCreatorStimulus);
 		},
 		error : function() {
-			alert("Error with create stimulus!");
+			alert("Error with remove stimulus!");
 		}
 	});
 });
@@ -176,7 +176,7 @@ function loadStimulusSets(callback) {
 			}
 		},
 		error : function() {
-			alert("Error with create stimulus!");
+			alert("Error with loading stimulus sets!");
 		}
 	});
 }
@@ -205,7 +205,7 @@ function loadCreatorStimulus() {
 			}
 		},
 		error : function() {
-			alert("Error with create stimulus!");
+			alert("Error with loading invididual stimulus into editor!");
 		}
 	});
 }
