@@ -448,6 +448,27 @@ class Session {
 		}
 		return $results;
 	}
+	
+	/**
+	 * Return an array of all available saved experiment details
+	 * @author Mitchell M.
+	 * @return array of stimuli
+	 * @version 0.5.0
+	 */
+	public function loadExperiment($access) {
+		$results = null;
+		$stmt = $this->mysqli->prepare("SELECT `stimset_id`, `title`, `idboard` FROM `experiment` WHERE `access_key` = ?");
+		$stmt->bind_param("s",$access);
+		$stmt->bind_result($stimset_id, $title,$idboard);
+		$stmt->execute();
+		$stmt->store_result();
+		if ($stmt->num_rows >= 1) {
+			while ($stmt->fetch()) {
+				$results[] = array('stimset_id' => $stimset_id, 'title' => $title, 'idboard' => $idboard);
+			}
+		}
+		return $results;
+	}
 
 	/**
 	 * Builds and saves experiment based on input $data
@@ -466,12 +487,12 @@ class Session {
 		if(!$this->validStimulusSet($stimset_id)){
 			return "Not a valid stimulus set!";
 		}
-		
-		$mysqli = $this->mysqli->prepare("INSERT INTO `experiment` (`title`,`stimset_id`,`idboard`,`show_background`,`show_labels`,`preview_img`) VALUES (?,?,?,?,?,?)");
-		$mysqli->bind_param("siiiis", $title,$stimset_id,$idboard,$showbg,$showlabels,$preview);
+		$access = $this->generateRandID(15);
+		$mysqli = $this->mysqli->prepare("INSERT INTO `experiment` (`title`,`stimset_id`,`idboard`,`show_background`,`show_labels`,`preview_img`,`access_key`) VALUES (?,?,?,?,?,?,?)");
+		$mysqli->bind_param("siiiiss", $title,$stimset_id,$idboard,$showbg,$showlabels,$preview,$access);
 		$mysqli->execute();
 		$mysqli->close();
-		return "Experiment created!";
+		return "Experiment created! Access ID = {$access}";
 	}
 
 	/**

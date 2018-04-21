@@ -8,3 +8,8 @@ function __autoload($class_name) {
 $db = Database::getConnection();
 $session = Session::getInstance($db);
 echo $session->createExperiment(43,26,"exper1",1,1,"null");
+
+echo "<hr/>";
+echo"<pre>";
+echo var_dump($session->loadExperiment("Y711bHeDKWWW7xQ"));
+echo"</pre>";
