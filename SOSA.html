@@ -61,7 +61,7 @@ function loadExperiment(){
       if(response != "null") {
         alert(response);
         var json = JSON.parse(response);
-        alert(objLength(json));
+        alert(JSON.stringify(json));
         var len = objLength(json);
 
       } else {
