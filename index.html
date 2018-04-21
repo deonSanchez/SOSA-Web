@@ -28,8 +28,8 @@
   <script src="js/Three.js"></script>
   <script src="js/Detector.js"></script>
   <script src="js/OrbitControls-Touch.js"></script>
-  <!-- using this script breaks the lock functions for the controls --!>
-  <!-- <script src="js/OrbitControls.js"></script>--!>
+  <!-- using this script breaks the lock functions for the controls -->
+  <!-- <script src="js/OrbitControls.js"></script>-->
 </head>
 
 <body id="page-top">
@@ -285,11 +285,11 @@
               </div>
               <div class="row">
                 <div class="col">
-                  <button class="btn btn-shadow btn-block btn-secondary btn-small rounded-pill" id="addImage">Add Image</button>
+                  <button class="btn btn-shadow btn-block btn-secondary btn-small rounded-pill" id="addImage" onclick="addBoardImage()">Add Image</button>
                 	<input id="boardImg" type="file" style="display:none;" />
                 </div>
                 <div class="col">
-                  <button class="btn btn-shadow btn-block btn-secondary btn-small rounded-pill" onclick = "ClearOff()">Clear</button>
+                  <button class="btn btn-shadow btn-block btn-secondary btn-small rounded-pill" onclick="ClearOff()">Clear</button>
                 </div>
               </div>
               <div class="row">
