@@ -13,3 +13,4 @@ echo "<hr/>";
 echo"<pre>";
 echo var_dump($session->loadExperiment("Y711bHeDKWWW7xQ"));
 echo"</pre>";
+?>
