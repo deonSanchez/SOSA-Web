@@ -17,76 +17,142 @@ SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='TRADITIONAL,ALLOW_INVALID_DATES';
 CREATE SCHEMA IF NOT EXISTS `sosa` DEFAULT CHARACTER SET latin1 ;
 USE `sosa` ;
 
-CREATE TABLE `board` (
-  `idboard` int(11) NOT NULL AUTO_INCREMENT,
-  `board_name` varchar(45) NOT NULL,
-  `lock_tilt` tinyint(4) NOT NULL,
-  `lock_rotate` tinyint(4) NOT NULL,
-  `lock_zoom` tinyint(4) NOT NULL,
-  `cover_board` tinyint(4) NOT NULL,
-  `board_color` varchar(45) NOT NULL,
-  `background_color` varchar(45) NOT NULL,
-  `cover_color` varchar(45) NOT NULL,
-  `image` longtext,
-  `camerax` decimal(45,15) DEFAULT NULL,
-  `cameray` decimal(45,15) DEFAULT NULL,
-  `cameraz` decimal(45,15) DEFAULT NULL,
-  PRIMARY KEY (`idboard`)
-) ENGINE=InnoDB AUTO_INCREMENT=51 DEFAULT CHARSET=utf8;
-CREATE TABLE `experiment` (
-  `experiment_id` int(11) NOT NULL AUTO_INCREMENT,
-  `title` varchar(50) NOT NULL,
-  `board_tintrgb` varchar(50) DEFAULT NULL,
-  `background_tintrgb` varchar(50) DEFAULT NULL,
-  `grid_size` int(11) DEFAULT NULL,
-  `show_background` int(11) NOT NULL DEFAULT '1',
-  `show_labels` int(11) NOT NULL DEFAULT '1',
-  `label_pos` int(11) DEFAULT NULL,
-  `label_shade` int(11) DEFAULT NULL,
-  `label_size` int(11) DEFAULT NULL,
-  `preview_img` varchar(45) DEFAULT NULL,
-  PRIMARY KEY (`experiment_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
-CREATE TABLE `results` (
-  `result_id` int(11) NOT NULL AUTO_INCREMENT,
-  `experiment_id` int(11) NOT NULL,
-  `admin_id` int(11) NOT NULL,
+-- -----------------------------------------------------
+-- Table `sosa`.`board`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `sosa`.`board` (
+  `idboard` INT(11) NOT NULL AUTO_INCREMENT,
+  `board_name` VARCHAR(45) NOT NULL,
+  `lock_tilt` TINYINT(4) NOT NULL,
+  `lock_rotate` TINYINT(4) NOT NULL,
+  `lock_zoom` TINYINT(4) NOT NULL,
+  `cover_board` TINYINT(4) NOT NULL,
+  `board_color` VARCHAR(45) NOT NULL,
+  `background_color` VARCHAR(45) NOT NULL,
+  `cover_color` VARCHAR(45) NOT NULL,
+  `image` LONGTEXT NULL DEFAULT NULL,
+  `camerax` DECIMAL(45,15) NULL DEFAULT NULL,
+  `cameray` DECIMAL(45,15) NULL DEFAULT NULL,
+  `cameraz` DECIMAL(45,15) NULL DEFAULT NULL,
+  PRIMARY KEY (`idboard`))
+ENGINE = InnoDB
+AUTO_INCREMENT = 52
+DEFAULT CHARACTER SET = utf8;
+
+
+-- -----------------------------------------------------
+-- Table `sosa`.`stimulus_set`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `sosa`.`stimulus_set` (
+  `version` VARCHAR(45) NULL DEFAULT NULL,
+  `stimset_id` INT(11) NOT NULL AUTO_INCREMENT,
+  `relative_size` INT(11) NULL DEFAULT NULL,
+  `window_size` VARCHAR(45) NULL DEFAULT NULL,
+  `title` VARCHAR(45) NOT NULL,
+  PRIMARY KEY (`stimset_id`))
+ENGINE = InnoDB
+AUTO_INCREMENT = 28
+DEFAULT CHARACTER SET = latin1;
+
+
+-- -----------------------------------------------------
+-- Table `sosa`.`experiment`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `sosa`.`experiment` (
+  `experiment_id` INT(11) NOT NULL AUTO_INCREMENT,
+  `stimset_id` INT(11) NULL DEFAULT NULL,
+  `idboard` INT(11) NULL DEFAULT NULL,
+  `title` VARCHAR(50) NOT NULL,
+  `show_background` INT(11) NOT NULL DEFAULT '1',
+  `show_labels` INT(11) NOT NULL DEFAULT '1',
+  `preview_img` VARCHAR(45) NULL DEFAULT NULL,
+  PRIMARY KEY (`experiment_id`),
+  INDEX `set_idx` (`stimset_id` ASC),
+  INDEX `board_idx` (`idboard` ASC),
+  CONSTRAINT `board`
+    FOREIGN KEY (`idboard`)
+    REFERENCES `sosa`.`board` (`idboard`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `set`
+    FOREIGN KEY (`stimset_id`)
+    REFERENCES `sosa`.`stimulus_set` (`stimset_id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB
+AUTO_INCREMENT = 6
+DEFAULT CHARACTER SET = latin1;
+
+
+-- -----------------------------------------------------
+-- Table `sosa`.`users`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `sosa`.`users` (
+  `username` VARCHAR(45) NULL DEFAULT NULL,
+  `password` VARCHAR(45) NULL DEFAULT NULL,
+  `userid` INT(11) NOT NULL AUTO_INCREMENT,
+  PRIMARY KEY (`userid`))
+ENGINE = InnoDB
+AUTO_INCREMENT = 8
+DEFAULT CHARACTER SET = latin1;
+
+
+-- -----------------------------------------------------
+-- Table `sosa`.`results`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `sosa`.`results` (
+  `result_id` INT(11) NOT NULL AUTO_INCREMENT,
+  `experiment_id` INT(11) NOT NULL,
+  `admin_id` INT(11) NOT NULL,
   PRIMARY KEY (`result_id`),
-  KEY `id_idx` (`experiment_id`),
-  KEY `admin_id_idx` (`admin_id`),
-  CONSTRAINT `admin_id` FOREIGN KEY (`admin_id`) REFERENCES `users` (`userid`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  CONSTRAINT `experiment` FOREIGN KEY (`experiment_id`) REFERENCES `experiment` (`experiment_id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-CREATE TABLE `sessions` (
-  `sid` varchar(45) NOT NULL,
-  `userid` int(11) NOT NULL,
-  `timestamp` varchar(45) DEFAULT NULL,
-  PRIMARY KEY (`sid`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-CREATE TABLE `stimulus` (
-  `stimulus_id` int(11) NOT NULL AUTO_INCREMENT,
-  `stimset_id` int(11) NOT NULL,
-  `label` varchar(45) NOT NULL,
-  `label_r` int(11) DEFAULT NULL,
-  `label_g` int(11) DEFAULT NULL,
-  `label_b` int(11) DEFAULT NULL,
-  `peg_r` int(11) DEFAULT NULL,
-  `peg_g` int(11) DEFAULT NULL,
-  `peg_b` int(11) DEFAULT NULL,
+  INDEX `id_idx` (`experiment_id` ASC),
+  INDEX `admin_id_idx` (`admin_id` ASC),
+  CONSTRAINT `admin_id`
+    FOREIGN KEY (`admin_id`)
+    REFERENCES `sosa`.`users` (`userid`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `experiment`
+    FOREIGN KEY (`experiment_id`)
+    REFERENCES `sosa`.`experiment` (`experiment_id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = latin1;
+
+
+-- -----------------------------------------------------
+-- Table `sosa`.`sessions`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `sosa`.`sessions` (
+  `sid` VARCHAR(45) NOT NULL,
+  `userid` INT(11) NOT NULL,
+  `timestamp` VARCHAR(45) NULL DEFAULT NULL,
+  PRIMARY KEY (`sid`))
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = latin1;
+
+
+-- -----------------------------------------------------
+-- Table `sosa`.`stimulus`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `sosa`.`stimulus` (
+  `stimulus_id` INT(11) NOT NULL AUTO_INCREMENT,
+  `stimset_id` INT(11) NOT NULL,
+  `label` VARCHAR(45) NOT NULL,
+  `label_r` INT(11) NULL DEFAULT NULL,
+  `label_g` INT(11) NULL DEFAULT NULL,
+  `label_b` INT(11) NULL DEFAULT NULL,
+  `peg_r` INT(11) NULL DEFAULT NULL,
+  `peg_g` INT(11) NULL DEFAULT NULL,
+  `peg_b` INT(11) NULL DEFAULT NULL,
   PRIMARY KEY (`stimulus_id`),
-  KEY `id_idx` (`stimset_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=47 DEFAULT CHARSET=latin1;
-CREATE TABLE `stimulus_set` (
-  `version` varchar(45) DEFAULT NULL,
-  `stimset_id` int(11) NOT NULL AUTO_INCREMENT,
-  `relative_size` int(11) DEFAULT NULL,
-  `window_size` varchar(45) DEFAULT NULL,
-  `title` varchar(45) NOT NULL,
-  PRIMARY KEY (`stimset_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=26 DEFAULT CHARSET=latin1;
-CREATE TABLE `users` (
-  `username` varchar(45) DEFAULT NULL,
-  `password` varchar(45) DEFAULT NULL,
-  `userid` int(11) NOT NULL AUTO_INCREMENT,
-  PRIMARY KEY (`userid`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=latin1;
+  INDEX `id_idx` (`stimset_id` ASC))
+ENGINE = InnoDB
+AUTO_INCREMENT = 54
+DEFAULT CHARACTER SET = latin1;
+
+
+SET SQL_MODE=@OLD_SQL_MODE;
+SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
+SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;

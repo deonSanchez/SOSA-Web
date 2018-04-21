@@ -309,7 +309,51 @@ class Session {
 		$result = $qry->get();
 		return isset($result[0]['idboard']) ? $result[0]['idboard'] : -1;
 	}
-
+	
+	/**
+	 * Returns if the board exists
+	 * Determines input type no specification required
+	 * @author Mitchell M.
+	 * @param type $input id
+	 * @return type
+	 * @version 1.2.0
+	 */
+	function boardExists($input) {
+		$qry = $this->qb->start();
+		$qry->select("idboard");
+		$qry->from("board")->where("idboard", "=", $input);
+		$result = $qry->get();
+		return isset($result[0]['idboard']);
+	}
+		
+	/**
+	 * Returns if the board exists
+	 * Determines input type no specification required
+	 * @author Mitchell M.
+	 * @param type $input id
+	 * @return type
+	 * @version 1.2.0
+	 */
+	function validStimulusSet($input) {
+		$qry = $this->qb->start();
+		$qry->select("stimset_id");
+		$qry->from("stimulus_set")->where("stimset_id", "=", $input);
+		$result = $qry->get();
+		if(isset($result[0]['stimset_id'])){
+			$qry2 = $this->qb->start();
+			$qry2->select("*");
+			$qry2->from("stimulus")->where("stimset_id", "=", $input);
+			$result2 = $qry2->get();
+			if(count($result2) > 0)
+				return true;
+			else 
+				echo "Can't find set!";
+		} else {
+			echo "Can't find set!";
+		}
+		return false;
+	}
+	
 	/**
 	 * Is a user logged in?
 	 * @author Mitchell M.
@@ -411,11 +455,23 @@ class Session {
 	 * @return crated experiment
 	 * @version 0.5.0
 	 */
-	public function createExperiment($data) {
-		$mysqli = $this->mysqli->prepare("INSERT INTO `experiment` (`title`) VALUES (?)");
-		$mysqli->bind_param("s", $data);
+	public function createExperiment($idboard,$stimset_id,$title,$showbg,$showlabels,$preview) {
+		$showbg = 1;
+		$showlabels = 1;
+		$preview = "null";
+		if(!$this->boardExists($idboard)) {
+			return "Board doesn't exist!";
+		}
+		
+		if(!$this->validStimulusSet($stimset_id)){
+			return "Not a valid stimulus set!";
+		}
+		
+		$mysqli = $this->mysqli->prepare("INSERT INTO `experiment` (`title`,`stimset_id`,`idboard`,`show_background`,`show_labels`,`preview_img`) VALUES (?,?,?,?,?,?)");
+		$mysqli->bind_param("siiiis", $title,$stimset_id,$idboard,$showbg,$showlabels,$preview);
 		$mysqli->execute();
 		$mysqli->close();
+		return "Experiment created!";
 	}
 
 	/**

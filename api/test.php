@@ -7,9 +7,4 @@ function __autoload($class_name) {
 
 $db = Database::getConnection();
 $session = Session::getInstance($db);
-$res = $session->loadBoard(18);
-echo "<pre>";
-var_dump($session->loadBoard(18));
-
-echo $
-echo "</pre>";
+echo $session->createExperiment(43,26,"exper1",1,1,"null");
