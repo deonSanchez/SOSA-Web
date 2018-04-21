@@ -363,33 +363,6 @@ class Session {
 		return isset($_SESSION['sid']);
 	}
 
-
-
-	/**
-	 * Builds and saves experiment based on input $data
-	 * @author Mitchell M.
-	 * @return crated experiment
-	 * @version 0.5.0
-	 */
-	public function createExperiment($idboard,$stimset_id,$title,$showbg,$showlabels,$preview) {
-		$showbg = 1;
-		$showlabels = 1;
-		$preview = "null";
-		if(!$this->boardExists($idboard)) {
-			return "Board doesn't exist!";
-		}
-
-		if(!$this->validStimulusSet($stimset_id)){
-			return "Not a valid stimulus set!";
-		}
-		$access = $this->generateRandID(15);
-		$mysqli = $this->mysqli->prepare("INSERT INTO `experiment` (`title`,`stimset_id`,`idboard`,`show_background`,`show_labels`,`preview_img`,`access_key`) VALUES (?,?,?,?,?,?,?)");
-		$mysqli->bind_param("siiiiss", $title,$stimset_id,$idboard,$showbg,$showlabels,$preview,$access);
-		$mysqli->execute();
-		$mysqli->close();
-		return "Experiment created! Access ID = {$access}";
-	}
-
 	/**
 	 * Deletes experiment based on input id $data
 	 * @author Mitchell M.
@@ -705,6 +678,31 @@ class Session {
 		$qry->from("board")->where("idboard", "=", $input);
 		$result = $qry->get();
 		return isset($result[0]['idboard']);
+	}
+	
+	/**
+	 * Builds and saves experiment based on input $data
+	 * @author Mitchell M.
+	 * @return crated experiment
+	 * @version 0.5.0
+	 */
+	public function createExperiment($idboard,$stimset_id,$title,$showbg,$showlabels,$preview) {
+		$showbg = 1;
+		$showlabels = 1;
+		$preview = "null";
+		if(!$this->boardExists($idboard)) {
+			return "Board doesn't exist!";
+		}
+
+		if(!$this->validStimulusSet($stimset_id)){
+			return "Not a valid stimulus set!";
+		}
+		$access = $this->generateRandID(15);
+		$mysqli = $this->mysqli->prepare("INSERT INTO `experiment` (`title`,`stimset_id`,`idboard`,`show_background`,`show_labels`,`preview_img`,`access_key`) VALUES (?,?,?,?,?,?,?)");
+		$mysqli->bind_param("siiiiss", $title,$stimset_id,$idboard,$showbg,$showlabels,$preview,$access);
+		$mysqli->execute();
+		$mysqli->close();
+		return "Experiment created! Access ID = {$access}";
 	}
 	
 	/**
