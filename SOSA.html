@@ -56,32 +56,32 @@ function getParameterByName(name, url) {
     if (!results[2]) return '';
     return decodeURIComponent(results[2].replace(/\+/g, " "));
 }
-// function loadExperiment{
-//   $.ajax( {
-//     type : 'POST',
-//     data : 'class_name=request=Session'
-//     url : 'api/test.php',
-//     async : true,
-//     success : function(response) {
-//       if(response != "null") {
-//         alert("success");
-//       }
-//       //   var json = JSON.parse(response);
-//       //   var len = objLength(json);
-//       //   var appendLabel = "";
-//       //   for (var i = len-1; i > -1; i--) {
-//       //     appendLabel = appendLabel + "<option id=\""+json[i].stimulus_id+"\">"+json[i].label+"</option>";
-//       //   }
-//       //   $("select#exper_stim").html(appendLabel);
-//       // } else {
-//       //   $("select#exper_stim").html("");
-//       // }
-//     },
-//     error : function() {
-//       alert("Something went wrong.");
-//     }
-//   });
-// }
+function loadExperiment{
+  $.ajax( {
+    type : 'POST',
+    data : 'class_name=request=Session'
+    url : 'api/test.php',
+    async : true,
+    success : function(response) {
+      if(response != "null") {
+        window.alert("success");
+      }
+      //   var json = JSON.parse(response);
+      //   var len = objLength(json);
+      //   var appendLabel = "";
+      //   for (var i = len-1; i > -1; i--) {
+      //     appendLabel = appendLabel + "<option id=\""+json[i].stimulus_id+"\">"+json[i].label+"</option>";
+      //   }
+      //   $("select#exper_stim").html(appendLabel);
+      // } else {
+      //   $("select#exper_stim").html("");
+      // }
+    },
+    error : function() {
+      window.alert("Something went wrong.");
+    }
+  });
+}
 function viewSet(n) {
   // on ground near origin
 	if (n == 1) {
@@ -100,7 +100,7 @@ function viewSet(n) {
 //global constant that tells us what size the experiment's grid is set to.
 var gridScale = getParameterByName('demo') - 1;
 
-
+loadExperiment();
 initExperiment();
 animateExperiment();
 
