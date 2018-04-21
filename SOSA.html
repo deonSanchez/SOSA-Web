@@ -56,15 +56,15 @@ function getParameterByName(name, url) {
     if (!results[2]) return '';
     return decodeURIComponent(results[2].replace(/\+/g, " "));
 }
-function loadExperiment{
+function loadExperiment(){
   $.ajax( {
     type : 'POST',
-    data : 'class_name=request=Session'
+    data : 'class_name=Session'
     url : 'api/test.php',
     async : true,
     success : function(response) {
       if(response != "null") {
-        window.alert("success");
+        alert("success");
       }
       //   var json = JSON.parse(response);
       //   var len = objLength(json);
@@ -78,7 +78,7 @@ function loadExperiment{
       // }
     },
     error : function() {
-      window.alert("Something went wrong.");
+      alert("Something went wrong.");
     }
   });
 }
