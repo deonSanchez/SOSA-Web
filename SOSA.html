@@ -5,6 +5,7 @@
 </head>
 <body>
 
+<script src="vendor/jquery/jquery.min.js"></script>
 <script src="js/threejs/lib/Three.js"></script>
 <script src="js/threejs/lib/Detector.js"></script>
 <script src="js/threejs/lib/KeyboardState.js"></script>
@@ -59,7 +60,7 @@ function getParameterByName(name, url) {
 function loadExperiment(){
   $.ajax( {
     type : 'POST',
-    data : 'class_name=Session'
+    data : 'class_name=Session',
     url : 'api/test.php',
     async : true,
     success : function(response) {
@@ -82,6 +83,7 @@ function loadExperiment(){
     }
   });
 }
+
 function viewSet(n) {
   // on ground near origin
 	if (n == 1) {
