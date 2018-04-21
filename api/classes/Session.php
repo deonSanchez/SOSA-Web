@@ -43,6 +43,71 @@ class Session {
 		}
 		return self::$self_instance;
 	}
+	/**
+	 * Pulls the mysqli accessor
+	 * @return type Mysqli.
+	 */
+	function getDBC() {
+		return $this->mysqli;
+	}
+
+	/**
+	 * Pulls the logged-in user's session ID
+	 * @return type string $sid
+	 */
+	function getSID() {
+		return $this->sid;
+	}
+
+	/**
+	 * Redirects the the specified location, if headers already sent and can't do with PHP it will do it with javascript.
+	 * @param string $location to redirect to
+	 * @author Mitchell M.
+	 * @version 1.0.0
+	 */
+	function redirect($location) {
+		if (!headers_sent())
+		header('Location: ' . $location);
+		else {
+			echo '<script type="text/javascript">';
+			echo 'window.location.href="' . $location . '";';
+			echo '</script>';
+			echo '<noscript>';
+			echo '<meta http-equiv="refresh" content="0;url=' . $location . '" />';
+			echo '</noscript>';
+		}
+		die();
+	}
+
+	/**
+	 * Generates a random string based on the length provided
+	 * @param int $length to use
+	 * @author Mitchell M.
+	 * @version 1.0.0
+	 */
+	function generateRandID($length) {
+		$randstr = "";
+		for ($i = 0; $i < $length; $i++) {
+			$randnum = mt_rand(0, 61);
+			if ($randnum < 10) {
+				$randstr .= chr($randnum + 48);
+			} elseif ($randnum < 36) {
+				$randstr .= chr($randnum + 55);
+			} else {
+				$randstr .= chr($randnum + 61);
+			}
+		}
+		return $randstr;
+	}
+
+	/**
+	 * Checks input to see if it matches md5 patterns
+	 * @param $md5 string
+	 */
+	function isValidMd5($md5 ='')
+	{
+		return preg_match('/^[a-f0-9]{32}$/', $md5);
+	}
 
 	/**
 	 * Validates if a session cookie is valid, and clears it if not
@@ -203,7 +268,7 @@ class Session {
 		}
 		if ($username) {
 			$stmt = $this->mysqli->prepare("SELECT * FROM `users` WHERE `username`= ?");
-			
+				
 			$stmt->bind_param("s", $username);
 			echo $this->mysqli->error;
 			$stmt->execute();
@@ -279,21 +344,21 @@ class Session {
 	function getUID($input) {
 		$qry = $this->qb->start();
 		$qry->select("userid");
-		
+
 		if ($this->isValidMd5($input)) {
 			$qry->from("sessions")
 			->where("sid", "=", $input);
 			$result = $qry->get();
 		} else {
-			
+				
 			$qry->from("users")
 			->where("username", "=", $input);
 			$result = $qry->get();
 		}
 		return isset($result[0]['userid']) ? $result[0]['userid'] : -1;
 	}
-	
-	
+
+
 	/**
 	 * Returns the UID based on email/sid input
 	 * Determines input type no specification required
@@ -309,7 +374,7 @@ class Session {
 		$result = $qry->get();
 		return isset($result[0]['idboard']) ? $result[0]['idboard'] : -1;
 	}
-	
+
 	/**
 	 * Returns if the board exists
 	 * Determines input type no specification required
@@ -325,7 +390,7 @@ class Session {
 		$result = $qry->get();
 		return isset($result[0]['idboard']);
 	}
-		
+
 	/**
 	 * Returns if the board exists
 	 * Determines input type no specification required
@@ -345,15 +410,15 @@ class Session {
 			$qry2->from("stimulus")->where("stimset_id", "=", $input);
 			$result2 = $qry2->get();
 			if(count($result2) > 0)
-				return true;
-			else 
-				echo "Can't find set!";
+			return true;
+			else
+			echo "Can't find set!";
 		} else {
 			echo "Can't find set!";
 		}
 		return false;
 	}
-	
+
 	/**
 	 * Is a user logged in?
 	 * @author Mitchell M.
@@ -364,111 +429,7 @@ class Session {
 		return isset($_SESSION['sid']);
 	}
 
-	/**
-	 * END USER MANAGEMENT FUNCTIONS
-	 * BEGIN UTILITY FUNCTIONS
-	 */
 
-	function getDBC() {
-		return $this->mysqli;
-	}
-
-	function getSID() {
-		return $this->sid;
-	}
-
-	/**
-	 * Redirects the the specified location, if headers already sent and can't do with PHP it will do it with javascript.
-	 * @param string $location to redirect to
-	 * @author Mitchell M.
-	 * @version 1.0.0
-	 */
-	function redirect($location) {
-		if (!headers_sent())
-		header('Location: ' . $location);
-		else {
-			echo '<script type="text/javascript">';
-			echo 'window.location.href="' . $location . '";';
-			echo '</script>';
-			echo '<noscript>';
-			echo '<meta http-equiv="refresh" content="0;url=' . $location . '" />';
-			echo '</noscript>';
-		}
-		die();
-	}
-
-	/**
-	 * Generates a random string based on the length provided
-	 * @param int $length to use
-	 * @author Mitchell M.
-	 * @version 1.0.0
-	 */
-	function generateRandID($length) {
-		$randstr = "";
-		for ($i = 0; $i < $length; $i++) {
-			$randnum = mt_rand(0, 61);
-			if ($randnum < 10) {
-				$randstr .= chr($randnum + 48);
-			} elseif ($randnum < 36) {
-				$randstr .= chr($randnum + 55);
-			} else {
-				$randstr .= chr($randnum + 61);
-			}
-		}
-		return $randstr;
-	}
-
-	/**
-	 * Checks input to see if it matches md5 patterns
-	 * @param $md5 string
-	 */
-	function isValidMd5($md5 ='')
-	{
-		return preg_match('/^[a-f0-9]{32}$/', $md5);
-	}
-
-	/*
-	 * END UTILITY FUNCTIONS
-	 * BEGIN EXPERIMENT/STIMULUS FUNCTIONS
-	 */
-
-	/**
-	 * Return an array of all available saved experiment details
-	 * @author Mitchell M.
-	 * @return array of stimuli
-	 * @version 0.5.0
-	 */
-	public function loadExperiments() {
-		$results = null;
-		$stmt = $this->mysqli->query("SELECT * FROM `experiment`");
-		if ($stmt->num_rows >= 1) {
-			while ($row = $stmt->fetch_assoc()) {
-				$results[] = $row;
-			}
-		}
-		return $results;
-	}
-	
-	/**
-	 * Return an array of all available saved experiment details
-	 * @author Mitchell M.
-	 * @return array of stimuli
-	 * @version 0.5.0
-	 */
-	public function loadExperiment($access) {
-		$results = null;
-		$stmt = $this->mysqli->prepare("SELECT `stimset_id`, `title`, `idboard` FROM `experiment` WHERE `access_key` = ?");
-		$stmt->bind_param("s",$access);
-		$stmt->bind_result($stimset_id, $title,$idboard);
-		$stmt->execute();
-		$stmt->store_result();
-		if ($stmt->num_rows >= 1) {
-			while ($stmt->fetch()) {
-				$results[] = array('stimset_id' => $stimset_id, 'title' => $title, 'idboard' => $idboard);
-			}
-		}
-		return $results;
-	}
 
 	/**
 	 * Builds and saves experiment based on input $data
@@ -483,7 +444,7 @@ class Session {
 		if(!$this->boardExists($idboard)) {
 			return "Board doesn't exist!";
 		}
-		
+
 		if(!$this->validStimulusSet($stimset_id)){
 			return "Not a valid stimulus set!";
 		}
@@ -507,8 +468,8 @@ class Session {
 		} else {
 			return $this->mysqli->error;
 		}
-	}	
-	
+	}
+
 	/**
 	 * Deletes experiment based on input id $data
 	 * @author Mitchell M.
@@ -523,19 +484,123 @@ class Session {
 	}
 
 	/**
-	 * Will be implemented once the other methods are done
-	 * Updates experiment based on input $id and $changes
+	 * Deletes stimuli based on input id $data
 	 * @author Mitchell M.
-	 * @return updated experiment
 	 * @version 0.5.0
 	 */
-	public function updateExperiment($id,$data) {}
+	public function deleteStimulus($stimulus_id) {
+		$stimulus_id = intval($stimulus_id);
+		if ($this->mysqli->query("DELETE FROM `stimulus` WHERE `stimulus_id`='{$stimulus_id}'")) {
+			return true;
+		} else {
+			return $this->mysqli->error;
+		}
+	}
 
-
-	/*
-	 * END EXPERIMENT FUNCTIONS
-	 * BEGIN STIMULUS FUNCTIONS
+	/**
+	 * Deletes stimuli based on input id $data
+	 * @author Mitchell M.
+	 * @version 0.5.0
 	 */
+	public function deleteStimulusSet($stimset_id) {
+		$stimset_id = intval($stimset_id);
+		if ($this->mysqli->query("DELETE FROM `stimulus_set` WHERE `stimset_id`='{$stimset_id}'")) {
+			return true;
+		} else {
+			return $this->mysqli->error;
+		}
+	}
+
+	/**
+	 * Updates stimuli based on input $stimulus_id and $label,$label_color,$peg_color
+	 * @author Mitchell M.
+	 * @return created stimulus
+	 * @version 0.5.0
+	 */
+	public function updateStimulus($stimulus_id,$label,$peg_r,$peg_g,$peg_b) {
+		$qry = $this->mysqli->prepare("UPDATE `stimulus` SET `label` = ?, `peg_r` = ?, `peg_g` = ?, `peg_b` = ? WHERE `stimulus_id` = ?");
+		$qry->bind_param("siiii", $label,$peg_r,$peg_g,$peg_b,$stimulus_id);
+		$qry->execute();
+		$qry->close();
+	}
+
+	public function editBoard($board_name, $lock_tilt, $lock_rotate, $lock_zoom, $cover_board, $board_color, $background_color, $cover_color, $image,$camerax,$cameray,$cameraz){
+		$image = "null";
+		if($board_name == ""){
+			return "You did not specify a board name!";
+		}
+
+		$stmt = $this->mysqli->prepare("SELECT * FROM `board` WHERE `board_name` = ?");
+		$stmt->bind_param("s", $board_name);
+		$stmt->execute();
+		$stmt->store_result();
+		if ($stmt->num_rows < 1) {
+			return "Board doesn't exist!";
+		}
+
+		$board_id = $this->getBoardID($board_name);
+
+		$qry = $this->mysqli->prepare("UPDATE `board`
+	    								SET `board_name` = ?,`lock_tilt` = ?, `lock_rotate` = ?, `lock_zoom` = ?,
+	    								`cover_board` = ?, `board_color` = ?, `background_color` = ?, `cover_color` = ?,
+	    								 `camerax` = ?,`cameray` = ?,`cameraz` = ? WHERE `idboard` = ?");
+		$qry->bind_param("siiiisssdddi",$board_name, $lock_tilt, $lock_rotate, $lock_zoom, $cover_board, $board_color, $background_color, $cover_color, $camerax,$cameray,$cameraz, $board_id);
+		$qry->execute();
+		$qry->close();
+		return true;
+	}
+
+	/**
+	 * Return an array of all available saved experiment details
+	 * @author Mitchell M.
+	 * @return array of stimuli
+	 * @version 0.5.0
+	 */
+	public function loadExperiments() {
+		$results = null;
+		$stmt = $this->mysqli->query("SELECT * FROM `experiment`");
+		if ($stmt->num_rows >= 1) {
+			while ($row = $stmt->fetch_assoc()) {
+				$results[] = $row;
+			}
+		}
+		return $results;
+	}
+
+	/**
+	 * Return an array of all available saved experiment details
+	 * @author Mitchell M.
+	 * @return array of stimuli
+	 * @version 0.5.0
+	 */
+	public function loadExperiment($access) {
+		$results = null;
+		$stmt = $this->mysqli->prepare("SELECT `stimset_id`, `title`, `idboard` FROM `experiment` WHERE `access_key` = ?");
+		$stmt->bind_param("s",$access);
+		$stmt->bind_result($stimset_id, $title,$idboard);
+		$stmt->execute();
+		$stmt->store_result();
+		if ($stmt->num_rows >= 1) {
+			while ($stmt->fetch()) {
+				$results[] = array('stimset_id' => $stimset_id, 'title' => $title, 'idboard' => $idboard);
+			}
+		}
+		return $results;
+	}
+
+	/**
+	 * Return an array containing the information regarding the stimulus set provided
+	 * @author Mitchell M.
+	 * @return array of stimuli
+	 * @version 0.5.0
+	 */
+	public function loadStimulus($stimulus_id) {
+		$stimulus_id = intval($stimulus_id);
+		$qry = $this->qb->start();
+		$qry->select("*")->from("stimulus")->where("stimulus_id", "=", $stimulus_id);
+		$results = $qry->get();
+		return $results;
+	}
 
 	/**
 	 * Return an array of all available saved stimuli sets
@@ -579,176 +644,14 @@ class Session {
 		return $results;
 	}
 	
-	/**
-	 * Return an array containing the information regarding the stimulus set provided
-	 * @author Mitchell M.
-	 * @return array of stimuli
-	 * @version 0.5.0
-	 */
-	public function loadStimulus($stimulus_id) {
-		$stimulus_id = intval($stimulus_id);
-		$qry = $this->qb->start();
-		$qry->select("*")->from("stimulus")->where("stimulus_id", "=", $stimulus_id);
-		$results = $qry->get();
-		return $results;
-	}
-
-	/**
-	 * Builds and saves stimuli based on input $data
-	 * @author Mitchell M.
-	 * @param $setid required
-	 * @version 0.5.0
-	 */
-	public function createStimulus($label,$peg_r,$peg_g,$peg_b,$label_r,$label_g,$label_b,$set_title) {
-		$setid = $this->lookupSetID($set_title);
-		$temp = -1;
-		$mysqli = $this->mysqli->prepare("INSERT INTO `stimulus` (`label`,`peg_r`,`peg_g`,`peg_b`,`label_r`,`label_g`,`label_b`, `stimset_id`) VALUES (?,?,?,?,?,?,?,?)");
-		$mysqli->bind_param("siiiiiii",$label,$peg_r,$peg_g,$peg_b,$temp,$temp,$temp,$setid);
-		$mysqli->execute();
-		$mysqli->close();
-		return true;
-	}
-	
-	public function lookupSetID($title) {		
+	public function lookupSetID($title) {
 		$qry = $this->qb->start();
 		$qry->select("stimset_id");
 		$qry->from("stimulus_set")->where("title", "=", $title);
 		$result = $qry->get();
 		return isset($result[0]['stimset_id']) ? $result[0]['stimset_id'] : -1;
 	}
-	
-	/**
-	 * Builds and saves stimuli set based on input $version, $relative_size, and $window_size
-	 * @author Mitchell M.
-	 * @return $set id
-	 * @version 0.5.0
-	 */
-	public function createStimulusSet($title, $version,$relative_size,$window_size) {
-		$version = 1;
-		$relative_size = 1;
-		$window_size = 1;
-		
-		if(strlen($title) < 1) {
-			return false;
-		}
-		
-		$stmt = $this->mysqli->prepare("SELECT * FROM `stimulus_set` WHERE `title` = ?");
-		$stmt->bind_param("s", $title);
-		$stmt->execute();
-		$stmt->store_result();
-		if ($stmt->num_rows > 0) {
-			return false;
-		}
-		$mysqli = $this->mysqli->prepare("INSERT INTO `stimulus_set` (`title`, `version`,`relative_size`,`window_size`) VALUES (?,?,?,?)");
-		$mysqli->bind_param("siii", $title,$version,$relative_size,$window_size);
-		$mysqli->execute();
-		$mysqli->close();
-		return true;
-	}
 
-	/**
-	 * Deletes stimuli based on input id $data
-	 * @author Mitchell M.
-	 * @version 0.5.0
-	 */
-	public function deleteStimulus($stimulus_id) {
-		$stimulus_id = intval($stimulus_id);
-		if ($this->mysqli->query("DELETE FROM `stimulus` WHERE `stimulus_id`='{$stimulus_id}'")) {
-			return true;
-		} else {
-			return $this->mysqli->error;
-		}
-	}
-
-	/**
-	 * Deletes stimuli based on input id $data
-	 * @author Mitchell M.
-	 * @version 0.5.0
-	 */
-	public function deleteStimulusSet($stimset_id) {
-		$stimset_id = intval($stimset_id);
-		if ($this->mysqli->query("DELETE FROM `stimulus_set` WHERE `stimset_id`='{$stimset_id}'")) {
-			return true;
-		} else {
-			return $this->mysqli->error;
-		}
-	}
-
-	/**
-	 * Will be implemented once the other methods are done
-	 * Updates stimuli based on input $stimulus_id and $label,$label_color,$peg_color
-	 * @author Mitchell M.
-	 * @return created stimulus
-	 * @version 0.5.0
-	 */
-	public function updateStimulus($stimulus_id,$label,$peg_r,$peg_g,$peg_b) {
-		$qry = $this->mysqli->prepare("UPDATE `stimulus` SET `label` = ?, `peg_r` = ?, `peg_g` = ?, `peg_b` = ? WHERE `stimulus_id` = ?");
-		$qry->bind_param("siiii", $label,$peg_r,$peg_g,$peg_b,$stimulus_id);
-		$qry->execute();
-		$qry->close();
-	}
-
-	/*
-	 * END STIMULUS FUNCTIONS
-	 */
-
-	/**
-	 * BEGIN BOARD FUNCTIONS
-	 * loading will be based on $board_name
-	 * @author Dan Blocker <db04839@georgiasouthern.edu>
-	 * @return
-     * @version 0.0.1
-	 *
-	 */
-	public function saveBoard($board_name, $lock_tilt, $lock_rotate, $lock_zoom, $cover_board, $board_color, $background_color, $cover_color, $image,$camerax,$cameray,$cameraz){
-		$image = "null";
-		if($board_name == ""){
-			return "You did not specify a board name!";
-		}
-		
-		$stmt = $this->mysqli->prepare("SELECT * FROM `board` WHERE `board_name` = ?");
-		$stmt->bind_param("s", $board_name);
-		$stmt->execute();
-		$stmt->store_result();
-		if ($stmt->num_rows > 0) {
-			return "You cannot have two boards with the same name!";
-		}
-		
-	    $qry = $this->mysqli->prepare("INSERT INTO `board` 
-	    (`board_name`,`lock_tilt`, `lock_rotate`, `lock_zoom`, `cover_board`, `board_color`, `background_color`, `cover_color`, `image`, `camerax`,`cameray`,`cameraz`) 
-	    VALUES 
-	    (?,?,?,?,?,?,?,?,?,?,?,?)");
-	    $qry->bind_param("siiiissssddd",$board_name, $lock_tilt, $lock_rotate, $lock_zoom, $cover_board, $board_color, $background_color, $cover_color, $image,$camerax,$cameray,$cameraz);
-	    $qry->execute();
-	    $qry->close();
-	    return true;
-    }
-    
-	public function editBoard($board_name, $lock_tilt, $lock_rotate, $lock_zoom, $cover_board, $board_color, $background_color, $cover_color, $image,$camerax,$cameray,$cameraz){
-		$image = "null";
-		if($board_name == ""){
-			return "You did not specify a board name!";
-		}
-		
-		$stmt = $this->mysqli->prepare("SELECT * FROM `board` WHERE `board_name` = ?");
-		$stmt->bind_param("s", $board_name);
-		$stmt->execute();
-		$stmt->store_result();
-		if ($stmt->num_rows < 1) {
-			return "Board doesn't exist!";
-		}
-		
-		$board_id = $this->getBoardID($board_name);
-		
-	    $qry = $this->mysqli->prepare("UPDATE `board` 
-	    								SET `board_name` = ?,`lock_tilt` = ?, `lock_rotate` = ?, `lock_zoom` = ?,
-	    								`cover_board` = ?, `board_color` = ?, `background_color` = ?, `cover_color` = ?,
-	    								 `camerax` = ?,`cameray` = ?,`cameraz` = ? WHERE `idboard` = ?");
-	    $qry->bind_param("siiiisssdddi",$board_name, $lock_tilt, $lock_rotate, $lock_zoom, $cover_board, $board_color, $background_color, $cover_color, $camerax,$cameray,$cameraz, $board_id);
-	    $qry->execute();
-	    $qry->close();
-	    return true;
-    }
 	/**
 	 * Return an array of all available saved stimuli sets
 	 * @author Mitchell M.
@@ -768,7 +671,7 @@ class Session {
 		}
 		return $results;
 	}
-    
+
 	/**
 	 * Return an array of all available saved experiment details
 	 * @author Mitchell M.
@@ -785,6 +688,83 @@ class Session {
 		return $results;
 	}
 	
+	/**
+	 * Builds and saves stimuli based on input $data
+	 * @author Mitchell M.
+	 * @param $setid required
+	 * @version 0.5.0
+	 */
+	public function createStimulus($label,$peg_r,$peg_g,$peg_b,$label_r,$label_g,$label_b,$set_title) {
+		$setid = $this->lookupSetID($set_title);
+		$temp = -1;
+		$mysqli = $this->mysqli->prepare("INSERT INTO `stimulus` (`label`,`peg_r`,`peg_g`,`peg_b`,`label_r`,`label_g`,`label_b`, `stimset_id`) VALUES (?,?,?,?,?,?,?,?)");
+		$mysqli->bind_param("siiiiiii",$label,$peg_r,$peg_g,$peg_b,$temp,$temp,$temp,$setid);
+		$mysqli->execute();
+		$mysqli->close();
+		return true;
+	}
+	
+	/**
+	 * Builds and saves stimuli set based on input $version, $relative_size, and $window_size
+	 * @author Mitchell M.
+	 * @return $set id
+	 * @version 0.5.0
+	 */
+	public function createStimulusSet($title, $version,$relative_size,$window_size) {
+		$version = 1;
+		$relative_size = 1;
+		$window_size = 1;
+
+		if(strlen($title) < 1) {
+			return false;
+		}
+
+		$stmt = $this->mysqli->prepare("SELECT * FROM `stimulus_set` WHERE `title` = ?");
+		$stmt->bind_param("s", $title);
+		$stmt->execute();
+		$stmt->store_result();
+		if ($stmt->num_rows > 0) {
+			return false;
+		}
+		$mysqli = $this->mysqli->prepare("INSERT INTO `stimulus_set` (`title`, `version`,`relative_size`,`window_size`) VALUES (?,?,?,?)");
+		$mysqli->bind_param("siii", $title,$version,$relative_size,$window_size);
+		$mysqli->execute();
+		$mysqli->close();
+		return true;
+	}
+	
+	/**
+	 * BEGIN BOARD FUNCTIONS
+	 * loading will be based on $board_name
+	 * @author Dan Blocker <db04839@georgiasouthern.edu>
+	 * @return
+	 * @version 0.0.1
+	 *
+	 */
+	public function saveBoard($board_name, $lock_tilt, $lock_rotate, $lock_zoom, $cover_board, $board_color, $background_color, $cover_color, $image,$camerax,$cameray,$cameraz){
+		$image = "null";
+		if($board_name == ""){
+			return "You did not specify a board name!";
+		}
+
+		$stmt = $this->mysqli->prepare("SELECT * FROM `board` WHERE `board_name` = ?");
+		$stmt->bind_param("s", $board_name);
+		$stmt->execute();
+		$stmt->store_result();
+		if ($stmt->num_rows > 0) {
+			return "You cannot have two boards with the same name!";
+		}
+
+		$qry = $this->mysqli->prepare("INSERT INTO `board`
+	    (`board_name`,`lock_tilt`, `lock_rotate`, `lock_zoom`, `cover_board`, `board_color`, `background_color`, `cover_color`, `image`, `camerax`,`cameray`,`cameraz`) 
+	    VALUES 
+	    (?,?,?,?,?,?,?,?,?,?,?,?)");
+		$qry->bind_param("siiiissssddd",$board_name, $lock_tilt, $lock_rotate, $lock_zoom, $cover_board, $board_color, $background_color, $cover_color, $image,$camerax,$cameray,$cameraz);
+		$qry->execute();
+		$qry->close();
+		return true;
+	}
+
 	public function saveBoardImage($board_name, $path) {
 		$board_id = $this->getBoardID($board_name);
 		if($result = $this->mysqli->query("UPDATE `board` SET `image` = '{$path}' WHERE `idboard` = '{$board_id}'")){
@@ -792,10 +772,7 @@ class Session {
 			return true;
 		}
 		else
-			return $this->mysqli->error;
+		return $this->mysqli->error;
 	}
-    /*
-     * END BOARD FUNCTIONS
-     */
 }
 ?>
