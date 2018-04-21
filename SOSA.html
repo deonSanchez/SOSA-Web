@@ -32,7 +32,14 @@ B: delete most recently added brick
 <script>
 
 // standard global variables
-var ExperimentContainer, ExperimentScene, ExperimentCamera, ExperimentRenderer, ExperimentControls;
+
+var ExperimentContainer, ExperimentScene, ExperimentCamera, ExperimentRenderer, ExperimentControls, pegsPlaced;
+//Teststimulus is the array of peg objects. Initialized later in the code.
+var TestStimuli;
+//Teststatus is an array of booleans that keeps track of whether a peg is placed on the board or not.
+var TestStatus;
+//isHovering helps to make sure to reset the color effect when a user is mousing over a peg
+var isHovering = false;
 var keyboard = new KeyboardState();
 var clock = new THREE.Clock();
 // custom global variables
@@ -165,7 +172,7 @@ function initExperiment() {
 	ExperimentScene.add(BoardSide);
 
 
-	this.stimuliGeo = new THREE.CylinderGeometry(40/gridScale/2,40/gridScale/2,3,100);
+	this.stimuliGeo = new THREE.CylinderGeometry(1,1,3,100);
 
 	this.offset = [
 		new THREE.Vector3(1,0,0), new THREE.Vector3(-1,0,0),
@@ -177,17 +184,26 @@ function initExperiment() {
 //this will generate the stimulus colors
 
     TestColors = [ new THREE.Color(0x66FFFF), new THREE.Color(0xff0000), new THREE.Color(0xff8800), new THREE.Color(0xffff00), new THREE.Color(0x00cc00) ];
-
+  TestStatus = [false, false, false, false, false];
   TestLabels = ["Deon", "Jeffery", "Rico", "Flynt", "Mitchell"];
 
   materials = { "solid":[], "add":[], "delete":[] };
+  TestStimuli = [];
 
-
-  for (var i = 0; i <= TestColors.length; i++) {
-		materials["solid"][i]   = new THREE.MeshLambertMaterial({ color: TestColors[i] });
+  for (var i = 0; i <= TestColors.length - 1; i++) {
+		materials["solid"][i]   = new THREE.MeshLambertMaterial({ color: TestColors[i], transparent: true});
 		materials["add"][i]     = new THREE.MeshLambertMaterial({ color: TestColors[i], transparent: true, opacity:0.50 });
-		materials["delete"][i]  = new THREE.MeshLambertMaterial({ color: TestColors[i], transparent: true });
+		materials["delete"][i]  = new THREE.MeshLambertMaterial({ color: TestColors[i], transparent: true,  opacity:0.50 });
+    var stimuli = new THREE.Mesh( stimuliGeo );
+    stimuli.name = TestLabels[i];
+    stimuli.material = materials["solid"][i];
+    stimLabel = makeTextSprite( TestLabels[i], { fontsize: 32, backgroundColor: {r:0, g:0, b:0, a:0} } );
+    stimLabel.name = TestLabels[i] + "Label";
+    stimuli.add( stimLabel );
+    TestStimuli[i] = stimuli;
+
 	}
+  pegsPlaced = 0;
 
 	brush = new THREE.Mesh( stimuliGeo.clone(), materials["add"][1] );
 	brush.ignore = true;    // ignored by raycaster
@@ -205,15 +221,25 @@ function initExperiment() {
 	document.addEventListener( 'mousedown', mouseClick, false );
 }
 
-//function for converting coordinates on a 40x40 grid to the grid the experiment is set to.
+//function for converting coordinates on a 24x24 grid to the grid the experiment is set to.
 function toGridCoordinate(coordinate){
-	var unit = 40/gridScale;
-	coordinate = coordinate + 4;
-	if (unit/2 - Math.abs(coordinate%unit) < 0){
-		return unit * Math.ceil(coordinate/unit) - 4;
+	var unit = 24/gridScale;
+	coordinate = coordinate - 4;
+	if ((unit/2 - Math.abs(coordinate%unit)) < 0){
+		return unit * Math.ceil(coordinate/unit) + 4;
 	}
 	else
-		return unit * Math.floor(coordinate/unit) - 4;
+		return unit * Math.floor(coordinate/unit) + 4;
+}
+
+//Checks to see if a given input is the name of a peg in TestStimuli.
+function isPegName(name){
+  for (var i = 0; i < TestStimuli.length; i++){
+    if(TestStimuli[i].name == name){
+      return true;
+    }
+  }
+  return false;
 }
 
 function mouseMove( event ) {
@@ -226,38 +252,34 @@ function mouseClick( event ) {
 	brushAction();
 }
 
-  var i = 0;
 function brushAction() {
-	if (brush.mode == "add" && i < TestLabels.length) {
-		var stimuli = new THREE.Mesh( stimuliGeo );
-    stimuli.material = materials["solid"][ brush.colorIndex+i];
-		stimuli.position = brush.position.clone();
-		stimuli.name = brush.addName;
-
-		ExperimentScene.add( stimuli );
-		stimuliNames.push( stimuli.name );
-
-    //creates the label for the stimulus
-    stimLabel = makeTextSprite( TestLabels[i], { fontsize: 32, backgroundColor: {r:0, g:0, b:0, a:0} } );
-    stimLabel.position = brush.position.clone();
-    stimLabel.position.y = 2;
-    stimLabel.name = String(TestLabels[i]);
-    ExperimentScene.add( stimLabel );
-    i++;
-	}
-
-	if (brush.mode == "delete") {
-		var removeStimuli = ExperimentScene.getObjectByName( brush.targetName );
-		ExperimentScene.remove( removeStimuli );
-
-		var index = stimuliNames.indexOf( brush.targetName );
-
-    if ( index != -1) {
-      stimuliNames.splice( index, 1 );
-      var removeLabel = ExperimentScene.getObjectByName(String(TestLabels[--i]));
-      ExperimentScene.remove( removeLabel );
+	if (brush.mode == "add" && TestStimuli.length > pegsPlaced ) {
+    for (var i = 0; i < TestStimuli.length; i++){
+      if(TestStatus[i] != true){
+        TestStimuli[i].position = brush.position.clone();
+    		ExperimentScene.add( TestStimuli[i] );
+        pegsPlaced++;
+        TestStatus[i] = true;
+        break;
+      }
     }
 	}
+
+  	if (brush.mode == "delete") {
+      var removeStimuli = ExperimentScene.getObjectByName( brush.targetName );
+      for (var i = 0; i < TestStimuli.length; i++){
+        if(TestStatus[i] != false && removeStimuli.name == TestStimuli[i].name){
+          ExperimentScene.remove( removeStimuli );
+          pegsPlaced--;
+          TestStatus[i] = false;
+          break;
+        }
+      }
+
+  	}
+
+
+
 }
 
 function animateExperiment() {
@@ -270,6 +292,9 @@ function update() {
 	var delta = clock.getDelta();
 	var moveDistance = 10 * delta; 			// 5 units per second
 	var rotateAngle = Math.PI / 4 * delta;	// pi/4 radians (45 degrees) per second
+
+
+
 
 	keyboard.update();
 
@@ -327,35 +352,66 @@ function update() {
 	///////////////////////////////////////////////////////////////////////////
 
 	var raycaster = projector.pickingRay( mouse2D.clone(), ExperimentCamera );
+  raycaster.visible = true;
 	var intersectionList = [];
 	intersectionList = raycaster.intersectObjects( ExperimentScene.children );
 	var result = null;
-	for ( var i = 0; i < intersectionList.length; i++ ) {
-		if ( (result == null) && (intersectionList[i].object instanceof THREE.Mesh) && !(intersectionList[i].object.ignore) )
-			result = intersectionList[i];
-	}
+  //Gets first object that intersects the raycaster.
+  if (intersectionList.length != 0){
+    result = intersectionList[intersectionList.length - 1];
+  }
+  else result = null;
+	// for ( var i = 0; i < intersectionList.length; i++ ) {
+	// 	if ( (result == null) && (intersectionList[i].object instanceof THREE.Mesh) && !(intersectionList[i].object.ignore) )
+	// 		result = intersectionList[i];
+	// }
+
 
 	// brush will only be visible only in "add" mode, when mouse hovers over plane/stimuli
-	brush.visible = false;
+	if ( (brush.mode == "add") ) {
+    brush.visible = true;
+  }
+  else brush.visible = false;
+
+
 
 	if ( result ) {
      //place stimuli on ExperiBoard
-		if ( (brush.mode == "add") && result.object.base ) {
-			brush.visible = true;
+		if ( (brush.mode == "add" && result.object.base )) {
 			var intPosition = new THREE.Vector3(toGridCoordinate(result.point.x), 0, toGridCoordinate(result.point.z) );
 			brush.position = intPosition.clone().add( new THREE.Vector3(0.5, 0.5, 0.5) );
 			brush.addName = "X" + intPosition.x + "Y" + intPosition.y + "Z" + intPosition.z;
 		}
 
     // delete stimuli
-    if ( (brush.mode == "delete") && !result.object.base ) {
-			brush.visible = false;
-			var intPosition = new THREE.Vector3(toGridCoordinate(result.point.x), 0, toGridCoordinate(result.point.z) );
-      			brush.position = intPosition.clone().add( new THREE.Vector3(0.5, 0.5, 0.5) );
-			brush.targetName = "X" + intPosition.x + "Y" + intPosition.y + "Z" + intPosition.z;
-			var targetCube = ExperimentScene.getObjectByName( brush.targetName );
-			targetCube.material = materials["delete"][ targetCube.colorIndex ];
+    //intersectionList.length > 1 means the raycaster has intersected the board + a cylinder.
+    if ( (brush.mode == "delete" && intersectionList.length > 0) ) {
+      var cylinderFound = false;
+      for(var i = 0; i < intersectionList.length; i++ ) {
+        //this is basically to check if we've selected a stimuli
+        if (isPegName(intersectionList[i].object.name)){
+          brush.targetName = intersectionList[i].object.name;
+          isHovering = true;
+          ExperimentScene.getObjectByName( brush.targetName ).material.opacity = .65 + .35 * Math.sin(new Date().getTime() * .0036);
+          cylinderFound = true;
+          break;
+        }
+      }
+      if(!cylinderFound){
+        brush.targetName = null;
+        for(var i = 0; i < TestStimuli.length; i++ ) {
+          TestStimuli[i].material.opacity = 1;
+        }
+      }
 		}
+    //Resets the blinking opacity for the stimuli when it is selected in delete mode.
+    else if (intersectionList.length == 0){
+      //resets brush target so that pressing the delete button won't delete a peg you're no longer hovering.
+      brush.targetName = null;
+      for(var i = 0; i < TestStimuli.length; i++ ) {
+        TestStimuli[i].material.opacity = 1;
+      }
+    }
 	}
 }
 

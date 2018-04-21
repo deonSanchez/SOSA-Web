@@ -430,6 +430,19 @@ class Session {
 		} else {
 			return $this->mysqli->error;
 		}
+	}	
+	
+	/**
+	 * Deletes experiment based on input id $data
+	 * @author Mitchell M.
+	 * @version 0.5.0
+	 */
+	public function deleteBoard($board) {
+		if ($this->mysqli->query("DELETE FROM `board` WHERE `idboard`='{$board}'")) {
+			return true;
+		} else {
+			return $this->mysqli->error;
+		}
 	}
 
 	/**
@@ -610,7 +623,7 @@ class Session {
      * @version 0.0.1
 	 *
 	 */
-	public function saveBoard($board_name, $lock_tilt, $lock_rotate, $lock_zoom, $cover_board, $board_color, $background_color, $cover_color, $image){
+	public function saveBoard($board_name, $lock_tilt, $lock_rotate, $lock_zoom, $cover_board, $board_color, $background_color, $cover_color, $image,$camerax,$cameray,$cameraz){
 		$image = "null";
 		if($board_name == ""){
 			return "You did not specify a board name!";
@@ -625,14 +638,59 @@ class Session {
 		}
 		
 	    $qry = $this->mysqli->prepare("INSERT INTO `board` 
-	    (`board_name`,`lock_tilt`, `lock_rotate`, `lock_zoom`, `cover_board`, `board_color`, `background_color`, `cover_color`, `image`) 
+	    (`board_name`,`lock_tilt`, `lock_rotate`, `lock_zoom`, `cover_board`, `board_color`, `background_color`, `cover_color`, `image`, `camerax`,`cameray`,`cameraz`) 
 	    VALUES 
-	    (?,?,?,?,?,?,?,?,?)");
-	    
-	    $qry->bind_param("siiiissss",$board_name, $lock_tilt, $lock_rotate, $lock_zoom, $cover_board, $board_color, $background_color, $cover_color, $image);
+	    (?,?,?,?,?,?,?,?,?,?,?,?)");
+	    $qry->bind_param("siiiissssddd",$board_name, $lock_tilt, $lock_rotate, $lock_zoom, $cover_board, $board_color, $background_color, $cover_color, $image,$camerax,$cameray,$cameraz);
 	    $qry->execute();
 	    $qry->close();
+	    return true;
     }
+    
+	public function editBoard($board_name, $lock_tilt, $lock_rotate, $lock_zoom, $cover_board, $board_color, $background_color, $cover_color, $image,$camerax,$cameray,$cameraz){
+		$image = "null";
+		if($board_name == ""){
+			return "You did not specify a board name!";
+		}
+		
+		$stmt = $this->mysqli->prepare("SELECT * FROM `board` WHERE `board_name` = ?");
+		$stmt->bind_param("s", $board_name);
+		$stmt->execute();
+		$stmt->store_result();
+		if ($stmt->num_rows < 1) {
+			return "Board doesn't exist!";
+		}
+		
+		$board_id = $this->getBoardID($board_name);
+		
+	    $qry = $this->mysqli->prepare("UPDATE `board` 
+	    								SET `board_name` = ?,`lock_tilt` = ?, `lock_rotate` = ?, `lock_zoom` = ?,
+	    								`cover_board` = ?, `board_color` = ?, `background_color` = ?, `cover_color` = ?,
+	    								 `camerax` = ?,`cameray` = ?,`cameraz` = ? WHERE `idboard` = ?");
+	    $qry->bind_param("siiiisssdddi",$board_name, $lock_tilt, $lock_rotate, $lock_zoom, $cover_board, $board_color, $background_color, $cover_color, $camerax,$cameray,$cameraz, $board_id);
+	    $qry->execute();
+	    $qry->close();
+	    return true;
+    }
+	/**
+	 * Return an array of all available saved stimuli sets
+	 * @author Mitchell M.
+	 * @return array of stimuli
+	 * @version 0.5.0
+	 */
+	public function loadBoards() {
+		$results = null;
+		$stmt = $this->mysqli->prepare("SELECT `board_name`, `idboard` FROM `board`");
+		$stmt->bind_result($board,$id);
+		$stmt->execute();
+		$stmt->store_result();
+		if ($stmt->num_rows >= 1) {
+			while ($stmt->fetch()) {
+				$results[] = array('board_name' => $board, 'idboard' => $id);
+			}
+		}
+		return $results;
+	}
     
 	/**
 	 * Return an array of all available saved experiment details
@@ -640,16 +698,24 @@ class Session {
 	 * @return array of stimuli
 	 * @version 0.5.0
 	 */
-	public function loadBoard($board_name) {
+	public function loadBoard($board_id) {
 		$results = array();
-		$board_id = $this->getBoardID($board_name);
 		if ($result = $this->mysqli->query("SELECT * FROM `board` WHERE `idboard` = {$board_id}")) {
 		    while($row = $result->fetch_assoc()) {
 		            $results[] = $row;
 		    }
-		    $results = json_encode($results);
 		}
 		return $results;
+	}
+	
+	public function saveBoardImage($board_name, $path) {
+		$board_id = $this->getBoardID($board_name);
+		if($result = $this->mysqli->query("UPDATE `board` SET `image` = '{$path}' WHERE `idboard` = '{$board_id}'")){
+			echo "UPDATE `board` SET `image` = '{$path}' WHERE `idboard` = '{$board_id}'";
+			return true;
+		}
+		else
+			return $this->mysqli->error;
 	}
     /*
      * END BOARD FUNCTIONS
