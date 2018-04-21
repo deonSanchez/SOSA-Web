@@ -56,8 +56,7 @@ function getParameterByName(name, url) {
     if (!results[2]) return '';
     return decodeURIComponent(results[2].replace(/\+/g, " "));
 }
-function loadExperiment
-{
+function loadExperiment{
   $.ajax( {
     type : 'POST',
     data : 'class_name=request=Session'
@@ -83,7 +82,21 @@ function loadExperiment
     }
   });
 }
+function viewSet(n) {
+  // on ground near origin
+	if (n == 1) {
+		person.position.set(-10, 3, 16);
+		person.rotation.set(0, -Math.PI / 2.0, 0);
+		ExperimentCamera.rotation.set(-Math.PI / 16.0, 0, 0);
+	}
 
+  // birds-eye view
+	if (n == 2) {
+		person.position.set(16, 42, 16);
+		person.rotation.set(0, -Math.PI / 2.0, 0);
+		ExperimentCamera.rotation.set(-1.48, 0, 0);
+	}
+}
 //global constant that tells us what size the experiment's grid is set to.
 var gridScale = getParameterByName('demo') - 1;
 
@@ -476,8 +489,6 @@ function render() {
 }
 
 </script>
-
-<!-- AJAX JavaScript for loading and saving  board information to the database -->
 
 </body>
 </html>
