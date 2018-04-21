@@ -237,12 +237,7 @@ class Session {
 		$this->mysqli->query("DELETE FROM sessions WHERE sid='{$sid}'");
 		unset($_SESSION['sid']);
 	}
-
-	/**
-	 * END SESSION MANAGEMENT FUNCTIONS
-	 * BEGIN USER MANAGEMENT FUNCTIONS
-	 */
-
+	
 	/**
 	 * Registers the user into the database
 	 * @param string $username
@@ -358,67 +353,6 @@ class Session {
 		return isset($result[0]['userid']) ? $result[0]['userid'] : -1;
 	}
 
-
-	/**
-	 * Returns the UID based on email/sid input
-	 * Determines input type no specification required
-	 * @author Mitchell M.
-	 * @param type $input
-	 * @return type
-	 * @version 1.2.0
-	 */
-	function getBoardID($input) {
-		$qry = $this->qb->start();
-		$qry->select("idboard");
-		$qry->from("board")->where("board_name", "=", $input);
-		$result = $qry->get();
-		return isset($result[0]['idboard']) ? $result[0]['idboard'] : -1;
-	}
-
-	/**
-	 * Returns if the board exists
-	 * Determines input type no specification required
-	 * @author Mitchell M.
-	 * @param type $input id
-	 * @return type
-	 * @version 1.2.0
-	 */
-	function boardExists($input) {
-		$qry = $this->qb->start();
-		$qry->select("idboard");
-		$qry->from("board")->where("idboard", "=", $input);
-		$result = $qry->get();
-		return isset($result[0]['idboard']);
-	}
-
-	/**
-	 * Returns if the board exists
-	 * Determines input type no specification required
-	 * @author Mitchell M.
-	 * @param type $input id
-	 * @return type
-	 * @version 1.2.0
-	 */
-	function validStimulusSet($input) {
-		$qry = $this->qb->start();
-		$qry->select("stimset_id");
-		$qry->from("stimulus_set")->where("stimset_id", "=", $input);
-		$result = $qry->get();
-		if(isset($result[0]['stimset_id'])){
-			$qry2 = $this->qb->start();
-			$qry2->select("*");
-			$qry2->from("stimulus")->where("stimset_id", "=", $input);
-			$result2 = $qry2->get();
-			if(count($result2) > 0)
-			return true;
-			else
-			echo "Can't find set!";
-		} else {
-			echo "Can't find set!";
-		}
-		return false;
-	}
-
 	/**
 	 * Is a user logged in?
 	 * @author Mitchell M.
@@ -524,6 +458,24 @@ class Session {
 		$qry->close();
 	}
 
+	/**
+	 * 
+	 * Edits a board based on board name
+	 * @param unknown_type $board_name
+	 * @param int $lock_tilt
+	 * @param int $lock_rotate
+	 * @param int $lock_zoom
+	 * @param int $cover_board
+	 * @param string $board_color
+	 * @param string $background_color
+	 * @param string $cover_color
+	 * @param string $image
+	 * @param int $camerax
+	 * @param int $cameray
+	 * @param int $cameraz
+	 * @author Mitchell M.
+	 * @version 0.5.0
+	 */
 	public function editBoard($board_name, $lock_tilt, $lock_rotate, $lock_zoom, $cover_board, $board_color, $background_color, $cover_color, $image,$camerax,$cameray,$cameraz){
 		$image = "null";
 		if($board_name == ""){
@@ -541,10 +493,10 @@ class Session {
 		$board_id = $this->getBoardID($board_name);
 
 		$qry = $this->mysqli->prepare("UPDATE `board`
-	    								SET `board_name` = ?,`lock_tilt` = ?, `lock_rotate` = ?, `lock_zoom` = ?,
+	    								SET `lock_tilt` = ?, `lock_rotate` = ?, `lock_zoom` = ?,
 	    								`cover_board` = ?, `board_color` = ?, `background_color` = ?, `cover_color` = ?,
 	    								 `camerax` = ?,`cameray` = ?,`cameraz` = ? WHERE `idboard` = ?");
-		$qry->bind_param("siiiisssdddi",$board_name, $lock_tilt, $lock_rotate, $lock_zoom, $cover_board, $board_color, $background_color, $cover_color, $camerax,$cameray,$cameraz, $board_id);
+		$qry->bind_param("iiiisssdddi", $lock_tilt, $lock_rotate, $lock_zoom, $cover_board, $board_color, $background_color, $cover_color, $camerax,$cameray,$cameraz, $board_id);
 		$qry->execute();
 		$qry->close();
 		return true;
@@ -644,6 +596,13 @@ class Session {
 		return $results;
 	}
 	
+	/**
+	 * Gets the stimulus set ID from a stimulus_set title
+	 * @author Mitchell Murphy <mm11096@georgiasouthern.edu>
+	 * @return type $setid
+	 * @version 1.0.0
+	 *
+	 */
 	public function lookupSetID($title) {
 		$qry = $this->qb->start();
 		$qry->select("stimset_id");
@@ -686,6 +645,66 @@ class Session {
 		    }
 		}
 		return $results;
+	}
+
+	/**
+	 * Returns the UID based on email/sid input
+	 * Determines input type no specification required
+	 * @author Mitchell M.
+	 * @param type $input
+	 * @return type
+	 * @version 1.2.0
+	 */
+	function getBoardID($input) {
+		$qry = $this->qb->start();
+		$qry->select("idboard");
+		$qry->from("board")->where("board_name", "=", $input);
+		$result = $qry->get();
+		return isset($result[0]['idboard']) ? $result[0]['idboard'] : -1;
+	}
+
+	/**
+	 * Returns if the board exists
+	 * Determines input type no specification required
+	 * @author Mitchell M.
+	 * @param type $input id
+	 * @return type
+	 * @version 1.2.0
+	 */
+	function validStimulusSet($input) {
+		$qry = $this->qb->start();
+		$qry->select("stimset_id");
+		$qry->from("stimulus_set")->where("stimset_id", "=", $input);
+		$result = $qry->get();
+		if(isset($result[0]['stimset_id'])){
+			$qry2 = $this->qb->start();
+			$qry2->select("*");
+			$qry2->from("stimulus")->where("stimset_id", "=", $input);
+			$result2 = $qry2->get();
+			if(count($result2) > 0)
+				return true;
+			else
+				return "Can't find any children stimulus!";
+		} else {
+			echo "Can't find a set with this ID!";
+		}
+		return false;
+	}
+
+	/**
+	 * Returns if the board exists
+	 * Determines input type no specification required
+	 * @author Mitchell M.
+	 * @param type $input id
+	 * @return type
+	 * @version 1.2.0
+	 */
+	function boardExists($input) {
+		$qry = $this->qb->start();
+		$qry->select("idboard");
+		$qry->from("board")->where("idboard", "=", $input);
+		$result = $qry->get();
+		return isset($result[0]['idboard']);
 	}
 	
 	/**
@@ -734,11 +753,11 @@ class Session {
 	}
 	
 	/**
-	 * BEGIN BOARD FUNCTIONS
-	 * loading will be based on $board_name
+	 * Function that creates an entry in the database to represent a new board that can be loaded
 	 * @author Dan Blocker <db04839@georgiasouthern.edu>
-	 * @return
-	 * @version 0.0.1
+	 * @author Mitchell Murphy <mm11096@georgiasouthern.edu>
+	 * @return type $boolean
+	 * @version 1.0.0
 	 *
 	 */
 	public function saveBoard($board_name, $lock_tilt, $lock_rotate, $lock_zoom, $cover_board, $board_color, $background_color, $cover_color, $image,$camerax,$cameray,$cameraz){
@@ -765,6 +784,13 @@ class Session {
 		return true;
 	}
 
+	/**
+	 * Function that creates updates the board image that is saved for any specific board based on board_name
+	 * @author Mitchell Murphy <mm11096@georgiasouthern.edu>
+	 * @return type $boolean
+	 * @version 1.0.0
+	 *
+	 */
 	public function saveBoardImage($board_name, $path) {
 		$board_id = $this->getBoardID($board_name);
 		if($result = $this->mysqli->query("UPDATE `board` SET `image` = '{$path}' WHERE `idboard` = '{$board_id}'")){
