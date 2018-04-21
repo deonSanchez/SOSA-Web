@@ -28,6 +28,20 @@ B: delete most recently added brick
 <div id="ThreeJSExperiment"></div>
 
 <script>
+/**
+ * Counts object length
+ * @param obj
+ * @returns {Number}
+ */
+function objLength(obj){
+	var i=0;
+	for (var x in obj){
+		if(obj.hasOwnProperty(x)){
+			i++;
+		}
+	} 
+	return i;
+}
 // standard global variables
 var ExperimentContainer, ExperimentScene, ExperimentCamera, ExperimentRenderer, ExperimentControls, pegsPlaced;
 //Teststimulus is the array of peg objects. Initialized later in the code.
@@ -51,21 +65,24 @@ function getParameterByName(name, url) {
     if (!results[2]) return '';
     return decodeURIComponent(results[2].replace(/\+/g, " "));
 }
+
+var access = "5yT9EmOQF8E1woc";
 function loadExperiment(){
   $.ajax( {
     type : 'POST',
-    data : 'class_name=Session',
-    url : 'api/test.php',
+    data : 'request=loadexperiment&token='+access,
+	url : 'api/index.php',
     async : true,
     success : function(response) {
       if(response != "null") {
-        alert(response);
-        var json = JSON.parse(response);
-        alert(json);
-        var len = objLength(json);
+          console.log(response);
+          var json = JSON.parse(response);
+          var len = objLength(json);
 
+          console.log("Stim set ID: " + json[0].stimset_id);
+          console.log("Board ID: " + json[0].idboard);
+          console.log("Title: " + json[0].title);
       } else {
-
       }
     },
     error : function() {

@@ -7,7 +7,5 @@ function __autoload($class_name) {
 
 $db = Database::getConnection();
 $session = Session::getInstance($db);
-$session->createExperiment(43,26,"exper1",1,1,"null");
-
-echo var_dump(json_encode($session->loadExperiment("Y711bHeDKWWW7xQ")));
+echo var_dump(json_encode($session->loadExperiment("5yT9EmOQF8E1woc")));
 ?>
