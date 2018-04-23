@@ -256,7 +256,7 @@ function fullColorHex(r,g,b) {
       var c = new THREE.Color("0x"+fullColorHex(stimArr[i].peg_r, stimArr[i].peg_b, stimArr[i].peg_g));
       console.log("0x"+fullColorHex(stimArr[i].peg_r, stimArr[i].peg_b, stimArr[i].peg_g));
       console.log(c);
-      stimuli.material = new THREE.MeshLambertMaterial({ color: c, transparent: true});
+      stimuli.material = new THREE.MeshLambertMaterial({ color: ()"0x"+fullColorHex(stimArr[i].peg_r, stimArr[i].peg_b, stimArr[i].peg_g)), transparent: true});
 
       TestStatus[i] = false;
       stimLabel = makeTextSprite( stimArr[i].label, { fontsize: 32, backgroundColor: {r:0, g:0, b:0, a:0} } );
