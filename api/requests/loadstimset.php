@@ -5,4 +5,4 @@ require_once("base.php");
 //echo $label . " , " . $peg_r . " , " . $peg_g . " , " . $peg_b . " , " . $label_r . " , " . $label_g . " , " . $label_b . " , " . $set_title;
 
 $set_id = $session->lookupSetID($set_title);
-echo $set_id;
+echo json_encode($session->loadStimSet($set_id), JSON_FORCE_OBJECT);
