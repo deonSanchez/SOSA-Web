@@ -27,7 +27,7 @@ foreach ($_POST as $key => $val) {
 }
 
 //List of valid requests that are handled
-$VALID_REQUESTS = array('login','checklogin','logout',
+$VALID_REQUESTS = array('login','checklogin','logout', 'loadstimsetforexperiment',
  'register','createstimulus','loadstimsets',
  'loadstimset','createset','deleteset',
  'loadstimulus','deletestimulus','updatestimulus','saveboard'
@@ -66,7 +66,7 @@ if ($httpXrequested && ($isAjaxCall) && isset($request)) {
     $a = $httpXrequested ? "T" : "F";
     $b = $isAjaxCall ? "T" : "F";
     $c = isset($request) ? "T" : "F";
-    
+
     //Print error message
     die("
     Attempting to direct access OR malformed request sent to API! (API Level) <br /> <br />
