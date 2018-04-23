@@ -235,17 +235,17 @@
     materials = { "solid":[], "add":[], "delete":[] };
     TestStimuli = [];
     // for (var i = 0; i <= TestColors.length - 1; i++) {
-    //   materials["solid"][i]   = new THREE.MeshLambertMaterial({ color: TestColors[i], transparent: true});
-    //   materials["add"][i]     = new THREE.MeshLambertMaterial({ color: TestColors[i], transparent: true, opacity:0.50 });
-    //   materials["delete"][i]  = new THREE.MeshLambertMaterial({ color: TestColors[i], transparent: true,  opacity:0.50 });
-    //   var stimuli = new THREE.Mesh( stimuliGeo );
-    //   stimuli.name = TestLabels[i];
-    //   stimuli.material = materials["solid"][i];
-    //   stimLabel = makeTextSprite( TestLabels[i], { fontsize: 32, backgroundColor: {r:0, g:0, b:0, a:0} } );
-    //   stimLabel.name = TestLabels[i] + "Label";
-    //   stimuli.add( stimLabel );
-    //   TestStimuli[i] = stimuli;
-    // }
+      materials["solid"][i]   = new THREE.MeshLambertMaterial({ color: TestColors[i], transparent: true});
+      materials["add"][i]     = new THREE.MeshLambertMaterial({ color: TestColors[i], transparent: true, opacity:0.50 });
+      materials["delete"][i]  = new THREE.MeshLambertMaterial({ color: TestColors[i], transparent: true,  opacity:0.50 });
+      var stimuli = new THREE.Mesh( stimuliGeo );
+      stimuli.name = TestLabels[i];
+      stimuli.material = materials["solid"][i];
+      stimLabel = makeTextSprite( TestLabels[i], { fontsize: 32, backgroundColor: {r:0, g:0, b:0, a:0} } );
+      stimLabel.name = TestLabels[i] + "Label";
+      stimuli.add( stimLabel );
+      TestStimuli[i] = stimuli;
+    }
     //breaks json object into an array where each element is a stimulus peg.
     // var stimArr = Object.values(StimuliJSON);
     //
@@ -261,7 +261,7 @@
   	// }
 
     pegsPlaced = 0;
-  	brush = new THREE.Mesh( stimuliGeo.clone(), new THREE.MeshLambertMaterial({ color: new THREE.Color(0xff0000), transparent: true}));
+  	brush = new THREE.Mesh(  stimuliGeo.clone(), materials["add"][1] );
   	brush.ignore = true;    // ignored by raycaster
   	brush.visible = false;
   	brush.mode = "add";
