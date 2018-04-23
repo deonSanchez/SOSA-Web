@@ -101,7 +101,7 @@ function loadStimSet(){
 	url : 'api/index.php',
     async : true,
     success : function(response2) {
-      if(response1 != "null") {
+      if(response2 != "null") {
           console.log(response2);
           var json = JSON.parse(response2);
           var len = objLength(json);
