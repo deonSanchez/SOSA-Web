@@ -58,7 +58,7 @@ function fullColorHex(r,g,b) {
   return red+green+blue;
 }
 // standard global variables
-var ExperimentContainer, ExperimentScene, ExperimentCamera, ExperimentRenderer, ExperimentControls, pegsPlaced;
+var ExperimentContainer, ExperimentScene, ExperimentCamera, ExperimentRenderer, ExperimentControls, pegsPlaced, GUICamera;
 //Teststimulus is the array of peg objects. Initialized later in the code.
 var TestStimuli;
 //Teststatus is an array of booleans that keeps track of whether a peg is placed on the board or not.
@@ -298,10 +298,12 @@ function initExperiment() {
     GUImap.fillStyle = "rgba(245,245,245,0.75)";
     GUImap.fillText('Initializing...', SCREEN_HEIGHT / 2, SCREEN_HEIGHT / 2);
 
+    var GUICamera = new THREE.OrthographicCamera(-SCREEN_WIDTH/2, SCREEN_WIDTH/2, SCREEN_HEIGHT/2, -SCREEN_HEIGHT/2, 0, 30 );
+
     var GUITexture = new THREE.Texture(GUICanvas);
     GUITexture.needsUpdate = true;
     var material = new THREE.MeshBasicMaterial( {map: GUITexture} );
-    material.transparent = true;
+    material.transparent = false;
     var planeGeometry = new THREE.PlaneGeometry( SCREEN_WIDTH, SCREEN_HEIGHT);
     var plane = new THREE.Mesh( planeGeometry, material );
     ExperimentScene.add( plane );
@@ -510,6 +512,7 @@ function initExperiment() {
     }
     function render() {
       ExperimentRenderer.render( ExperimentScene, ExperimentCamera );
+      ExperimentRenderer.render( ExperimentScene, GUICamera );
     }
     </script>
 
