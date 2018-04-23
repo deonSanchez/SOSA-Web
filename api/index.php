@@ -10,9 +10,11 @@
  */
 require_once(__DIR__ . '/config.php');
 
-function __autoload($class_name) {
+function autoloader($class_name) {
     require_once(__DIR__ . '/classes/' . $class_name . '.php');
 }
+
+spl_autoload_register('autoloader');
 
 /**
  * Creating the database connection and passing it to the primary session object
