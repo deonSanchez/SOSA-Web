@@ -234,7 +234,7 @@
     TestLabels = ["Deon", "Jeffery", "Rico", "Flynt", "Mitchell"];
     materials = { "solid":[], "add":[], "delete":[] };
     TestStimuli = [];
-    // for (var i = 0; i <= TestColors.length - 1; i++) {
+    for (var i = 0; i <= TestColors.length - 1; i++) {
       materials["solid"][i]   = new THREE.MeshLambertMaterial({ color: TestColors[i], transparent: true});
       materials["add"][i]     = new THREE.MeshLambertMaterial({ color: TestColors[i], transparent: true, opacity:0.50 });
       materials["delete"][i]  = new THREE.MeshLambertMaterial({ color: TestColors[i], transparent: true,  opacity:0.50 });
