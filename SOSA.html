@@ -247,9 +247,7 @@
     // }
     //breaks json object into an array where each element is a stimulus peg.
     var stimArr = Object.values(StimuliJSON);
-    console.log("hi");
-    console.log(stimArr);
-    for (var i = 0; i < stimArr; i++) {
+    for (var i = 0; i < stimArr.length; i++) {
       var stimuli = new THREE.Mesh( stimuliGeo );
       console.log(stimArr[i].label);
       stimuli.name = stimArr[i].label;
