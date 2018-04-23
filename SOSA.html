@@ -94,16 +94,16 @@ function loadExperiment(){
   });
 }
 
-function losdStimSet(){
+function loadStimSet(){
   $.ajax( {
     type : 'POST',
     data : 'request=loadstimset&token='+StimulusSetID,
 	url : 'api/index.php',
     async : true,
-    success : function(response) {
+    success : function(response2) {
       if(response != "null") {
-          console.log(response);
-          var json = JSON.parse(response);
+          console.log(response2);
+          var json = JSON.parse(response2);
           var len = objLength(json);
       } else {
       }
@@ -130,7 +130,7 @@ function viewSet(n) {
 //global constant that tells us what size the experiment's grid is set to.
 var gridScale = getParameterByName('demo') - 1;
 loadExperiment();
-losdStimSet();
+loadStimSet();
 initExperiment();
 animateExperiment();
 // FUNCTIONS
