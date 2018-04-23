@@ -80,11 +80,10 @@ function loadExperiment(){
           console.log(response);
           var json = JSON.parse(response);
           var len = objLength(json);
-
-          console.log("Stim set ID: " + json[0].stimset_id);
+          StimulusSetID = json[0].stimset_id;
+          console.log("Stim set ID: " + StimulusSetID);
           console.log("Board ID: " + json[0].idboard);
           console.log("Title: " + json[0].title);
-          StimulusSetID = json[0].stimset_id;
       } else {
       }
     },
