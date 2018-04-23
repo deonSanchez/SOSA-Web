@@ -145,6 +145,7 @@
   loadExperiment();
   loadStimSet();
   initExperiment();
+  animateExperiment();
   // FUNCTIONS
   function initExperiment() {
   	// SCENE
@@ -272,7 +273,6 @@
   	// when the mouse moves, call the given function
   	document.addEventListener( 'mousemove', mouseMove,  false );
   	document.addEventListener( 'mousedown', mouseClick, false );
-    animateExperiment();
   }
   //function for converting coordinates on a 24x24 grid to the grid the experiment is set to.
   function toGridCoordinate(coordinate){
