@@ -59,6 +59,8 @@ var StimulusSetID;
 var StimuliJSON;
 
 var BoardID;
+var token;
+var demo;
 var BoardJSON;
 
 //isHovering helps to make sure to reset the color effect when a user is mousing over a peg
@@ -86,6 +88,33 @@ function objLength(obj){
   }
   return i;
 }
+function getParameterByName(name, url) {
+    if (!url) url = window.location.href;
+    name = name.replace(/[\[\]]/g, "\\$&");
+    var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
+        results = regex.exec(url);
+    if (!results) return null;
+    if (!results[2]) return '';
+    return decodeURIComponent(results[2].replace(/\+/g, " "));
+}
+function checkParams() {
+	if(getParameterByName("token") == null) {
+		token = "5yT9EmOQF8E1woc";
+	}else{
+		token = getParameterByName("token");
+	}
+
+	if(getParameterByName("demo") == null){	
+		gridScale = 999; 
+	} else {
+		gridScale = getParameterByName("demo") - 1;
+	}
+	console.log(token);
+	console.log(gridScale);
+	
+}
+
+checkParams();
 
 //Helper function for fullColorHex; converts 0-255 int value to hex.
 function rgbToHex(rgb) {
@@ -116,24 +145,18 @@ function getParameterByName(name, url) {
 }
 
 //loads experiment
-var access = "5yT9EmOQF8E1woc";
 function loadExperiment(){
   $.ajax( {
     type : 'POST',
-    data : 'request=loadexperiment&token='+access,
+    data : 'request=loadexperiment&token='+token,
     url : 'api/index.php',
     async : false,
     success : function(response) {
       if(response != "null") {
-        console.log(response);
         var json = JSON.parse(response);
         var len = objLength(json);
         StimulusSetID = json[0].stimset_id;
         BoardID = json[0].idboard; 
-        console.log("Stim set ID: " + json[0].stimset_id);
-        console.log("Board ID: " + json[0].idboard);
-        console.log("Title: " + json[0].title);
-      } else {
       }
     },
     error : function() {
@@ -150,7 +173,6 @@ function loadStimSet(callback){
 	    async : false,
 	    success : function(response) {
 	      if(response != "null") {
-	        console.log(response);
 	        StimuliJSON = JSON.parse(response);
 	      } else {
 	        console.log("null response for " + StimulusSetID);
@@ -171,7 +193,6 @@ function loadBoard(){
     success : function(response) {
       if(response != "null") {
         BoardJSON = JSON.parse(response);
-        console.log(BoardJSON);
       } else {
         console.log("null response for " + response);
       }
@@ -181,6 +202,7 @@ function loadBoard(){
     }
   });
 }
+
 
 function viewSet(n) {
   // on ground near origin
@@ -351,8 +373,14 @@ function initExperiment() {
 
   	var parameters =
   	{
-  		a: function() {},
-  		b: function() {},
+  		a: function() {
+			alert("a");
+  		},
+  		b: function() {
+  			var json = {"token": boardName, "lock_tilt": lockTilt, "lock_rotate": lockRotate, "lock_zoom": lock_zoom, "board_color": hexBoard,
+  					"background_color": hexBackground, "cover_color": hexCover, "image": image, "cover_board": cover_board,"camerax" : camerax, "cameray" : cameray, "cameraz" : cameraz};
+  			var packet = JSON.stringify(json);
+		},
   	};
 
   	gui.add( parameters, 'a' ).name('Revert Camera');
