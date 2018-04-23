@@ -27,9 +27,9 @@ foreach ($_POST as $key => $val) {
 }
 
 //List of valid requests that are handled
-$VALID_REQUESTS = array('login','checklogin','logout', 'loadstimsetforexperiment',
+$VALID_REQUESTS = array('login','checklogin','logout', 'loadstimsetbyid',
  'register','createstimulus','loadstimsets',
- 'loadstimset','createset','deleteset',
+ 'loadstimsetbyname','createset','deleteset',
  'loadstimulus','deletestimulus','updatestimulus','saveboard'
  ,'loadboard', 'uploadboardimg', 'loadboards', 'deleteboard','loadexperiment');
 
