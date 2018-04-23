@@ -69,7 +69,7 @@ function getParameterByName(name, url) {
 }
 
 var access = "5yT9EmOQF8E1woc";
-function loadExperiment(){
+function loadExperiment(callback){
   $.ajax( {
     type : 'POST',
     data : 'request=loadexperiment&token='+access,
@@ -84,6 +84,9 @@ function loadExperiment(){
           console.log("Stim set ID: " + json[0].stimset_id);
           console.log("Board ID: " + json[0].idboard);
           console.log("Title: " + json[0].title);
+			if(typeof callback === 'function') {
+				callback();
+			}
       } else {
       }
     },
@@ -129,8 +132,7 @@ function viewSet(n) {
 }
 //global constant that tells us what size the experiment's grid is set to.
 var gridScale = getParameterByName('demo') - 1;
-loadStimSet();
-loadExperiment();
+loadExperiment(loadStimSet);
 initExperiment();
 animateExperiment();
 // FUNCTIONS
