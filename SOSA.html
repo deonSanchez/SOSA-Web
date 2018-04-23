@@ -1,6 +1,19 @@
 <!doctype html>
 <html lang="en">
 <head>
+  <!-- Bootstrap core CSS -->
+  <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+  <!-- Custom fonts for this template -->
+  <link href="vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+  <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css">
+  <link href="https://fonts.googleapis.com/css?family=Lato:400,700,400italic,700italic" rel="stylesheet" type="text/css">
+
+  <!-- Plugin CSS -->
+  <link href="vendor/magnific-popup/magnific-popup.css" rel="stylesheet" type="text/css">
+
+  <!-- Custom styles for this template -->
+  <link href="css/freelancer.css" rel="stylesheet">
   <meta charset="utf-8">
 </head>
 <body>
@@ -11,8 +24,9 @@
   <script src="js/threejs/lib/KeyboardState.js"></script>
   <script src="js/threejs/lib/THREEx.FullScreen.js"></script>
   <script src="js/threejs/lib/THREEx.WindowResize.js"></script>
-  <div style="width:100%;height:50px;text-align: center; color:white;" class="ui">SOSA</div>
-  <button style="top:0" id="Finisg" class="ui">Finish</button>
+  <script src="js/threejs/lib/Stats.js"></script>
+  <script src='js/DAT.GUI.min.js'></script>
+
   <!--
   Scene navigation (first-person style):
   W/S/A/D/R/F: move forwards/backwards/left/right/up/down
@@ -27,7 +41,10 @@
 -->
 
 <div id="ThreeJSExperiment"></div>
-
+<div id="pegframe">
+  <div id="gui"></div>
+  <iframe allowtransparency="true" style="background-color: Snow;"></iframe>
+</div>
 <script>
 /**
 * Counts object length
@@ -44,6 +61,7 @@ function objLength(obj){
   return i;
 }
 
+//Helper function for fullColorHex; converts 0-255 int value to hex.
 function rgbToHex(rgb) {
   var hex = Number(rgb).toString(16);
   if (hex.length < 2) {
@@ -51,7 +69,7 @@ function rgbToHex(rgb) {
   }
   return hex;
 }
-
+//converts 3 ints from 0-255 to a hex value
 function fullColorHex(r,g,b) {
   var red = rgbToHex(r);
   var green = rgbToHex(g);
@@ -59,7 +77,8 @@ function fullColorHex(r,g,b) {
   return red+green+blue;
 }
 // standard global variables
-var ExperimentContainer, ExperimentScene, ExperimentCamera, ExperimentRenderer, ExperimentControls, pegsPlaced, GUICamera;
+var ExperimentContainer, ExperimentScene, ExperimentCamera, ExperimentRenderer, ExperimentControls, pegsPlaced, MouseOnBoard;
+var PegContainer, PegScene, PegCamera, PegRenderer;
 //Teststimulus is the array of peg objects. Initialized later in the code.
 var TestStimuli;
 //Teststatus is an array of booleans that keeps track of whether a peg is placed on the board or not.
@@ -215,6 +234,8 @@ function initExperiment() {
   ExperiBoard.position.set(16,-1,16);
   ExperiBoard.base = true;
   ExperimentScene.add(ExperiBoard);
+  ExperimentContainer.appendChild( ExperimentRenderer.domElement );
+
   //Creates meshes on the sides of the board to make it look 3D
   this.BoardSideGeo = new THREE.PlaneGeometry(24,1);
   this.BoardSideMat = new THREE.MeshPhongMaterial({ color: 0xC0C0C0});
@@ -284,30 +305,49 @@ function initExperiment() {
     // when the mouse moves, call the given function
     document.addEventListener( 'mousemove', mouseMove,  false );
     document.addEventListener( 'mousedown', mouseClick, false );
+    MouseOnBoard = false;
+
+    //GUI
+    var gui = new dat.GUI();
+
+  	var parameters =
+  	{
+  		a: function() {},
+  		b: function() {},
+  	};
+
+  	gui.add( parameters, 'a' ).name('Revert Camera');
+  	gui.add( parameters, 'b' ).name("Finish Test");
+  	gui.open();
+    var guiContainer = document.getElementById('gui');
+    guiContainer.appendChild(gui.domElement);
+
+    //Stimuli preview
+
+    var PegContainer = document.getElementById("pegframe");
+    var CANVAS_WIDTH = 240;
+    var CANVAS_HEIGHT = 240;
+
+    // SCENE
+
+    PegScene = new THREE.Scene();
+    PegCamera = new THREE.PerspectiveCamera(45, 240 / 240, 0.1, 100);
+    PegCamera.position.x = 17;
+    PegCamera.position.y = 12;
+    PegCamera.position.z = 13;
+    PegCamera.lookAt(PegScene.position);
+    PegCamera.position.set(0, 1.0, 4.0);
+
+    PegRenderer = new THREE.WebGLRenderer();
+    PegRenderer.setClearColor(0x000, 1.0);
+    PegRenderer.setSize(240, 240);
+
+    var PegSkyBox = new THREE.Mesh( skyBoxGeometry, skyBoxMaterial );
+    PegScene.add(PegSkyBox);
+    PegContainer.appendChild(PegRenderer.domElement);
+
   }
 
-  function initGUI(){
-    var GUICanvas = document.createElement('canvas');
-    var SCREEN_WIDTH = window.innerWidth/4, SCREEN_HEIGHT = window.innerHeight;
-    GUICanvas.width = SCREEN_WIDTH;
-    GUICanvas.height = SCREEN_HEIGHT;
-
-    var GUImap = GUICanvas.getContext('2d');
-    GUImap.font = "Normal 40px Arial";
-    GUImap.textAlign = 'center';
-    GUImap.fillStyle = "rgba(245,245,245,0.75)";
-    GUImap.fillText('Initializing...', SCREEN_HEIGHT / 2, SCREEN_HEIGHT / 2);
-
-    var GUICamera = new THREE.OrthographicCamera(-SCREEN_WIDTH/2, SCREEN_WIDTH/2, SCREEN_HEIGHT/2, -SCREEN_HEIGHT/2, 0, 30 );
-
-    var GUITexture = new THREE.Texture(GUICanvas);
-    GUITexture.needsUpdate = true;
-    var material = new THREE.MeshBasicMaterial( {map: GUITexture} );
-    material.transparent = false;
-    var planeGeometry = new THREE.PlaneGeometry( SCREEN_WIDTH, SCREEN_HEIGHT);
-    var plane = new THREE.Mesh( planeGeometry, material );
-    ExperimentScene.add( plane );
-  }
 
   //function for converting coordinates on a 24x24 grid to the grid the experiment is set to.
   function toGridCoordinate(coordinate){
@@ -337,7 +377,7 @@ function initExperiment() {
     brushAction();
   }
   function brushAction() {
-    if (brush.mode == "add" && TestStimuli.length > pegsPlaced ) {
+    if (brush.mode == "add" && TestStimuli.length > pegsPlaced && MouseOnBoard == true) {
       for (var i = 0; i < TestStimuli.length; i++){
         if(TestStatus[i] != true){
           TestStimuli[i].position = brush.position.clone();
@@ -351,7 +391,7 @@ function initExperiment() {
         }
       }
     }
-    if (brush.mode == "delete") {
+    if (brush.mode == "delete" && MouseOnBoard == true) {
       var removeStimuli = ExperimentScene.getObjectByName( brush.targetName );
       for (var i = 0; i < TestStimuli.length; i++){
         if(TestStatus[i] != false && removeStimuli.name == TestStimuli[i].name){
@@ -430,8 +470,12 @@ function initExperiment() {
     //Gets first object that intersects the raycaster.
     if (intersectionList.length != 0){
       result = intersectionList[intersectionList.length - 1];
+      MouseOnBoard = true;
     }
-    else result = null;
+    else {
+      result = null;
+      MouseOnBoard = false;
+    }
     // for ( var i = 0; i < intersectionList.length; i++ ) {
     // 	if ( (result == null) && (intersectionList[i].object instanceof THREE.Mesh) && !(intersectionList[i].object.ignore) )
     // 		result = intersectionList[i];
@@ -443,7 +487,7 @@ function initExperiment() {
     else brush.visible = false;
     if ( result ) {
       //place stimuli on ExperiBoard
-      if ( (brush.mode == "add" && result.object.base )) {
+      if ( (brush.mode == "add" && result.object.base ) && MouseOnBoard == true) {
         var intPosition = new THREE.Vector3(toGridCoordinate(result.point.x), 0, toGridCoordinate(result.point.z) );
         brush.position = intPosition.clone().add( new THREE.Vector3(0.5, 0.5, 0.5) );
         brush.addName = "X" + intPosition.x + "Y" + intPosition.y + "Z" + intPosition.z;
@@ -454,7 +498,7 @@ function initExperiment() {
         var cylinderFound = false;
         for(var i = 0; i < intersectionList.length; i++ ) {
           //this is basically to check if we've selected a stimuli
-          if (isPegName(intersectionList[i].object.name)){
+          if (isPegName(intersectionList[i].object.name && MouseOnBoard == true)){
             brush.targetName = intersectionList[i].object.name;
             isHovering = true;
             ExperimentScene.getObjectByName( brush.targetName ).material.opacity = .65 + .35 * Math.sin(new Date().getTime() * .0036);
@@ -512,6 +556,7 @@ function initExperiment() {
     }
     function render() {
       ExperimentRenderer.render( ExperimentScene, ExperimentCamera );
+      PegRenderer.render(PegScene, PegCamera);
     }
     </script>
 
