@@ -175,7 +175,7 @@ function initExperiment() {
   } else {
     ExperimentRenderer = new THREE.CanvasRenderer();
   }
-  ExperimentRenderer.setSize(SCREEN_WIDTH/2, SCREEN_HEIGHT);
+  ExperimentRenderer.setSize(SCREEN_WIDTH, SCREEN_HEIGHT);
   ExperimentContainer = document.getElementById( 'ThreeJSExperiment' );
   ExperimentContainer.appendChild( ExperimentRenderer.domElement );
   // EVENTS
@@ -283,11 +283,30 @@ function initExperiment() {
     // when the mouse moves, call the given function
     document.addEventListener( 'mousemove', mouseMove,  false );
     document.addEventListener( 'mousedown', mouseClick, false );
+    initGUI();
   }
 
   function initGUI(){
+    var GUICanvas = document.createElement('canvas');
+    var SCREEN_WIDTH = window.innerWidth/4, SCREEN_HEIGHT = window.innerHeight;
+    GUICanvas.width = SCREEN_WIDTH;
+    GUICanvas.height = SCREEN_HEIGHT;
 
+    var GUImap = GUICanvas.getContext('2d');
+    GUImap.font = "Normal 40px Arial";
+    GUImap.textAlign = 'center';
+    GUImap.fillStyle = "rgba(245,245,245,0.75)";
+    GUImap.fillText('Initializing...', width / 2, height / 2);
+
+    var GUIexture = new THREE.Texture(GUICanvas);
+    GUITexture.needsUpdate = true;
+    var material = new THREE.MeshBasicMaterial( {map: GUITexture} );
+    material.transparent = true;
+    var planeGeometry = new THREE.PlaneGeometry( SCREEN_WIDTH, SCREEN_HEIGHT);
+    var plane = new THREE.Mesh( planeGeometry, material );
+    ExperimentScene.add( plane );
   }
+
   //function for converting coordinates on a 24x24 grid to the grid the experiment is set to.
   function toGridCoordinate(coordinate){
     var unit = 24/gridScale;
