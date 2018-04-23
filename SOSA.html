@@ -320,7 +320,7 @@ function fullColorHex(r,g,b) {
           pegsPlaced++;
           TestStatus[i] = true;
           var curTime = new Date().getTime();
-          ExperimentLog.push([curTime - ExperimentTime, TestStimuli[i].id, TestStimuli[i].name, TestStimuli[i].position.x-12, TestStimuli[i].position.z-12, "add"]);
+          ExperimentLog.push([curTime - ExperimentTime, TestStimuli[i].id, TestStimuli[i].name, TestStimuli[i].position.x-16, TestStimuli[i].position.z-16, "add"]);
           console.log(ExperimentLog);
           break;
         }
@@ -334,7 +334,7 @@ function fullColorHex(r,g,b) {
             pegsPlaced--;
             TestStatus[i] = false;
             var curTime = new Date().getTime();
-            ExperimentLog.push([curTime - ExperimentTime, TestStimuli[i].id, TestStimuli[i].name, TestStimuli[i].position.x-12, TestStimuli[i].position.z-12, "delete"]);
+            ExperimentLog.push([curTime - ExperimentTime, TestStimuli[i].id, TestStimuli[i].name, TestStimuli[i].position.x-16, TestStimuli[i].position.z-16, "delete"]);
             console.log(ExperimentLog);
             break;
           }
