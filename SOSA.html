@@ -118,6 +118,7 @@
       async : true,
       success : function(response) {
         if(response != "null") {
+            console.log(response);
             StimuliJSON = JSON.parse(response);
             if(typeof callback === 'function') {
       				callback(callback);
