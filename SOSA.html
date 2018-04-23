@@ -25,7 +25,7 @@
   <script src="js/threejs/lib/THREEx.FullScreen.js"></script>
   <script src="js/threejs/lib/THREEx.WindowResize.js"></script>
   <script src="js/threejs/lib/Stats.js"></script>
-  <script src='js/DAT.GUI.min.js'></script>
+  <script src='js/threejs/lib/DAT.GUI.min.js'></script>
 
   <!--
   Scene navigation (first-person style):
@@ -331,15 +331,12 @@ function initExperiment() {
     // SCENE
 
     PegScene = new THREE.Scene();
-    PegCamera = new THREE.PerspectiveCamera(45, 240 / 240, 0.1, 100);
-    PegCamera.position.x = 17;
-    PegCamera.position.y = 12;
-    PegCamera.position.z = 13;
+    PegCamera = new THREE.PerspectiveCamera(4, 240 / 240, 0.1, 100);
+    PegCamera.position.set(0, 0, 0);
     PegCamera.lookAt(PegScene.position);
-    PegCamera.position.set(0, 1.0, 4.0);
+    PegCamera.updateMatrixWorld();
 
     PegRenderer = new THREE.WebGLRenderer();
-    PegRenderer.setClearColor(0x000, 1.0);
     PegRenderer.setSize(240, 240);
 
     var PegSkyBox = new THREE.Mesh( skyBoxGeometry, skyBoxMaterial );
