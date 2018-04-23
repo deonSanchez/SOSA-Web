@@ -69,6 +69,10 @@ function fullColorHex(r,g,b) {
   var StimuliJSON;
   //isHovering helps to make sure to reset the color effect when a user is mousing over a peg
   var isHovering = false;
+  //ExperimentLog is a 2D array of every deletion and addition of a peg that happens during the experiment.
+  var ExperimentLog = [];
+  //Keeps track of time for the experiment log.
+  var ExperimentTime;
   var keyboard = new KeyboardState();
   var clock = new THREE.Clock();
   // custom global variables
@@ -150,6 +154,9 @@ function fullColorHex(r,g,b) {
   animateExperiment();
   // FUNCTIONS
   function initExperiment() {
+    //Time the experiment starts at:
+    ExperimentTime = new Date().getTime();
+
   	// SCENE
   	ExperimentScene = new THREE.Scene();
   	// CAMERA
@@ -254,8 +261,6 @@ function fullColorHex(r,g,b) {
       stimuli.name = stimArr[i].label;
       stimuli.id = stimArr[i].stimulus_id;
       var c = new THREE.Color("0x"+fullColorHex(stimArr[i].peg_r, stimArr[i].peg_b, stimArr[i].peg_g));
-      console.log("0x"+fullColorHex(stimArr[i].peg_r, stimArr[i].peg_b, stimArr[i].peg_g));
-      console.log(c);
       stimuli.material = new THREE.MeshLambertMaterial({ color: '#' + fullColorHex(stimArr[i].peg_r, stimArr[i].peg_b, stimArr[i].peg_g), transparent: true});
 
       TestStatus[i] = false;
@@ -314,7 +319,8 @@ function fullColorHex(r,g,b) {
       		ExperimentScene.add( TestStimuli[i] );
           pegsPlaced++;
           TestStatus[i] = true;
-          console.log(TestStimuli[i].material);
+          ExperimentLog.push([Date().getTime() - ExperimentTime, TestStimuli[i].id, TestStimuli[i].name, TestStimuli[i].position.x, TestStimuli[i].position.y, "add"]);
+          console.log(ExperimentLog);
           break;
         }
       }
@@ -326,6 +332,8 @@ function fullColorHex(r,g,b) {
             ExperimentScene.remove( removeStimuli );
             pegsPlaced--;
             TestStatus[i] = false;
+            ExperimentLog.push([Date().getTime() - ExperimentTime, TestStimuli[i].id, TestStimuli[i].name, TestStimuli[i].position.x, TestStimuli[i].position.y, "delete"]);
+            console.log(ExperimentLog);
             break;
           }
         }
