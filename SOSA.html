@@ -247,18 +247,18 @@
     //   TestStimuli[i] = stimuli;
     // }
     //breaks json object into an array where each element is a stimulus peg.
-    var stimArr = Object.values(StimuliJSON);
-
-    for (var i = 0; i < stimArr; i++) {
-      var stimuli = new THREE.Mesh( stimuliGeo );
-      stimuli.name = stimArr[i].label;
-      stimuli.id = stimArr[i].stimulus_id;
-        stimuli.material = new THREE.MeshLambertMaterial({ color: new THREE.Color(fullColorHex(stimArr[i].peg_r, stimArr[i].peg_b, stimArr[i].peg_g)), transparent: true});
-
-      var stimLabel = makeTextSprite( stimArr[i].label, { fontsize: 32, backgroundColor: {r:0, g:0, b:0, a:0} } );
-      stimuli.add( stimLabel );
-      TestStimuli[i] = stimuli;
-  	}
+    // var stimArr = Object.values(StimuliJSON);
+    //
+    // for (var i = 0; i < stimArr; i++) {
+    //   var stimuli = new THREE.Mesh( stimuliGeo );
+    //   stimuli.name = stimArr[i].label;
+    //   stimuli.id = stimArr[i].stimulus_id;
+    //     stimuli.material = new THREE.MeshLambertMaterial({ color: new THREE.Color(fullColorHex(stimArr[i].peg_r, stimArr[i].peg_b, stimArr[i].peg_g)), transparent: true});
+    //
+    //   var stimLabel = makeTextSprite( stimArr[i].label, { fontsize: 32, backgroundColor: {r:0, g:0, b:0, a:0} } );
+    //   stimuli.add( stimLabel );
+    //   TestStimuli[i] = stimuli;
+  	// }
 
     pegsPlaced = 0;
   	brush = new THREE.Mesh( stimuliGeo.clone(), new THREE.MeshLambertMaterial({ color: new THREE.Color(0xff0000), transparent: true}));
