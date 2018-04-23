@@ -154,6 +154,7 @@ initExperiment();
 animateExperiment();
 // FUNCTIONS
 function initExperiment() {
+  initGUI();
   //Time the experiment starts at:
   ExperimentTime = new Date().getTime();
 
@@ -283,7 +284,6 @@ function initExperiment() {
     // when the mouse moves, call the given function
     document.addEventListener( 'mousemove', mouseMove,  false );
     document.addEventListener( 'mousedown', mouseClick, false );
-    initGUI();
   }
 
   function initGUI(){
