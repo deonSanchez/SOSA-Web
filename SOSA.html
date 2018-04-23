@@ -39,7 +39,7 @@ function objLength(obj){
 		if(obj.hasOwnProperty(x)){
 			i++;
 		}
-	} 
+	}
 	return i;
 }
 // standard global variables
@@ -48,6 +48,8 @@ var ExperimentContainer, ExperimentScene, ExperimentCamera, ExperimentRenderer, 
 var TestStimuli;
 //Teststatus is an array of booleans that keeps track of whether a peg is placed on the board or not.
 var TestStatus;
+//Keeps track of stimulus set id
+var StimulusSetID;
 //isHovering helps to make sure to reset the color effect when a user is mousing over a peg
 var isHovering = false;
 var keyboard = new KeyboardState();
@@ -68,6 +70,74 @@ function getParameterByName(name, url) {
 
 var access = "5yT9EmOQF8E1woc";
 function loadExperiment(){
+  $.ajax( {
+    type : 'POST',
+    data : 'request=loadexperiment&token='+access,
+	url : 'api/index.php',
+    async : true,
+    success : function(response) {
+      if(response != "null") {
+          console.log(response);
+          var json = JSON.parse(response);
+          var len = objLength(json);
+
+          console.log("Stim set ID: " + json[0].stimset_id);
+          console.log("Board ID: " + json[0].idboard);
+          console.log("Title: " + json[0].title);
+          StimulusSetID = json[0].stimset_id;
+      } else {
+      }
+    },
+    error : function() {
+      alert("Something went wrong.");
+    }
+  });
+}
+
+function losdStimSet(){
+  $.ajax( {
+    type : 'POST',
+    data : 'request=loadstimsets&token='+StimulusSetID,
+	url : 'api/index.php',
+    async : true,
+    success : function(response) {
+      if(response != "null") {
+          console.log(response);
+          var json = JSON.parse(response);
+          var len = objLength(json);
+      } else {
+      }
+    },
+    error : function() {
+      alert("Something went wrong.");
+    }
+  });
+}
+function loadExperiment(){
+  $.ajax( {
+    type : 'POST',
+    data : 'request=loadexperiment&token='+access,
+	url : 'api/index.php',
+    async : true,
+    success : function(response) {
+      if(response != "null") {
+          console.log(response);
+          var json = JSON.parse(response);
+          var len = objLength(json);
+
+          console.log("Stim set ID: " + json[0].stimset_id);
+          console.log("Board ID: " + json[0].idboard);
+          console.log("Title: " + json[0].title);
+
+      } else {
+      }
+    },
+    error : function() {
+      alert("Something went wrong.");
+    }
+  });
+}
+function loadStimulusSets(){
   $.ajax( {
     type : 'POST',
     data : 'request=loadexperiment&token='+access,
@@ -107,6 +177,7 @@ function viewSet(n) {
 //global constant that tells us what size the experiment's grid is set to.
 var gridScale = getParameterByName('demo') - 1;
 loadExperiment();
+losdStimSet();
 initExperiment();
 animateExperiment();
 // FUNCTIONS
