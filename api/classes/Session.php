@@ -592,13 +592,17 @@ class Session {
 	 */
 	public function loadBoards() {
 		$results = null;
-		$stmt = $this->mysqli->prepare("SELECT `board_name`, `idboard` FROM `board`");
-		$stmt->bind_result($board,$id);
+		$stmt = $this->mysqli->prepare("SELECT `board_name`, `idboard`,`board_color`,`cover_color`,`background_color`,`camerax`,`cameray`,`cameraz`,`cover_board`,`lock_tilt`, `lock_rotate`, `lock_zoom` FROM `board`");
+		$stmt->bind_result($board,$id,$board_color,
+				$cover_color,$background_color,$camerax,$cameray,
+				$cameraz,$cover_board,$lock_tilt,$lock_rotate,$lock_zoom);
 		$stmt->execute();
 		$stmt->store_result();
 		if ($stmt->num_rows >= 1) {
 			while ($stmt->fetch()) {
-				$results[] = array('board_name' => $board, 'idboard' => $id);
+				$results[] = array('board_name' => $board, 'idboard' => $id,'board_color' => $board_color,
+				 'cover_color' => $cover_color,'background_color' => $background_color, 'camerax' => $camerax, 'cameray' => $cameray,
+				 'cameraz' => $cameraz,`cover_board` => $cover_board,`lock_tilt` => $lock_tilt, `lock_rotate` => $lock_rotate, `lock_zoom` => $lock_zoom);
 			}
 		}
 		return $results;

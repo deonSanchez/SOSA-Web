@@ -38,6 +38,8 @@ function getBoardCoverHex(){
 	return BoardCoverColor;
 }
 
+
+
 $("button#saveCreatedBoard").on('click', function(){
 	boardName = $("input#board_name").val();
 	lockTilt = $("input#tiltSet").is(":checked");
@@ -152,7 +154,9 @@ $("button#loadCreatedBoard").on('click', function(){
 	error: function() {
 	}
 	});
-});
+});	
+
+
 
 $("button#deleteCreatedBoard").on('click', function(){
 	var boardid = $('#boards :selected').attr('boardid');
@@ -221,8 +225,5 @@ $("button#loadExprBoard").on('click', function(){
 	}
 	});
 });
-
-
-
 
 

@@ -57,8 +57,8 @@ function initBoard() {
   BoardScene.add(BoardMesh);
 
   <!--For testing image -->
-  BoardMesh.material.map = THREE.ImageUtils.loadTexture('img/Psychology_image.png');
-  BoardMesh.needsUpdate = true;
+//  BoardMesh.material.map = THREE.ImageUtils.loadTexture('img/Psychology_image.png');
+//  BoardMesh.needsUpdate = true;
   <!--End Test-->
 
   //Creates meshes on the sides of the board to make it look 3D
@@ -179,9 +179,9 @@ function setBoardCoverRGB(){
 }
 
   function addBoardImage() {
-    BoardMesh.material.map = THREE.ImageUtils.loadTexture('img/Psychology_image.png');
-    BoardMesh.material.color.setHex("0xffffff");
-    BoardMesh.needsUpdate = true;
+//    BoardMesh.material.map = THREE.ImageUtils.loadTexture('img/Psychology_image.png');
+//    BoardMesh.material.color.setHex("0xffffff");
+//    BoardMesh.needsUpdate = true;
   }
 
   function ClearOff() {

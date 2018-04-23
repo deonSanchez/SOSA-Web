@@ -3,7 +3,7 @@
 <head>
   <!-- Bootstrap core CSS -->
   <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-
+	<script src='js/threejs/lib/DAT.GUI.min.js'></script>
   <!-- Custom fonts for this template -->
   <link href="vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
   <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css">
@@ -46,36 +46,6 @@
   <iframe allowtransparency="true" style="background-color: Snow;"></iframe>
 </div>
 <script>
-/**
-* Counts object length
-* @param obj
-* @returns {Number}
-*/
-function objLength(obj){
-  var i=0;
-  for (var x in obj){
-    if(obj.hasOwnProperty(x)){
-      i++;
-    }
-  }
-  return i;
-}
-
-//Helper function for fullColorHex; converts 0-255 int value to hex.
-function rgbToHex(rgb) {
-  var hex = Number(rgb).toString(16);
-  if (hex.length < 2) {
-    hex = "0" + hex;
-  }
-  return hex;
-}
-//converts 3 ints from 0-255 to a hex value
-function fullColorHex(r,g,b) {
-  var red = rgbToHex(r);
-  var green = rgbToHex(g);
-  var blue = rgbToHex(b);
-  return red+green+blue;
-}
 // standard global variables
 var ExperimentContainer, ExperimentScene, ExperimentCamera, ExperimentRenderer, ExperimentControls, pegsPlaced, MouseOnBoard;
 var PegContainer, PegScene, PegCamera, PegRenderer;
@@ -102,6 +72,38 @@ var clock = new THREE.Clock();
 // custom global variables
 var mesh;
 var person;
+/**
+* Counts object length
+* @param obj
+* @returns {Number}
+*/
+function objLength(obj){
+  var i=0;
+  for (var x in obj){
+    if(obj.hasOwnProperty(x)){
+      i++;
+    }
+  }
+  return i;
+}
+
+//Helper function for fullColorHex; converts 0-255 int value to hex.
+function rgbToHex(rgb) {
+  var hex = Number(rgb).toString(16);
+  if (hex.length < 2) {
+    hex = "0" + hex;
+  }
+  return hex;
+}
+
+//converts 3 ints from 0-255 to a hex value
+function fullColorHex(r,g,b) {
+  var red = rgbToHex(r);
+  var green = rgbToHex(g);
+  var blue = rgbToHex(b);
+  return red+green+blue;
+}
+
 //finds value given name in the href.
 function getParameterByName(name, url) {
   if (!url) url = window.location.href;
@@ -112,6 +114,7 @@ function getParameterByName(name, url) {
   if (!results[2]) return '';
   return decodeURIComponent(results[2].replace(/\+/g, " "));
 }
+
 //loads experiment
 var access = "5yT9EmOQF8E1woc";
 function loadExperiment(){
@@ -138,6 +141,7 @@ function loadExperiment(){
     }
   });
 }
+
 function loadStimSet(callback){
 	  $.ajax( {
 	    type : 'POST',
@@ -167,6 +171,7 @@ function loadBoard(){
     success : function(response) {
       if(response != "null") {
         BoardJSON = JSON.parse(response);
+        console.log(BoardJSON);
       } else {
         console.log("null response for " + response);
       }
@@ -176,6 +181,7 @@ function loadBoard(){
     }
   });
 }
+
 function viewSet(n) {
   // on ground near origin
   if (n == 1) {
@@ -239,6 +245,8 @@ function initExperiment() {
   // SKYBOX - Background
   var skyBoxGeometry = new THREE.CubeGeometry( 1000, 1000, 1000 );
   var skyBoxMaterial = new THREE.MeshBasicMaterial( { color: 0x000000, side: THREE.BackSide } );
+  //sets loaded background
+  skyBoxMaterial.color.setHex(BoardJSON[0].background_color);
   var skyBox = new THREE.Mesh( skyBoxGeometry, skyBoxMaterial );
   ExperimentScene.add(skyBox);
   ////////////
@@ -253,7 +261,13 @@ function initExperiment() {
   this.BoardGeo = new THREE.PlaneGeometry(24,24);
   // for creating image on plane
   //this.planeMat = new THREE.MeshBasicMaterial({map:squareT, color:0xbbbbbb});
-  this.BoardMat = new THREE.MeshPhongMaterial({ color: 0x4f0059,  specular: 0x050505, shininess: 30 });
+  this.BoardMat = new THREE.MeshPhongMaterial({ color: 0x7b7b77,  specular: 0x050505, shininess: 30 });
+  //sets loaded board color
+  if(BoardJSON[0].cover_board == 0)
+	  this.BoardMat.color.setHex(BoardJSON[0].board_color);
+  else
+	  this.BoardMat.color.setHex(BoardJSON[0].cover_color);
+	  
   var ExperiBoard = new THREE.Mesh(BoardGeo, BoardMat);
   ExperiBoard.rotation.x = -Math.PI / 2;
   ExperiBoard.position.set(16,-1,16);
