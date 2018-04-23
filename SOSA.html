@@ -89,7 +89,7 @@
       type : 'POST',
       data : 'request=loadexperiment&token='+access,
   	url : 'api/index.php',
-      async : true,
+      async : false,
       success : function(response) {
         if(response != "null") {
             console.log(response);
@@ -115,7 +115,7 @@
       type : 'POST',
       data : 'request=loadstimsetforexperiment&set_id='+StimulusSetID,
   	   url : 'api/index.php',
-      async : true,
+      async : false,
       success : function(response) {
         if(response != "null") {
             StimuliJSON = JSON.parse(response);
