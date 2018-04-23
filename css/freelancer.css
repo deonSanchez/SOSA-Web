@@ -407,3 +407,22 @@ a.active-modal {
   font-size: 1.3rem;
   font-weight: 1000;
 }
+#gui {
+  position: absolute;
+  top: 260px;
+  left: 0px;
+  z-index: 1;
+}
+#pegframe {
+  position: absolute;
+  width: 240px;
+  height: 240px;
+  left: 20px;
+  top: 20px;
+}
+#pegframe iframe {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  z-index: 1;
+}
