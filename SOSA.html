@@ -252,7 +252,7 @@
       var stimuli = new THREE.Mesh( stimuliGeo );
       stimuli.name = stimArr[i].label;
       stimuli.id = stimArr[i].stimulus_id;
-        stimuli.material = new THREE.MeshLambertMaterial({ color: fullColorHex(stimArr[i].peg_r, stimArr[i].peg_b, stimArr[i].peg_g), transparent: true});
+        stimuli.material = new THREE.MeshLambertMaterial({ color: new THREE.Color(fullColorHex(stimArr[i].peg_r, stimArr[i].peg_b, stimArr[i].peg_g)), transparent: true});
 
       var stimLabel = makeTextSprite( stimArr[i].label, { fontsize: 32, backgroundColor: {r:0, g:0, b:0, a:0} } );
       stimuli.add( stimLabel );
@@ -260,7 +260,7 @@
   	}
 
     pegsPlaced = 0;
-  	brush = new THREE.Mesh( stimuliGeo.clone(), materials["add"][1] );
+  	brush = new THREE.Mesh( stimuliGeo.clone(), new THREE.MeshLambertMaterial({ color: new THREE.Color(0xff0000), transparent: true}););
   	brush.ignore = true;    // ignored by raycaster
   	brush.visible = false;
   	brush.mode = "add";
