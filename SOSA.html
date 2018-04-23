@@ -96,7 +96,7 @@ function loadExperiment(){
 function loadStimSet(){
   $.ajax( {
     type : 'POST',
-    data : 'request=loadstimsetforexperiment&stimset_id='+StimulusSetID,
+    data : 'request=loadstimsetforexperiment&set_id='+StimulusSetID,
 	url : 'api/index.php',
     async : true,
     success : function(response) {
