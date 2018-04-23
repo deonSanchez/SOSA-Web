@@ -188,7 +188,7 @@ function loadCreatorStimulus() {
 	var set_title = $('#stimulus-set :selected').text();
 	$.ajax( {
 		type : 'POST',
-		data : 'request=loadstimset&set_title='+set_title,
+		data : 'request=loadstimsetbyname&set_title='+set_title,
 		url : 'api/index.php',
 		async : true,
 		success : function(response) {
