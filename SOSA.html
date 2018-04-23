@@ -99,12 +99,13 @@ function loadStimSet(){
     data : 'request=loadstimset&set_id='+StimulusSetID,
 	url : 'api/index.php',
     async : true,
-    success : function(response2) {
-      if(response2 != "null") {
-          console.log(response2);
-          var json = JSON.parse(response2);
+    success : function(response) {
+      if(response != "null") {
+          console.log(response);
+          var json = JSON.parse(response);
           var len = objLength(json);
       } else {
+        console.log("null response");
       }
     },
     error : function() {
