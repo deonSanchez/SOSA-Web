@@ -97,7 +97,7 @@ function loadExperiment(){
 function losdStimSet(){
   $.ajax( {
     type : 'POST',
-    data : 'request=loadstimsets&token='+StimulusSetID,
+    data : 'request=loadstimset&token='+StimulusSetID,
 	url : 'api/index.php',
     async : true,
     success : function(response) {
@@ -105,53 +105,6 @@ function losdStimSet(){
           console.log(response);
           var json = JSON.parse(response);
           var len = objLength(json);
-      } else {
-      }
-    },
-    error : function() {
-      alert("Something went wrong.");
-    }
-  });
-}
-function loadExperiment(){
-  $.ajax( {
-    type : 'POST',
-    data : 'request=loadexperiment&token='+access,
-	url : 'api/index.php',
-    async : true,
-    success : function(response) {
-      if(response != "null") {
-          console.log(response);
-          var json = JSON.parse(response);
-          var len = objLength(json);
-
-          console.log("Stim set ID: " + json[0].stimset_id);
-          console.log("Board ID: " + json[0].idboard);
-          console.log("Title: " + json[0].title);
-
-      } else {
-      }
-    },
-    error : function() {
-      alert("Something went wrong.");
-    }
-  });
-}
-function loadStimulusSets(){
-  $.ajax( {
-    type : 'POST',
-    data : 'request=loadexperiment&token='+access,
-	url : 'api/index.php',
-    async : true,
-    success : function(response) {
-      if(response != "null") {
-          console.log(response);
-          var json = JSON.parse(response);
-          var len = objLength(json);
-
-          console.log("Stim set ID: " + json[0].stimset_id);
-          console.log("Board ID: " + json[0].idboard);
-          console.log("Title: " + json[0].title);
       } else {
       }
     },
