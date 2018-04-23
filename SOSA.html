@@ -298,7 +298,7 @@ function initExperiment() {
     GUImap.fillStyle = "rgba(245,245,245,0.75)";
     GUImap.fillText('Initializing...', SCREEN_HEIGHT / 2, SCREEN_HEIGHT / 2);
 
-    var GUIexture = new THREE.Texture(GUICanvas);
+    var GUITexture = new THREE.Texture(GUICanvas);
     GUITexture.needsUpdate = true;
     var material = new THREE.MeshBasicMaterial( {map: GUITexture} );
     material.transparent = true;
