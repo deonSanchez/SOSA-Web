@@ -84,12 +84,12 @@
   };
   //loads experiment
   var access = "5yT9EmOQF8E1woc";
-  function loadExperiment(callback){
+  function loadExperiment(callback1, callback2){
     $.ajax( {
       type : 'POST',
       data : 'request=loadexperiment&token='+access,
   	url : 'api/index.php',
-      async : false,
+      async : true,
       success : function(response) {
         if(response != "null") {
             console.log(response);
@@ -99,9 +99,9 @@
             console.log("Stim set ID: " + json[0].stimset_id);
             console.log("Board ID: " + json[0].idboard);
             console.log("Title: " + json[0].title);
-  			if(typeof callback === 'function') {
-  				callback();
-  			}
+  			    if(typeof callback1 === 'function') {
+      				callback(callback2);
+      			}
         } else {
         }
       },
@@ -110,15 +110,18 @@
       }
     });
   }
-  function loadStimSet(){
+  function loadStimSet(callback){
     $.ajax( {
       type : 'POST',
       data : 'request=loadstimsetforexperiment&set_id='+StimulusSetID,
   	   url : 'api/index.php',
-      async : false,
+      async : true,
       success : function(response) {
         if(response != "null") {
             StimuliJSON = JSON.parse(response);
+            if(typeof callback === 'function') {
+      				callback(callback);
+      			}
         } else {
           console.log("null response for " + StimulusSetID);
         }
@@ -144,8 +147,7 @@
   }
   //global constant that tells us what size the experiment's grid is set to.
   var gridScale = getParameterByName('demo') - 1;
-  loadExperiment(loadStimSet);
-  initExperiment();
+  loadExperiment(loadStimSet, initExperiment);
   animateExperiment();
   // FUNCTIONS
   function initExperiment() {
