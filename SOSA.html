@@ -230,7 +230,6 @@
   		new THREE.Vector3(0,0,1), new THREE.Vector3(0,0,-1) ];
   //this will generate test stimuli
     TestColors = [ new THREE.Color(0x66FFFF), new THREE.Color(0xff0000), new THREE.Color(0xff8800), new THREE.Color(0xffff00), new THREE.Color(0x00cc00) ];
-    TestStatus = [false, false, false, false, false];
     TestLabels = ["Deon", "Jeffery", "Rico", "Flynt", "Mitchell"];
     materials = { "solid":[], "add":[], "delete":[] };
     TestStimuli = [];
@@ -251,10 +250,12 @@
 
     for (var i = 0; i < stimArr; i++) {
       var stimuli = new THREE.Mesh( stimuliGeo );
+      console.log(stimArr[i].label);
       stimuli.name = stimArr[i].label;
       stimuli.id = stimArr[i].stimulus_id;
         stimuli.material = new THREE.MeshLambertMaterial({ color: new THREE.Color(fullColorHex(stimArr[i].peg_r, stimArr[i].peg_b, stimArr[i].peg_g)), transparent: true});
 
+        TestStatus[i] = false;
       var stimLabel = makeTextSprite( stimArr[i].label, { fontsize: 32, backgroundColor: {r:0, g:0, b:0, a:0} } );
       stimuli.add( stimLabel );
       TestStimuli[i] = stimuli;
