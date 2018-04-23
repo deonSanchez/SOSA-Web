@@ -46,6 +46,7 @@
   <iframe allowtransparency="true" style="background-color: Snow;"></iframe>
 </div>
 <script>
+var gridScale;
 // standard global variables
 var ExperimentContainer, ExperimentScene, ExperimentCamera, ExperimentRenderer, ExperimentControls, pegsPlaced, MouseOnBoard;
 var PegContainer, PegScene, PegCamera, PegRenderer;
@@ -217,7 +218,6 @@ function viewSet(n) {
   }
 }
 //global constant that tells us what size the experiment's grid is set to.
-var gridScale = getParameterByName('demo') - 1;
 loadExperiment();
 loadStimSet();
 loadBoard();
