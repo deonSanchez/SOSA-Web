@@ -254,6 +254,7 @@ function fullColorHex(r,g,b) {
       stimuli.name = stimArr[i].label;
       stimuli.id = stimArr[i].stimulus_id;
       var c = new THREE.Color("0x"+fullColorHex(stimArr[i].peg_r, stimArr[i].peg_b, stimArr[i].peg_g));
+      console.log("0x"+fullColorHex(stimArr[i].peg_r, stimArr[i].peg_b, stimArr[i].peg_g));
       console.log(c);
       stimuli.material = new THREE.MeshLambertMaterial({ color: c, transparent: true});
 
@@ -262,8 +263,6 @@ function fullColorHex(r,g,b) {
       stimLabel.name = stimArr[i].label + "Label";
       stimuli.add( stimLabel );
       TestStimuli[i] = stimuli;
-      console.log((parseInt(stimArr[i].peg_r)/255));
-      console.log(typeof (parseInt(stimArr[i].peg_r)/255));
   	}
 
     pegsPlaced = 0;
