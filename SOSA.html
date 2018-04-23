@@ -3,7 +3,7 @@
 <head>
   <!-- Bootstrap core CSS -->
   <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-	<script src='js/threejs/lib/DAT.GUI.min.js'></script>
+
   <!-- Custom fonts for this template -->
   <link href="vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
   <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css">
@@ -41,37 +41,8 @@
 -->
 
 <div id="ThreeJSExperiment"></div>
-<div id="pegframe">
-  <div id="gui"></div>
-  <iframe allowtransparency="true" style="background-color: Snow;"></iframe>
-</div>
+<div id="gui"></div>
 <script>
-// standard global variables
-var ExperimentContainer, ExperimentScene, ExperimentCamera, ExperimentRenderer, ExperimentControls, pegsPlaced, MouseOnBoard;
-var PegContainer, PegScene, PegCamera, PegRenderer;
-//Teststimulus is the array of peg objects. Initialized later in the code.
-var TestStimuli;
-//Teststatus is an array of booleans that keeps track of whether a peg is placed on the board or not.
-var TestStatus = [];
-//Keeps track of stimulus set id
-var StimulusSetID;
-//stores the stimuli data we retrieve from the server.
-var StimuliJSON;
-
-var BoardID;
-var BoardJSON;
-
-//isHovering helps to make sure to reset the color effect when a user is mousing over a peg
-var isHovering = false;
-//ExperimentLog is a 2D array of every deletion and addition of a peg that happens during the experiment.
-var ExperimentLog = [];
-//Keeps track of time for the experiment log.
-var ExperimentTime;
-var keyboard = new KeyboardState();
-var clock = new THREE.Clock();
-// custom global variables
-var mesh;
-var person;
 /**
 * Counts object length
 * @param obj
@@ -95,7 +66,6 @@ function rgbToHex(rgb) {
   }
   return hex;
 }
-
 //converts 3 ints from 0-255 to a hex value
 function fullColorHex(r,g,b) {
   var red = rgbToHex(r);
@@ -103,7 +73,29 @@ function fullColorHex(r,g,b) {
   var blue = rgbToHex(b);
   return red+green+blue;
 }
-
+// standard global variables
+var ExperimentContainer, ExperimentScene, ExperimentCamera, ExperimentRenderer, ExperimentControls, pegsPlaced, MouseOnBoard;
+//Teststimulus is the array of peg objects. Initialized later in the code.
+var TestStimuli;
+//Teststatus is an array of booleans that keeps track of whether a peg is placed on the board or not.
+var TestStatus = [];
+//
+var StimulusLabels = [];
+//Keeps track of stimulus set id
+var StimulusSetID;
+//stores the stimuli data we retrieve from the server.
+var StimuliJSON;
+//isHovering helps to make sure to reset the color effect when a user is mousing over a peg
+var isHovering = false;
+//ExperimentLog is a 2D array of every deletion and addition of a peg that happens during the experiment.
+var ExperimentLog = [];
+//Keeps track of time for the experiment log.
+var ExperimentTime;
+var keyboard = new KeyboardState();
+var clock = new THREE.Clock();
+// custom global variables
+var mesh;
+var person;
 //finds value given name in the href.
 function getParameterByName(name, url) {
   if (!url) url = window.location.href;
@@ -114,7 +106,6 @@ function getParameterByName(name, url) {
   if (!results[2]) return '';
   return decodeURIComponent(results[2].replace(/\+/g, " "));
 }
-
 //loads experiment
 var access = "5yT9EmOQF8E1woc";
 function loadExperiment(){
@@ -129,7 +120,6 @@ function loadExperiment(){
         var json = JSON.parse(response);
         var len = objLength(json);
         StimulusSetID = json[0].stimset_id;
-        BoardID = json[0].idboard; 
         console.log("Stim set ID: " + json[0].stimset_id);
         console.log("Board ID: " + json[0].idboard);
         console.log("Title: " + json[0].title);
@@ -141,39 +131,18 @@ function loadExperiment(){
     }
   });
 }
-
 function loadStimSet(callback){
-	  $.ajax( {
-	    type : 'POST',
-	    data : 'request=loadstimsetbyid&set_id='+StimulusSetID,
-	    url : 'api/index.php',
-	    async : false,
-	    success : function(response) {
-	      if(response != "null") {
-	        console.log(response);
-	        StimuliJSON = JSON.parse(response);
-	      } else {
-	        console.log("null response for " + StimulusSetID);
-	      }
-	    },
-	    error : function() {
-	      alert("Something went wrong when retrieving the stimulus set!");
-	    }
-	  });
-	}
-
-function loadBoard(){
   $.ajax( {
     type : 'POST',
-    data : 'request=loadboard&idboard='+BoardID,
+    data : 'request=loadstimsetbyid&set_id='+StimulusSetID,
     url : 'api/index.php',
     async : false,
     success : function(response) {
       if(response != "null") {
-        BoardJSON = JSON.parse(response);
-        console.log(BoardJSON);
+        console.log(response);
+        StimuliJSON = JSON.parse(response);
       } else {
-        console.log("null response for " + response);
+        console.log("null response for " + StimulusSetID);
       }
     },
     error : function() {
@@ -181,7 +150,6 @@ function loadBoard(){
     }
   });
 }
-
 function viewSet(n) {
   // on ground near origin
   if (n == 1) {
@@ -200,7 +168,6 @@ function viewSet(n) {
 var gridScale = getParameterByName('demo') - 1;
 loadExperiment();
 loadStimSet();
-loadBoard();
 initExperiment();
 animateExperiment();
 // FUNCTIONS
@@ -227,8 +194,8 @@ function initExperiment() {
     ExperimentRenderer = new THREE.CanvasRenderer();
   }
   ExperimentRenderer.setSize(SCREEN_WIDTH, SCREEN_HEIGHT);
+  ExperimentRenderer.autoclear = false;
   ExperimentContainer = document.getElementById( 'ThreeJSExperiment' );
-  ExperimentContainer.appendChild( ExperimentRenderer.domElement );
   // EVENTS
   THREEx.WindowResize(ExperimentRenderer, ExperimentCamera);
   THREEx.FullScreen.bindKey({ charCode : 'm'.charCodeAt(0) });
@@ -245,8 +212,6 @@ function initExperiment() {
   // SKYBOX - Background
   var skyBoxGeometry = new THREE.CubeGeometry( 1000, 1000, 1000 );
   var skyBoxMaterial = new THREE.MeshBasicMaterial( { color: 0x000000, side: THREE.BackSide } );
-  //sets loaded background
-  skyBoxMaterial.color.setHex(BoardJSON[0].background_color);
   var skyBox = new THREE.Mesh( skyBoxGeometry, skyBoxMaterial );
   ExperimentScene.add(skyBox);
   ////////////
@@ -261,13 +226,7 @@ function initExperiment() {
   this.BoardGeo = new THREE.PlaneGeometry(24,24);
   // for creating image on plane
   //this.planeMat = new THREE.MeshBasicMaterial({map:squareT, color:0xbbbbbb});
-  this.BoardMat = new THREE.MeshPhongMaterial({ color: 0x7b7b77,  specular: 0x050505, shininess: 30 });
-  //sets loaded board color
-  if(BoardJSON[0].cover_board == 0)
-	  this.BoardMat.color.setHex(BoardJSON[0].board_color);
-  else
-	  this.BoardMat.color.setHex(BoardJSON[0].cover_color);
-	  
+  this.BoardMat = new THREE.MeshPhongMaterial({ color: 0x4f0059,  specular: 0x050505, shininess: 30 });
   var ExperiBoard = new THREE.Mesh(BoardGeo, BoardMat);
   ExperiBoard.rotation.x = -Math.PI / 2;
   ExperiBoard.position.set(16,-1,16);
@@ -325,9 +284,9 @@ function initExperiment() {
       stimuli.material = new THREE.MeshLambertMaterial({ color: '#' + fullColorHex(stimArr[i].peg_r, stimArr[i].peg_b, stimArr[i].peg_g), transparent: true});
 
       TestStatus[i] = false;
-      stimLabel = makeTextSprite( stimArr[i].label, { fontsize: 32, backgroundColor: {r:parseInt(stimArr[i].label_r), g:stimArr[i].label_g, b:stimArr[i].label_b, a:0} } );
-      stimLabel.name = stimArr[i].label + "Label";
-      stimuli.add( stimLabel );
+      StimulusLabels[i] = makeTextSprite( stimArr[i].label, { fontsize: 32, backgroundColor: {r:parseInt(stimArr[i].label_r), g:stimArr[i].label_g, b:stimArr[i].label_b, a:0} } );
+      StimulusLabels[i].name = stimArr[i].label + "Label";
+      stimuli.add( StimulusLabels[i]  );
       TestStimuli[i] = stimuli;
     }
 
@@ -360,27 +319,6 @@ function initExperiment() {
   	gui.open();
     var guiContainer = document.getElementById('gui');
     guiContainer.appendChild(gui.domElement);
-
-    //Stimuli preview
-
-    var PegContainer = document.getElementById("pegframe");
-    var CANVAS_WIDTH = 240;
-    var CANVAS_HEIGHT = 240;
-
-    // SCENE
-
-    PegScene = new THREE.Scene();
-    PegCamera = new THREE.PerspectiveCamera(4, 240 / 240, 0.1, 100);
-    PegCamera.position.set(0, 0, 0);
-    PegCamera.lookAt(PegScene.position);
-    PegCamera.updateMatrixWorld();
-
-    PegRenderer = new THREE.WebGLRenderer();
-    PegRenderer.setSize(240, 240);
-
-    var PegSkyBox = new THREE.Mesh( skyBoxGeometry, skyBoxMaterial );
-    PegScene.add(PegSkyBox);
-    PegContainer.appendChild(PegRenderer.domElement);
 
   }
 
@@ -417,6 +355,8 @@ function initExperiment() {
       for (var i = 0; i < TestStimuli.length; i++){
         if(TestStatus[i] != true){
           TestStimuli[i].position = brush.position.clone();
+          brush.remove(StimulusLabels[i]);
+          TestStimuli[i].add(StimulusLabels[i]);
           ExperimentScene.add( TestStimuli[i] );
           pegsPlaced++;
           TestStatus[i] = true;
@@ -491,7 +431,9 @@ function initExperiment() {
     // set view to bird's-eye-view (Pigeon's-eye-view?)
     if (keyboard.down("P"))
     viewSet(2);
-    brush.material = materials["add"][ brush.colorIndex ];
+    //brush.material = materials["add"][ brush.colorIndex ];
+
+
     // brush modes
     if ( keyboard.down("Z") )
     brush.mode = "add";
@@ -518,9 +460,30 @@ function initExperiment() {
     // }
     // brush will only be visible only in "add" mode, when mouse hovers over plane/stimuli
     if ( (brush.mode == "add") ) {
-      brush.visible = true;
+      for (var i = 0; i < TestStimuli.length; i++){
+        if(TestStatus[i] != true){
+          brush.material = TestStimuli[i].material.clone();
+          stimLabel = makeTextSprite( TestStimuli[i].name, { fontsize: 32, backgroundColor: 0xFFFFFF, a:0} );
+          stimLabel.name = "Label";
+
+          brush.add( StimulusLabels[i] );
+          brush.visible = true;
+          break;
+        }
+        if(i == TestStatus.length-1){
+          brush.visible = false;
+        }
+      }
     }
-    else brush.visible = false;
+    else {
+        brush.visible = false;
+        for (var i = 0; i < TestStimuli.length; i++){
+          if(TestStatus[i] != true){
+            brush.remove(StimulusLabels[i]);
+          }
+        }
+    }
+
     if ( result ) {
       //place stimuli on ExperiBoard
       if ( (brush.mode == "add" && result.object.base ) && MouseOnBoard == true) {
@@ -530,11 +493,11 @@ function initExperiment() {
       }
       // delete stimuli
       //intersectionList.length > 1 means the raycaster has intersected the board + a cylinder.
-      if ( (brush.mode == "delete" && intersectionList.length > 0) ) {
+      if ( (brush.mode == "delete" && intersectionList.length > 0  && MouseOnBoard == true) ) {
         var cylinderFound = false;
         for(var i = 0; i < intersectionList.length; i++ ) {
           //this is basically to check if we've selected a stimuli
-          if (isPegName(intersectionList[i].object.name && MouseOnBoard == true)){
+          if (isPegName(intersectionList[i].object.name)){
             brush.targetName = intersectionList[i].object.name;
             isHovering = true;
             ExperimentScene.getObjectByName( brush.targetName ).material.opacity = .65 + .35 * Math.sin(new Date().getTime() * .0036);
@@ -592,7 +555,7 @@ function initExperiment() {
     }
     function render() {
       ExperimentRenderer.render( ExperimentScene, ExperimentCamera );
-      PegRenderer.render(PegScene, PegCamera);
+
     }
     </script>
 
