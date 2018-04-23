@@ -238,7 +238,7 @@
       var stimuli = new THREE.Mesh( stimuliGeo );
       stimuli.name = stimArr[i].label;
       stimuli.id = stimArr[i].stimulus_id;
-      var c = new THREE.Color((parseInt(stimArr[i].peg_r)/255),(parseInt(stimArr[i].peg_b)/255),(parseInt(stimArr[i].peg_g)/255));
+      var c = new THREE.Color(.5,.5,.5);
       console.log(c);
       stimuli.material = new THREE.MeshLambertMaterial({ color: c, transparent: true});
 
