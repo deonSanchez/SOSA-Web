@@ -69,19 +69,6 @@
       if (!results[2]) return '';
       return decodeURIComponent(results[2].replace(/\+/g, " "));
   }
-  var rgbToHex = function (rgb) {
-  var hex = Number(rgb).toString(16);
-  if (hex.length < 2) {
-       hex = "0" + hex;
-  }
-  return hex;
-  }
-  var fullColorHex = function(r,g,b) {
-  var red = rgbToHex(r);
-  var green = rgbToHex(g);
-  var blue = rgbToHex(b);
-  return red+green+blue;
-  };
   //loads experiment
   var access = "5yT9EmOQF8E1woc";
   function loadExperiment(){
@@ -251,7 +238,7 @@
       var stimuli = new THREE.Mesh( stimuliGeo );
       stimuli.name = stimArr[i].label;
       stimuli.id = stimArr[i].stimulus_id;
-      stimuli.material = new THREE.MeshLambertMaterial({ color: new THREE.Color(((int)stimArr[i].peg_r)/255,((int)stimArr[i].peg_b)/255,((int)stimArr[i].peg_g)/255), transparent: true});
+      stimuli.material = new THREE.MeshLambertMaterial({ color: new THREE.Color(parseint(stimArr[i].peg_r)/255,parseint(stimArr[i].peg_b)/255,parseint(stimArr[i].peg_g)/255), transparent: true});
 
       TestStatus[i] = false;
       stimLabel = makeTextSprite( stimArr[i].label, { fontsize: 32, backgroundColor: {r:0, g:0, b:0, a:0} } );
