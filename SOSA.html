@@ -154,7 +154,6 @@ initExperiment();
 animateExperiment();
 // FUNCTIONS
 function initExperiment() {
-  initGUI();
   //Time the experiment starts at:
   ExperimentTime = new Date().getTime();
 
@@ -512,7 +511,6 @@ function initExperiment() {
     }
     function render() {
       ExperimentRenderer.render( ExperimentScene, ExperimentCamera );
-      ExperimentRenderer.render( ExperimentScene, GUICamera );
     }
     </script>
 
