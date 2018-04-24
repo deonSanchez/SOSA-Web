@@ -339,24 +339,23 @@
                   <input type="range" min="0" max="255" value="0" class="slider mb-3" id="CoverGvalue" onchange = "setBoardCoverRGB()">
                   <input type="range" min="0" max="255" value="255" class="slider mb-4" id="CoverBvalue" onchange = "setBoardCoverRGB()">
                 </div>
-                <div class="row text-uppercase">
-                  <div class="col">
-                        <select class="form-control" id="boards">
+                <div class="text-uppercase">
+                  <div class="row">
+                        <select class="form-control mb-3" id="boards">
                           <option boardid="13">46rytgf</option>
                           <option boardid="14">asd</option>
                           <option boardid="15">56tyu7tr6gfyuuj</option>
                           <option boardid="16">56ty</option>
                           <option boardid="17">fhfghfghfh</option>
                         </select>
-                        <br />
-                    <button class="btn btn-shadow btn-secondary btn-block rounded-pill" id="deleteCreatedBoard" href="#">
-                      Delete</button>
                     </div>
-                    <div class="col">
-                    <button class="btn btn-shadow btn-secondary btn-block rounded-pill" id="loadCreatedBoard" href="#">
+                    <div class="row">
+                    <button class="col m-1 btn btn-shadow btn-secondary rounded-pill" id="loadCreatedBoard" href="#">
                       Load</button>
-                      <button class="btn btn-shadow btn-secondary btn-block rounded-pill" id="saveCreatedBoard" href="#">
+                      <button class="col m-1 btn btn-shadow btn-secondary rounded-pill" id="saveCreatedBoard" href="#">
                         Save</button>
+                        <button class="col m-1 btn btn-shadow btn-secondary rounded-pill" id="deleteCreatedBoard" href="#">
+                          Delete</button>
                       </div>
                     </div>
                   </div>
@@ -663,7 +662,7 @@
                           pegSceneLoader = new THREE.Scene();
 
                           // CAMERA
-                          var SCREEN_WIDTH = 200, SCREEN_HEIGHT = 200;
+                          var SCREEN_WIDTH = 265, SCREEN_HEIGHT = 265;
                           var VIEW_ANGLE = 10, ASPECT = SCREEN_WIDTH / SCREEN_HEIGHT, NEAR = 0.1, FAR = 20000;
                           pegCameraLoader = new THREE.PerspectiveCamera( VIEW_ANGLE, ASPECT, NEAR, FAR);
                           pegSceneLoader.add(pegCameraLoader);
@@ -770,20 +769,14 @@
                           </script>
 
 
-                          <input type="range" min="1" max="255" value="128" class="slider mb-3" id="Rvalue">
+
                           <div class="input-group pb-3">
-                            <div class="input-group-prepend">
-                              <button class="btn btn-outline-secondary" type="button">+</button>
-                            </div>
                             <select class="custom-select" id="experi_set">
                               <option selected>Stimulus Set 1</option>
                               <option value="1">Stimulus Set 2</option>
                               <option value="2">Stimulus Set 3</option>
                               <option value="3">Stimulus Set 4</option>
                             </select>
-                            <div class="input-group-append">
-                              <button class="btn btn-outline-secondary" type="button">-</button>
-                            </div>
                           </div>
                           <div class="form-group">
                             <select multiple class="form-control" id="exper_stim">
