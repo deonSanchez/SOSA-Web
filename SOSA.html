@@ -48,6 +48,52 @@
 * @param obj
 * @returns {Number}
 */
+
+var gridScale;
+// standard global variables
+var ExperimentContainer, ExperimentScene, ExperimentCamera, ExperimentRenderer, ExperimentControls, pegsPlaced, MouseOnBoard;
+var PegContainer, PegScene, PegCamera, PegRenderer;
+//Teststimulus is the array of peg objects. Initialized later in the code.
+var TestStimuli;
+//Teststatus is an array of booleans that keeps track of whether a peg is placed on the board or not.
+var TestStatus = [];
+//Keeps track of stimulus set id
+var StimulusSetID;
+//stores the stimuli data we retrieve from the server.
+var StimuliJSON;
+var StimulusLabels = [];
+var BoardID;
+var token;
+var demo;
+var BoardJSON;
+//finds value given name in the href.
+function getParameterByName(name, url) {
+  if (!url) url = window.location.href;
+  name = name.replace(/[\[\]]/g, "\\$&");
+  var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
+  results = regex.exec(url);
+  if (!results) return null;
+  if (!results[2]) return '';
+  return decodeURIComponent(results[2].replace(/\+/g, " "));
+}
+
+function checkParams() {
+  if(getParameterByName("token") == null) {
+    token = "5yT9EmOQF8E1woc";
+  }else{
+    token = getParameterByName("token");
+  }
+
+  if(getParameterByName("demo") == null){
+    gridScale = 999;
+  } else {
+    gridScale = getParameterByName("demo") - 1;
+  }
+
+}
+
+checkParams();
+
 function objLength(obj){
   var i=0;
   for (var x in obj){
@@ -73,45 +119,12 @@ function fullColorHex(r,g,b) {
   var blue = rgbToHex(b);
   return red+green+blue;
 }
-// standard global variables
-var ExperimentContainer, ExperimentScene, ExperimentCamera, ExperimentRenderer, ExperimentControls, pegsPlaced, MouseOnBoard;
-//Teststimulus is the array of peg objects. Initialized later in the code.
-var TestStimuli;
-//Teststatus is an array of booleans that keeps track of whether a peg is placed on the board or not.
-var TestStatus = [];
-//
-var StimulusLabels = [];
-//Keeps track of stimulus set id
-var StimulusSetID;
-//stores the stimuli data we retrieve from the server.
-var StimuliJSON;
-//isHovering helps to make sure to reset the color effect when a user is mousing over a peg
-var isHovering = false;
-//ExperimentLog is a 2D array of every deletion and addition of a peg that happens during the experiment.
-var ExperimentLog = [];
-//Keeps track of time for the experiment log.
-var ExperimentTime;
-var keyboard = new KeyboardState();
-var clock = new THREE.Clock();
-// custom global variables
-var mesh;
-var person;
-//finds value given name in the href.
-function getParameterByName(name, url) {
-  if (!url) url = window.location.href;
-  name = name.replace(/[\[\]]/g, "\\$&");
-  var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
-  results = regex.exec(url);
-  if (!results) return null;
-  if (!results[2]) return '';
-  return decodeURIComponent(results[2].replace(/\+/g, " "));
-}
+
 //loads experiment
-var access = "5yT9EmOQF8E1woc";
 function loadExperiment(){
   $.ajax( {
     type : 'POST',
-    data : 'request=loadexperiment&token='+access,
+    data : 'request=loadexperiment&token='+ token,
     url : 'api/index.php',
     async : false,
     success : function(response) {
@@ -120,9 +133,7 @@ function loadExperiment(){
         var json = JSON.parse(response);
         var len = objLength(json);
         StimulusSetID = json[0].stimset_id;
-        console.log("Stim set ID: " + json[0].stimset_id);
-        console.log("Board ID: " + json[0].idboard);
-        console.log("Title: " + json[0].title);
+        BoardID = json[0].idboard;
       } else {
       }
     },
@@ -150,6 +161,27 @@ function loadStimSet(callback){
     }
   });
 }
+
+function loadBoard(){
+  $.ajax( {
+    type : 'POST',
+    data : 'request=loadboard&idboard='+BoardID,
+    url : 'api/index.php',
+    async : false,
+    success : function(response) {
+      if(response != "null") {
+        BoardJSON = JSON.parse(response);
+      } else {
+        console.log("null response for " + response);	
+      }
+    },
+    error : function() {
+      alert("Something went wrong when retrieving the stimulus set!");
+    }
+  });
+}
+
+
 function viewSet(n) {
   // on ground near origin
   if (n == 1) {
@@ -168,6 +200,7 @@ function viewSet(n) {
 var gridScale = getParameterByName('demo') - 1;
 loadExperiment();
 loadStimSet();
+loadBoard();
 initExperiment();
 animateExperiment();
 // FUNCTIONS
@@ -194,7 +227,6 @@ function initExperiment() {
     ExperimentRenderer = new THREE.CanvasRenderer();
   }
   ExperimentRenderer.setSize(SCREEN_WIDTH, SCREEN_HEIGHT);
-  ExperimentRenderer.autoclear = false;
   ExperimentContainer = document.getElementById( 'ThreeJSExperiment' );
   // EVENTS
   THREEx.WindowResize(ExperimentRenderer, ExperimentCamera);
@@ -212,6 +244,10 @@ function initExperiment() {
   // SKYBOX - Background
   var skyBoxGeometry = new THREE.CubeGeometry( 1000, 1000, 1000 );
   var skyBoxMaterial = new THREE.MeshBasicMaterial( { color: 0x000000, side: THREE.BackSide } );
+
+  //sets loaded background
+  skyBoxMaterial.color.setHex(BoardJSON[0].background_color);
+
   var skyBox = new THREE.Mesh( skyBoxGeometry, skyBoxMaterial );
   ExperimentScene.add(skyBox);
   ////////////
@@ -226,7 +262,14 @@ function initExperiment() {
   this.BoardGeo = new THREE.PlaneGeometry(24,24);
   // for creating image on plane
   //this.planeMat = new THREE.MeshBasicMaterial({map:squareT, color:0xbbbbbb});
-  this.BoardMat = new THREE.MeshPhongMaterial({ color: 0x4f0059,  specular: 0x050505, shininess: 30 });
+  this.BoardMat = new THREE.MeshPhongMaterial({ color: 0x7b7b77,  specular: 0x050505, shininess: 30 });
+
+  //sets loaded board color
+  if(BoardJSON[0].cover_board == 0)
+  this.BoardMat.color.setHex(BoardJSON[0].board_color);
+  else
+  this.BoardMat.color.setHex(BoardJSON[0].cover_color);
+
   var ExperiBoard = new THREE.Mesh(BoardGeo, BoardMat);
   ExperiBoard.rotation.x = -Math.PI / 2;
   ExperiBoard.position.set(16,-1,16);
@@ -306,14 +349,17 @@ function initExperiment() {
     MouseOnBoard = false;
 
     //GUI
-    var gui = new dat.GUI();
-
     var parameters =
     {
-      a: function() {},
-      b: function() {},
+      a: function() {
+        alert("a");
+      },
+      b: function() {
+        var json = {"token": boardName, "lock_tilt": lockTilt, "lock_rotate": lockRotate, "lock_zoom": lock_zoom, "board_color": hexBoard,
+        "background_color": hexBackground, "cover_color": hexCover, "image": image, "cover_board": cover_board,"camerax" : camerax, "cameray" : cameray, "cameraz" : cameraz};
+        var packet = JSON.stringify(json);
+      },
     };
-
     gui.add( parameters, 'a' ).name('Revert Camera');
     gui.add( parameters, 'b' ).name("Finish Test");
     gui.open();
