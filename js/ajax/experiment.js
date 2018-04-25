@@ -217,11 +217,10 @@ $("a#StartExperimentButton").on("click",function(){
 		url : 'api/index.php',
 		async : true,
 		success : function(response) {
-			if(response == 1) {
-				alert("Success!");
-				$("div#sign-in").modal('hide');
+			if(response.substring(0,4) == "Error") {
+				alert(response);
 			} else {
-				login_content.html(response);
+				window.location.href = "./SOSA.html?token="+response;
 			}
 		},
 		error : function() {

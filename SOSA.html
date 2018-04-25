@@ -98,6 +98,7 @@ function getParameterByName(name, url) {
 }
 function checkParams() {
 	if(getParameterByName("token") == null) {
+		//default test token
 		token = "5yT9EmOQF8E1woc";
 	}else{
 		token = getParameterByName("token");
