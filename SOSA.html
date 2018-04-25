@@ -45,7 +45,11 @@
 <script>
 var gridScale;
 // standard global variables
-var ExperimentContainer, ExperimentScene, ExperimentCamera, ExperimentRenderer, ExperimentControls, pegsPlaced, MouseOnBoard;
+var ExperimentContainer, ExperimentScene, ExperimentCamera, ExperimentRenderer, ExperimentControls, pegsPlaced;
+//Camera locks
+var TiltLock, ZoomLock, RotateLock;
+//boolean that keeps track of the mouse position.
+var MouseOnBoard;
 //Teststimulus is the array of peg objects. Initialized later in the code.
 var TestStimuli;
 //Teststatus is an array of booleans that keeps track of whether a peg is placed on the board or not.
@@ -186,6 +190,7 @@ function loadBoard(){
     success : function(response) {
       if(response != "null") {
         BoardJSON = JSON.parse(response);
+        console.log(BoardJSON);
       } else {
         console.log("null response for " + response);
       }
@@ -285,7 +290,14 @@ function initExperiment() {
   else
 	  this.BoardMat.color.setHex(BoardJSON[0].cover_color);
 
-  var ExperiBoard = new THREE.Mesh(BoardGeo, BoardMat);
+  //Loads image into board if there is one
+  if (BoardJSON[0].image != null){
+    var imgurl = BoardJSON[0].image;
+    texture = THREE.ImageUtils.loadTexture(imgurl.split("../../")[1]);
+    this.boardMat = new THREE.MeshBasicMaterial({map: texture});
+  }
+
+  var ExperiBoard = new THREE.Mesh(this.BoardGeo, this.boardMat);
   //BOARD POSITION
   ExperiBoard.rotation.x = -Math.PI / 2;
   ExperiBoard.position.set(16,-1,16);
@@ -312,6 +324,13 @@ function initExperiment() {
   BoardSide.position.set(28,-1.5,16);
   ExperimentScene.add(BoardSide);
   this.stimuliGeo = new THREE.CylinderGeometry(1,1,3,100);
+
+  //load camera lock settings
+  TiltLock = BoardJSON[0].lock_tilt == 1;
+  RotateLock = BoardJSON[0].lock_rotate == 1;
+  ZoomLock = BoardJSON[0].lock_zoom == 1;
+
+
   this.offset = [
     new THREE.Vector3(1,0,0), new THREE.Vector3(-1,0,0),
     new THREE.Vector3(0,1,0), new THREE.Vector3(0,-1,0),
@@ -485,19 +504,19 @@ function initExperiment() {
     if ( keyboard.pressed("D") )
     person.translateX(  moveDistance );
     // move up/down (fly)
-    if ( keyboard.pressed("R") )
+    if ( keyboard.pressed("R") && !ZoomLock )
     person.translateY(  moveDistance );
-    if ( keyboard.pressed("F") )
+    if ( keyboard.pressed("F") && !ZoomLock )
     person.translateY( -moveDistance );
     // turn left/right
-    if (keyboard.pressed("Q"))
+    if (keyboard.pressed("Q") && !RotateLock)
     person.rotateY(  rotateAngle );
-    if (keyboard.pressed("E"))
+    if (keyboard.pressed("E") && !RotateLock)
     person.rotateY( -rotateAngle );
     // look up/down
-    if ( keyboard.pressed("T") )
+    if ( keyboard.pressed("T") && !TiltLock)
     ExperimentCamera.rotateX(  rotateAngle );
-    if ( keyboard.pressed("G") )
+    if ( keyboard.pressed("G") && !TiltLock)
     ExperimentCamera.rotateX( -rotateAngle );
     // limit ExperimentCamera to +/- 45 degrees (0.7071 radians) or +/- 60 degrees (1.04 radians) or 85 (1.48)
     ExperimentCamera.rotation.x = THREE.Math.clamp( ExperimentCamera.rotation.x, -1.48, 1.48 );
