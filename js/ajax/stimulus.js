@@ -179,7 +179,7 @@ function loadStimulusSets(callback) {
 			var len = objLength(json);
 			var appendLabel = "";
 			for (var i = 0; i < len; i++) {
-				appendLabel = appendLabel + "<option>"+json[i].title+"</option>";
+				appendLabel = appendLabel + "<option id="+json[i].stimset_id+">"+json[i].title+"</option>";
 			}
 			$("select#stimulus-set").html(appendLabel);
 			$("select#experi_set").html(appendLabel);

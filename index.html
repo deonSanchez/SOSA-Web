@@ -627,6 +627,7 @@
 			 		 	<script src="js/boards/experimentModalBoard.js"></script>
                         <div class=" row pb-3">
                           <div class="col">
+                          Grid Size:
                             <select class="custom-select" id="gridInputDropdown" onchange="updateGrid(this.value)">
                               <option value = 1000 selected>Freeform on Final Image</option>
                               <option value = 12>12x12 on Final Image</option>
@@ -637,8 +638,21 @@
                           </div>
                           <div class="col">
                             <div class="checkbox">
-                              <label><input type="checkbox" value=""> Show Board Cover</label>
+                              <label><input type="checkbox" value="" id="exprCover"> Show Board Cover</label>
                             </div>
+                          </div>
+                        </div>
+                        <div class=" row pb-3">
+                          <div class="col">
+                          Board:
+                            <select class="custom-select" id="boardExperiment">
+                              <option value = "placehold" selected>Placeholder</option>
+                            </select>
+                          </div>
+                        </div>
+                        <div class=" row pb-3">
+                          <div class="col">
+               				<input type="text" id="experiment_name" class="form-control" placeholder="Experiment Name">
                           </div>
                         </div>
                       </div>
@@ -797,7 +811,7 @@
                           <button class="btn btn-shadow btn-secondary btn-block rounded-pill sosa-modal-dismiss" href="#">Load Stimulus</button>
                         </div>
                         <div class="col mt-3">
-                          <a class="btn btn-shadow btn-secondary btn-block rounded-pill" target="_blank" href="SOSA.html?demo=1000" id = "StartExperimentButton">Begin Experiment</a>
+                          <a class="btn btn-shadow btn-secondary btn-block rounded-pill" target="_blank" id = "StartExperimentButton">Begin Experiment</a>
                         </div>
                       </div>
                     </div>

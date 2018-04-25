@@ -33,7 +33,7 @@ $VALID_REQUESTS = array('login','checklogin','logout', 'loadstimsetbyid',
  'register','createstimulus','loadstimsets',
  'loadstimsetbyname','createset','deleteset',
  'loadstimulus','deletestimulus','updatestimulus','saveboard'
- ,'loadboard', 'uploadboardimg', 'loadboards', 'deleteboard','loadexperiment','createresult');
+ ,'loadboard', 'uploadboardimg', 'loadboards', 'deleteboard','loadexperiment','createresult','createexperiment');
 
 //Validating the existance of server variable "HTTP_X_REQUESTED_WITH", if it exists it can verify that the call is ajax
 $httpXrequested = isset($_SERVER['HTTP_X_REQUESTED_WITH']);

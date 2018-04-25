@@ -690,8 +690,7 @@ class Session {
 	 * @return crated experiment
 	 * @version 0.5.0
 	 */
-	public function createExperiment($idboard,$stimset_id,$title,$showbg,$showlabels,$preview) {
-		$showbg = 1;
+	public function createExperiment($idboard,$stimset_id,$grid,$title,$showbg,$showlabels,$preview) {
 		$showlabels = 1;
 		$preview = "null";
 		if(!$this->boardExists($idboard)) {
@@ -702,11 +701,11 @@ class Session {
 			return "Not a valid stimulus set!";
 		}
 		$access = $this->generateRandID(15);
-		$mysqli = $this->mysqli->prepare("INSERT INTO `experiment` (`title`,`stimset_id`,`idboard`,`show_background`,`show_labels`,`preview_img`,`access_key`) VALUES (?,?,?,?,?,?,?)");
-		$mysqli->bind_param("siiiiss", $title,$stimset_id,$idboard,$showbg,$showlabels,$preview,$access);
+		$mysqli = $this->mysqli->prepare("INSERT INTO `experiment` (`title`,`stimset_id`,`idboard`,`show_background`,`show_labels`,`preview_img`,`access_key`,`grid`) VALUES (?,?,?,?,?,?,?,?)");
+		$mysqli->bind_param("siiiissi", $title,$stimset_id,$idboard,$showbg,$showlabels,$preview,$access,$grid);
 		$mysqli->execute();
 		$mysqli->close();
-		return "Experiment created! Access ID = {$access}";
+		return $access;
 	}
 	
 	/**

@@ -65,8 +65,10 @@ function loadBoardModal() {
 				appendLabel = appendLabel + "<option boardid=\""+json[i].idboard+"\">"+json[i].board_name+"</option>";
 			}
 			$("select#boards").html(appendLabel);
+			$("select#boardExperiment").html(appendLabel);
 		} else {
 			$("select#boards").html("");
+			$("select#boardExperiment").html("");
 		}
 		},
 		error : function() {
@@ -198,6 +200,35 @@ $("button#register-submit").on('click', function() {
 	});
 });
 
+
+$("a#StartExperimentButton").on("click",function(){
+	var board =  $('#boardExperiment :selected').attr('boardid');
+	var stimid = $('#experi_set :selected').attr('id');
+	var grid = $('#gridInputDropdown :selected').attr('value');
+	var coverBoard = $("input#exprCover").is(":checked");
+	var exprname = $("input#experiment_name").val();
+	if(!exprname){
+		alert("You must set an experiment name!");
+		return;
+	}
+	$.ajax( {
+		type : 'POST',
+		data : 'request=createexperiment&board=' + board + '&stimid=' + stimid +'&grid='+grid+"&cover="+coverBoard+"&title="+exprname,
+		url : 'api/index.php',
+		async : true,
+		success : function(response) {
+			if(response == 1) {
+				alert("Success!");
+				$("div#sign-in").modal('hide');
+			} else {
+				login_content.html(response);
+			}
+		},
+		error : function() {
+			alert("Error with logout!");
+		}
+	});
+});
 
 /**
  * When dropdown changed, loads the simuli under the selected set into the individual stimulus dropdown
