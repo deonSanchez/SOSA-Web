@@ -500,14 +500,14 @@ class Session {
 	 */
 	public function loadExperiment($access) {
 		$results = null;
-		$stmt = $this->mysqli->prepare("SELECT `stimset_id`, `title`, `idboard`,`experiment_id` FROM `experiment` WHERE `access_key` = ?");
+		$stmt = $this->mysqli->prepare("SELECT `stimset_id`, `title`, `idboard`,`experiment_id`, `grid` FROM `experiment` WHERE `access_key` = ?");
 		$stmt->bind_param("s",$access);
-		$stmt->bind_result($stimset_id, $title,$idboard,$experiment_id);
+		$stmt->bind_result($stimset_id, $title,$idboard,$experiment_id,$grid);
 		$stmt->execute();
 		$stmt->store_result();
 		if ($stmt->num_rows >= 1) {
 			while ($stmt->fetch()) {
-				$results[] = array('stimset_id' => $stimset_id, 'title' => $title, 'idboard' => $idboard, 'experiment_id' => $experiment_id);
+				$results[] = array('stimset_id' => $stimset_id, 'title' => $title, 'idboard' => $idboard, 'experiment_id' => $experiment_id, 'grid' => $grid);
 			}
 		}
 		return $results;

@@ -102,13 +102,6 @@ function checkParams() {
 	}else{
 		token = getParameterByName("token");
 	}
-
-	if(getParameterByName("demo") == null){
-		gridScale = 999;
-	} else {
-		gridScale = getParameterByName("demo") - 1;
-	}
-
 }
 
 checkParams();
@@ -155,6 +148,7 @@ function loadExperiment(){
         StimulusSetID = json[0].stimset_id;
         BoardID = json[0].idboard;
         ExperimentID = json[0].experiment_id;
+        gridScale = json[0].grid;
       }
     },
     error : function() {
