@@ -217,7 +217,7 @@ $("a#StartExperimentButton").on("click",function(){
 		url : 'api/index.php',
 		async : true,
 		success : function(response) {
-			if(response.substring(0,4) == "Error") {
+			if(response.includes("Error")) {
 				alert(response);
 			} else {
 				window.location.href = "./SOSA.html?token="+response;

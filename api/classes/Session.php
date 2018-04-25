@@ -327,7 +327,6 @@ class Session {
 		}
 		return false;
 	}
-
 	/**
 	 * Returns the UID based on email/sid input
 	 * Determines input type no specification required
@@ -680,6 +679,22 @@ class Session {
 		$qry = $this->qb->start();
 		$qry->select("idboard");
 		$qry->from("board")->where("idboard", "=", $input);
+		$result = $qry->get();
+		return isset($result[0]['idboard']);
+	}
+
+	/**
+	 * Returns if the board exists
+	 * Determines input type no specification required
+	 * @author Mitchell M.
+	 * @param type $input id
+	 * @return type
+	 * @version 1.2.0
+	 */
+	function experimentExists($stim,$board) {
+		$qry = $this->qb->start();
+		$qry->select("experiment_id");
+		$qry->from("board")->where("idboard", "=", $board)->where("stimset_id", "=", $stim);
 		$result = $qry->get();
 		return isset($result[0]['idboard']);
 	}
