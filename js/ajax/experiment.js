@@ -146,7 +146,7 @@ $("button#signin").on("click", function(e) {
 			} else {
 				alert("Failed to login! Try again?");
 				login_content.html("<input id=\"username\" type=\"text\" class=\"form-control mb-3\" placeholder=\"Username\"> " +
-						"<input id=\"password\" type=\"text\" class=\"form-control\" placeholder=\"Password\">");
+						"<input id=\"password\" type=\"password\" class=\"form-control\" placeholder=\"Password\">");
 			}
 		},
 		error : function() {
