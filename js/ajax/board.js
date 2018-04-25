@@ -71,39 +71,56 @@ $("button#saveCreatedBoard").on('click', function(){
 		data: 'request=saveboard&board=' + packet,
 		url: 'api/index.php',
 		async : true,
-		dataType: 'json',
-		success: function (json) {
-		if($('#boardImg').val()) {
-			var file_data = $('#boardImg').prop('files')[0];   
-			var form_data = new FormData();                  
-			form_data.append('file', file_data);
-			form_data.append('request','uploadboardimg');
-			form_data.append('board_name',boardName);
-			alert(form_data);    
-			$.ajax({
-				url: 'api/index.php',
-				dataType: 'text',
-				cache: false,
-				contentType: false,
-				processData: false,
-				data: form_data,                         
-				type: 'post',
-				success: function(php_script_response){
-
-				loadBoardModal();
+		dataType: 'text',
+		success: function (response) {
+			if(response!=1) {
+				alert(response);
+			} else {
+				if($('#boardImg').val()) {
+					var file_data = $('#boardImg').prop('files')[0];   
+					var form_data = new FormData();                  
+					form_data.append('file', file_data);
+					form_data.append('request','uploadboardimg');
+					form_data.append('board_name',boardName);
+					alert(form_data);    
+					$.ajax({
+						url: 'api/index.php',
+						dataType: 'text',
+						cache: false,
+						contentType: false,
+						processData: false,
+						data: form_data,                         
+						type: 'post',
+						success: function(php_script_response){
+		
+						loadBoardModal();
+					}
+					});
+				} else {
+					loadBoardModal();
+				}
 			}
-			});
-		} else {
-
-			loadBoardModal();
-		}
-	},
-	error: function() {
-		alert("Failed!");
-	}
+		},
+		error: function(jqXHR, exception) {
+	        if (jqXHR.status === 0) {
+	            alert('Not connect.\n Verify Network.');
+	        } else if (jqXHR.status == 404) {
+	            alert('Requested page not found. [404]');
+	        } else if (jqXHR.status == 500) {
+	            alert('Internal Server Error [500].');
+	        } else if (exception === 'parsererror') {
+	            alert('Requested JSON parse failed.');
+	        } else if (exception === 'timeout') {
+	            alert('Time out error.');
+	        } else if (exception === 'abort') {
+	            alert('Ajax request aborted.');
+	        } else {
+	            alert('Uncaught Error.\n' + jqXHR.responseText);
+	        }
+	    }
 	});
-});
 
+});
 $("button#loadCreatedBoard").on('click', function(){
 	var boardid = $('#boards :selected').attr('boardid');
 	$.ajax({
@@ -151,8 +168,7 @@ $("button#loadCreatedBoard").on('click', function(){
 				appendLabel = appendLabel + "<option>"+json[i].title+"</option>";
 			}*/
 	},
-	error: function() {
-	}
+	error: function() {	}
 	});
 });	
 
@@ -165,13 +181,16 @@ $("button#deleteCreatedBoard").on('click', function(){
 		data: 'request=deleteboard&board=' + boardid,
 		url: 'api/index.php',
 		async : true,
-		dataType: 'json',
-		success: function (json) {
-			loadBoardModal();
-			alert("Board deleted!");
-	},
-	error: function() {
-	}
+		dataType: 'text',
+		success: function (response) {
+			if(response!=1) {
+				alert(response);
+			} else {
+				loadBoardModal();
+				alert("Board deleted!");
+			}
+		},
+		error: function() {	}
 	});
 });
 

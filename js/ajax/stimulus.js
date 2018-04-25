@@ -20,7 +20,7 @@ $("button#create_stimulus").on('click',function(){
 				loadCreatorStimulus();
 				$('#invididual_stimulus').val(stimulus_name);
 			} else {
-				alert("Error adding stimulus!");
+				alert(response);
 			}
 		},
 		error : function() {
@@ -82,7 +82,11 @@ $("button#save").on('click',function(){
 		url : 'api/index.php',
 		async : true,
 		success : function(response) {
-			loadCreatorStimulus();
+			if(response!=1) {
+				alert(response);
+			} else {
+				loadCreatorStimulus();
+			}
 		},
 		error : function() {
 			alert("Error with save stimulus!");
@@ -102,7 +106,11 @@ $("button#remove_stim").on("click", function() {
 		url : 'api/index.php',
 		async : true,
 		success : function(response) {
-			loadCreatorStimulus();
+			if(response!=1) {
+				alert(response);
+			} else {
+				loadCreatorStimulus();
+			}
 		},
 		error : function() {
 			alert("Error with delete stimulus!");
@@ -125,7 +133,7 @@ $("button#add").on('click',function(){
 			if(response == 1) {
 				$("select#stimulus-set").prepend("<option>"+set_name+"</option>");
 			} else {
-				alert("Cannot create new stimulus set with name of another set OR with non-alphanumeric name!");
+				alert(response);
 			}
 		},
 		error : function() {
@@ -145,7 +153,11 @@ $("button#remove").on('click',function(){
 		url : 'api/index.php',
 		async : true,
 		success : function(response) {
-			loadStimulusSets(loadCreatorStimulus);
+			if(response == 1) {
+				loadStimulusSets(loadCreatorStimulus);
+			} else {
+				alert(response);
+			}
 		},
 		error : function() {
 			alert("Error with remove stimulus!");
