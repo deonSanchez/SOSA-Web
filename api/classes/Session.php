@@ -308,6 +308,10 @@ class Session {
 		return json_encode($response);
 	}
 
+	public function validEmail($email) {
+		if (filter_var($email, FILTER_VALIDATE_EMAIL))
+			return true;
+	}
 	/**
 	 * Validates that the login details are valid
 	 * @param string $username
@@ -705,7 +709,7 @@ class Session {
 	 * @return crated experiment
 	 * @version 0.5.0
 	 */
-	public function createExperiment($idboard,$stimset_id,$grid,$title,$showbg,$showlabels,$preview) {
+	public function createExperiment($admin, $idboard,$stimset_id,$grid,$title,$showbg,$showlabels,$preview) {
 		$showlabels = 1;
 		$preview = "null";
 		if(!$this->boardExists($idboard)) {
@@ -716,8 +720,8 @@ class Session {
 			return "Not a valid stimulus set!";
 		}
 		$access = $this->generateRandID(15);
-		$mysqli = $this->mysqli->prepare("INSERT INTO `experiment` (`title`,`stimset_id`,`idboard`,`show_background`,`show_labels`,`preview_img`,`access_key`,`grid`) VALUES (?,?,?,?,?,?,?,?)");
-		$mysqli->bind_param("siiiissi", $title,$stimset_id,$idboard,$showbg,$showlabels,$preview,$access,$grid);
+		$mysqli = $this->mysqli->prepare("INSERT INTO `experiment` (`title`,`stimset_id`,`idboard`,`show_background`,`show_labels`,`preview_img`,`access_key`,`grid`,`admin`) VALUES (?,?,?,?,?,?,?,?,?)");
+		$mysqli->bind_param("siiiissis", $title,$stimset_id,$idboard,$showbg,$showlabels,$preview,$access,$grid,$admin);
 		$mysqli->execute();
 		$mysqli->close();
 		return $access;

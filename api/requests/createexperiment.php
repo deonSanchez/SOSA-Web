@@ -6,7 +6,7 @@ require_once("base.php");
 if(!$session->isLoggedIn())
 	die( "Error: You must be logged in for this feature!");
 	
-$access = $session->createExperiment($board, $stimid, $grid, $title,$cover, 1, null);
+$access = $session->createExperiment($admin, $board, $stimid, $grid, $title,$cover, 1, null);
 if($session->loadExperiment($access) != null ){
 	echo $access;
 } else {

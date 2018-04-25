@@ -207,20 +207,25 @@ $("a#StartExperimentButton").on("click",function(){
 	var grid = $('#gridInputDropdown :selected').attr('value');
 	var coverBoard = $("input#exprCover").is(":checked");
 	var exprname = $("input#experiment_name").val();
+	var admin = $("input#admin_email").val();
+	
+	if(!admin) {
+		admin = "null";
+	}
 	if(!exprname){
 		alert("You must set an experiment name!");
 		return;
 	}
 	$.ajax( {
 		type : 'POST',
-		data : 'request=createexperiment&board=' + board + '&stimid=' + stimid +'&grid='+grid+"&cover="+coverBoard+"&title="+exprname,
+		data : 'request=createexperiment&board=' + board + '&stimid=' + stimid +'&grid='+grid+"&cover="+coverBoard+"&title="+exprname+"&admin="+admin,
 		url : 'api/index.php',
 		async : true,
 		success : function(response) {
 			if(response.includes("Error")) {
 				alert(response);
 			} else {
-				window.location.href = "./SOSA.html?token="+response;
+				//window.location.href = "./SOSA.html?token="+response;
 			}
 		},
 		error : function() {
