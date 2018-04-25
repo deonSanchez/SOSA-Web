@@ -291,7 +291,7 @@ function initExperiment() {
 	  this.BoardMat.color.setHex(BoardJSON[0].cover_color);
 
   //Loads image into board if there is one
-  if (BoardJSON[0].image != null){
+  if (BoardJSON[0].image != "null"){
     var imgurl = BoardJSON[0].image;
     texture = THREE.ImageUtils.loadTexture(imgurl.split("../../")[1]);
     //if texture is null, it means the image failed to load.
