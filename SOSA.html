@@ -294,7 +294,10 @@ function initExperiment() {
   if (BoardJSON[0].image != null){
     var imgurl = BoardJSON[0].image;
     texture = THREE.ImageUtils.loadTexture(imgurl.split("../../")[1]);
-    this.boardMat = new THREE.MeshBasicMaterial({map: texture});
+    //if texture is null, it means the image failed to load.
+    if (texture != null){
+      this.boardMat = new THREE.MeshBasicMaterial({map: texture});
+    }
   }
 
   var ExperiBoard = new THREE.Mesh(this.BoardGeo, this.boardMat);
@@ -391,7 +394,7 @@ function initExperiment() {
   	var parameters =
   	{
   		a: function() {
-			alert("a");
+  			ExperimentCamera.Position.set(0, 1.0, 4.0);
   		},
   		b: function() {
   	  		var expData = JSON.stringify(ExperimentLog);
