@@ -114,7 +114,12 @@ section h2 {
   background: #800080;
   cursor: pointer;
 }
-
+#gui {
+  position: absolute;
+  top: 50px;
+  left: 0px;
+  z-index: 1;
+}
 #mainNav {
   font-weight: 700;
   font-family: 'Montserrat';
@@ -407,3 +412,6 @@ a.active-modal {
   font-size: 1.3rem;
   font-weight: 1000;
 }
+
+
+
