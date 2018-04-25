@@ -276,71 +276,71 @@
               <hr class="cog-dark mb-5">
               <div class="row">
                 <div class="col">
-                <div id="ThreeJSBoard"></div>
+                  <div id="ThreeJSBoard"></div>
 
-  			  <script src="js/boards/creatorModalBoard.js"></script>
+                  <script src="js/boards/creatorModalBoard.js"></script>
 
-              <div class="form-group">
-                <input type="text" id="board_name" class="form-control" placeholder="Board Name">
-              </div>
-              <div class="row">
-                <div class="col">
-                  <button class="btn btn-shadow btn-block btn-secondary btn-small rounded-pill" id="addImage" onclick="addBoardImage()">Add Image</button>
-                	<input id="boardImg" type="file" style="display:none;" />
-                </div>
-                <div class="col">
-                  <button class="btn btn-shadow btn-block btn-secondary btn-small rounded-pill" onclick="ClearOff()">Clear</button>
-                </div>
-              </div>
-              <div class="row">
-                <div class="flex-column p-3">
-                   <div class="checkbox">
-                    <label><input id = "tiltSet" type="checkbox" value="false" onchange = "setTiltLock()"> Lock Tilt</label>
+                  <div class="form-group">
+                    <input type="text" id="board_name" class="form-control" placeholder="Board Name">
                   </div>
-                  <div class="checkbox">
-                    <label><input id = "rotateSet" type="checkbox" value="false" onchange = "setRotLock()"> Lock Rotate</label>
-                  </div>
-                  <div class="checkbox">
-                    <label><input id = "zoomSet" type="checkbox" value="false" onchange = "setZoomLock()"> Lock Zoom</label>
-                  </div>
-                  <div class="checkbox">
-                    <label><input id = "coverSet" type="checkbox" value="false" onchange = "ToggleCover()"> Cover Board</label>
-                  </div>
-                </div>
-                <div class="flex-column m-auto align-self-end text-center">
-                  <button onclick="displayColorSliderBoard()" value ="board" class="btn btn-secondary btn-shadow">Board</button>
-                  <button onclick="displayColorSliderBackground()" value ="background"class="btn btn-secondary btn-shadow">Background</button>
-                  <button onclick="displayColorSliderCover()" value ="cover" class="btn btn-secondary btn-shadow">Cover</button>
-
-                  <div id="displayValueBoard" class="pt-3 text-center" style="display: block;">
-                    Value: (<span id="Rbv"></span>, <span id="Gbv"></span>, <span id="Bbv"></span>)
-                  </div>
-                  <div id="displayValueBackground" class="pt-3 text-center" style="display: none;">
-                    Value: (<span id="Rbgv"></span>, <span id="Gbgv"></span>, <span id="Bbgv"></span>)
-                  </div>
-                  <div id="displayValueCover" class="pt-3 text-center" style="display: none;">
-                    Value: (<span id="Rcv"></span>, <span id="Gcv"></span>, <span id="Bcv"></span>)
-                  </div>
-                </div>
-              </div>
-              <div>
-                <div id="displaySliderBoard" style="display: block;">
-                  <input type="range" min="0" max="255" value="0" class="slider mb-3" id="BoardRvalue" onchange = "setBoardRGB()">
-                  <input type="range" min="0" max="255" value="0" class="slider mb-3" id="BoardGvalue" onchange = "setBoardRGB()">
-                  <input type="range" min="0" max="255" value="0" class="slider mb-4" id="BoardBvalue" onchange = "setBoardRGB()">
-                </div>
-                <div id="displaySliderBackground" style="display: none;">
-                  <input type="range" min="0" max="255" value="255" class="slider mb-3" id="BackgroundRvalue" onchange = "setBackgroundRGB()">
-                  <input type="range" min="0" max="255" value="255" class="slider mb-3" id="BackgroundGvalue" onchange = "setBackgroundRGB()">
-                  <input type="range" min="0" max="255" value="255" class="slider mb-4" id="BackgroundBvalue" onchange = "setBackgroundRGB()">
-                </div>
-                <div id="displaySliderCover" style="display: none;">
-                  <input type="range" min="0" max="255" value="0" class="slider mb-3" id="CoverRvalue" onchange = "setBoardCoverRGB()">
-                  <input type="range" min="0" max="255" value="0" class="slider mb-3" id="CoverGvalue" onchange = "setBoardCoverRGB()">
-                  <input type="range" min="0" max="255" value="255" class="slider mb-4" id="CoverBvalue" onchange = "setBoardCoverRGB()">
-                </div>
-                <div class="text-uppercase">
                   <div class="row">
+                    <div class="col">
+                      <button class="btn btn-shadow btn-block btn-secondary btn-small rounded-pill" id="addImage" onclick="addBoardImage()">Add Image</button>
+                      <input id="boardImg" type="file" style="display:none;" />
+                    </div>
+                    <div class="col">
+                      <button class="btn btn-shadow btn-block btn-secondary btn-small rounded-pill" onclick="ClearOff()">Clear</button>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="flex-column p-3">
+                      <div class="checkbox">
+                        <label><input id = "tiltSet" type="checkbox" value="false" onchange = "setTiltLock()"> Lock Tilt</label>
+                      </div>
+                      <div class="checkbox">
+                        <label><input id = "rotateSet" type="checkbox" value="false" onchange = "setRotLock()"> Lock Rotate</label>
+                      </div>
+                      <div class="checkbox">
+                        <label><input id = "zoomSet" type="checkbox" value="false" onchange = "setZoomLock()"> Lock Zoom</label>
+                      </div>
+                      <div class="checkbox">
+                        <label><input id = "coverSet" type="checkbox" value="false" onchange = "ToggleCover()"> Cover Board</label>
+                      </div>
+                    </div>
+                    <div class="flex-column m-auto align-self-end text-center">
+                      <button onclick="displayColorSliderBoard()" value ="board" class="btn btn-secondary btn-shadow">Board</button>
+                      <button onclick="displayColorSliderBackground()" value ="background"class="btn btn-secondary btn-shadow">Background</button>
+                      <button onclick="displayColorSliderCover()" value ="cover" class="btn btn-secondary btn-shadow">Cover</button>
+
+                      <div id="displayValueBoard" class="pt-3 text-center" style="display: block;">
+                        Value: (<span id="Rbv"></span>, <span id="Gbv"></span>, <span id="Bbv"></span>)
+                      </div>
+                      <div id="displayValueBackground" class="pt-3 text-center" style="display: none;">
+                        Value: (<span id="Rbgv"></span>, <span id="Gbgv"></span>, <span id="Bbgv"></span>)
+                      </div>
+                      <div id="displayValueCover" class="pt-3 text-center" style="display: none;">
+                        Value: (<span id="Rcv"></span>, <span id="Gcv"></span>, <span id="Bcv"></span>)
+                      </div>
+                    </div>
+                  </div>
+                  <div>
+                    <div id="displaySliderBoard" style="display: block;">
+                      <input type="range" min="0" max="255" value="0" class="slider mb-3" id="BoardRvalue" onchange = "setBoardRGB()">
+                      <input type="range" min="0" max="255" value="0" class="slider mb-3" id="BoardGvalue" onchange = "setBoardRGB()">
+                      <input type="range" min="0" max="255" value="0" class="slider mb-4" id="BoardBvalue" onchange = "setBoardRGB()">
+                    </div>
+                    <div id="displaySliderBackground" style="display: none;">
+                      <input type="range" min="0" max="255" value="255" class="slider mb-3" id="BackgroundRvalue" onchange = "setBackgroundRGB()">
+                      <input type="range" min="0" max="255" value="255" class="slider mb-3" id="BackgroundGvalue" onchange = "setBackgroundRGB()">
+                      <input type="range" min="0" max="255" value="255" class="slider mb-4" id="BackgroundBvalue" onchange = "setBackgroundRGB()">
+                    </div>
+                    <div id="displaySliderCover" style="display: none;">
+                      <input type="range" min="0" max="255" value="0" class="slider mb-3" id="CoverRvalue" onchange = "setBoardCoverRGB()">
+                      <input type="range" min="0" max="255" value="0" class="slider mb-3" id="CoverGvalue" onchange = "setBoardCoverRGB()">
+                      <input type="range" min="0" max="255" value="255" class="slider mb-4" id="CoverBvalue" onchange = "setBoardCoverRGB()">
+                    </div>
+                    <div class="text-uppercase">
+                      <div class="row">
                         <select class="form-control mb-3" id="boards">
                           <option boardid="13">46rytgf</option>
                           <option boardid="14">asd</option>
@@ -348,23 +348,23 @@
                           <option boardid="16">56ty</option>
                           <option boardid="17">fhfghfghfh</option>
                         </select>
-                    </div>
-                    <div class="row">
-                    <button class="col m-1 btn btn-shadow btn-secondary rounded-pill" id="loadCreatedBoard" href="#">
-                      Load</button>
-                      <button class="col m-1 btn btn-shadow btn-secondary rounded-pill" id="saveCreatedBoard" href="#">
-                        Save</button>
-                        <button class="col m-1 btn btn-shadow btn-secondary rounded-pill" id="deleteCreatedBoard" href="#">
-                          Delete</button>
+                      </div>
+                      <div class="row">
+                        <button class="col m-1 btn btn-shadow btn-secondary rounded-pill" id="loadCreatedBoard" href="#">
+                          Load</button>
+                          <button class="col m-1 btn btn-shadow btn-secondary rounded-pill" id="saveCreatedBoard" href="#">
+                            Save</button>
+                            <button class="col m-1 btn btn-shadow btn-secondary rounded-pill" id="deleteCreatedBoard" href="#">
+                              Delete</button>
+                            </div>
+                          </div>
+                        </div>
                       </div>
                     </div>
                   </div>
                 </div>
               </div>
             </div>
-          </div>
-        </div>
-      </div>
 
           <!-- Stimulus Modal -->
           <div class="sosa-modal mx-auto mfp-hide" id="stimulus-modal" style="width: fit-content;">
@@ -385,7 +385,7 @@
                       <script>
                       // standard global variables
                       var pegContainer, pegScene, pegCamera, pegRenderer, pegControls, Pegmaterial, spriteMaterial;
-					  var pegLabelSprite;
+                      var pegLabelSprite;
                       initPeg();
                       animatePeg();
 
@@ -414,9 +414,9 @@
                         pegContainer.appendChild( pegRenderer.domElement );
                         // CONTROLS
                         pegControls = new THREE.OrbitControls( pegCamera, pegRenderer.domElement );
-						pegControls.noTilt = true;
-						pegControls.noRotate = true;
-						pegControls.noZoom = true;
+                        pegControls.noTilt = true;
+                        pegControls.noRotate = true;
+                        pegControls.noZoom = true;
 
                         // LIGHT
                         hemiLight = new THREE.HemisphereLight( 0xffffff, 0xffffff, 0.6 );
@@ -439,10 +439,10 @@
 
                         //peg
                         var peg = new THREE.CylinderGeometry( 5, 5, 15, 100 );
-                    		Pegmaterial = new THREE.MeshPhongMaterial({ color: 0x000000, shininess: 30 });
-                    		mesh = new THREE.Mesh( peg, Pegmaterial );
-                    		mesh.position.set(0,0,10);
-                    		pegScene.add(mesh);
+                        Pegmaterial = new THREE.MeshPhongMaterial({ color: 0x000000, shininess: 30 });
+                        mesh = new THREE.Mesh( peg, Pegmaterial );
+                        mesh.position.set(0,0,10);
+                        pegScene.add(mesh);
 
                         pegLabelSprite = makeTextSprite( " Label ", { fontsize: 32 } );
                         pegLabelSprite.position = mesh.position.clone();
@@ -451,16 +451,16 @@
                         pegScene.add( pegLabelSprite );
                       }
 
-						//creating a new Label for the object by deleting the current one and replacing it.
-						function setNewLabel(name)
-						{
-						pegScene.remove(pegLabelSprite);
-						pegLabelSprite = makeTextSprite(name.value, { fontsize: 32} );
-						pegLabelSprite.position = mesh.position.clone();
-						pegLabelSprite.position.x = 13;
-						pegLabelSprite.position.y = 4;
-						pegScene.add(pegLabelSprite);
-						}
+                      //creating a new Label for the object by deleting the current one and replacing it.
+                      function setNewLabel(name)
+                      {
+                        pegScene.remove(pegLabelSprite);
+                        pegLabelSprite = makeTextSprite(name.value, { fontsize: 32} );
+                        pegLabelSprite.position = mesh.position.clone();
+                        pegLabelSprite.position.x = 13;
+                        pegLabelSprite.position.y = 4;
+                        pegScene.add(pegLabelSprite);
+                      }
 
                       function makeTextSprite( message, parameters ) {
                         if ( parameters === undefined ) parameters = {};
@@ -496,16 +496,16 @@
 
                         spriteMaterial = new THREE.SpriteMaterial( { map: texture, useScreenCoordinates: false} );
                         spriteMaterial.color.setHex("0x000000");
-                          var sprite = new THREE.Sprite( spriteMaterial );
-                          sprite.scale.set(400,200,1.0);
-                          return sprite;
-                        }
+                        var sprite = new THREE.Sprite( spriteMaterial );
+                        sprite.scale.set(400,200,1.0);
+                        return sprite;
+                      }
 
-                        function animatePeg() {
-                          requestAnimationFrame( animatePeg );
-                          pegControls.update();
-                          pegRenderer.render( pegScene, pegCamera);
-                        }
+                      function animatePeg() {
+                        requestAnimationFrame( animatePeg );
+                        pegControls.update();
+                        pegRenderer.render( pegScene, pegCamera);
+                      }
 
 
                       function setPegRGB(){
@@ -524,7 +524,7 @@
                         spriteMaterial.color.setHex(stringHex);
                       }
 
-                    </script>
+                      </script>
                       <div class="input-group mb-3">
                         <div class="input-group-prepend">
                           <button id="add" class="btn" type="button">
@@ -609,7 +609,7 @@
           </div>
 
           <!-- Experiment Modal -->
-          <div class="sosa-modal mx-auto mfp-hide" id="experiment-modal" style="width: fit-content;">
+          <div class="sosa-modal mx-auto mfp-hide w-50" id="experiment-modal">
             <div class="sosa-modal-dialog bg-white">
               <a class="close-button d-md-block text-secondary sosa-modal-dismiss" href="#">
                 <i class="fa fa-2x fa-times"></i>
@@ -624,226 +624,88 @@
 
                         <!--Board -->
                         <div class="pb-3" id="ThreeJSBoardLoader"></div>
-			 		 	<script src="js/boards/experimentModalBoard.js"></script>
-                        <div class=" row pb-3">
+                        <script src="js/boards/experimentModalBoard.js"></script>
+                        <div class=" row">
                           <div class="col">
-                          Grid Size:
-                            <select class="custom-select" id="gridInputDropdown" onchange="updateGrid(this.value)">
-                              <option value = 1000 selected>Freeform on Final Image</option>
-                              <option value = 12>12x12 on Final Image</option>
-                              <option value = 9>9x9 on Final Image</option>
-                              <option value = 6>6x6 on Final Image</option>
-                              <option value = 3>3x3 on Final Image</option>
-                            </select>
-                          </div>
-                          <div class="col">
-                            <div class="checkbox">
-                              <label><input type="checkbox" value="" id="exprCover"> Show Board Cover</label>
+                            <div class="pb-3">
+                              <div>
+                                <input type="text" id="experiment_name" class="form-control" placeholder="Experiment Name">
+                              </div>
+                            </div>
+                            <div class="pb-3">
+                              Board:
+                              <select class="custom-select" id="boardExperiment">
+                                <option value = "placehold" selected>Placeholder</option>
+                              </select>
+                            </div>
+                            <div class="pb-3">
+                              Grid Size:
+                              <select class="custom-select" id="gridInputDropdown" onchange="updateGrid(this.value)">
+                                <option value = 1000 selected>Freeform on Final Image</option>
+                                <option value = 12>12x12 on Final Image</option>
+                                <option value = 9>9x9 on Final Image</option>
+                                <option value = 6>6x6 on Final Image</option>
+                                <option value = 3>3x3 on Final Image</option>
+                              </select>
                             </div>
                           </div>
                         </div>
-                        <div class=" row pb-3">
-                          <div class="col">
-                          Board:
-                            <select class="custom-select" id="boardExperiment">
-                              <option value = "placehold" selected>Placeholder</option>
-                            </select>
-                          </div>
+                        Stimulus:
+                        <div class="input-group pb-3">
+                          <select class="custom-select" id="experi_set">
+                            <option selected>Stimulus Set 1</option>
+                            <option value="1">Stimulus Set 2</option>
+                            <option value="2">Stimulus Set 3</option>
+                            <option value="3">Stimulus Set 4</option>
+                          </select>
                         </div>
-                        <div class=" row pb-3">
-                          <div class="col">
-               				<input type="text" id="experiment_name" class="form-control" placeholder="Experiment Name">
-                          </div>
-                        </div>
-                      </div>
-                      <div class="col-5">
-
-                        <!-- downloaded stimulus should go -->
-                        <div class="pb-3" id="ThreeJSPegLoader"></div>
-
-                        <script>
-
-                        // standard global variables
-                        var pegContainerLoader, pegSceneLoader, pegCameraLoader, pegRendererLoader, pegControlLoader;
-
-                        initPegLoader();
-                        animatePegLoader();
-
-                        // FUNCTIONS
-                        function initPegLoader()
-                        {
-                          // SCENE
-                          pegSceneLoader = new THREE.Scene();
-
-                          // CAMERA
-                          var SCREEN_WIDTH = 265, SCREEN_HEIGHT = 265;
-                          var VIEW_ANGLE = 10, ASPECT = SCREEN_WIDTH / SCREEN_HEIGHT, NEAR = 0.1, FAR = 20000;
-                          pegCameraLoader = new THREE.PerspectiveCamera( VIEW_ANGLE, ASPECT, NEAR, FAR);
-                          pegSceneLoader.add(pegCameraLoader);
-                          pegCameraLoader.position.set(0,50,400);
-                          pegCameraLoader.lookAt(pegSceneLoader.position);
-
-                          // RENDERER
-                          if ( Detector.webgl )
-                          pegRendererLoader = new THREE.WebGLRenderer( {antialias:true} );
-                          else
-                          pegRendererLoader = new THREE.CanvasRenderer();
-                          pegRendererLoader.setSize(SCREEN_WIDTH, SCREEN_HEIGHT);
-                          pegContainerLoader = document.getElementById( 'ThreeJSPegLoader' );
-                          pegContainerLoader.appendChild( pegRendererLoader.domElement );
-                          // CONTROLS
-                          pegControlLoader = new THREE.OrbitControls( pegCameraLoader, pegRendererLoader.domElement );
-
-                          // LIGHT
-                          hemiLight = new THREE.HemisphereLight( 0xffffff, 0xffffff, 0.6 );
-                          hemiLight.color.setHSL( 0.6, 1, 0.6 );
-                          hemiLight.groundColor.setHSL( 0.095, 1, 0.75 );
-                          hemiLight.position.set( 0, 50, 0 );
-                          pegSceneLoader.add( hemiLight );
-
-                          dirLight = new THREE.DirectionalLight( 0xffffff, 1 );
-                          dirLight.color.setHSL( 0.1, 1, 0.95 );
-                          dirLight.position.set( -1, 1.75, 1 );
-                          dirLight.position.multiplyScalar( 30 );
-                          pegSceneLoader.add( dirLight );
-                          dirLight.castShadow = true;
-
-                          // SKYBOX/FOG
-                          var skyBoxGeometry = new THREE.CubeGeometry( 10000, 10000, 10000 );
-                          var skyBoxMaterial = new THREE.MeshBasicMaterial( { color: 0x00000, side: THREE.BackSide } );
-                          var skyBox = new THREE.Mesh( skyBoxGeometry, skyBoxMaterial );
-                          pegSceneLoader.add(skyBox);
-
-                          //peg
-                          var peg = new THREE.CylinderGeometry( 5, 5, 15, 100 );
-                          var material = new THREE.MeshPhongMaterial({ color: 0xff0000, shininess: 30 });
-                          mesh = new THREE.Mesh( peg, material );
-                          mesh.position.set(0,0,10);
-                          pegSceneLoader.add(mesh);
-
-                          var spritey = makeTextSprite( " Label ", { fontsize: 32 } );
-                          spritey.position = mesh.position.clone();
-                          spritey.position.x = 21;
-                          spritey.position.y = 3;
-                          pegSceneLoader.add( spritey );
-
-                        }
-
-                        function makeTextSprite( message, parameters )
-                        {
-                          if ( parameters === undefined ) parameters = {};
-
-                          var fontface = parameters.hasOwnProperty("fontface") ?
-                          parameters["fontface"] : "Arial";
-
-                          var fontsize = parameters.hasOwnProperty("fontsize") ?
-                          parameters["fontsize"] : 18;
-
-                          var borderThickness = parameters.hasOwnProperty("borderThickness") ?
-                          parameters["borderThickness"] : 4;
-
-                          var backgroundColor = parameters.hasOwnProperty("backgroundColor") ?
-                          parameters["backgroundColor"] : { r:255, g:255, b:255, a:0 };
-
-                          var spriteAlignment = THREE.SpriteAlignment.top;
-
-
-                          var canvas = document.createElement('canvas');
-                          var context = canvas.getContext('2d');
-                          context.font = "Bold " + fontsize + "px " + fontface;
-
-                          // get size data (height depends only on font size)
-                          var metrics = context.measureText( message );
-                          var textWidth = metrics.width;
-
-                          // text color
-                          context.fillStyle = "rgba(255, 0, 0, 1.0)";
-                          context.fill();
-                          context.stroke();
-
-                          context.fillText( message, borderThickness, fontsize + borderThickness);
-
-                          // canvas contents will be used for a texture
-                          var texture = new THREE.Texture(canvas)
-                          texture.needsUpdate = true;
-
-                          var spriteMaterial = new THREE.SpriteMaterial(
-                            { map: texture, useScreenCoordinates: false, alignment: spriteAlignment } );
-                            var sprite = new THREE.Sprite( spriteMaterial );
-                            sprite.scale.set(400,200,1.0);
-                            return sprite;
-                          }
-
-                          function animatePegLoader()
-                          {
-                            requestAnimationFrame( animatePegLoader );
-                            pegControlLoader.update();
-                            pegRendererLoader.render( pegSceneLoader, pegCameraLoader );
-                          }
-                          </script>
-
-
-
-                          <div class="input-group pb-3">
-                            <select class="custom-select" id="experi_set">
-                              <option selected>Stimulus Set 1</option>
-                              <option value="1">Stimulus Set 2</option>
-                              <option value="2">Stimulus Set 3</option>
-                              <option value="3">Stimulus Set 4</option>
-                            </select>
-                          </div>
-                          <div class="form-group">
-                            <select multiple class="form-control" id="exper_stim">
-                              <option>Stimulus 1</option>
-                              <option>Stimulus 2</option>
-                              <option>Stimulus 3</option>
-                              <option>Stimulus 4</option>
-                              <option>Stimulus 5</option>
-                            </select>
-                          </div>
-                        </div>
-                      </div>
-                      <div class="row">
-                        <div class="col mt-3">
-                          <button class="btn btn-shadow btn-secondary btn-block rounded-pill" href="#" id="loadExprBoard">Load Board</button>
-                        </div>
-                        <div class="col mt-3">
-                          <button class="btn btn-shadow btn-secondary btn-block rounded-pill sosa-modal-dismiss" href="#">Load Stimulus</button>
-                        </div>
-                        <div class="col mt-3">
-                          <a class="btn btn-shadow btn-secondary btn-block rounded-pill" target="_blank" id = "StartExperimentButton">Begin Experiment</a>
+                        <div class="form-group">
+                          <select multiple class="form-control" id="exper_stim">
+                            <option>Stimulus 1</option>
+                            <option>Stimulus 2</option>
+                            <option>Stimulus 3</option>
+                            <option>Stimulus 4</option>
+                            <option>Stimulus 5</option>
+                          </select>
                         </div>
                       </div>
                     </div>
+                    <div class="row">
+                      <div class="col mt-3">
+                        <a class="btn btn-shadow btn-secondary btn-block rounded-pill" target="_blank" id = "StartExperimentButton">Begin Experiment</a>
+                      </div>
+                    </div>
+                  </div>
+                </div>
               </div>
-            </div>
-
-            <!-- Bootstrap core JavaScript -->
-            <script src="vendor/jquery/jquery.min.js"></script>
-            <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-
-    <!-- Plugin JavaScript -->
-    <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
-    <script src="vendor/magnific-popup/jquery.magnific-popup.min.js"></script>
-    <!-- W3color JavaScript -->
-    <script src="https://www.w3schools.com/lib/w3color.js"></script>
-            <!-- Contact Form JavaScript -->
-            <script src="js/jqBootstrapValidation.js"></script>
-            <script src="js/contact_me.js"></script>
-            <script src="js/ajax/experiment.js"></script>
-
-			  <!-- AJAX JavaScript for loading and saving  board information to the database -->
-			  <script src="js/ajax/addImage.js"></script>
-			  <script src="js/ajax/board.js"></script>
-			  <script src="js/ajax/stimulus.js"></script>
-			  <script src="js/QueryForExperiment.js"></script>
 
 
-            <!-- Custom scripts for this template -->
-            <script src="js/freelancer.min.js"></script>
+              <!-- Bootstrap core JavaScript -->
+              <script src="vendor/jquery/jquery.min.js"></script>
+              <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 
-            <!-- Randomly Created JavaScript -->
-            <script src="js/RGB_value_generator.js"></script>
+              <!-- Plugin JavaScript -->
+              <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
+              <script src="vendor/magnific-popup/jquery.magnific-popup.min.js"></script>
+              <!-- W3color JavaScript -->
+              <script src="https://www.w3schools.com/lib/w3color.js"></script>
+              <!-- Contact Form JavaScript -->
+              <script src="js/jqBootstrapValidation.js"></script>
+              <script src="js/contact_me.js"></script>
+              <script src="js/ajax/experiment.js"></script>
+
+              <!-- AJAX JavaScript for loading and saving  board information to the database -->
+              <script src="js/ajax/addImage.js"></script>
+              <script src="js/ajax/board.js"></script>
+              <script src="js/ajax/stimulus.js"></script>
+              <script src="js/QueryForExperiment.js"></script>
+
+
+              <!-- Custom scripts for this template -->
+              <script src="js/freelancer.min.js"></script>
+
+              <!-- Randomly Created JavaScript -->
+              <script src="js/RGB_value_generator.js"></script>
             </div>
           </div>
 </body>
