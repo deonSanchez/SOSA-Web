@@ -3,7 +3,7 @@
 <head>
   <!-- Bootstrap core CSS -->
   <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-	<script src='js/threejs/lib/DAT.GUI.min.js'></script>
+  <script src='js/threejs/lib/DAT.GUI.min.js'></script>
   <!-- Custom fonts for this template -->
   <link href="vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
   <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css">
@@ -56,9 +56,11 @@ var StimulusSetID;
 var StimuliJSON;
 var StimulusLabels = [];
 var BoardID;
+var ExperimentID;
 var token;
 var demo;
 var BoardJSON;
+var uniq;
 
 //isHovering helps to make sure to reset the color effect when a user is mousing over a peg
 var isHovering = false;
@@ -152,6 +154,7 @@ function loadExperiment(){
         var len = objLength(json);
         StimulusSetID = json[0].stimset_id;
         BoardID = json[0].idboard;
+        ExperimentID = json[0].experiment_id;
       }
     },
     error : function() {
@@ -221,6 +224,10 @@ initExperiment();
 animateExperiment();
 // FUNCTIONS
 function initExperiment() {
+	uniq = prompt("Enter a unique identifer for saving your results or it will be saved under anonymous!");
+	if(!uniq) {
+		uniq = "anonymous";
+	}
   //Time at start
   ExperimentTime = new Date().getTime();
 
@@ -373,9 +380,24 @@ function initExperiment() {
 			alert("a");
   		},
   		b: function() {
-  			var json = {"token": boardName, "lock_tilt": lockTilt, "lock_rotate": lockRotate, "lock_zoom": lock_zoom, "board_color": hexBoard,
-  					"background_color": hexBackground, "cover_color": hexCover, "image": image, "cover_board": cover_board,"camerax" : camerax, "cameray" : cameray, "cameraz" : cameraz};
-  			var packet = JSON.stringify(json);
+  	  		var expData = JSON.stringify(ExperimentLog);
+	  	  	$.ajax({
+	  			type: 'POST',
+	  			data: 'request=createresult&results=' + expData+'&uniq='+uniq+'&experiment_id='+ExperimentID,
+	  			url: 'api/index.php',
+	  			async : true,
+	  			success: function (response) {
+	  			if(response == 1) {
+	  				alert("Results submitted successfully!");
+	  			}
+	  			else {
+		  			alert(response);
+	  			}
+	  		},
+	  		error: function() {
+	  			alert("Failed!");
+	  		}
+	  		});
 		},
   	};
 
@@ -448,9 +470,9 @@ function initExperiment() {
     }
   }
   function animateExperiment() {
-    requestAnimationFrame( animateExperiment );
-    render();
-    update();
+	    requestAnimationFrame( animateExperiment );
+	    render();
+	    update();
   }
   function update() {
     var delta = clock.getDelta();

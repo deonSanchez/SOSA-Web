@@ -7,5 +7,6 @@ function __autoload($class_name) {
 
 $db = Database::getConnection();
 $session = Session::getInstance($db);
-echo var_dump(json_encode($session->loadExperiment("5yT9EmOQF8E1woc")));
+
+echo $session->createParentResult(12, "666666");
 ?>

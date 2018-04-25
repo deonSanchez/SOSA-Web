@@ -500,14 +500,14 @@ class Session {
 	 */
 	public function loadExperiment($access) {
 		$results = null;
-		$stmt = $this->mysqli->prepare("SELECT `stimset_id`, `title`, `idboard` FROM `experiment` WHERE `access_key` = ?");
+		$stmt = $this->mysqli->prepare("SELECT `stimset_id`, `title`, `idboard`,`experiment_id` FROM `experiment` WHERE `access_key` = ?");
 		$stmt->bind_param("s",$access);
-		$stmt->bind_result($stimset_id, $title,$idboard);
+		$stmt->bind_result($stimset_id, $title,$idboard,$experiment_id);
 		$stmt->execute();
 		$stmt->store_result();
 		if ($stmt->num_rows >= 1) {
 			while ($stmt->fetch()) {
-				$results[] = array('stimset_id' => $stimset_id, 'title' => $title, 'idboard' => $idboard);
+				$results[] = array('stimset_id' => $stimset_id, 'title' => $title, 'idboard' => $idboard, 'experiment_id' => $experiment_id);
 			}
 		}
 		return $results;
@@ -784,6 +784,67 @@ class Session {
 		$qry->execute();
 		$qry->close();
 		return true;
+	}
+	
+
+	
+	/**
+	 * Function that creates an entry in the database to represent a new board that can be loaded
+	 * @author Dan Blocker <db04839@georgiasouthern.edu>
+	 * @author Mitchell Murphy <mm11096@georgiasouthern.edu>
+	 * @return type $boolean
+	 * @version 1.0.0
+	 *
+	 */
+	public function createResults($uniq, $results, $experiment_id){
+		/*
+		 * 0 timestamp
+		 * 1 stimulus id
+		 * 2 stimulus name
+		 * 3 positionx 
+		 * 4 positiony
+		 * 5 action
+		 */
+		
+		$res_total = count($results);
+		$array_rows = count($results[0]);
+		$resultID = $this->createParentResult($experiment_id,$uniq);
+		
+		for($i = 0; $i < $res_total; $i++) {
+			if(!$this->createResultRow($results[$i],$resultID))
+				return "Failed to create result row!";
+		}
+		return true;
+	}
+	
+	public function createParentResult($experiment_id, $identifier) {
+		$qry = $this->qb->start();
+		$qry->insert_into("results", array('experiment_id' => $experiment_id, 'identifier' => $identifier));
+		if ($qry->exec()) {
+			$qry2 = $this->qb->start();
+			$qry2->select("result_id");
+			$qry2->from("results")->where("identifier", "=", $identifier)->where("experiment_id", "=", $experiment_id);
+			$result = $qry2->get();
+			$result = isset($result[0]['result_id']) ? $result[0]['result_id'] : -1;
+			return $result;
+		}
+		return false;
+	}
+	
+	public function createResultRow($row, $resultid) {
+		$timestamp = $row[0];
+		$stimulus_id = $row[1];
+		$stimulus_name = $row[2];
+		$positionx = $row[3];
+		$positiony = $row[4];
+		$action = $row[5];
+		
+		$qry = $this->qb->start();
+		$qry->insert_into("result_log", array('results_id' => $resultid, 'timestamp' => $timestamp, 'stimulus_id' => $stimulus_id, 'stimulus_name' => $stimulus_name, 'position_x' => $positionx, 'position_y' => $positiony, 'action' => $action));
+		if ($qry->exec()) {
+			return true;
+		}
+		return false;
 	}
 
 	/**
