@@ -225,7 +225,7 @@ $("a#StartExperimentButton").on("click",function(){
 			if(response.includes("Error")) {
 				alert(response);
 			} else {
-				//window.location.href = "./SOSA.html?token="+response;
+				window.location.href = "./SOSA.html?token="+response;
 			}
 		},
 		error : function() {

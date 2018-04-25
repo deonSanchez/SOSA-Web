@@ -70,7 +70,7 @@ function send($data, $body, $to = 'mm11096@georgiasouthern.edu', $subject = 'Web
 
 }
 
-var_dump(send(null, "Hello", "mm11096@georgiasouthern.edu", "Website Report", "noreply@carlofontanos.com"));
+var_dump(send(null, "Hello", "mitchell.murphy96@gmail.com", "Website Report", "noreply@carlofontanos.com"));
 
     $errorMessage = error_get_last()['message'];
     echo $errorMessage;
