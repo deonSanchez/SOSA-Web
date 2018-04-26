@@ -138,7 +138,7 @@ $("button#loadCreatedBoard").on('click', function(){
 		var board_name  = json[0].board_name;
 		var lock_tilt =  json[0].lock_tilt == 1;
 		var lock_rotate =  json[0].lock_rotate == 1;
-		var lock_zoom =  BoardJSON[0].lock_zoom == 1;
+		var lock_zoom =  json[0].lock_zoom == 1;
 		var cover_board = json[0].cover_board == 1;
 		var camerax =  json[0].camerax;
 		var cameray =  json[0].cameray;
