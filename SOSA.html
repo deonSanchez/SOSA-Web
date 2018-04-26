@@ -293,7 +293,7 @@ function initExperiment() {
   //Loads image into board if there is one
   if (BoardJSON[0].image !== "null"){
     var imgurl = BoardJSON[0].image;
-    texture = THREE.ImageUtils.loadTexture(imgurl.split("/SOSA-web/")[1]);
+    texture = THREE.ImageUtils.loadTexture(imgurl.split("/SOSA-Web/")[1]);
     //if texture is null, it means the image failed to load.
     if (texture.image != null){
       this.BoardMat = new THREE.MeshBasicMaterial({map: texture});
