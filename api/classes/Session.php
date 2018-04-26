@@ -355,7 +355,23 @@ class Session {
 		}
 		return isset($result[0]['userid']) ? $result[0]['userid'] : -1;
 	}
+	
 
+	/**
+	 * Returns the UID based on email/sid input
+	 * Determines input type no specification required
+	 * @author Mitchell M.
+	 * @param type $input
+	 * @return type
+	 * @version 1.2.0
+	 */
+	function getParticipantIdent($input) {
+		$qry = $this->qb->start();
+		$qry->select("identifier")->from("results")->where("result_id", "=", $input);
+		$result = $qry->get();
+		return isset($result[0]['identifier']) ? $result[0]['identifier'] : -1;
+	}
+	
 	/**
 	 * Is a user logged in?
 	 * @author Mitchell M.
@@ -875,6 +891,23 @@ class Session {
 			return true;
 		}
 		return false;
+	}
+	
+	public function getResults($resultid) {
+		$results = null;
+		$identifier = $this->getParticipantIdent($resultid);
+		$stmt = $this->mysqli->prepare("SELECT `stimulus_name`, `timestamp`, `action`,`from_x`, `from_y`,`to_x`, `to_y` FROM `result_log` WHERE `results_id` = ?");
+		$stmt->bind_param("i",$resultid);
+		$stmt->bind_result($stimulus, $timestamp,$action,$from_x,$from_y,$to_x,$to_y);
+		$stmt->execute();
+		$stmt->store_result();
+		if ($stmt->num_rows >= 1) {
+			while ($stmt->fetch()) {
+				$results[] = array('stimulus_name' => $stimulus, 'timestamp' => $timestamp, 'action' => $action, 'from_x' => $from_x, 'from_y' => $from_y, 'to_x' => $to_x, 'to_y' => $to_y);
+			}
+		}
+		$results = array(array('identifier' => $identifier), $results);
+		return $results;
 	}
 
 	/**

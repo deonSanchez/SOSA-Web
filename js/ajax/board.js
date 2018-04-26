@@ -92,8 +92,8 @@ $("button#saveCreatedBoard").on('click', function(){
 						data: form_data,                         
 						type: 'post',
 						success: function(php_script_response){
-		
-						loadBoardModal();
+							alert(php_script_response);
+							loadBoardModal();
 					}
 					});
 				} else {

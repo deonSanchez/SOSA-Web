@@ -11,23 +11,16 @@ $session = Session::getInstance($db);
 header('Pragma: no-cache');
 header('Expires: 0');
 
-function createCSV($data) {
+function createCSV($columns,$rows) {
 	if (!$file = fopen('php://temp', 'w+')) return FALSE;
 	 
 	// save the column headers
-	fputcsv($file, array('Column 1', 'Column 2', 'Column 3', 'Column 4', 'Column 5'));
+	fputcsv($file, $columns);
 	 
-	// Sample data. This can be fetched from mysql too
-	$data = array(
-	array('Data 11', 'Data 12', 'Data 13', 'Data 14', 'Data 15'),
-	array('Data 21', 'Data 22', 'Data 23', 'Data 24', 'Data 25'),
-	array('Data 31', 'Data 32', 'Data 33', 'Data 34', 'Data 35'),
-	array('Data 41', 'Data 42', 'Data 43', 'Data 44', 'Data 45'),
-	array('Data 51', 'Data 52', 'Data 53', 'Data 54', 'Data 55')
-	);
+
 	 
 	// save each row of the data
-	foreach ($data as $row)
+	foreach ($rows as $row)
 	{
 		fputcsv($file, $row);
 	}
@@ -36,7 +29,7 @@ function createCSV($data) {
 	return stream_get_contents($file);
 }
 
-function send($data, $body, $to = 'mm11096@georgiasouthern.edu', $subject = 'Website Report', $from = 'noreply@carlofontanos.com') {
+function send($columns,$rows, $body, $to = 'mm11096@georgiasouthern.edu', $subject = 'Website Report', $from = 'noreply@carlofontanos.com') {
 
     // This will provide plenty adequate entropy
     $multipartSep = '-----'.md5(time()).'-----';
@@ -49,7 +42,7 @@ function send($data, $body, $to = 'mm11096@georgiasouthern.edu', $subject = 'Web
     );
 
     // Make the attachment
-    $attachment = chunk_split(base64_encode(createCSV($data))); 
+    $attachment = chunk_split(base64_encode(createCSV($columns,$rows))); 
 
     // Make the body of the message
     $body = "--$multipartSep\r\n"
@@ -70,8 +63,15 @@ function send($data, $body, $to = 'mm11096@georgiasouthern.edu', $subject = 'Web
 
 }
 
-var_dump(send(null, "Hello", "mitchell.murphy96@gmail.com", "Website Report", "noreply@carlofontanos.com"));
+$result = $session->getResults(33);
+$log_columns = array_keys($result[1][0]);
+$participant = $result[0]['identifier'];
+$low_rows = count($result[1]);
 
-    $errorMessage = error_get_last()['message'];
-    echo $errorMessage;
+var_dump(send($log_columns,$result[1], "Experiment results", "mitchell.murphy96@gmail.com", "Test results", "noreply@sosaproject.com"));
+//
+//    $errorMessage = error_get_last()['message'];
+//    echo $errorMessage;
+
+
 ?>
