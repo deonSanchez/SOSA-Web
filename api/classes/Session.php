@@ -839,11 +839,18 @@ class Session {
 		$qry = $this->qb->start();
 		$qry->insert_into("results", array('experiment_id' => $experiment_id, 'identifier' => $identifier));
 		if ($qry->exec()) {
-			$qry2 = $this->qb->start();
-			$qry2->select("result_id");
-			$qry2->from("results")->where("identifier", "=", $identifier)->where("experiment_id", "=", $experiment_id);
-			$result = $qry2->get();
-			$result = isset($result[0]['result_id']) ? $result[0]['result_id'] : -1;
+		
+		$stmt = $this->mysqli->query("SELECT `result_id` FROM `results` ORDER BY `result_id` DESC LIMIT 1");
+		if ($stmt->num_rows == 1) {
+			while ($row = $stmt->fetch_assoc()) {
+				$result = $row['result_id'];
+			}
+		}
+//			$qry2 = $this->qb->start();
+//			$qry2->select("result_id");
+//			$qry2->from("results")->where("identifier", "=", $identifier)->where("experiment_id", "=", $experiment_id);
+//			$result = $qry2->get();
+//			$result = isset($result[0]['result_id']) ? $result[0]['result_id'] : -1;
 			return $result;
 		}
 		return false;
@@ -853,12 +860,17 @@ class Session {
 		$timestamp = $row[0];
 		$stimulus_id = $row[1];
 		$stimulus_name = $row[2];
-		$positionx = $row[3];
-		$positiony = $row[4];
+		$to_x = $row[3];
+		$to_y = $row[4];
 		$action = $row[5];
 		
 		$qry = $this->qb->start();
-		$qry->insert_into("result_log", array('results_id' => $resultid, 'timestamp' => $timestamp, 'stimulus_id' => $stimulus_id, 'stimulus_name' => $stimulus_name, 'position_x' => $positionx, 'position_y' => $positiony, 'action' => $action));
+		$data=array('results_id' => $resultid, 'timestamp' => $timestamp, 'stimulus_id' => $stimulus_id, 'stimulus_name' => $stimulus_name, 'to_x' => $to_x, 'to_y' => $to_y, 'action' => $action);
+		if(isset($from_x) || isset($from_y)) {
+			$data['from_x']=$from_x;
+			$data['from_y']=$from_y;
+		}
+		$qry->insert_into("result_log", $data);
 		if ($qry->exec()) {
 			return true;
 		}

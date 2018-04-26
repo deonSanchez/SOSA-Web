@@ -301,6 +301,10 @@ class QueryBuilder {
 		return $query_result->num_rows;
 	}
 
+	function insert_id() {
+		return $this->db->insert_id;
+	}
+	
 	/**
 	 * Do records exist with the current query?
 	 * @return type
