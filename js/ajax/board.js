@@ -92,6 +92,7 @@ $("button#saveCreatedBoard").on('click', function(){
 						type: 'post',
 						success: function(path){
 							image_path = path;
+							alert(image_path);
 							loadBoardModal();
 					}
 					});

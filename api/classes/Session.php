@@ -611,17 +611,17 @@ class Session {
 	 */
 	public function loadBoards() {
 		$results = null;
-		$stmt = $this->mysqli->prepare("SELECT `board_name`, `idboard`,`board_color`,`cover_color`,`background_color`,`camerax`,`cameray`,`cameraz`,`cover_board`,`lock_tilt`, `lock_rotate`, `lock_zoom` FROM `board`");
+		$stmt = $this->mysqli->prepare("SELECT `board_name`, `idboard`,`board_color`,`cover_color`,`background_color`,`camerax`,`cameray`,`cameraz`,`cover_board`,`lock_tilt`, `lock_rotate`, `lock_zoom`,`image` FROM `board`");
 		$stmt->bind_result($board,$id,$board_color,
 				$cover_color,$background_color,$camerax,$cameray,
-				$cameraz,$cover_board,$lock_tilt,$lock_rotate,$lock_zoom);
+				$cameraz,$cover_board,$lock_tilt,$lock_rotate,$lock_zoom, $image);
 		$stmt->execute();
 		$stmt->store_result();
 		if ($stmt->num_rows >= 1) {
 			while ($stmt->fetch()) {
 				$results[] = array('board_name' => $board, 'idboard' => $id,'board_color' => $board_color,
 				 'cover_color' => $cover_color,'background_color' => $background_color, 'camerax' => $camerax, 'cameray' => $cameray,
-				 'cameraz' => $cameraz,`cover_board` => $cover_board,`lock_tilt` => $lock_tilt, `lock_rotate` => $lock_rotate, `lock_zoom` => $lock_zoom);
+				 'cameraz' => $cameraz,`cover_board` => $cover_board,`lock_tilt` => $lock_tilt, `lock_rotate` => $lock_rotate, `lock_zoom` => $lock_zoom, 'image' => $image);
 			}
 		}
 		return $results;
@@ -848,7 +848,65 @@ class Session {
 			if(!$this->createResultRow($results[$i],$resultID))
 				return "Failed to create result row!";
 		}
+		
+		$this->mailResults($resultID);
 		return true;
+	}
+	
+	public function mailResults($resultID) {
+		$logs = $this->getResults($resultID);
+		$log_columns = array_keys($logs[1][0]);
+		$participant = $logs[0]['identifier'];
+		$this->send($participant, $log_columns,$logs[1], 
+			"Experiment results for participant identified as {$participant} // Result ID : {$resultID}", 
+			"mitchell.murphy96@gmail.com", "Test results #{$resultID}", "noreply@sosaproject.com");
+		return true;
+	}
+	
+	function createCSV($columns,$rows) {
+		if (!$file = fopen('php://temp', 'w+')) return FALSE;
+		// save the column headers
+		fputcsv($file, $columns);
+		// save each row of the data
+		foreach ($rows as $row)
+		{
+			fputcsv($file, $row);
+		}
+		rewind($file);
+		return stream_get_contents($file);
+	}
+	
+	function send($participant, $columns,$rows, $body, $to = 'mm11096@georgiasouthern.edu', $subject = 'Website Report', $from = 'noreply@carlofontanos.com') {
+	
+	    // This will provide plenty adequate entropy
+	    $multipartSep = '-----'.md5(time()).'-----';
+	
+	    // Arrays are much more readable
+	    $headers = array(
+	        "From: $from",
+	        "Reply-To: $from",
+	        "Content-Type: multipart/mixed; boundary={$multipartSep}"
+	    );
+	
+	    // Make the attachment
+	    $attachment = chunk_split(base64_encode($this->createCSV($columns,$rows))); 
+	
+	    // Make the body of the message
+	    $body = "--$multipartSep\r\n"
+	        . "Content-Type: text/plain; charset=ISO-8859-1; format=flowed\r\n"
+	        . "Content-Transfer-Encoding: 7bit\r\n"
+	        . "\r\n"
+	        . "$body\r\n"
+	        . "--$multipartSep\r\n"
+	        . "Content-Type: text/csv\r\n"
+	        . "Content-Transfer-Encoding: base64\r\n"
+	        . "Content-Disposition: attachment; filename=\"Test results\"" . date("F-j-Y") . ".csv"
+	        . "\r\n\r\n"
+	        . "$attachment\r\n"
+	        . "--$multipartSep--";
+	
+	    // Send the email, return the result
+	    return @mail($to, $subject, $body, implode("\r\n", $headers)); 
 	}
 	
 	public function createParentResult($experiment_id, $identifier) {
