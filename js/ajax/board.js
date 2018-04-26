@@ -82,7 +82,6 @@ $("button#saveCreatedBoard").on('click', function(){
 					form_data.append('file', file_data);
 					form_data.append('request','uploadboardimg');
 					form_data.append('board_name',boardName);
-					alert(form_data);    
 					$.ajax({
 						url: 'api/index.php',
 						dataType: 'text',
