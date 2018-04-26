@@ -132,11 +132,19 @@ function displayColorSliderBoard() {
   displayValueBackground = document.getElementById("displayValueBackground");
   displayValueCover = document.getElementById("displayValueCover");
 
+  boardBtn = document.getElementById("boardBtn");
+  backgroundBtn = document.getElementById("backgroundBtn");
+  coverBtn = document.getElementById("coverBtn");
+
   displaySliderBoard = document.getElementById("displaySliderBoard");
   displaySliderBackground = document.getElementById("displaySliderBackground");
   displaySliderCover = document.getElementById("displaySliderCover");
 
   if (displaySliderBoard.style.display === "none") {
+
+    boardBtn.classList.add("bg-primary");
+    backgroundBtn.classList.remove("bg-primary");
+    coverBtn.classList.remove("bg-primary");
 
     displayValueBoard.style.display = "block";
     displayValueBackground.style.display = "none";
@@ -154,11 +162,19 @@ function displayColorSliderBackground() {
   displayValueBackground = document.getElementById("displayValueBackground");
   displayValueCover = document.getElementById("displayValueCover");
 
+  boardBtn = document.getElementById("boardBtn");
+  backgroundBtn = document.getElementById("backgroundBtn");
+  coverBtn = document.getElementById("coverBtn");
+
   displaySliderBoard = document.getElementById("displaySliderBoard");
   displaySliderBackground = document.getElementById("displaySliderBackground");
   displaySliderCover = document.getElementById("displaySliderCover");
 
   if (displaySliderBackground.style.display === "none") {
+
+    boardBtn.classList.remove("bg-primary");
+    backgroundBtn.classList.add("bg-primary");
+    coverBtn.classList.remove("bg-primary");
 
     displayValueBoard.style.display = "none";
     displayValueBackground.style.display = "block";
@@ -176,11 +192,20 @@ function displayColorSliderCover() {
   displayValueBackground = document.getElementById("displayValueBackground");
   displayValueCover = document.getElementById("displayValueCover");
 
+  boardBtn = document.getElementById("boardBtn");
+  backgroundBtn = document.getElementById("backgroundBtn");
+  coverBtn = document.getElementById("coverBtn");
+
   displaySliderBoard = document.getElementById("displaySliderBoard");
   displaySliderBackground = document.getElementById("displaySliderBackground");
   displaySliderCover = document.getElementById("displaySliderCover");
 
   if (displaySliderCover.style.display === "none") {
+
+    boardBtn.classList.remove("bg-primary");
+    backgroundBtn.classList.remove("bg-primary");
+    coverBtn.classList.add("bg-primary");
+
     displayValueBoard.style.display = "none";
     displayValueBackground.style.display = "none";
     displayValueCover.style.display = "block";
@@ -200,10 +225,17 @@ function displayColorSliderLabel() {
   displayValueLabelStimulus = document.getElementById("displayValueLabelStimulus");
   displayValuePeg = document.getElementById("displayValuePeg");
 
+  labelBtn = document.getElementById("labelBtn");
+  pegBtn = document.getElementById("pegBtn");
+
   displaySliderLabel = document.getElementById("displaySliderLabel");
   displaySliderStimulus = document.getElementById("displaySliderStimulus");
 
   if (displaySliderLabel.style.display === "none" ) {
+
+    labelBtn.classList.add("bg-primary");
+    pegBtn.classList.remove("bg-primary");
+
     displayValueLabelStimulus.style.display = "block";
     displayValuePeg.style.display = "none";
 
@@ -216,10 +248,17 @@ function displayColorSliderStimulus() {
   displayValueLabelStimulus = document.getElementById("displayValueLabelStimulus");
   displayValuePeg = document.getElementById("displayValuePeg");
 
+  labelBtn = document.getElementById("labelBtn");
+  pegBtn = document.getElementById("pegBtn");
+
   displaySliderLabel = document.getElementById("displaySliderLabel");
   displaySliderStimulus = document.getElementById("displaySliderStimulus");
 
   if (displaySliderStimulus.style.display === "none" ) {
+
+    labelBtn.classList.remove("bg-primary");
+    pegBtn.classList.add("bg-primary");
+
     displayValueLabelStimulus.style.display = "none";
     displayValuePeg.style.display = "block";
 

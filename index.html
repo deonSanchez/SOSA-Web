@@ -313,9 +313,9 @@
                       </div>
                     </div>
                     <div class="flex-column m-auto align-self-end text-center">
-                      <button onclick="displayColorSliderBoard()" value ="board" class="btn btn-secondary btn-shadow">Board</button>
-                      <button onclick="displayColorSliderBackground()" value ="background"class="btn btn-secondary btn-shadow">Background</button>
-                      <button onclick="displayColorSliderCover()" value ="cover" class="btn btn-secondary btn-shadow">Cover</button>
+                      <button onclick="displayColorSliderBoard()" value ="board" class="btn btn-secondary btn-shadow bg-primary" id="boardBtn">Board</button>
+                      <button onclick="displayColorSliderBackground()" value ="background" class="btn btn-secondary btn-shadow" id="backgroundBtn">Background</button>
+                      <button onclick="displayColorSliderCover()" value ="cover" class="btn btn-secondary btn-shadow" id="coverBtn">Cover</button>
 
                       <div id="displayValueBoard" class="pt-3 text-center" style="display: block;">
                         Value: (<span id="Rbv"></span>, <span id="Gbv"></span>, <span id="Bbv"></span>)
@@ -605,8 +605,8 @@
                       </div>
                       <div class="row pt-3 text-center">
                         <div class="col m-auto">
-                          <button onclick="displayColorSliderLabel()" type="button" class="btn btn-secondary btn-shadow">Label</button>
-                          <button onclick="displayColorSliderStimulus()" type="button" class="btn btn-secondary btn-shadow">Peg</button>
+                          <button onclick="displayColorSliderLabel()" type="button" class="btn btn-secondary btn-shadow" id="labelBtn">Label</button>
+                          <button onclick="displayColorSliderStimulus()" type="button" class="btn btn-secondary btn-shadow bg-primary" id="pegBtn">Peg</button>
                         </div>
                         <div class="col m-auto">
                           <div id="displayValueLabelStimulus" class="text-center" style="display: none;">
