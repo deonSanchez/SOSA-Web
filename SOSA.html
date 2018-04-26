@@ -418,10 +418,20 @@ function initExperiment() {
 	  		}
 	  		});
 		},
+    c: function() {
+      alert("Controls for the Experiment: \n W/S/A/D - Pan the camera\n"
+      + "R/F - Zoom the camera (may be disabled by testmaker)\n"
+      + "Q/E - Rotate the camera (may be disabled by testmaker)\n"
+      + "T/G - Tilt the camera (may be disabled by testmaker)\n"
+      + "O   - Reset camera angle to a horizontal position.\n"
+      + "P   - Reset camera angle to a bird's eye view.\n"
+      + "Z/X - Toggle between add and delete mode.");
+    }
   	};
 
   	gui.add( parameters, 'a' ).name('Revert Camera');
   	gui.add( parameters, 'b' ).name("Finish Test");
+    gui.add( parameters, 'c' ).name("Controls");
   	gui.open();
     var guiContainer = document.getElementById('gui');
     guiContainer.appendChild(gui.domElement);
