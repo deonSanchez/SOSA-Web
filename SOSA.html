@@ -234,7 +234,8 @@ function initExperiment() {
   // SCENE
   ExperimentScene = new THREE.Scene();
   // CAMERA
-  var SCREEN_WIDTH = window.innerWidth, SCREEN_HEIGHT = window.innerHeight;
+  // The -5 is to make it so that the canvas is slightly bigger than the screen, making the user have to scroll to see the entire canvas
+  var SCREEN_WIDTH = window.innerWidth-10, SCREEN_HEIGHT = window.innerHeight-10;
   var VIEW_ANGLE = 55, ASPECT = SCREEN_WIDTH / SCREEN_HEIGHT, NEAR = 0.1, FAR = 2000;
   ExperimentCamera = new THREE.PerspectiveCamera( VIEW_ANGLE, ASPECT, NEAR, FAR);
   // First Person Camera Controls
@@ -460,8 +461,8 @@ function initExperiment() {
   }
   function mouseMove( event ) {
     // update the mouse variable
-    mouse2D.x =   ( event.clientX / window.innerWidth  ) * 2 - 1;
-    mouse2D.y = - ( event.clientY / window.innerHeight ) * 2 + 1;
+    mouse2D.x =   ( event.clientX / (window.innerWidth - 10)  ) * 2 - 1;
+    mouse2D.y = - ( event.clientY / (window.innerHeight - 10) ) * 2 + 1;
   }
   function mouseClick( event ) {
     brushAction();
