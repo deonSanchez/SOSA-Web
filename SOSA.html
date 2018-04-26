@@ -295,11 +295,11 @@ function initExperiment() {
     texture = THREE.ImageUtils.loadTexture(imgurl.split("../../")[1]);
     //if texture is null, it means the image failed to load.
     if (texture.image != null){
-      this.boardMat = new THREE.MeshBasicMaterial({map: texture});
+      this.BoardMat = new THREE.MeshBasicMaterial({map: texture});
     }
   }
 
-  var ExperiBoard = new THREE.Mesh(this.BoardGeo, this.boardMat);
+  var ExperiBoard = new THREE.Mesh(this.BoardGeo, this.BoardMat);
   //BOARD POSITION
   ExperiBoard.rotation.x = -Math.PI / 2;
   ExperiBoard.position.set(16,-1,16);
