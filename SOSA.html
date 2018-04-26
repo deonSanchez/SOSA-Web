@@ -190,7 +190,6 @@ function loadBoard(){
     success : function(response) {
       if(response != "null") {
         BoardJSON = JSON.parse(response);
-        console.log(BoardJSON);
       } else {
         console.log("null response for " + response);
       }
