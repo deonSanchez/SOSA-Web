@@ -462,6 +462,16 @@
                         pegScene.add(pegLabelSprite);
                       }
 
+                      function setLabelValue(value)
+                      {
+                        pegScene.remove(pegLabelSprite);
+                        pegLabelSprite = makeTextSprite(value, { fontsize: 32} );
+                        pegLabelSprite.position = mesh.position.clone();
+                        pegLabelSprite.position.x = 13;
+                        pegLabelSprite.position.y = 4;
+                        pegScene.add(pegLabelSprite);
+                      }
+
                       function makeTextSprite( message, parameters ) {
                         if ( parameters === undefined ) parameters = {};
 
@@ -514,6 +524,22 @@
                         var blueHex = rgbToHex(document.getElementById("BvalueStim").value);
                         var stringHex = "0x" + redHex + greenHex + blueHex;
                         Pegmaterial.color.setHex(stringHex);
+                      }
+
+                      function setPeg(r,g,b) {
+                          var redHex = rgbToHex(r);
+                          var greenHex = rgbToHex(g);
+                          var blueHex = rgbToHex(b);
+                          var stringHex = "0x" + redHex + greenHex + blueHex;
+                          Pegmaterial.color.setHex(stringHex);
+                      }
+
+                      function setLabel(r,g,b) {
+                          var redHex = rgbToHex(r);
+                          var greenHex = rgbToHex(g);
+                          var blueHex = rgbToHex(b);
+                          var stringHex = "0x" + redHex + greenHex + blueHex;
+                          spriteMaterial.color.setHex(stringHex);
                       }
 
                       function setLabelRGB(){

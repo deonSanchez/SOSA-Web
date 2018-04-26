@@ -28,5 +28,6 @@ $session = Session::getInstance($db);
 //	fputcsv($output, $rows[$i]);
 //}
 
-var_dump($session->loadStimSets());
+$set_id = $session->lookupSetID("Emotions");
+echo json_encode($session->loadStimSet($set_id), JSON_FORCE_OBJECT);
 ?>

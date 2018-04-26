@@ -46,18 +46,29 @@ $("button#load").on("click", function(){
 			var peg_r = json[0].peg_r;
 			var peg_g = json[0].peg_g;
 			var peg_b = json[0].peg_b;
-			
+			var label_r = json[0].label_r;
+			var label_g = json[0].label_g;
+			var label_b = json[0].label_b;
+			console.log(json);
 			$("input#stimulus_name").val(stimulus_name);
 			
 			$("input#RvalueStim").val(peg_r);
 			$("span#sR").val(peg_r);
-			
 			$("input#GvalueStim").val(peg_g);
 			$("span#sG").val(peg_g);
-			
 			$("input#BvalueStim").val(peg_g);
 			$("span#sB").val(peg_b);
+			setPeg(peg_r,peg_g,peg_b);
+
+			$("input#lRvalueStim").val(label_r);
+			$("span#lR").val(label_r);
+			$("input#lGvalueStim").val(label_g);
+			$("span#lB").val(label_g);
+			$("input#lBvalueStim").val(label_b);
+			$("span#lG").val(label_b);
+			setLabel(label_r,label_g,label_b);
 			
+			setLabelValue(stimulus_name);
 			$("input#selected_stimulus").val(stimulus_id) 
 		},
 		error : function() {
@@ -91,6 +102,7 @@ $("button#save").on('click',function(){
 			if(response!=1) {
 				alert(response);
 			} else {
+				alert("Stimulus successfully updated!");
 				loadCreatorStimulus();
 			}
 		},

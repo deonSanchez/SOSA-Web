@@ -479,6 +479,7 @@ class Session {
 		$qry->bind_param("siiiiiii", $label,$peg_r,$peg_g,$peg_b,$label_r,$label_g,$label_b,$stimulus_id);
 		$qry->execute();
 		$qry->close();
+		return true;
 	}
 
 	/**
@@ -786,6 +787,7 @@ class Session {
 		$mysqli = $this->mysqli->prepare("INSERT INTO `stimulus` (`label`,`peg_r`,`peg_g`,`peg_b`,`label_r`,`label_g`,`label_b`, `stimset_id`) VALUES (?,?,?,?,?,?,?,?)");
 		$mysqli->bind_param("siiiiiii",$label,$peg_r,$peg_g,$peg_b,$label_r,$label_g,$label_b,$setid);
 		$mysqli->execute();
+		echo $this->mysqli->error;
 		$mysqli->close();
 		return true;
 	}

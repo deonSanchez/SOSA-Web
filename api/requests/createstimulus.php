@@ -6,4 +6,5 @@ require_once("base.php");
 if(!$session->isLoggedIn())
 	die( "You must be logged in for this feature!");
 	
-echo $session->createStimulus($label, $peg_r, $peg_g, $peg_b, $label_r, $label_g, $label_b, $set_title) ? 1 : 0;
+$resp = $session->createStimulus($label, $peg_r, $peg_g, $peg_b, $label_r, $label_g, $label_b, $set_title);
+echo $resp ? 1 : $resp;
