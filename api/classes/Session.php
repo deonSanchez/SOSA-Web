@@ -551,14 +551,14 @@ class Session {
 	 */
 	public function loadExperiment($access) {
 		$results = null;
-		$stmt = $this->mysqli->prepare("SELECT `stimset_id`, `title`, `idboard`,`experiment_id`, `grid` FROM `experiment` WHERE `access_key` = ?");
+		$stmt = $this->mysqli->prepare("SELECT `admin`, `stimset_id`, `title`, `idboard`,`experiment_id`, `grid` FROM `experiment` WHERE `access_key` = ?");
 		$stmt->bind_param("s",$access);
-		$stmt->bind_result($stimset_id, $title,$idboard,$experiment_id,$grid);
+		$stmt->bind_result($admin, $stimset_id, $title,$idboard,$experiment_id,$grid);
 		$stmt->execute();
 		$stmt->store_result();
 		if ($stmt->num_rows >= 1) {
 			while ($stmt->fetch()) {
-				$results[] = array('stimset_id' => $stimset_id, 'title' => $title, 'idboard' => $idboard, 'experiment_id' => $experiment_id, 'grid' => $grid);
+				$results[] = array('admin'=>$admin, 'stimset_id' => $stimset_id, 'title' => $title, 'idboard' => $idboard, 'experiment_id' => $experiment_id, 'grid' => $grid);
 			}
 		}
 		return $results;
@@ -772,6 +772,7 @@ class Session {
 		$mysqli->bind_param("siiiissis", $title,$stimset_id,$idboard,$showbg,$showlabels,$preview,$access,$grid,$admin);
 		$mysqli->execute();
 		$mysqli->close();
+		$this->sendAccess($access);
 		return $access;
 	}
 	
@@ -889,7 +890,7 @@ class Session {
 		$log_columns = array_keys($logs[1][0]);
 		$participant = $logs[0]['identifier'];
 		$email = $this->getExperimentEmail($resultID);
-		$this->send($participant, $log_columns,$logs[1], 
+		$this->sendCSV($participant, $log_columns,$logs[1], 
 			"Experiment results for participant identified as {$participant} // Result ID : {$resultID}", 
 			$email, "Test results #{$resultID}", "noreply@sosaproject.com");
 		return true;
@@ -908,7 +909,7 @@ class Session {
 		return stream_get_contents($file);
 	}
 	
-	function send($participant, $columns,$rows, $body, $to = 'mm11096@georgiasouthern.edu', $subject = 'Website Report', $from = 'noreply@carlofontanos.com') {
+	function sendCSV($participant, $columns,$rows, $body, $to, $subject, $from) {
 	
 	    // This will provide plenty adequate entropy
 	    $multipartSep = '-----'.md5(time()).'-----';
@@ -939,6 +940,49 @@ class Session {
 	
 	    // Send the email, return the result
 	    return @mail($to, $subject, $body, implode("\r\n", $headers)); 
+	}
+	
+	
+	function array_pop_n(array $arr, $n) {
+	    return array_splice($arr, 0, -$n);
+	}
+	
+	/**
+	 * Emails the access code link to the administrator who created the test, for distribution to participants
+	 * Enter description here ...
+	 * @param $access
+	 */
+	function sendAccess($access) {
+		$url =  "http://" . $_SERVER['SERVER_NAME'] . $_SERVER['REQUEST_URI'];
+		$url = dirname(dirname($url));
+		$experiment = $this->loadExperiment($access);
+		$experiment = $experiment[0];
+		$from = "noreply@sosaproject.com";
+		$to = $experiment['admin'];
+		$body = "<b>Experiment created successfully</b><p>You can access this experiment at : ". $url . "/SOSA.html?token=".$access . "</p>";
+	    // This will provide plenty adequate entropy
+	    $multipartSep = '-----'.md5(time()).'-----';
+	
+	    // Arrays are much more readable
+	    $headers = array(
+	        "From: $from",
+	        "Reply-To: $from",
+	        "Content-type: text/html; charset=iso-8859-1",
+	    	"MIME-Version: 1.0"
+	    );
+	
+
+	
+	    // Make the body of the message
+	    $body = "--$multipartSep\r\n"
+	        . "Content-Type: text/plain; charset=ISO-8859-1; format=flowed\r\n"
+	        . "Content-Transfer-Encoding: 7bit\r\n"
+	        . "\r\n"
+	        . "$body\r\n"
+	        . "--$multipartSep\r\n";
+	
+	    // Send the email, return the result
+	    return @mail($to, "Experiment access code for test#" . $experiment['experiment_id'], $body, implode("\r\n", $headers)); 
 	}
 	
 	public function createParentResult($experiment_id, $identifier) {

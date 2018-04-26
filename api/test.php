@@ -27,7 +27,5 @@ $session = Session::getInstance($db);
 //for($i = 0; $i < $n; $i++) {
 //	fputcsv($output, $rows[$i]);
 //}
-
-$set_id = $session->lookupSetID("Emotions");
-echo json_encode($session->loadStimSet($set_id), JSON_FORCE_OBJECT);
+$session->sendAccess("Eyr3IRr79SAznL1");
 ?>

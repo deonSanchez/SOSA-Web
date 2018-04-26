@@ -59,6 +59,7 @@ var StimulusSetID;
 //stores the stimuli data we retrieve from the server.
 var StimuliJSON;
 var StimulusLabels = [];
+var StimulusLabelColors = [];
 var BoardID;
 var ExperimentID;
 var token;
@@ -233,13 +234,15 @@ function initExperiment() {
   // SCENE
   ExperimentScene = new THREE.Scene();
   // CAMERA
-  var SCREEN_WIDTH = window.innerWidth, SCREEN_HEIGHT = window.innerHeight;
+  // The -5 is to make it so that the canvas is slightly bigger than the screen, making the user have to scroll to see the entire canvas
+  var SCREEN_WIDTH = window.innerWidth-10, SCREEN_HEIGHT = window.innerHeight-10;
   var VIEW_ANGLE = 55, ASPECT = SCREEN_WIDTH / SCREEN_HEIGHT, NEAR = 0.1, FAR = 2000;
   ExperimentCamera = new THREE.PerspectiveCamera( VIEW_ANGLE, ASPECT, NEAR, FAR);
   // First Person Camera Controls
   person = new THREE.Object3D();
   person.add(ExperimentCamera);
   ExperimentCamera.position.set(0, 1.0, 4.0); // first-person view
+  //Start with bird's eye view.
   viewSet(2);
   ExperimentScene.add(person);
   // RENDERER
@@ -270,15 +273,8 @@ function initExperiment() {
   skyBoxMaterial.color.setHex(BoardJSON[0].background_color);
   var skyBox = new THREE.Mesh( skyBoxGeometry, skyBoxMaterial );
   ExperimentScene.add(skyBox);
-  ////////////
-  // CUSTOM //
-  ////////////
-  /*  Will create an image on the plane
-  var squareT = new THREE.ImageUtils.loadTexture("images/Chrome.png");
-  squareT.wrapS = squareT.wrapT = THREE.RepeatWrapping;
-  squareT.repeat.set(1,1);
-  */
-  //Creates dimesions for planting the stimulus
+
+  //Creates a 24x24 square plane
   this.BoardGeo = new THREE.PlaneGeometry(24,24);
   // for creating image on plane
   //this.planeMat = new THREE.MeshBasicMaterial({map:squareT, color:0xbbbbbb});
@@ -289,7 +285,7 @@ function initExperiment() {
   else
 	  this.BoardMat.color.setHex(BoardJSON[0].cover_color);
 
-    console.log(BoardJSON);
+
   //Loads image into board if there is one
   if (BoardJSON[0].image !== "null"){
     var imgurl = BoardJSON[0].image;
@@ -303,7 +299,7 @@ function initExperiment() {
   var ExperiBoard = new THREE.Mesh(this.BoardGeo, this.BoardMat);
   //BOARD POSITION
   ExperiBoard.rotation.x = -Math.PI / 2;
-  ExperiBoard.position.set(16,-1,16);
+  ExperiBoard.position.set(16,-.25,16);
   ExperiBoard.base = true;
   ExperimentScene.add(ExperiBoard);
   ExperimentContainer.appendChild( ExperimentRenderer.domElement );
@@ -312,21 +308,21 @@ function initExperiment() {
   this.BoardSideGeo = new THREE.PlaneGeometry(24,1);
   this.BoardSideMat = new THREE.MeshPhongMaterial({ color: 0xC0C0C0});
   var BoardSide = new THREE.Mesh(BoardSideGeo, BoardSideMat);
-  BoardSide.position.set(16,-1.5,28);
+  BoardSide.position.set(16,-.75,28);
   ExperimentScene.add(BoardSide);
   var BoardSide = new THREE.Mesh(BoardSideGeo, BoardSideMat);
   BoardSide.rotation.y = -Math.PI / 2;
-  BoardSide.position.set(4,-1.5,16);
+  BoardSide.position.set(4,-.75,16);
   ExperimentScene.add(BoardSide);
   var BoardSide = new THREE.Mesh(BoardSideGeo, BoardSideMat);
   BoardSide.rotation.y = -Math.PI / 2 * 2;
-  BoardSide.position.set(16,-1.5,4);
+  BoardSide.position.set(16,-.75,4);
   ExperimentScene.add(BoardSide);
   var BoardSide = new THREE.Mesh(BoardSideGeo, BoardSideMat);
   BoardSide.rotation.y = -Math.PI / 2 * 3;
-  BoardSide.position.set(28,-1.5,16);
+  BoardSide.position.set(28,-.75,16);
   ExperimentScene.add(BoardSide);
-  this.stimuliGeo = new THREE.CylinderGeometry(1,1,3,100);
+  this.stimuliGeo = new THREE.CylinderGeometry(.25,.25,1.5,100);
 
   //load camera lock settings
   TiltLock = BoardJSON[0].lock_tilt == 1;
@@ -366,11 +362,13 @@ function initExperiment() {
       stimuli.material = new THREE.MeshLambertMaterial({ color: '#' + fullColorHex(stimArr[i].peg_r, stimArr[i].peg_g, stimArr[i].peg_b), transparent: true});
 
       TestStatus[i] = false;
-      StimulusLabels[i] = makeTextSprite( stimArr[i].label, { fontsize: 32, textColor: {
+      StimulusLabels[i] = makeTextSprite( stimArr[i].label, { fontsize: 24, textColor: {
                                                                                         r: parseInt(stimArr[i].label_r),
                                                                                         g: parseInt(stimArr[i].label_g),
                                                                                         b: parseInt(stimArr[i].label_b),
                                                                                         a: 1.0}} );
+      StimulusLabelColors[i] = {r: parseInt(stimArr[i].label_r),  g: parseInt(stimArr[i].label_g), b: parseInt(stimArr[i].label_b),  a: 1.0};
+
       StimulusLabels[i].name = stimArr[i].label + "Label";
       stimuli.add( StimulusLabels[i]  );
       TestStimuli[i] = stimuli;
@@ -421,10 +419,20 @@ function initExperiment() {
 	  		}
 	  		});
 		},
+    c: function() {
+      alert("Controls for the Experiment: \n W/S/A/D - Pan the camera\n"
+      + "R/F - Zoom the camera (may be disabled by testmaker)\n"
+      + "Q/E - Rotate the camera (may be disabled by testmaker)\n"
+      + "T/G - Tilt the camera (may be disabled by testmaker)\n"
+      + "O   - Reset camera angle to a horizontal position.\n"
+      + "P   - Reset camera angle to a bird's eye view.\n"
+      + "Z/X - Toggle between add and delete mode.");
+    }
   	};
 
   	gui.add( parameters, 'a' ).name('Revert Camera');
   	gui.add( parameters, 'b' ).name("Finish Test");
+    gui.add( parameters, 'c' ).name("Controls");
   	gui.open();
     var guiContainer = document.getElementById('gui');
     guiContainer.appendChild(gui.domElement);
@@ -453,8 +461,8 @@ function initExperiment() {
   }
   function mouseMove( event ) {
     // update the mouse variable
-    mouse2D.x =   ( event.clientX / window.innerWidth  ) * 2 - 1;
-    mouse2D.y = - ( event.clientY / window.innerHeight ) * 2 + 1;
+    mouse2D.x =   ( event.clientX / (window.innerWidth - 10)  ) * 2 - 1;
+    mouse2D.y = - ( event.clientY / (window.innerHeight - 10) ) * 2 + 1;
   }
   function mouseClick( event ) {
     brushAction();
@@ -472,6 +480,8 @@ function initExperiment() {
           var curTime = new Date().getTime();
           ExperimentLog.push([curTime - ExperimentTime, TestStimuli[i].id, TestStimuli[i].name, TestStimuli[i].position.x-16, TestStimuli[i].position.z-16, "add"]);
           console.log(ExperimentLog);
+
+          StimulusLabels[i] = makeTextSprite( TestStimuli[i].name, { fontsize: 24, textColor: StimulusLabelColors[i] });
           break;
         }
       }
@@ -566,9 +576,6 @@ function initExperiment() {
       for (var i = 0; i < TestStimuli.length; i++){
         if(TestStatus[i] != true){
           brush.material = TestStimuli[i].material.clone();
-          stimLabel = makeTextSprite( TestStimuli[i].name, { fontsize: 32, backgroundColor: 0xFFFFFF, a:0} );
-          stimLabel.name = "Label";
-
           brush.add( StimulusLabels[i] );
           brush.visible = true;
           break;
@@ -590,7 +597,7 @@ function initExperiment() {
       //place stimuli on ExperiBoard
       if ( (brush.mode == "add" && result.object.base ) && MouseOnBoard == true) {
         var intPosition = new THREE.Vector3(toGridCoordinate(result.point.x), 0, toGridCoordinate(result.point.z) );
-        brush.position = intPosition.clone().add( new THREE.Vector3(0.5, 0.5, 0.5) );
+        brush.position = intPosition.clone().add( new THREE.Vector3(0,0.5,0) );
         brush.addName = "X" + intPosition.x + "Y" + intPosition.y + "Z" + intPosition.z;
       }
       // delete stimuli
@@ -602,7 +609,7 @@ function initExperiment() {
           if (isPegName(intersectionList[i].object.name)){
             brush.targetName = intersectionList[i].object.name;
             isHovering = true;
-            ExperimentScene.getObjectByName( brush.targetName ).material.opacity = .65 + .35 * Math.sin(new Date().getTime() * .0036);
+            ExperimentScene.getObjectByName( brush.targetName ).material.opacity = .65 + .35 * Math.sin(new Date().getTime() * .0032);
             cylinderFound = true;
             break;
           }
@@ -626,26 +633,32 @@ function initExperiment() {
   }
   function makeTextSprite( message, parameters )
   {
+
     if ( parameters === undefined ) parameters = {};
     var fontface = parameters.hasOwnProperty("fontface") ?
     parameters["fontface"] : "Arial";
     var fontsize = parameters.hasOwnProperty("fontsize") ?
-    parameters["fontsize"] : 18;
+    parameters["fontsize"] : 24;
     var borderThickness = parameters.hasOwnProperty("borderThickness") ?
     parameters["borderThickness"] : 4;
     var backgroundColor = parameters.hasOwnProperty("backgroundColor") ?
-    parameters["backgroundColor"] : { r:255, g:255, b:255, a:0 };
+    parameters["backgroundColor"] : { r:255, g:255, b:255, a:1 };
+    var textColor = parameters.hasOwnProperty("textColor") ?
+    parameters["textColor"] : { r:255, g:255, b:255, a:1.0 };
     var canvas = document.createElement('canvas');
     var context = canvas.getContext('2d');
     context.font = "Bold " + fontsize + "px " + fontface;
     // get size data (height depends only on font size)
     var metrics = context.measureText( message );
     var textWidth = metrics.width;
+    var xPosition = (textWidth/2);
+		var yPosition = (borderThickness/2);
     context.fill();
     context.stroke();
     // text color
-    context.fillStyle = "rgba(255, 255, 255, 1.0)";
-    context.fillText( message, borderThickness, fontsize + borderThickness);
+    context.fillStyle = 'rgb(' + textColor.r.toString() + ', ' + textColor.g.toString() + ', ' + textColor.b.toString() + ')';
+    context.fillText( message, borderThickness * 30, fontsize + borderThickness + 10);
+
     // canvas contents will be used for a texture
     var texture = new THREE.Texture(canvas)
     texture.needsUpdate = true;
