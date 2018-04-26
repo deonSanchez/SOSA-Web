@@ -75,10 +75,16 @@ $("button#save").on('click',function(){
 	var peg_r = $("input#RvalueStim").val();
 	var peg_g = $("input#GvalueStim").val();
 	var peg_b = $("input#BvalueStim").val();
+
+	var label_r = $("input#lRvalueStim").val();
+	var label_g = $("input#lGvalueStim").val();
+	var label_b = $("input#lBvalueStim").val();
 	var stimulus_id = $("input#selected_stimulus").val();
 	$.ajax( {
 		type : 'POST',
-		data : 'request=updatestimulus&set_name='+ stimulus_name+'&peg_r='+peg_r+'&peg_g='+peg_g+'&peg_b='+peg_b+'&stimulus_id='+stimulus_id,
+		data : 'request=updatestimulus&set_name='+ stimulus_name+'&peg_r='
+			+peg_r+'&peg_g='+peg_g+'&peg_b='+peg_b+'&stimulus_id='+stimulus_id+'&label_r='
+			+label_r+'&label_g='+label_g+'&label_b='+label_b,
 		url : 'api/index.php',
 		async : true,
 		success : function(response) {

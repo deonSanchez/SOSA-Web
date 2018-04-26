@@ -474,9 +474,9 @@ class Session {
 	 * @return created stimulus
 	 * @version 0.5.0
 	 */
-	public function updateStimulus($stimulus_id,$label,$peg_r,$peg_g,$peg_b) {
-		$qry = $this->mysqli->prepare("UPDATE `stimulus` SET `label` = ?, `peg_r` = ?, `peg_g` = ?, `peg_b` = ? WHERE `stimulus_id` = ?");
-		$qry->bind_param("siiii", $label,$peg_r,$peg_g,$peg_b,$stimulus_id);
+	public function updateStimulus($stimulus_id,$label,$peg_r,$peg_g,$peg_b,$label_r,$label_g, $label_b) {
+		$qry = $this->mysqli->prepare("UPDATE `stimulus` SET `label` = ?, `peg_r` = ?, `peg_g` = ?, `peg_b` = ?, `label_r` = ?, `label_g` = ?, `label_b` = ? WHERE `stimulus_id` = ?");
+		$qry->bind_param("siiiiiii", $label,$peg_r,$peg_g,$peg_b,$label_r,$label_g,$label_b,$stimulus_id);
 		$qry->execute();
 		$qry->close();
 	}
@@ -784,7 +784,7 @@ class Session {
 		$setid = $this->lookupSetID($set_title);
 		$temp = -1;
 		$mysqli = $this->mysqli->prepare("INSERT INTO `stimulus` (`label`,`peg_r`,`peg_g`,`peg_b`,`label_r`,`label_g`,`label_b`, `stimset_id`) VALUES (?,?,?,?,?,?,?,?)");
-		$mysqli->bind_param("siiiiiii",$label,$peg_r,$peg_g,$peg_b,$temp,$temp,$temp,$setid);
+		$mysqli->bind_param("siiiiiii",$label,$peg_r,$peg_g,$peg_b,$label_r,$label_g,$label_b,$setid);
 		$mysqli->execute();
 		$mysqli->close();
 		return true;
@@ -796,10 +796,8 @@ class Session {
 	 * @return $set id
 	 * @version 0.5.0
 	 */
-	public function createStimulusSet($title, $version,$relative_size,$window_size) {
+	public function createStimulusSet($title, $version) {
 		$version = 1;
-		$relative_size = 1;
-		$window_size = 1;
 
 		if(strlen($title) < 1) {
 			return false;
@@ -810,10 +808,10 @@ class Session {
 		$stmt->execute();
 		$stmt->store_result();
 		if ($stmt->num_rows > 0) {
-			return false;
+			return "You cannot create two stimulus sets with the same name!";
 		}
-		$mysqli = $this->mysqli->prepare("INSERT INTO `stimulus_set` (`title`, `version`,`relative_size`,`window_size`) VALUES (?,?,?,?)");
-		$mysqli->bind_param("siii", $title,$version,$relative_size,$window_size);
+		$mysqli = $this->mysqli->prepare("INSERT INTO `stimulus_set` (`title`, `version`) VALUES (?,?)");
+		$mysqli->bind_param("si", $title,$version);
 		$mysqli->execute();
 		$mysqli->close();
 		return true;

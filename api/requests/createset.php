@@ -5,4 +5,6 @@ require_once("base.php");
 //echo $label . " , " . $peg_r . " , " . $peg_g . " , " . $peg_b . " , " . $label_r . " , " . $label_g . " , " . $label_b . " , " . $set_title;
 if(!$session->isLoggedIn())
 	die( "You must be logged in for this feature!");
-echo $session->createStimulusSet($set_name, null, null, null) ? 1:0;
+
+$resp = $session->createStimulusSet($set_name, 1);
+echo $resp ? 1 : $resp;
