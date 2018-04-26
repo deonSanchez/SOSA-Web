@@ -65,7 +65,7 @@ $("button#saveCreatedBoard").on('click', function(){
 	var json = {"boardName": boardName, "lock_tilt": lockTilt, "lock_rotate": lockRotate, "lock_zoom": lock_zoom, "board_color": hexBoard,
 			"background_color": hexBackground, "cover_color": hexCover, "image": image, "cover_board": cover_board,"camerax" : camerax, "cameray" : cameray, "cameraz" : cameraz};
 	var packet = JSON.stringify(json);
-
+	var image_path;
 	$.ajax({
 		type: 'POST',
 		data: 'request=saveboard&board=' + packet,
@@ -89,10 +89,10 @@ $("button#saveCreatedBoard").on('click', function(){
 						cache: false,
 						contentType: false,
 						processData: false,
-						data: form_data,                         
+						data: "text",                         
 						type: 'post',
-						success: function(php_script_response){
-							alert(php_script_response);
+						success: function(path){
+							image_path = path;
 							loadBoardModal();
 					}
 					});
