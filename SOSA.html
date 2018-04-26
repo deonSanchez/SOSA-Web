@@ -260,7 +260,7 @@ function initExperiment() {
   hemiLight.groundColor.setHSL( 0.095, 1, 0.75 );
   hemiLight.position.set( 0, 50, 0 );
   ExperimentScene.add( hemiLight );
-  var dirLight = new THREE.DirectionalLight( 0xdfebff, 1 );
+  var dirLight = new THREE.DirectionalLight( 0xffffff, 1 );
   dirLight.position.set( 50, 200, 100 );
   dirLight.position.multiplyScalar( 1.3 );
   ExperimentScene.add(dirLight);
@@ -393,10 +393,7 @@ function initExperiment() {
   	var parameters =
   	{
   		a: function() {
-        var SCREEN_WIDTH = window.innerWidth, SCREEN_HEIGHT = window.innerHeight;
-        var VIEW_ANGLE = 55, ASPECT = SCREEN_WIDTH / SCREEN_HEIGHT, NEAR = 0.1, FAR = 2000;
-        ExperimentCamera = new THREE.PerspectiveCamera( VIEW_ANGLE, ASPECT, NEAR, FAR);
-  			ExperimentCamera.position.set(0, 1.0, 4.0);
+
         viewSet(2);
   		},
   		b: function() {
