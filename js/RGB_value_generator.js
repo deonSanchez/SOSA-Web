@@ -126,6 +126,7 @@ StimLabelSliderB.oninput = function() {
 //Board Sliders and Button that trigger on/off
 var displaySliderBoard, displaySliderBackground, displaySliderCover;
 var displayValueBoard, displayValueBackground, displayValueCover;
+var boardBtn, backgroundBtn, coverBtn;
 
 function displayColorSliderBoard() {
   displayValueBoard = document.getElementById("displayValueBoard");
@@ -220,6 +221,7 @@ function displayColorSliderCover() {
 //Stimulus Slider and Button that trigger on/off
 var displaySliderLabel, displaySliderStimulus;
 var displayValueLabelStimulus, displayValuePeg;
+var labelBtn, pegBtn;
 
 function displayColorSliderLabel() {
   displayValueLabelStimulus = document.getElementById("displayValueLabelStimulus");
