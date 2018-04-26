@@ -983,7 +983,10 @@ class Session {
 	 *
 	 */
 	public function saveBoardImage($board_name, $path) {
-		$path =realpath($path);
+		$parts = explode(".",$path);
+		$filetype=$parts[1];
+		$path = realpath($path);
+		$path = $path + ".{$filetype}";
 		$board_id = $this->getBoardID($board_name);
 		if($result = $this->mysqli->query("UPDATE `board` SET `image` = '{$path}' WHERE `idboard` = '{$board_id}'")){
 			return array(true,$path);

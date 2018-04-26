@@ -80,8 +80,8 @@ $("button#saveCreatedBoard").on('click', function(){
 					var file_data = $('#boardImg').prop('files')[0];   
 					var form_data = new FormData();                  
 					form_data.append('file', file_data);
-					form_data.append('request','uploadboardimg');
 					form_data.append('board_name',boardName);
+					form_data.append('request','uploadboardimg');
 					$.ajax({
 						url: 'api/index.php',
 						dataType: 'text',
@@ -92,7 +92,6 @@ $("button#saveCreatedBoard").on('click', function(){
 						type: 'post',
 						success: function(path){
 							image_path = path;
-							alert(image_path);
 							loadBoardModal();
 					}
 					});
