@@ -9,10 +9,10 @@ if ( 0 < $_FILES['file']['error'] ) {
 	echo 'Error: ' . $_FILES['file']['error'] . '<br>';
 }
 else {
+	//saves response, 0 index is true/false 1 index is the path
 	$imgup = $session->uploadIMG($FILES);
-	if($imgup) {
-		$resp = $session->saveBoardImage($board_name,$path);
-		var_dump($resp);
+	if($imgup[0]) {
+		$resp = $session->saveBoardImage($board_name,$imgup[1]);
 	} else {
 		echo "Could not upload board image!";
 	}

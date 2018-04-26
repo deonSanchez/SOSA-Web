@@ -972,7 +972,7 @@ class Session {
 		$parts = explode(".", $_FILES['file']['name']);
 		$path = dirname(__FILE__) . "/../../board_images/". $this->generateRandID(8) .".". $parts[1];
 		
-		return move_uploaded_file($_FILES['file']['tmp_name'], $path);
+		return array(move_uploaded_file($_FILES['file']['tmp_name'], $path), $path);
 	}
 	
 	/**
