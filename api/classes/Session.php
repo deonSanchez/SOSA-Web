@@ -371,6 +371,37 @@ class Session {
 		$result = $qry->get();
 		return isset($result[0]['identifier']) ? $result[0]['identifier'] : -1;
 	}
+	/**
+	 * Returns the UID based on email/sid input
+	 * Determines input type no specification required
+	 * @author Mitchell M.
+	 * @param type $input
+	 * @return type
+	 * @version 1.2.0
+	 */
+	function getExperimentID($input) {
+		$qry = $this->qb->start();
+		$qry->select("experiment_id")->from("results")->where("result_id", "=", $input);
+		$result = $qry->get();
+		return isset($result[0]['experiment_id']) ? $result[0]['experiment_id'] : -1;
+	}
+	
+	
+	/**
+	 * Returns the UID based on email/sid input
+	 * Determines input type no specification required
+	 * @author Mitchell M.
+	 * @param type $input
+	 * @return type
+	 * @version 1.2.0
+	 */
+	function getExperimentEmail($input) {
+		$id = $this->getExperimentID($input);
+		$qry = $this->qb->start();
+		$qry->select("admin")->from("experiment")->where("experiment_id", "=", $id);
+		$result = $qry->get();
+		return isset($result[0]['admin']) ? $result[0]['admin'] : -1;
+	}
 	
 	/**
 	 * Is a user logged in?
@@ -857,9 +888,10 @@ class Session {
 		$logs = $this->getResults($resultID);
 		$log_columns = array_keys($logs[1][0]);
 		$participant = $logs[0]['identifier'];
+		$email = $this->getExperimentEmail($resultID);
 		$this->send($participant, $log_columns,$logs[1], 
 			"Experiment results for participant identified as {$participant} // Result ID : {$resultID}", 
-			"mitchell.murphy96@gmail.com", "Test results #{$resultID}", "noreply@sosaproject.com");
+			$email, "Test results #{$resultID}", "noreply@sosaproject.com");
 		return true;
 	}
 	
@@ -954,6 +986,7 @@ class Session {
 	public function getResults($resultid) {
 		$results = null;
 		$identifier = $this->getParticipantIdent($resultid);
+		$email = $this->getExperimentEmail($resultid);
 		$stmt = $this->mysqli->prepare("SELECT `stimulus_name`, `timestamp`, `action`,`from_x`, `from_y`,`to_x`, `to_y` FROM `result_log` WHERE `results_id` = ?");
 		$stmt->bind_param("i",$resultid);
 		$stmt->bind_result($stimulus, $timestamp,$action,$from_x,$from_y,$to_x,$to_y);
@@ -964,7 +997,7 @@ class Session {
 				$results[] = array('stimulus_name' => $stimulus, 'timestamp' => $timestamp, 'action' => $action, 'from_x' => $from_x, 'from_y' => $from_y, 'to_x' => $to_x, 'to_y' => $to_y);
 			}
 		}
-		$results = array(array('identifier' => $identifier), $results);
+		$results = array(array('identifier' => $identifier, 'email' => $email), $results);
 		return $results;
 	}
 
