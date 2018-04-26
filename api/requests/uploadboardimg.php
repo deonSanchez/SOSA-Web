@@ -12,7 +12,7 @@ else {
 	$imgup = $session->uploadIMG($FILES);
 	if($imgup) {
 		$resp = $session->saveBoardImage($board_name,$path);
-		echo $resp[0] == true ? $resp[1] : $resp; 
+		echo $resp[1]; 
 	} else {
 		echo "Could not upload board image!";
 	}

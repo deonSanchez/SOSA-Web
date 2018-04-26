@@ -991,8 +991,9 @@ class Session {
 		if($result = $this->mysqli->query("UPDATE `board` SET `image` = '{$path}' WHERE `idboard` = '{$board_id}'")){
 			return array(true,$path);
 		}
-		else
-		return $this->mysqli->error;
+		else{
+			return array(false,$this->mysqli->error);
+		}
 	}
 }
 ?>
