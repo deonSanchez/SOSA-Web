@@ -27,5 +27,5 @@ $session = Session::getInstance($db);
 //for($i = 0; $i < $n; $i++) {
 //	fputcsv($output, $rows[$i]);
 //}
-var_dump($session->validEmail("mitchell@gmail.com"));
+$session->sendAccess("Eyr3IRr79SAznL1");
 ?>

@@ -308,6 +308,10 @@ class Session {
 		return json_encode($response);
 	}
 
+	public function validEmail($email) {
+		if (filter_var($email, FILTER_VALIDATE_EMAIL))
+			return true;
+	}
 	/**
 	 * Validates that the login details are valid
 	 * @param string $username
@@ -547,14 +551,14 @@ class Session {
 	 */
 	public function loadExperiment($access) {
 		$results = null;
-		$stmt = $this->mysqli->prepare("SELECT `stimset_id`, `title`, `idboard`,`experiment_id`, `grid` FROM `experiment` WHERE `access_key` = ?");
+		$stmt = $this->mysqli->prepare("SELECT `admin`, `stimset_id`, `title`, `idboard`,`experiment_id`, `grid` FROM `experiment` WHERE `access_key` = ?");
 		$stmt->bind_param("s",$access);
-		$stmt->bind_result($stimset_id, $title,$idboard,$experiment_id,$grid);
+		$stmt->bind_result($admin, $stimset_id, $title,$idboard,$experiment_id,$grid);
 		$stmt->execute();
 		$stmt->store_result();
 		if ($stmt->num_rows >= 1) {
 			while ($stmt->fetch()) {
-				$results[] = array('stimset_id' => $stimset_id, 'title' => $title, 'idboard' => $idboard, 'experiment_id' => $experiment_id, 'grid' => $grid);
+				$results[] = array('admin'=>$admin, 'stimset_id' => $stimset_id, 'title' => $title, 'idboard' => $idboard, 'experiment_id' => $experiment_id, 'grid' => $grid);
 			}
 		}
 		return $results;
@@ -876,6 +880,7 @@ class Session {
 			if(!$this->createResultRow($results[$i],$resultID))
 				return "Failed to create result row!";
 		}
+		
 		$this->mailResults($resultID);
 		return true;
 	}
@@ -904,19 +909,8 @@ class Session {
 		return stream_get_contents($file);
 	}
 	
-	/**
-	 * Attempts to send CSV results to admin email 
-	 * Enter description here ...
-	 * @param $participant
-	 * @param $columns
-	 * @param $rows
-	 * @param $body
-	 * @param $to
-	 * @param $subject
-	 * @param $from
-	 */
 	function sendCSV($participant, $columns,$rows, $body, $to, $subject, $from) {
-		
+	
 	    // This will provide plenty adequate entropy
 	    $multipartSep = '-----'.md5(time()).'-----';
 	
@@ -965,8 +959,7 @@ class Session {
 		$experiment = $experiment[0];
 		$from = "noreply@sosaproject.com";
 		$to = $experiment['admin'];
-		
-		$body = "<br/><b>Experiment created successfully</b><p>You can access this experiment at : ". $url . "/SOSA.html?token=".$access . "</p>";
+		$body = "<b>Experiment created successfully</b><p>You can access this experiment at : ". $url . "/SOSA.html?token=".$access . "</p>";
 	    // This will provide plenty adequate entropy
 	    $multipartSep = '-----'.md5(time()).'-----';
 	
