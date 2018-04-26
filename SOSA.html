@@ -362,10 +362,14 @@ function initExperiment() {
       var stimuli = new THREE.Mesh( stimuliGeo );
       stimuli.name = stimArr[i].label;
       stimuli.id = stimArr[i].stimulus_id;
-      stimuli.material = new THREE.MeshLambertMaterial({ color: '#' + fullColorHex(stimArr[i].peg_r, stimArr[i].peg_b, stimArr[i].peg_g), transparent: true});
+      stimuli.material = new THREE.MeshLambertMaterial({ color: '#' + fullColorHex(stimArr[i].peg_r, stimArr[i].peg_g, stimArr[i].peg_b), transparent: true});
 
       TestStatus[i] = false;
-      StimulusLabels[i] = makeTextSprite( stimArr[i].label, { fontsize: 32, backgroundColor: {r:parseInt(stimArr[i].label_r), g:stimArr[i].label_g, b:stimArr[i].label_b, a:0} } );
+      StimulusLabels[i] = makeTextSprite( stimArr[i].label, { fontsize: 32, textColor: {
+                                                                                        r: parseInt(stimArr[i].label_r),
+                                                                                        g: parseInt(stimArr[i].label_g),
+                                                                                        b: parseInt(stimArr[i].label_b),
+                                                                                        a: 1.0}} );
       StimulusLabels[i].name = stimArr[i].label + "Label";
       stimuli.add( StimulusLabels[i]  );
       TestStimuli[i] = stimuli;
