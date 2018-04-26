@@ -968,6 +968,13 @@ class Session {
 		return $results;
 	}
 
+	public function uploadIMG($FILES) {
+		$parts = explode(".", $_FILES['file']['name']);
+		$path = dirname(__FILE__) . "/../../board_images/". $this->generateRandID(8) .".". $parts[1];
+		
+		return move_uploaded_file($_FILES['file']['tmp_name'], $path);
+	}
+	
 	/**
 	 * Function that creates updates the board image that is saved for any specific board based on board_name
 	 * @author Mitchell Murphy <mm11096@georgiasouthern.edu>
