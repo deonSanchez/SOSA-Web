@@ -88,7 +88,7 @@ $("button#saveCreatedBoard").on('click', function(){
 						cache: false,
 						contentType: false,
 						processData: false,
-						data: "text",                         
+						data: form_data,                         
 						type: 'post',
 						success: function(path){
 							image_path = path;
