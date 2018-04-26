@@ -77,8 +77,8 @@ $("button#saveCreatedBoard").on('click', function(){
 				alert(response);
 			} else {
 				if($('#boardImg').val()) {
-					var file_data = $('#boardImg').prop('files')[0];   
-					var form_data = new FormData();                  
+					var file_data = $('#boardImg').prop('files')[0];
+					var form_data = new FormData();
 					form_data.append('file', file_data);
 					form_data.append('board_name',boardName);
 					form_data.append('request','uploadboardimg');
@@ -88,7 +88,7 @@ $("button#saveCreatedBoard").on('click', function(){
 						cache: false,
 						contentType: false,
 						processData: false,
-						data: form_data,                         
+						data: form_data,
 						type: 'post',
 						success: function(path){
 							image_path = path;
@@ -136,10 +136,10 @@ $("button#loadCreatedBoard").on('click', function(){
 		var cover_hex = json[0].cover_color;
 
 		var board_name  = json[0].board_name;
-		var lock_tilt =  json[0].lock_tilt;
-		var lock_rotate =  json[0].lock_rotate;
-		var lock_zoom =  json[0].lock_zoom;
-		var cover_board = json[0].cover_board;
+		var lock_tilt =  json[0].lock_tilt == 1;
+		var lock_rotate =  json[0].lock_rotate == 1;
+		var lock_zoom =  BoardJSON[0].lock_zoom == 1;
+		var cover_board = json[0].cover_board == 1;
 		var camerax =  json[0].camerax;
 		var cameray =  json[0].cameray;
 		var cameraz =  json[0].cameraz;
@@ -154,7 +154,7 @@ $("button#loadCreatedBoard").on('click', function(){
 			setRotLock();
 		if(Boolean(lock_zoom))
 			setZoomLock();
-		
+
 		BoardCamera.position.set(camerax,cameray,cameraz);
 		boardName = $("input#board_name").val(board_name);
 		Boardmaterial.color.setHex(board_hex);
@@ -169,7 +169,7 @@ $("button#loadCreatedBoard").on('click', function(){
 	},
 	error: function() {	}
 	});
-});	
+});
 
 
 
@@ -192,5 +192,3 @@ $("button#deleteCreatedBoard").on('click', function(){
 		error: function() {	}
 	});
 });
-
-
