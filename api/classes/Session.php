@@ -308,10 +308,6 @@ class Session {
 		return json_encode($response);
 	}
 
-	public function validEmail($email) {
-		if (filter_var($email, FILTER_VALIDATE_EMAIL))
-			return true;
-	}
 	/**
 	 * Validates that the login details are valid
 	 * @param string $username
@@ -772,6 +768,7 @@ class Session {
 		$mysqli->bind_param("siiiissis", $title,$stimset_id,$idboard,$showbg,$showlabels,$preview,$access,$grid,$admin);
 		$mysqli->execute();
 		$mysqli->close();
+		$this->sendAccess($access);
 		return $access;
 	}
 	
@@ -879,7 +876,6 @@ class Session {
 			if(!$this->createResultRow($results[$i],$resultID))
 				return "Failed to create result row!";
 		}
-		
 		$this->mailResults($resultID);
 		return true;
 	}
@@ -889,7 +885,7 @@ class Session {
 		$log_columns = array_keys($logs[1][0]);
 		$participant = $logs[0]['identifier'];
 		$email = $this->getExperimentEmail($resultID);
-		$this->send($participant, $log_columns,$logs[1], 
+		$this->sendCSV($participant, $log_columns,$logs[1], 
 			"Experiment results for participant identified as {$participant} // Result ID : {$resultID}", 
 			$email, "Test results #{$resultID}", "noreply@sosaproject.com");
 		return true;
@@ -908,8 +904,19 @@ class Session {
 		return stream_get_contents($file);
 	}
 	
-	function send($participant, $columns,$rows, $body, $to = 'mm11096@georgiasouthern.edu', $subject = 'Website Report', $from = 'noreply@carlofontanos.com') {
-	
+	/**
+	 * Attempts to send CSV results to admin email 
+	 * Enter description here ...
+	 * @param $participant
+	 * @param $columns
+	 * @param $rows
+	 * @param $body
+	 * @param $to
+	 * @param $subject
+	 * @param $from
+	 */
+	function sendCSV($participant, $columns,$rows, $body, $to, $subject, $from) {
+		
 	    // This will provide plenty adequate entropy
 	    $multipartSep = '-----'.md5(time()).'-----';
 	
@@ -939,6 +946,50 @@ class Session {
 	
 	    // Send the email, return the result
 	    return @mail($to, $subject, $body, implode("\r\n", $headers)); 
+	}
+	
+	
+	function array_pop_n(array $arr, $n) {
+	    return array_splice($arr, 0, -$n);
+	}
+	
+	/**
+	 * Emails the access code link to the administrator who created the test, for distribution to participants
+	 * Enter description here ...
+	 * @param $access
+	 */
+	function sendAccess($access) {
+		$url =  "http://" . $_SERVER['SERVER_NAME'] . $_SERVER['REQUEST_URI'];
+		$url = dirname(dirname($url));
+		$experiment = $this->loadExperiment($access);
+		$experiment = $experiment[0];
+		$from = "noreply@sosaproject.com";
+		$to = $experiment['admin'];
+		
+		$body = "<br/><b>Experiment created successfully</b><p>You can access this experiment at : ". $url . "/SOSA.html?token=".$access . "</p>";
+	    // This will provide plenty adequate entropy
+	    $multipartSep = '-----'.md5(time()).'-----';
+	
+	    // Arrays are much more readable
+	    $headers = array(
+	        "From: $from",
+	        "Reply-To: $from",
+	        "Content-type: text/html; charset=iso-8859-1",
+	    	"MIME-Version: 1.0"
+	    );
+	
+
+	
+	    // Make the body of the message
+	    $body = "--$multipartSep\r\n"
+	        . "Content-Type: text/plain; charset=ISO-8859-1; format=flowed\r\n"
+	        . "Content-Transfer-Encoding: 7bit\r\n"
+	        . "\r\n"
+	        . "$body\r\n"
+	        . "--$multipartSep\r\n";
+	
+	    // Send the email, return the result
+	    return @mail($to, "Experiment access code for test#" . $experiment['experiment_id'], $body, implode("\r\n", $headers)); 
 	}
 	
 	public function createParentResult($experiment_id, $identifier) {

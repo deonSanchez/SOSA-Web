@@ -10,5 +10,5 @@ $access = $session->createExperiment($admin, $board, $stimid, $grid, $title,$cov
 if($session->loadExperiment($access) != null ){
 	echo $access;
 } else {
-	echo "Error: " + $access;
+	echo "Error: " . $access;
 }

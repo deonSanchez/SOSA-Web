@@ -1,0 +1,32 @@
+HOW TO INSTALL SOSA WEB
+
+You will need MySQL, PHP, Apache2 and a mail server is installed.
+Additionally
+	* You will need to ensure that you can write to directories wherever you have placed the source for uploading images.
+	* You will need to ensure that MySQLi is installed and enabled with your mysqli installation
+	* You will need to install or be running a mail-server that is configured properly with your PHP installation so that the native "mail()" functions work.
+
+1. First, clone the source ZIP/repository into the whatever directory you want to access the project from.
+	For example, 
+	apache2 on ubuntu webroot default: /var/etc/www
+	XAMPP windows webroot default: c:/xampp/htdocs 
+	
+2. Assuming you have already taken care of installing mysql server, run the SQL_INSTALL script on your database.
+ 
+3. Edit /api/config.php/ within the project folder
+	At this point you need to configure the database settings so PHP can interface with MySQL using the MySQLi adapter. 
+	Change all constants prefixed with DB_ to match your own environment.
+	You can also change the logged-in session length from here, in MINUTES.
+	
+	
+Additional instructions for the required software:
+
+	* MYSQL
+	Windows: https://dev.mysql.com/doc/refman/8.0/en/windows-installation.html
+	Ubuntu: https://www.digitalocean.com/community/tutorials/how-to-install-mysql-on-ubuntu-16-04
+	
+	* Mail Server
+	Ubuntu: https://devanswers.co/how-to-get-php-mail-working-on-ubuntu-16-04-digitalocean-droplet/
+	
+	*LAMP STACK
+	Ubuntu: https://www.digitalocean.com/community/tutorials/how-to-install-linux-apache-mysql-php-lamp-stack-on-ubuntu-16-04
