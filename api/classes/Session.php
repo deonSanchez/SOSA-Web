@@ -918,6 +918,7 @@ class Session {
 	 *
 	 */
 	public function saveBoardImage($board_name, $path) {
+		$path =realpath($path);
 		$board_id = $this->getBoardID($board_name);
 		if($result = $this->mysqli->query("UPDATE `board` SET `image` = '{$path}' WHERE `idboard` = '{$board_id}'")){
 			return array(true,$path);
