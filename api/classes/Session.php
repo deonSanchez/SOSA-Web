@@ -563,7 +563,6 @@ class Session {
 		}
 		return $results;
 	}
-
 	/**
 	 * Return an array containing the information regarding the stimulus set provided
 	 * @author Mitchell M.
@@ -881,18 +880,18 @@ class Session {
 				return "Failed to create result row!";
 		}
 		
-		$this->mailResults($resultID);
+		$this->mailResults($resultID,$experiment_id);
 		return true;
 	}
 	
-	public function mailResults($resultID) {
+	public function mailResults($resultID,$experiment_id) {
 		$logs = $this->getResults($resultID);
 		$log_columns = array_keys($logs[1][0]);
 		$participant = $logs[0]['identifier'];
 		$email = $this->getExperimentEmail($resultID);
 		$this->sendCSV($participant, $log_columns,$logs[1], 
 			"Experiment results for participant identified as {$participant} // Result ID : {$resultID}", 
-			$email, "Test results #{$resultID}", "noreply@sosaproject.com");
+			$email, "SOSA RESULT: Test#: {$experiment_id} || Result#: {$resultID}", "noreply@sosaproject.com");
 		return true;
 	}
 	
@@ -982,7 +981,7 @@ class Session {
 	        . "--$multipartSep\r\n";
 	
 	    // Send the email, return the result
-	    return @mail($to, "Experiment access code for test#" . $experiment['experiment_id'], $body, implode("\r\n", $headers)); 
+	    return @mail($to, "SOSA EXPERIMENT: Experiment#" . $experiment['experiment_id']." created! Access link enclosed", $body, implode("\r\n", $headers)); 
 	}
 	
 	public function createParentResult($experiment_id, $identifier) {

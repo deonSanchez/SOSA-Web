@@ -36,8 +36,21 @@ CREATE TABLE IF NOT EXISTS `sosa`.`board` (
   `cameraz` DECIMAL(45,15) NULL DEFAULT NULL,
   PRIMARY KEY (`idboard`))
 ENGINE = InnoDB
-AUTO_INCREMENT = 83
+AUTO_INCREMENT = 87
 DEFAULT CHARACTER SET = utf8;
+
+
+-- -----------------------------------------------------
+-- Table `sosa`.`stimulus_set`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `sosa`.`stimulus_set` (
+  `version` VARCHAR(45) NULL DEFAULT NULL,
+  `stimset_id` INT(11) NOT NULL AUTO_INCREMENT,
+  `title` VARCHAR(45) NOT NULL,
+  PRIMARY KEY (`stimset_id`))
+ENGINE = InnoDB
+AUTO_INCREMENT = 51
+DEFAULT CHARACTER SET = latin1;
 
 
 -- -----------------------------------------------------
@@ -56,9 +69,19 @@ CREATE TABLE IF NOT EXISTS `sosa`.`experiment` (
   `grid` INT(11) NULL DEFAULT NULL,
   PRIMARY KEY (`experiment_id`),
   INDEX `set_idx` (`stimset_id` ASC),
-  INDEX `board_idx` (`idboard` ASC))
+  INDEX `board_idx` (`idboard` ASC),
+  CONSTRAINT `board`
+    FOREIGN KEY (`idboard`)
+    REFERENCES `sosa`.`board` (`idboard`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `stim`
+    FOREIGN KEY (`stimset_id`)
+    REFERENCES `sosa`.`stimulus_set` (`stimset_id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
 ENGINE = InnoDB
-AUTO_INCREMENT = 100
+AUTO_INCREMENT = 128
 DEFAULT CHARACTER SET = latin1;
 
 
@@ -78,7 +101,7 @@ CREATE TABLE IF NOT EXISTS `sosa`.`results` (
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB
-AUTO_INCREMENT = 54
+AUTO_INCREMENT = 66
 DEFAULT CHARACTER SET = latin1;
 
 
@@ -102,10 +125,10 @@ CREATE TABLE IF NOT EXISTS `sosa`.`result_log` (
   CONSTRAINT `parent_result`
     FOREIGN KEY (`results_id`)
     REFERENCES `sosa`.`results` (`result_id`)
-    ON DELETE NO ACTION
+    ON DELETE CASCADE
     ON UPDATE NO ACTION)
 ENGINE = InnoDB
-AUTO_INCREMENT = 147
+AUTO_INCREMENT = 203
 DEFAULT CHARACTER SET = latin1;
 
 
@@ -118,7 +141,7 @@ CREATE TABLE IF NOT EXISTS `sosa`.`users` (
   `userid` INT(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`userid`))
 ENGINE = InnoDB
-AUTO_INCREMENT = 10
+AUTO_INCREMENT = 11
 DEFAULT CHARACTER SET = latin1;
 
 
@@ -137,19 +160,6 @@ CREATE TABLE IF NOT EXISTS `sosa`.`sessions` (
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB
-DEFAULT CHARACTER SET = latin1;
-
-
--- -----------------------------------------------------
--- Table `sosa`.`stimulus_set`
--- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `sosa`.`stimulus_set` (
-  `version` VARCHAR(45) NULL DEFAULT NULL,
-  `stimset_id` INT(11) NOT NULL AUTO_INCREMENT,
-  `title` VARCHAR(45) NOT NULL,
-  PRIMARY KEY (`stimset_id`))
-ENGINE = InnoDB
-AUTO_INCREMENT = 40
 DEFAULT CHARACTER SET = latin1;
 
 
@@ -174,7 +184,7 @@ CREATE TABLE IF NOT EXISTS `sosa`.`stimulus` (
     ON DELETE CASCADE
     ON UPDATE NO ACTION)
 ENGINE = InnoDB
-AUTO_INCREMENT = 86
+AUTO_INCREMENT = 110
 DEFAULT CHARACTER SET = latin1;
 
 
